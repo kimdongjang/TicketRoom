@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TicketRoom.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <OnPlatform x:Key="FontStyle" x:TypeArguments="x:String">
+                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+            </OnPlatform>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

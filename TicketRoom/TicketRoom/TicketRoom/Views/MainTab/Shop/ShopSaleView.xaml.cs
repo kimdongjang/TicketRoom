@@ -1,4 +1,12 @@
-﻿using TicketRoom.Models.Custom;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -9,22 +17,82 @@ namespace TicketRoom.Views.MainTab.Shop
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShopSaleView : ContentView
     {
+        List<SH_Product> productList = new List<SH_Product>();
+        SH_Home home;
+
         string myShopName = "";
         ShopDataFunc dataclass = new ShopDataFunc();
 
-        public ShopSaleView(string titleName)
+        public ShopSaleView(string titleName, SH_Home home)
         {
             InitializeComponent();
+            this.home = home;
+            PostSearchProductToHome(home.SH_HOME_INDEX);
+
             myShopName = titleName;
-            Init();
         }
+
+
+        // DB에서 홈 인덱스로 상품 목록을 가져오기
+        private void PostSearchProductToHome(int homeIndex)
+        {
+            productList = new List<SH_Product>();
+            string str = @"{";
+            str += "homeIndex : " + homeIndex;
+            str += "}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchProductToHome") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        productList = JsonConvert.DeserializeObject<List<SH_Product>>(readdata);
+                    }
+                }
+                Init();
+            }
+            catch
+            {
+                Label label = new Label
+                {
+                    Text = "검색 결과를 찾을 수 없습니다!",
+                    FontSize = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                };
+                //MainGrid.Children.Add(label, 0, 1);
+            }
+        }
+
 
         private void Init()
         {
             #region 쇼핑 메인 설명
             CustomLabel editor = new CustomLabel
             {
-                Text = dataclass.GetShopDetailData(myShopName),
+                Text = home.SH_HOME_DETAIL,
                 Size = 18,
                 TextColor = Color.Black,
                 HeightRequest = 300,
@@ -34,41 +102,38 @@ namespace TicketRoom.Views.MainTab.Shop
             #endregion
 
             #region 쇼핑 메인 홈 중 베스트 리스트
-            Grid bestGrid = new Grid
-            {
-                RowDefinitions =
-                {
-                    new RowDefinition { Height = GridLength.Auto  },
-                },
-            };
+            Grid bestGrid = new Grid();
 
-            for (int i = 1; i <= dataclass.GetShopHomeBestCnt(myShopName); i++)
+            for (int i = 0; i < productList.Count; i++)
             {
-                bestGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
-
-                Grid best_rowGrid = new Grid
+                // 베스트 이미지로 분류가 되었을 경우
+                if (productList[i].SH_PRODUCT_ISBEST == "TRUE")
                 {
-                    ColumnDefinitions = {
+                    bestGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+
+                    Grid best_rowGrid = new Grid
+                    {
+                        ColumnDefinitions = {
                         new ColumnDefinition { Width = 30 },
                         new ColumnDefinition { Width = new GridLength(4, GridUnitType.Star) },
                         new ColumnDefinition { Width = new GridLength(6, GridUnitType.Star)  }
                     },
-                };
+                    };
 
-                // 쇼핑몰 이미지
-                Image bestimage = new Image
-                {
-                    Source = "shop_clothes1.jpg",
-                    Aspect = Aspect.Fill,
-                    VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = LayoutOptions.Center,
-                    Margin = 5
-                };
+                    // 쇼핑몰 이미지
+                    Image bestimage = new Image
+                    {
+                        Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
+                        Aspect = Aspect.Fill,
+                        VerticalOptions = LayoutOptions.Center,
+                        HorizontalOptions = LayoutOptions.Center,
+                        Margin = 5
+                    };
 
-                // 쇼핑 페이지 타이틀, 평점, 세부내용 출력을 위한 내부 그리드
-                Grid best_columnGrid = new Grid
-                {
-                    RowDefinitions =
+                    // 쇼핑 페이지 타이틀, 평점, 세부내용 출력을 위한 내부 그리드
+                    Grid best_columnGrid = new Grid
+                    {
+                        RowDefinitions =
                     {
                         new RowDefinition {Height = 10 },
                         new RowDefinition {Height = new GridLength(1, GridUnitType.Star) },
@@ -76,72 +141,67 @@ namespace TicketRoom.Views.MainTab.Shop
                         new RowDefinition {Height = 28 },
                         new RowDefinition {Height = 10 },
                     },
-                    Margin = new Thickness(10, 0, 10, 0),
-                };
+                        Margin = new Thickness(10, 0, 10, 0),
+                    };
 
-                #region 그리드 내부 타이틀, 평점, 세부내용
-                // 상품 이름
+                    #region 그리드 내부 타이틀, 평점, 세부내용
+                    // 상품 이름
 
-                CustomLabel bestHome = new CustomLabel
-                {
-                    Text = "상품 이름" + i,
-                    Size = 14,
-                    TextColor = Color.Black,
-                    MaxLines = 1,
-
-                };
-                CustomLabel bestValue = new CustomLabel
-                {
-                    Text = "Value" + i + "원",
-                    Size = 18,
-                    TextColor = Color.Black,
-                };
-                CustomLabel bestAddDetail = new CustomLabel
-                {
-                    Text = "추가 정보" + i + "으나으마ㅇ루허ㅏㄷㄱ하ㅓ",
-                    Size = 14,
-                    TextColor = Color.Black,
-                    MaxLines = 2,
-                };
-                #endregion
-
-                #region 그리드 자식으로 추가
-                DetailStack.Children.Add(editor);
-
-                best_columnGrid.Children.Add(bestHome, 0, 1);
-                best_columnGrid.Children.Add(bestValue, 0, 2);
-                best_columnGrid.Children.Add(bestAddDetail, 0, 3);
-                best_rowGrid.Children.Add(bestimage, 1, 0);
-                best_rowGrid.Children.Add(best_columnGrid, 2, 0);
-                #endregion
-
-                bestGrid.Children.Add(best_rowGrid, 0, i);
-
-                #region 탭 클릭시 쇼핑 디테일 페이지로 이동하는 이벤트
-                best_rowGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-                {
-                    Command = new Command(() =>
+                    CustomLabel bestHome = new CustomLabel
                     {
-                        Navigation.PushModalAsync(new ShopDetailPage(bestHome.Text));
-                    })
-                });
-                #endregion
+                        Text = "상품 이름 : " + productList[i].SH_PRODUCT_NAME,
+                        Size = 14,
+                        TextColor = Color.Black,
+                        MaxLines = 1,
 
+                    };
+                    CustomLabel bestValue = new CustomLabel
+                    {
+                        Text = productList[i].SH_PRODUCT_PRICE.ToString("N0") + "원",
+                        Size = 18,
+                        TextColor = Color.Black,
+                    };
+                    CustomLabel bestAddDetail = new CustomLabel
+                    {
+                        Text = productList[i].SH_PRODUCT_CONTENT,
+                        Size = 14,
+                        TextColor = Color.Black,
+                        MaxLines = 2,
+                    };
+                    #endregion
+
+                    #region 그리드 자식으로 추가
+                    DetailStack.Children.Add(editor);
+
+                    best_columnGrid.Children.Add(bestHome, 0, 1);
+                    best_columnGrid.Children.Add(bestValue, 0, 2);
+                    best_columnGrid.Children.Add(bestAddDetail, 0, 3);
+                    best_rowGrid.Children.Add(bestimage, 1, 0);
+                    best_rowGrid.Children.Add(best_columnGrid, 2, 0);
+                    #endregion
+
+                    bestGrid.Children.Add(best_rowGrid, 0, i);
+
+                    #region 탭 클릭시 쇼핑 디테일 페이지로 이동하는 이벤트
+                    best_rowGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+                    {
+                        Command = new Command(() =>
+                        {
+                            Navigation.PushModalAsync(new ShopDetailPage(productList[i].SH_PRODUCT_NAME, productList[i].SH_PRODUCT_INDEX));
+                        })
+                    });
+                    #endregion
+
+                }
                 // xaml 메인 그리드 1행 --> 베스트 쇼핑몰 리스트 그리드 첨부
                 BestMainGrid.Children.Add(bestGrid, 0, 1);
             }
             #endregion
 
             #region 쇼핑 메인 홈 중 일반 리스트
-            Grid naturalGrid = new Grid
-            {
-                RowDefinitions =
-                {
-                    new RowDefinition { Height = GridLength.Auto  },
-                },
-            };
+            Grid naturalGrid = new Grid();
 
-            for (int i = 1; i <= dataclass.GetShopHomeNatureCnt(myShopName); i++)
+            for (int i = 0; i < productList.Count; i++)
             {
                 naturalGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
 
@@ -157,7 +217,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 // 쇼핑몰 이미지
                 Image natrueimage = new Image
                 {
-                    Source = "shop_clothes1.jpg",
+                    Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
                     Aspect = Aspect.Fill,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
@@ -182,7 +242,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 // 상품 이름
                 CustomLabel naturalHome = new CustomLabel
                 {
-                    Text = "상품이름 " + i + "사이즈도 필요하지 안흥ㄹ까?",
+                    Text = "상품이름 " + productList[i].SH_PRODUCT_NAME,
                     Size = 14,
                     TextColor = Color.Black,
                     MaxLines = 1,
@@ -190,13 +250,13 @@ namespace TicketRoom.Views.MainTab.Shop
                 };
                 CustomLabel naturalValue = new CustomLabel
                 {
-                    Text = "Value" + i + "원",
+                    Text = productList[i].SH_PRODUCT_PRICE.ToString("N0") + "원",
                     Size = 18,
                     TextColor = Color.Black,
                 };
                 CustomLabel naturalAddDetail = new CustomLabel
                 {
-                    Text = "추가 정보" + i + "으나으마니으마닝ㅂ더ㅜㅎㄴ어ㅏㅗㅠ워ㅘㅠㅌ류ㅡ하ㅓㅇㄹ하ㅓㅇ루허ㅏㄷㄱ하ㅓ",
+                    Text = productList[i].SH_PRODUCT_CONTENT,
                     Size = 14,
                     TextColor = Color.Black,
                     MaxLines = 2,
@@ -218,15 +278,13 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     Command = new Command(() =>
                     {
-                        Navigation.PushModalAsync(new ShopDetailPage(naturalHome.Text));
+                        Navigation.PushModalAsync(new ShopDetailPage(productList[i].SH_PRODUCT_NAME, productList[i].SH_PRODUCT_INDEX));
                     })
                 });
                 #endregion
-
-
-                // xaml 메인 그리드 1행 --> 베스트 쇼핑몰 리스트 그리드 첨부
-                NatureMainGrid.Children.Add(naturalGrid, 0, 1);
             }
+            // xaml 메인 그리드 1행 --> 베스트 쇼핑몰 리스트 그리드 첨부
+            NatureMainGrid.Children.Add(naturalGrid, 0, 1);
             #endregion
         }
     }
