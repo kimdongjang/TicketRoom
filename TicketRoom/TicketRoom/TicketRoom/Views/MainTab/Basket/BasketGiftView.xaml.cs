@@ -228,8 +228,6 @@ namespace TicketRoom.Views.MainTab.Basket
                 #region 장바구니 삭제 버튼
                 Grid deleteGrid = new Grid
                 {
-                    BackgroundColor = Color.Blue,
-                    BindingContext = i,
                     RowDefinitions =
                     {
                          new RowDefinition { Height = new GridLength(2, GridUnitType.Star) },
@@ -238,6 +236,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 };
                 Image deleteImage = new Image
                 {
+                    BindingContext = i,
                     Source = "x.png",
                     HeightRequest = 40,
                     WidthRequest = 40,
@@ -248,7 +247,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 product_grid.Children.Add(deleteGrid, 3, 0);
 
                 // X버튼 누를시에 해당 리스트 삭제 이벤트
-                #region 이미지 클릭 이벤트
+                #region 장바구니 삭제 이벤트
                 // Your label tap event
                 var deletebtn_Clicked = new TapGestureRecognizer();
                 deletebtn_Clicked.Tapped += async (s, e) =>
@@ -258,7 +257,7 @@ namespace TicketRoom.Views.MainTab.Basket
                     {
                         return;
                     }
-                    Grid deletegrid = (Grid)s;
+                    Image deletegrid = (Image)s;
                     Global.BasketList.RemoveAt(int.Parse(deletegrid.BindingContext.ToString()));
                     ShowBasketlist();
                 };
