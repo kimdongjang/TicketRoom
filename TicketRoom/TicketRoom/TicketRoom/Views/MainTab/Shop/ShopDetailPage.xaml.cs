@@ -1,5 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Text;
+using TicketRoom.Models.ShopData;
 using TicketRoom.Views.MainTab.Shop.GridImage;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -9,16 +15,186 @@ namespace TicketRoom.Views.MainTab.Shop
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShopDetailPage : ContentPage
     {
+        List<SH_ImageList> imageList;
+        List<SH_OtherView> otherList;
+        List<SH_Pro_Option> optionList;
+
+        int option_selectColor = 0;
+        int option_selectSize = 0;
+
         string myShopName = "";
         int clothes_count = 0;
+        int productIndex = 0;
 
-
-        public ShopDetailPage(string titleName)
+        public ShopDetailPage(string titleName, int productIndex)
         {
             InitializeComponent();
             myShopName = titleName;
+            this.productIndex = productIndex;
+
+            PostSearchImageListToProduct(productIndex);
+            PostSearchOtherViewToProduct(productIndex);
+            PostSearchProOptionToProduct(productIndex);
+
             Init();
 
+        }
+
+
+        // DB에서 상품 인덱스로 이미지 목록을 가져오기
+        private void PostSearchImageListToProduct(int productIndex)
+        {
+            imageList = new List<SH_ImageList>();
+            string str = @"{";
+            str += "productIndex : " + productIndex;
+            str += "}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchImageListToProduct") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        imageList = JsonConvert.DeserializeObject<List<SH_ImageList>>(readdata);
+                    }
+                }
+            }
+            catch
+            {
+                Label label = new Label
+                {
+                    Text = "검색 결과를 찾을 수 없습니다!",
+                    FontSize = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                };
+                //MainGrid.Children.Add(label, 0, 1);
+            }
+        }
+
+        // DB에서 홈 상품 인덱스로 다른 고객이 본 상품을 가져오기
+        private void PostSearchOtherViewToProduct(int productIndex)
+        {
+            otherList = new List<SH_OtherView>();
+            string str = @"{";
+            str += "productIndex : " + productIndex;
+            str += "}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchOtherViewToProduct") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        otherList = JsonConvert.DeserializeObject<List<SH_OtherView>>(readdata);
+                    }
+                }
+            }
+            catch
+            {
+                Label label = new Label
+                {
+                    Text = "검색 결과를 찾을 수 없습니다!",
+                    FontSize = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                };
+                //MainGrid.Children.Add(label, 0, 1);
+            }
+        }
+
+        // DB에서 홈 상품 인덱스로 다른 고객이 본 상품을 가져오기
+        private void PostSearchProOptionToProduct(int productIndex)
+        {
+            optionList = new List<SH_Pro_Option>();
+            string str = @"{";
+            str += "productIndex : " + productIndex;
+            str += "}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchProOptionToProduct") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        optionList = JsonConvert.DeserializeObject<List<SH_Pro_Option>>(readdata);
+                    }
+                }
+            }
+            catch
+            {
+                Label label = new Label
+                {
+                    Text = "검색 결과를 찾을 수 없습니다!",
+                    FontSize = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                };
+                //MainGrid.Children.Add(label, 0, 1);
+            }
         }
 
         private async void BasketBtn_ClickedAsync(object sender, EventArgs e)
@@ -156,8 +332,16 @@ namespace TicketRoom.Views.MainTab.Shop
             #region +,- 수량 체크 이벤트
             plusCount.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = new Command(() =>
+                Command = new Command(async () =>
                 {
+                    for (int i = 0; i < optionList.Count; i++)
+                    {
+                        if (optionList[i].SH_PRO_OPTION_COUNT < int.Parse(ClothesCountLabel.Text))
+                        {
+                            var basket_answer = await DisplayAlert("주문 오류", "주문 가능한 수량을 초과했습니다!", "확인", "취소");
+                            return;
+                        }
+                    }
                     clothes_count = int.Parse(ClothesCountLabel.Text);
                     clothes_count += 1;
                     ClothesCountLabel.Text = clothes_count.ToString();

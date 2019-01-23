@@ -19,7 +19,7 @@ namespace TicketRoom.Views.MainTab
     public partial class ShopTabPage : ContentView
     {
         List<Grid> ClickList = new List<Grid>();
-        List<MainCate> mcl;
+        public static List<MainCate> mclist;
         Queue<string> imageList = new Queue<string>();
 
         public static int imagelist_count = 2;
@@ -69,6 +69,8 @@ namespace TicketRoom.Views.MainTab
 
             }
         }
+
+        /*
         private void Init()
         {
             #region 그리드 탭 이벤트
@@ -89,8 +91,8 @@ namespace TicketRoom.Views.MainTab
             }
 
             #endregion
-
         }
+        */
 
         #region 서버에서 GET메소드/메인 카테고리 리스트 요청
         private async void GetCategoryListAsync()
@@ -99,27 +101,11 @@ namespace TicketRoom.Views.MainTab
             // loading 
             Loading loadingScreen = new Loading(true);
             await Navigation.PushModalAsync(loadingScreen);
-            mcl = new List<MainCate>();
-
-            /*
-            string str = @"{";
-            str += "word : ' " + word;
-            str += " '}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);*/
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            //byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+            mclist = new List<MainCate>();
 
             HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchMainCate") as HttpWebRequest;
             request.Method = "GET";
             request.ContentType = "application/json";
-            //request.ContentLength = data.Length;
-
-            //request.GetRequestStream().Write(data, 0, data.Length);
-
-
             try
             {
                 using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
@@ -132,7 +118,7 @@ namespace TicketRoom.Views.MainTab
 
                         // readdata
                         var readdata = reader.ReadToEnd();
-                        mcl = JsonConvert.DeserializeObject<List<MainCate>>(readdata);
+                        mclist = JsonConvert.DeserializeObject<List<MainCate>>(readdata);
 
                     }
                     GridUpdate();
@@ -165,7 +151,7 @@ namespace TicketRoom.Views.MainTab
             int three_col = 0;
             Grid RowGrid = new Grid();
 
-            for (int i = 0; i < mcl.Count; i++)
+            for (int i = 0; i < mclist.Count; i++)
             {
                 if (i % 3 == 0)
                 {
@@ -209,6 +195,8 @@ namespace TicketRoom.Views.MainTab
                 RowGrid.Children.Add(inGrid, three_col, 0);
                 three_col++;
 
+                ClickList.Add(inGrid);
+
 
                 StackLayout SLayout = new StackLayout
                 {
@@ -219,7 +207,7 @@ namespace TicketRoom.Views.MainTab
                 CustomLabel label = new CustomLabel();
 
                 #region 의류 카테고리 이미지 생성
-                if (mcl[i].SH_MAINCATE_NAME == "단체복")
+                if (mclist[i].SH_MAINCATE_NAME == "단체복")
                 {
                     image = new Image
                     {
@@ -228,7 +216,7 @@ namespace TicketRoom.Views.MainTab
                         HeightRequest = 100,
                     };
                 }
-                else if (mcl[i].SH_MAINCATE_NAME == "여성의류")
+                else if (mclist[i].SH_MAINCATE_NAME == "여성의류")
                 {
                     image = new Image
                     {
@@ -237,7 +225,7 @@ namespace TicketRoom.Views.MainTab
                         HeightRequest = 100,
                     };
                 }
-                else if (mcl[i].SH_MAINCATE_NAME == "남성의류")
+                else if (mclist[i].SH_MAINCATE_NAME == "남성의류")
                 {
                     image = new Image
                     {
@@ -246,7 +234,7 @@ namespace TicketRoom.Views.MainTab
                         HeightRequest = 100,
                     };
                 }
-                else if (mcl[i].SH_MAINCATE_NAME == "기프티콘")
+                else if (mclist[i].SH_MAINCATE_NAME == "기프티콘")
                 {
                     image = new Image
                     {
@@ -269,7 +257,7 @@ namespace TicketRoom.Views.MainTab
                 label = new CustomLabel
                 {
                     Size = 18,
-                    Text = mcl[i].SH_MAINCATE_NAME,
+                    Text = mclist[i].SH_MAINCATE_NAME,
                     TextColor = Color.Black,
                     HorizontalOptions = LayoutOptions.Center,
                     BindingContext = i,
@@ -278,26 +266,31 @@ namespace TicketRoom.Views.MainTab
                 inGrid.Children.Add(SLayout, 0, 0);
                 inGrid.Children.Add(image, 0, 0);
                 inGrid.Children.Add(label, 0, 1);
+            }
+            #region 그리드 탭 이벤트
 
-                #region 그리드 탭 이벤트
+            for (int k = 0; k < ClickList.Count; k++)
+            {
+                Grid tempGrid = ClickList[k];
+                CustomLabel tempLabel = (CustomLabel)tempGrid.Children.ElementAt(2);
 
-                Grid tempGrid = inGrid;
-
-                inGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+                tempGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
                     Command = new Command(() =>
                     {
-                        Navigation.PushModalAsync(new ShopListPage(label.Text));
+                        int tempIndex = 0;
+                        for (int i = 0; i < mclist.Count; i++)
+                        {
+                            if (tempLabel.Text == mclist[i].SH_MAINCATE_NAME)
+                            {
+                                tempIndex = mclist[i].SH_MAINCATE_INDEX;
+                            }
+                        }
+                        Navigation.PushModalAsync(new ShopListPage(tempIndex));
                     })
                 });
-                /*
-                ClickList.Add(inGrid);
-
-                for (int k = 0; k < ClickList.Count; k++)
-                {
-                }*/
-                #endregion
             }
+            #endregion
         }
 
 
