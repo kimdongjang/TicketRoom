@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TicketRoom.Views.MainTab.Basket.BasketShopView">
+    <ContentView.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ScrollView Grid.Row="0" Margin="10,0,10,20" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Grid  x:Name="Basketlist_Grid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0"
+                        x:FieldModifier="Public"/>
+            </ScrollView>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

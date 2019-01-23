@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TicketRoom.Views.MainPage">
+    <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <ContentView Grid.Row="0" x:Name="TabContent"/>
+
+
+        <!--#region 0행 커스텀 탭바 -->
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!--#region 0열 구매/판매-->
+            <Button Grid.Column="0" Text="구매/판매"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                    BackgroundColor="White"
+                    Clicked="Tab_Changed"
+                    x:Name="DealTab"
+                    >
+                <Button.FontFamily>
+                    <OnPlatform x:TypeArguments="x:String">
+                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                    </OnPlatform>
+                </Button.FontFamily>
+            </Button>
+            <!--#endregion-->
+
+            <!--#region 1열 쇼핑-->
+            <Button Grid.Column="1" Text="쇼핑" 
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                    BackgroundColor="White"
+                    Clicked="Tab_Changed"
+                    x:Name="ShopTab"
+                    >
+                <Button.FontFamily>
+                    <OnPlatform x:TypeArguments="x:String">
+                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                    </OnPlatform>
+                </Button.FontFamily>
+            </Button>
+            <!--#endregion-->
+
+            <!--#region 2열 장바구니-->
+            <Button Grid.Column="2" Text="장바구니" 
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                    BackgroundColor="White"
+                    Clicked="Tab_Changed"
+                    x:Name="BasketTab"
+                    >
+                <Button.FontFamily>
+                    <OnPlatform x:TypeArguments="x:String">
+                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                    </OnPlatform>
+                </Button.FontFamily>
+            </Button>
+            <!--#endregion-->
+
+            <!--#region 3열 내정보-->
+            <Button Grid.Column="3" Text="내정보" 
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                    BackgroundColor="White"
+                    Clicked="Tab_Changed"
+                    x:Name="MyPageTab"
+                    >
+                <Button.FontFamily>
+                    <OnPlatform x:TypeArguments="x:String">
+                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                    </OnPlatform>
+                </Button.FontFamily>
+            </Button>
+            <!--#endregion-->
+        </Grid>
+        <!--#endregion-->
+    </Grid>
+    <!--#endregion-->
+</ContentPage>

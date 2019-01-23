@@ -1,0 +1,834 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TicketRoom.Views.MainTab.Dael.Sale.SalePage">
+    <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--#region 0행 커스텀 액션바 -->
+        <Grid Grid.Row="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+
+            <!--#region 0열 백버튼 등 이미지-->
+            <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ImageButton_Clicked"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <!--#endregion-->
+
+            <!--#region 1열 액션바 타이틀-->
+            <Grid Grid.Column="1" HorizontalOptions="CenterAndExpand" RowSpacing="0" ColumnSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label 
+                    Grid.Column="0"
+                    Text="판매"
+                    FontSize="18"
+                    TextColor="Black"
+                     XAlign="End" YAlign="Center"
+                    >
+                    <Label.FontFamily>
+                        <OnPlatform x:TypeArguments="x:String">
+                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                        </OnPlatform>
+                    </Label.FontFamily>
+                </Label>
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region 2열 옵션등 이미지-->
+            <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center"></Image>
+            <!--#endregion-->
+        </Grid>
+        <!--#endregion-->
+
+        <ScrollView Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!--#region 0행 상품정보 설명-->
+                <Grid Grid.Row="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="1"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--#region 0행 상품정보 Grid -->
+                    <Grid Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <!--#region 0열 상품권 이미지-->
+                        <Image Grid.Column="0" Source="productimage.png" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                        <!--#endregion-->
+
+                        <!--#region 1열 상품정보 Label Grid-->
+                        <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" RowSpacing="0" ColumnSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!--#region 1열 상품명 Label-->
+                            <Label Grid.Row="0" x:Name="productName_label" Text="롯데백화점 50만원권" FontSize="18" TextColor="Black" 
+                    HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center">
+                                <Label.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                    </OnPlatform>
+                                </Label.FontFamily>
+                            </Label>
+                            <!--#endregion-->
+
+                            <!--#region 1행 할인율 Label-->
+                            <Label Grid.Row="2" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="고객 구매가(할인율) : " FontSize="12" TextColor="Black">
+                                            <Span.FontFamily>
+                                                <OnPlatform x:TypeArguments="x:String">
+                                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                                </OnPlatform>
+                                            </Span.FontFamily>
+                                        </Span>
+                                        <Span Text="480,000[4%]" TextColor="Blue" FontSize="12">
+                                            <Span.FontFamily>
+                                                <OnPlatform x:TypeArguments="x:String">
+                                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                                </OnPlatform>
+                                            </Span.FontFamily>
+                                        </Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <!--#endregion-->
+                        </Grid>
+                        <!--#endregion-->
+
+                        <!--#region 2열 수량 Grid-->
+                        <Grid Grid.Column="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" BackgroundColor="White">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--#region 0행 플러스 이미지 버튼-->
+                            <Image Grid.Row="0" Source="plus.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="PlusBtn_Clicked"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <!--#endregion-->
+
+                            <!--#region 1열 수량 Label-->
+                            <Label Grid.Row="1" x:Name="Count_label" Text="0" FontSize="14" TextColor="Black" 
+                                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
+                                <Label.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                    </OnPlatform>
+                                </Label.FontFamily>
+                            </Label>
+                            <!--#endregion-->
+
+                            <!--#region 2행 마이너스 이미지 버튼-->
+                            <Image Grid.Row="2" Source="minus.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="MinusBtn_Clicked"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <!--#endregion-->
+                        </Grid>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 1행 Grid라인-->
+                    <BoxView Grid.Row="1" BackgroundColor="#f4f2f2" HeightRequest="1" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+                    <!--#endregion-->
+
+                    <Grid Grid.Row="2" Margin="40,10,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <!--#region 0행 이용안내 Label-->
+                        <Label Grid.Row="0" Text="이용안내" FontSize="15" TextColor="Black" 
+                    HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 1행 유의사항 Label-->
+                        <Label Grid.Row="1" Text="[유의사항]" FontSize="14" 
+                    HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 2행 유의사항 1번 Label-->
+                        <Label Grid.Row="2" Text="1. 해당 매장에서 유효기간 이내에 본 쿠폰을 제시하시면 실물상품과 교환 가능합니다." FontSize="14" 
+                    HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 3행 유의사항 2번 Label-->
+                        <Label Grid.Row="3" Text="2. 해당 매장에서 유효기간 이내에 본 쿠폰을 제시하시면 실물상품과 교환 가능합니다." FontSize="14" 
+                    HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 4행 유의사항 3번 Label-->
+                        <Label Grid.Row="4" Text="3. 해당 매장에서 유효기간 이내에 본 쿠폰을 제시하시면 실물상품과 교환 가능합니다." FontSize="14" 
+                    HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+                    </Grid>
+                </Grid>
+                <!--#endregion-->
+
+                <Grid Grid.Row="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Margin="15,20,0,0" Text="체크 사항" HorizontalOptions="Start" VerticalOptions="Center">
+                        <Label.FontFamily>
+                            <OnPlatform x:TypeArguments="x:String">
+                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                            </OnPlatform>
+                        </Label.FontFamily>
+                    </Label>
+
+                    <Grid Grid.Row="1" Margin="15,10,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" x:Name="Paperradio" Source="radio_checked_icon.png" BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"></Image>
+                            <Label Grid.Column="2" Text="지류" HorizontalOptions="Start" VerticalOptions="Center">
+                                <Label.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                    </OnPlatform>
+                                </Label.FontFamily>
+                            </Label>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Radio1_Clicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+
+                        <Grid Grid.Column="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" x:Name="Pinnumberradio" Source="radio_unchecked_icon.png" BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"></Image>
+                            <Label Grid.Column="2" Text="착불핀번호" HorizontalOptions="Start" VerticalOptions="Center">
+                                <Label.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                    </OnPlatform>
+                                </Label.FontFamily>
+                            </Label>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Radio2_Clicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="2" x:Name="RadioContent1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+
+
+                    <!--#region 0행 은행명-->
+                    <Grid Grid.Row="0" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!--#region 0행 은행명 Label-->
+                        <Label Grid.Row="0"
+                        Text="은행명"
+                        FontSize="18"
+                        TextColor="Black"
+                        Margin="15,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 1행 은행명 피커-->
+                        <Picker Grid.Row="1" Margin="15,0,15,0" x:Name="BankName_picker" Title="은행 선택" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectedIndexChanged="Picker_SelectedIndexChanged">
+                            <Picker.Items>
+                                <x:String>신한</x:String>
+                                <x:String>농협</x:String>
+                                <x:String>카뱅</x:String>
+                                <x:String>우리은행</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                            </Picker.Items>
+                        </Picker>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 1행 예금주명-->
+                    <Grid Grid.Row="1" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!--#region 0행 예금주명 Label-->
+                        <Label Grid.Row="0"
+                        Text="예금주명"
+                        FontSize="18"
+                        TextColor="Black"
+                        Margin="15,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 1행 예금주명 Entry(Input)-->
+                        <Entry Grid.Row="1" x:Name="UserName_box" Margin="15,0,15,0" 
+                           Placeholder="ex) 홍길동" FontSize="15" 
+                           Keyboard="Text"
+                           HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null">
+                        </Entry>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 2행 입금 계좌번호-->
+                    <Grid Grid.Row="2" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!--#region 0행 입금 계좌번호 Label-->
+                        <Label Grid.Row="0"
+                        FontSize="18"
+                        TextColor="Black"
+                        Margin="15,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="입금 계좌번호" FontSize="18" TextColor="Black">
+                                        <Span.FontFamily>
+                                            <OnPlatform x:TypeArguments="x:String">
+                                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                            </OnPlatform>
+                                        </Span.FontFamily>
+                                    </Span>
+                                    <Span Text="(-제외하고 입력해 주세요.)" TextColor="Gray" FontSize="10">
+                                        <Span.FontFamily>
+                                            <OnPlatform x:TypeArguments="x:String">
+                                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                            </OnPlatform>
+                                        </Span.FontFamily>
+                                    </Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 1행 입금 계좌번호 Entry(Input)-->
+                        <Entry Grid.Row="1" x:Name="AccountNum_box" Margin="15,0,15,0" 
+                           Placeholder="ex) abcdef" FontSize="15" 
+                           Keyboard="Numeric"
+                           HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null">
+                        </Entry>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 3행 발송 날짜-->
+                    <Grid Grid.Row="3" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!--#region 0행 발송날짜 Label-->
+                        <Label Grid.Row="0"
+                        Text="발송날짜"
+                        FontSize="18"
+                        TextColor="Black"
+                        Margin="15,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <DatePicker Grid.Row="1" x:Name="startDatePicker"
+                        Format="D"
+                        Margin="15, 0, 15, 0"
+                        DateSelected="OnDateSelected" />
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 4행 전달사항-->
+                    <Grid Grid.Row="4" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="1"/>
+                            <RowDefinition Height="200"/>
+                        </Grid.RowDefinitions>
+
+                        <!--#region 0행 전달사항 Label-->
+                        <Label Grid.Row="0"
+                        Text="전달사항"
+                        FontSize="18"
+                        TextColor="Black"
+                        Margin="15,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 1행 Grid라인-->
+                        <BoxView Grid.Row="1" BackgroundColor="#f4f2f2" HeightRequest="1" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+                        <!--#endregion-->
+
+                        <!--#region 1행 전달사항 Entry(Input)-->
+                        <ScrollView Grid.Row="2" Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                            <Editor Placeholder="훼손정도나 특이사항을 기재해 주세요" HeightRequest="300" />
+                        </ScrollView>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 5행 여백-->
+                    <!--#endregion-->
+
+                    <Button  Grid.Row="6" Text="판매하기"  TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                        <Button.FontFamily>
+                            <OnPlatform x:TypeArguments="x:String">
+                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                            </OnPlatform>
+                        </Button.FontFamily>
+                    </Button>
+                </Grid>
+
+                <Grid Grid.Row="2" x:Name="RadioContent2" IsVisible="False" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+
+                    <!--#region 0행 핀번호 추가 폼-->
+                    <Grid Grid.Row="0" Margin="15,0,15,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <!--#region 0행 핀번호 추가 폼-->
+                        <Grid Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--#region 0열 핀번호 1 Entry(Input)-->
+                            <Entry Grid.Column="0" x:Name="Pin1" 
+                               Placeholder="4자리" FontSize="14" 
+                               Keyboard="Numeric"
+                               HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null" MaxLength="4" HorizontalTextAlignment ="Center">
+                            </Entry>
+                            <!--#endregion-->
+
+                            <!--#region 1열 핀번호 2 Entry(Input)-->
+                            <Entry Grid.Column="1" x:Name="Pin2" 
+                               Placeholder="4자리" FontSize="14" 
+                               Keyboard="Numeric"
+                               HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null" MaxLength="4" HorizontalTextAlignment ="Center">
+                            </Entry>
+                            <!--#endregion-->
+
+                            <!--#region 2열 핀번호 3 Entry(Input)-->
+                            <Entry Grid.Column="2" x:Name="Pin3" 
+                               Placeholder="4자리" FontSize="14" 
+                               Keyboard="Numeric"
+                               HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null" MaxLength="4" HorizontalTextAlignment ="Center">
+                            </Entry>
+                            <!--#endregion-->
+
+                            <!--#region 3열 핀번호 4 Entry(Input)-->
+                            <Entry Grid.Column="3" x:Name="Pin4" 
+                               Placeholder="4~6자리" FontSize="14" 
+                               Keyboard="Numeric"
+                               HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null" MaxLength="4" HorizontalTextAlignment ="Center">
+                            </Entry>
+                            <!--#endregion-->
+
+                            <!--#region 0열 핀번호 1 Entry(Input)-->
+                            <Button Grid.Column="4" Margin="0,10,0,10" Clicked="AddPinNumBtn_Clicked" Text="추 가" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                <Button.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                    </OnPlatform>
+                                </Button.FontFamily>
+                            </Button>
+                            <!--#endregion-->
+
+                        </Grid>
+                        <!--#endregion-->
+
+                        <!--#region 1행 핀번호 추가 목록-->
+                        <Grid Grid.Row="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="1"/>
+                            </Grid.ColumnDefinitions>
+                            <!--#region 0행 Grid라인-->
+                            <BoxView Grid.Row="0" Grid.ColumnSpan="2" BackgroundColor="#f4f2f2" HeightRequest="1" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+                            <!--#endregion-->
+                            <!--#region 0열 Grid라인-->
+                            <BoxView Grid.Column="0" Grid.RowSpan="2" BackgroundColor="#f4f2f2" WidthRequest="1" VerticalOptions="FillAndExpand" HorizontalOptions="Start"/>
+                            <!--#endregion-->
+                            <Grid Grid.Row="1" Grid.Column="1" x:Name="PinNumlist" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="2" ColumnSpacing="0">
+                            </Grid>
+                            <!--#region 2행 Grid라인-->
+                            <BoxView Grid.Row="2" Grid.ColumnSpan="2" BackgroundColor="#f4f2f2" HeightRequest="1" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+                            <!--#endregion-->
+                            <!--#region 2열 Grid라인-->
+                            <BoxView Grid.Column="2" Grid.RowSpan="2" BackgroundColor="#f4f2f2" WidthRequest="1" VerticalOptions="FillAndExpand" HorizontalOptions="Start"/>
+                            <!--#endregion-->
+
+                        </Grid>
+
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 1행 은행명-->
+                    <Grid Grid.Row="1" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!--#region 0행 은행명 Label-->
+                        <Label Grid.Row="0"
+                        Text="은행명"
+                        FontSize="18"
+                        TextColor="Black"
+                        Margin="15,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 1행 은행명 피커-->
+                        <Picker Grid.Row="1" Margin="15,0,15,0" x:Name="BankName_picker2" Title="은행 선택" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectedIndexChanged="Picker_SelectedIndexChanged">
+                            <Picker.Items>
+                                <x:String>신한</x:String>
+                                <x:String>농협</x:String>
+                                <x:String>카뱅</x:String>
+                                <x:String>우리은행</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                                <x:String>추가예정</x:String>
+                            </Picker.Items>
+                        </Picker>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 2행 예금주명-->
+                    <Grid Grid.Row="2" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!--#region 0행 예금주명 Label-->
+                        <Label Grid.Row="0"
+                        Text="예금주명"
+                        FontSize="18"
+                        TextColor="Black"
+                        Margin="15,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 1행 예금주명 Entry(Input)-->
+                        <Entry Grid.Row="1" x:Name="UserName_box2" Margin="15,0,15,0" 
+                           Placeholder="ex) 홍길동" FontSize="15" 
+                           Keyboard="Text"
+                           HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null">
+                        </Entry>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 3행 입금 계좌번호-->
+                    <Grid Grid.Row="3" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!--#region 0행 입금 계좌번호 Label-->
+                        <Label Grid.Row="0"
+                        FontSize="18"
+                        TextColor="Black"
+                        Margin="15,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="입금 계좌번호" FontSize="18" TextColor="Black">
+                                        <Span.FontFamily>
+                                            <OnPlatform x:TypeArguments="x:String">
+                                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                            </OnPlatform>
+                                        </Span.FontFamily>
+                                    </Span>
+                                    <Span Text="(-제외하고 입력해 주세요.)" TextColor="Gray" FontSize="10">
+                                        <Span.FontFamily>
+                                            <OnPlatform x:TypeArguments="x:String">
+                                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                            </OnPlatform>
+                                        </Span.FontFamily>
+                                    </Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 1행 입금 계좌번호 Entry(Input)-->
+                        <Entry Grid.Row="1" x:Name="AccountNum_box2" Margin="15,0,15,0" 
+                           Placeholder="ex) abcdef" FontSize="15" 
+                           Keyboard="Numeric"
+                           HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null">
+                        </Entry>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 4행 접수 비밀번호-->
+                    <Grid Grid.Row="4" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!--#region 4행 접수 비밀번호 Label-->
+                        <Label Grid.Row="0"
+                        Text="접수 비밀번호"
+                        FontSize="18"
+                        TextColor="Black"
+                        Margin="15,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 1행 입금 계좌번호 Entry(Input)-->
+                        <Entry Grid.Row="1" x:Name="OrderNum_box" Margin="15,0,15,0" 
+                           Placeholder="ex) 최대 8자리" FontSize="15" 
+                           Keyboard="Numeric"
+                           HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null">
+                        </Entry>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 5행 접수 비밀번호 확인-->
+                    <Grid Grid.Row="5" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!--#region 5행 접수 비밀번호 확인 Label-->
+                        <Label Grid.Row="0"
+                        Text="접수 비밀번호 확인"
+                        FontSize="18"
+                        TextColor="Black"
+                        Margin="15,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+
+                        <!--#region 1행 입금 계좌번호 Entry(Input)-->
+                        <Entry Grid.Row="1" x:Name="OrderNumCheck_box" Margin="15,0,15,0" 
+                           Placeholder="ex) 최대 8자리" FontSize="15" 
+                           Keyboard="Numeric"
+                           HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null">
+                        </Entry>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 6행 여백-->
+                    <!--#endregion-->
+
+                    <Button  Grid.Row="7" Text="판매하기"  TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                        <Button.FontFamily>
+                            <OnPlatform x:TypeArguments="x:String">
+                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                            </OnPlatform>
+                        </Button.FontFamily>
+                    </Button>
+                </Grid>
+            </Grid>
+        </ScrollView>
+
+    </Grid>
+    <!--#endregion-->
+</ContentPage>

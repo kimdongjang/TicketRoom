@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:models="clr-namespace:TicketRoom.Models.Custom"
+             x:Class="TicketRoom.Views.MainTab.BasketTabPage">
+    <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--#region 0행 커스텀 액션바 -->
+        <Grid Grid.Row="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+
+            <!--#region 0열 백버튼 등 이미지-->
+            <!--#endregion-->
+
+            <!--#region 1열 액션바 타이틀-->
+            <Grid Grid.Column="1" HorizontalOptions="CenterAndExpand" RowSpacing="0" ColumnSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label 
+                    Grid.Column="0"
+                    Text="장바구니"
+                    FontSize="18"
+                    TextColor="Black"
+                     XAlign="End" YAlign="Center"
+                    >
+                    <Label.FontFamily>
+                        <OnPlatform x:TypeArguments="x:String">
+                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                        </OnPlatform>
+                    </Label.FontFamily>
+                </Label>
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region 2열 옵션등 이미지-->
+            <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center"></Image>
+            <!--#endregion-->
+        </Grid>
+        <!--#endregion-->
+
+        <Grid Grid.Row="1" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <BoxView Grid.Column="0" BackgroundColor="Gray"/>
+            <Grid Grid.Column="0" BackgroundColor="Black" Margin="0.5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="GiftSelectGrid">
+                <models:CustomLabel Text="상품권" Size="18" x:Name="GiftSelect" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+            </Grid>
+            <BoxView Grid.Column="1" BackgroundColor="Gray"/>
+            <Grid Grid.Column="1" BackgroundColor="White" Margin="0.5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="ShopSelectGrid">
+                <models:CustomLabel Text="쇼핑몰" Size="18" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ShopSelect"/>
+            </Grid>
+        </Grid>
+
+        <!--#region 장바구니 페이지 상품권, 쇼핑몰-->
+        <ContentView Grid.Row="2" x:Name="BasketContentView"/>
+        <!--#endregion-->
+    </Grid>
+    <!--#endregion-->
+</ContentView>

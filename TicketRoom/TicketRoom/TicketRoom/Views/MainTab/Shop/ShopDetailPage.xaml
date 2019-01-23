@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
+             x:Class="TicketRoom.Views.MainTab.Shop.ShopDetailPage">
+    <ContentPage.Content>
+
+        <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <!--#region 0행 커스텀 액션바 -->
+            <Grid Grid.Row="0" BackgroundColor="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <!--#region 0열 백버튼 등 이미지-->
+                <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Image="backbutton_icon.png" Clicked="ImageButton_Clicked" />
+                <!--#endregion-->
+
+                <!--#region 1열 액션바 타이틀-->
+                <local1:CustomLabel Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
+                    x:Name="TitleName"
+                    TextColor="Black"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
+                <!--#endregion-->
+
+                <!--#region 2열 액션바 타이틀-->
+                <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center"></Image>
+                <!--#endregion-->
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region 1행 쇼핑몰 뷰-->
+            <ScrollView Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="300"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <!--#region 0행 옷 이미지-->
+                    <Image Grid.Row="0" Source="shop_clothes1.jpg" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill"/>
+                    <!--#endregion-->
+                    <!--#region 1행 수량-->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0"
+                                            Text="수량" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
+                        <Image Grid.Column="2" Source="plus.png" HorizontalOptions="Center" VerticalOptions="Center" x:Name="plusCount"/>
+                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="3"
+                                            Text="11" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ClothesCountLabel"/>
+                        <Image Grid.Column="4" Source="minus.png" HorizontalOptions="Center" VerticalOptions="Center" x:Name="minusCount"/>
+                    </Grid>
+                    <!--#endregion-->
+                    <!--#region 2행 색상-->
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0"
+                                            Text="색상" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
+                        <local1:CustomPicker FontSize="18" FontFamily="{StaticResource FontStyle}" Grid.Column="2"
+                                            Title="색상 선택" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ClothesSelectColor"/>
+                    </Grid>
+                    <!--#endregion-->
+                    <!--#region 3행 사이즈-->
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0"
+                                            Text="사이즈" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
+                        <local1:CustomPicker FontSize="18" FontFamily="{StaticResource FontStyle}" Grid.Column="2"
+                                            Title="사이즈 선택" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ClothesSelectSize"/>
+                    </Grid>
+                    <!--#endregion-->
+                    <!--#region 4행 옷 디자인-->
+                    <Grid Grid.Row="4" ColumnSpacing="0" x:Name="ImageListGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="shop_clothes1.jpg" Aspect="AspectFill"/>
+                        <Image Grid.Column="2" Source="shop_clothes1.jpg" Aspect="AspectFill"/>
+                        <Image Grid.Column="1" Source="shop_clothes1.jpg" Aspect="AspectFill"/>
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5*"/>
+                                <RowDefinition Height="5*"/>
+                            </Grid.RowDefinitions>
+                            <BoxView Grid.Row="1" BackgroundColor="Black" Opacity="0.5"/>
+                            <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Row="1" TextColor="White"
+                                            Text="+12장" HorizontalOptions="Center" VerticalOptions="Center" x:Name="etcClothesCount" />
+                        </Grid>
+
+                    </Grid>
+                    <!--#endregion-->
+                    <!--#region 5행 상품 설명-->
+                    <Grid Grid.Row="5" Margin="15,0,15,0">
+                        <local1:CustomLabel HeightRequest="150" x:Name="DetailEditor" Size="14" MaxLines="5"
+                                            Text="추가 설명 : ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+                                            asdasdfgㅇㄹ하ㅡㅇ루헝루ㅠㅏㅓㅇ류ㅝㅏㅇ류ㅜㅏㅓㅇ류아ㅣㄹ
+                                            ㅇ르할어ㅏ훋가ㅓㅎ우ㅡ라ㅠㅝ차퓨ㅡㅊ파ㅠㅇ라ㅣㅎ
+                                            ㅇㄹ흐ㅏㅇ류ㅡㅏㅣㅇ류ㅡㅇ라ㅣㅎㅇ러ㅏ후너ㅏ" />
+                    </Grid>
+                    <!--#endregion-->
+                    <!--#region 6행 다른 고객이 함께 본 상품 레이블-->
+                    <Grid Grid.Row="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Row="0" Text="다른 고객이 함께 본 상품"
+                                            VerticalOptions="Center" HorizontalOptions="Center"  TextColor="Black"/>
+                    </Grid>
+                    <!--#endregion-->
+                    <!--#region 7행 다른 고객이 함께 본 상품 이미지-->
+                    <Grid Grid.Row="7" x:Name="OtherProduct">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                    <!--#endregion-->
+
+                </Grid>
+            </ScrollView>
+            <!--#endregion-->
+
+            <!--#region 2행 전화문의 및 장바구니 탭바 -->
+            <Grid Grid.Row="2">
+                <local1:CustomButton Size="26" FontFamily="{StaticResource FontStyle}"  Grid.Column="0" Text="장바구니 담기"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                    BackgroundColor="Black" TextColor="White" 
+                     x:Name="BasketBtn" Clicked="BasketBtn_ClickedAsync"/>
+            </Grid>
+            <!--#endregion-->
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

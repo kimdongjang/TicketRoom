@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
+             x:Class="TicketRoom.Views.Users.CreateUser.InputAdress">
+    <!--#region 전체 화면 그리드(행) - 0 입력된 주소,  1 검색,  2 주소목록, 3 확인-->
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0"
+          x:Name="MainGrid">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <!--#region 0행 커스텀 액션바 -->
+        <Grid Grid.Row="0" BackgroundColor="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <!--#region 0열 백버튼 등 이미지-->
+            <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ImageButton_Clicked"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <!--#endregion-->
+            <!--#region 1열 액션바 타이틀-->
+            <Label Grid.Column="1"
+                    Text="회원가입"
+                    TextColor="Black"
+                    FontSize="{StaticResource FontNamedSize}"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
+
+                <Label.FontFamily>
+                    <OnPlatform x:TypeArguments="x:String">
+                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                        <!--<On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />-->
+                    </OnPlatform>
+                </Label.FontFamily>
+            </Label>
+            <!--#endregion-->
+
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region 1행 스크롤뷰-->
+        <ScrollView Grid.Row="1" BackgroundColor="White">
+
+            <!--#region 스크롤뷰 안에 내용 고정높이 할당-->
+            <Grid  RowSpacing="0" ColumnSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!--#region 0행 페이지 제목-->
+                <Label Grid.Row="0"
+                    Text="지번, 도로명을 입력해 주세요."
+                    FontSize="20"
+                    TextColor="Black"
+                    Margin="0,26,0,0"
+                    XAlign="Center" YAlign="Center"/>
+                <!--#endregion-->
+
+                <!--#region 1행 입력된 주소명-->
+                <Grid Grid.Row="1" RowSpacing="0" ColumnSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <!-- 0 -->
+                        <RowDefinition Height="50"/>
+                        <!-- 1 -->
+                        <RowDefinition Height="10"/>
+                        <!-- 2 -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- 3 -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- 4 -->
+                    </Grid.RowDefinitions>
+
+                    <!--#region 0행 주소명 Label-->
+                    <Label Grid.Row="0"
+                        Text="주소명"
+                        FontSize="18"
+                        TextColor="Black"
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                        <Label.FontFamily>
+                            <OnPlatform x:TypeArguments="x:String">
+                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                            </OnPlatform>
+                        </Label.FontFamily>
+                    </Label>
+                    <!--#endregion-->
+
+                    <!--#region 1행 주소 Entry(Input)-->
+                    <Grid Grid.Row="1" 
+                          Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <!--#region 0열 주소 Entry(Input)-->
+                        <BoxView Grid.Column="0"  BackgroundColor="Black"/>
+                        <Grid BackgroundColor="White" Margin="1">
+                            <local1:CustomEntry Grid.Column="0" x:Name="EntryAdress"
+                               Text="지번 혹은 도로명 주소 입력" FontSize="15" 
+                               Keyboard="Text"
+                               Style="null" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"
+                               Focused="EntryAdress_Focused"/>
+                        </Grid>
+                        <!--#endregion-->
+
+                        <!--#region 1열 검색 버튼-->
+                        <Button Grid.Column="1" x:Name="SearchBtn" Clicked="SearchBtn_Clicked"
+                                Text="검색" BackgroundColor="Black" Margin="5" FontSize="26"
+                                TextColor="White"
+                                Pressed="SearchBtnPressed" Released="SearchBtnReleased">
+                            <Button.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Button.FontFamily>
+                        </Button>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 2행 여백-->
+                    <Grid Grid.Row="2"/>
+                    <!--#endregion-->
+
+
+                    <!--#region 3행 상세주소-->
+                    <Grid Grid.Row="3" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <!--#region 0행 상세 주소 입력 Entry -->
+                        <Grid Grid.Row="0" Margin="15,0,15,15">
+                            <BoxView BackgroundColor="Black"/>
+                            <Grid BackgroundColor="White" Margin="1">
+                                <local1:CustomEntry x:Name="DetailEntry" Text="상세 주소 입력"
+                                   FontSize="15" 
+                                   Keyboard="Text"
+                                   VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"
+                                   Style="null" IsEnabled="False"
+                                   Focused="DetailEntry_Focused"/>
+                            </Grid>
+                        </Grid>
+                        <!--#endregion-->
+
+                        <!--#region 2행 검색 결과 Label-->
+                        <Label Grid.Row="1"
+                            Text="검색결과" FontSize="18" TextColor="Black"
+                            Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
+                            <Label.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Label.FontFamily>
+                        </Label>
+                        <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 4행 주소 검색 결과 리스트뷰-->
+                    <Grid Grid.Row="4" Margin="15">
+                        <BoxView x:Name="AdrListBackColor"/>
+                        <Grid x:Name="AdrListParentGrid" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" Margin="2"/>
+                    </Grid>
+
+                    <!--#endregion-->
+                </Grid>
+                <!--#endregion-->
+            </Grid>
+            <!--#endregion-->
+        </ScrollView>
+        <!--#endregion 스크롤뷰 엔드-->
+
+        <!--#region 2행 주소 결과 확인-->
+        <Grid Grid.Row="2" BackgroundColor="#f4f2f2">
+            <Button Text="확인" BackgroundColor="Black" Clicked="CheckAdress_Clicked" FontSize="26"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" TextColor="White"/>
+        </Grid>
+        <!--#endregion-->
+    </Grid>
+    <!--#endregion-->
+</ContentPage>
