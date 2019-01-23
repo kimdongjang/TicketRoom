@@ -8,6 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TicketRoom.Models.Custom;
 using TicketRoom.Models.USERS;
 using TicketRoom.Views.MainTab;
 using TicketRoom.Views.MainTab.Dael.Purchase;
@@ -172,10 +173,10 @@ namespace TicketRoom.Views.Users.CreateUser
             }
             catch
             {
-                Label label = new Label
+                CustomLabel label = new CustomLabel
                 {
                     Text = "검색 결과를 찾을 수 없습니다!",
-                    FontSize = 18,
+                    Size = 18,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalTextAlignment = TextAlignment.Center,
@@ -195,7 +196,7 @@ namespace TicketRoom.Views.Users.CreateUser
 
             for (int i = 0; i < adl.Count; i++)
             {
-                AdrListParentGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                //AdrListParentGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
                 Grid grid = new Grid // 주소 라벨을 묶는 그리드 생성
                 {
@@ -205,8 +206,8 @@ namespace TicketRoom.Views.Users.CreateUser
                     RowDefinitions =
                     {
                         new RowDefinition { Height = 1 },
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) }
                     }
                 };
 
@@ -218,17 +219,17 @@ namespace TicketRoom.Views.Users.CreateUser
                 };
 
                 // 리스트 내용은 라벨로 설정
-                Label label = new Label
+                CustomLabel label = new CustomLabel
                 {
                     Text = adl[i].roadAddr + " ( " + adl[i].zipNo + " )",
-                    FontSize = 18,
+                    Size = 18,
                     TextColor = Color.Black,
                 };
 
-                Label label2 = new Label
+                CustomLabel label2 = new CustomLabel
                 {
                     Text = adl[i].jibunAddr,
-                    FontSize = 14,
+                    Size = 14,
                     TextColor = Color.Black,
                 };
 
