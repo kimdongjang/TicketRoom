@@ -28,19 +28,11 @@
             </Image>
             <!--#endregion-->
             <!--#region 1열 액션바 타이틀-->
-            <Label Grid.Column="1"
+            <local1:CustomLabel Grid.Column="1"
                     Text="회원가입"
-                    TextColor="Black"
-                    FontSize="{StaticResource FontNamedSize}"
+                    TextColor="Black" Size="18"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
-
-                <Label.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <!--<On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />-->
-                    </OnPlatform>
-                </Label.FontFamily>
-            </Label>
+            </local1:CustomLabel>
             <!--#endregion-->
 
         </Grid>
@@ -57,9 +49,9 @@
                 </Grid.RowDefinitions>
 
                 <!--#region 0행 페이지 제목-->
-                <Label Grid.Row="0"
+                <local1:CustomLabel Grid.Row="0"
                     Text="지번, 도로명을 입력해 주세요."
-                    FontSize="20"
+                    Size="20"
                     TextColor="Black"
                     Margin="0,26,0,0"
                     XAlign="Center" YAlign="Center"/>
@@ -81,18 +73,12 @@
                     </Grid.RowDefinitions>
 
                     <!--#region 0행 주소명 Label-->
-                    <Label Grid.Row="0"
+                    <local1:CustomLabel Grid.Row="0"
                         Text="주소명"
-                        FontSize="18"
+                        Size="18"
                         TextColor="Black"
                         Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                    </local1:CustomLabel>
                     <!--#endregion-->
 
                     <!--#region 1행 주소 Entry(Input)-->
@@ -106,7 +92,7 @@
                         <BoxView Grid.Column="0"  BackgroundColor="Black"/>
                         <Grid BackgroundColor="White" Margin="1">
                             <local1:CustomEntry Grid.Column="0" x:Name="EntryAdress"
-                               Text="지번 혹은 도로명 주소 입력" FontSize="15" 
+                               Text="지번 혹은 도로명 주소 입력" Size="15" 
                                Keyboard="Text"
                                Style="null" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"
                                Focused="EntryAdress_Focused"/>
@@ -114,17 +100,11 @@
                         <!--#endregion-->
 
                         <!--#region 1열 검색 버튼-->
-                        <Button Grid.Column="1" x:Name="SearchBtn" Clicked="SearchBtn_Clicked"
-                                Text="검색" BackgroundColor="Black" Margin="5" FontSize="26"
+                        <local1:CustomButton Grid.Column="1" x:Name="SearchBtn" Clicked="SearchBtn_Clicked"
+                                Text="검색" BackgroundColor="Black" Margin="5" Size="26"
                                 TextColor="White"
                                 Pressed="SearchBtnPressed" Released="SearchBtnReleased">
-                            <Button.FontFamily>
-                                <OnPlatform x:TypeArguments="x:String">
-                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                </OnPlatform>
-                            </Button.FontFamily>
-                        </Button>
+                        </local1:CustomButton>
                         <!--#endregion-->
                     </Grid>
                     <!--#endregion-->
@@ -145,7 +125,7 @@
                             <BoxView BackgroundColor="Black"/>
                             <Grid BackgroundColor="White" Margin="1">
                                 <local1:CustomEntry x:Name="DetailEntry" Text="상세 주소 입력"
-                                   FontSize="15" 
+                                   Size="15" 
                                    Keyboard="Text"
                                    VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"
                                    Style="null" IsEnabled="False"
@@ -155,24 +135,18 @@
                         <!--#endregion-->
 
                         <!--#region 2행 검색 결과 Label-->
-                        <Label Grid.Row="1"
-                            Text="검색결과" FontSize="18" TextColor="Black"
+                        <local1:CustomLabel Grid.Row="1"
+                            Text="검색결과" Size="18" TextColor="Black"
                             Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                            <Label.FontFamily>
-                                <OnPlatform x:TypeArguments="x:String">
-                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                </OnPlatform>
-                            </Label.FontFamily>
-                        </Label>
+                        </local1:CustomLabel>
                         <!--#endregion-->
                     </Grid>
                     <!--#endregion-->
 
                     <!--#region 4행 주소 검색 결과 리스트뷰-->
-                    <Grid Grid.Row="4" Margin="15">
+                    <Grid Grid.Row="4" Margin="15" RowSpacing="0">
                         <BoxView x:Name="AdrListBackColor"/>
-                        <Grid x:Name="AdrListParentGrid" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" Margin="2"/>
+                        <Grid x:Name="AdrListParentGrid" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" Margin="2,2,0,0" RowSpacing="0"/>
                     </Grid>
 
                     <!--#endregion-->

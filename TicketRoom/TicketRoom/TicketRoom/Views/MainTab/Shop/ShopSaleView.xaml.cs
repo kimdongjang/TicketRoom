@@ -187,7 +187,14 @@ namespace TicketRoom.Views.MainTab.Shop
                     {
                         Command = new Command(() =>
                         {
-                            Navigation.PushModalAsync(new ShopDetailPage(productList[i].SH_PRODUCT_NAME, productList[i].SH_PRODUCT_INDEX));
+                            string tempString = bestHome.Text.Replace("상품 이름 : ", "");
+                            for(int j = 0; j < productList.Count; j++)
+                            {
+                                if(tempString == productList[j].SH_PRODUCT_NAME)
+                                {
+                                    Navigation.PushModalAsync(new ShopDetailPage(productList[j].SH_PRODUCT_NAME, productList[j].SH_PRODUCT_INDEX));
+                                }
+                            }
                         })
                     });
                     #endregion
@@ -278,7 +285,14 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     Command = new Command(() =>
                     {
-                        Navigation.PushModalAsync(new ShopDetailPage(productList[i].SH_PRODUCT_NAME, productList[i].SH_PRODUCT_INDEX));
+                        string tempString = naturalHome.Text.Replace("상품 이름 : ", "");
+                        for (int j = 0; j < productList.Count; j++)
+                        {
+                            if (tempString == productList[j].SH_PRODUCT_NAME)
+                            {
+                                Navigation.PushModalAsync(new ShopDetailPage(productList[j].SH_PRODUCT_NAME, productList[j].SH_PRODUCT_INDEX));
+                            }
+                        }
                     })
                 });
                 #endregion

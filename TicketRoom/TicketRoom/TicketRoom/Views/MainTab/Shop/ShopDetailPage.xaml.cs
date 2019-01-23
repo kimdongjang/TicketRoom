@@ -32,9 +32,9 @@ namespace TicketRoom.Views.MainTab.Shop
             myShopName = titleName;
             this.productIndex = productIndex;
 
-            PostSearchImageListToProduct(productIndex);
-            PostSearchOtherViewToProduct(productIndex);
-            PostSearchProOptionToProduct(productIndex);
+            PostSearchImageListToProductAsync(productIndex);
+            PostSearchOtherViewToProductAsync(productIndex);
+            PostSearchProOptionToProductAsync(productIndex);
 
             Init();
 
@@ -42,7 +42,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
 
         // DB에서 상품 인덱스로 이미지 목록을 가져오기
-        private void PostSearchImageListToProduct(int productIndex)
+        private async void PostSearchImageListToProductAsync(int productIndex)
         {
             imageList = new List<SH_ImageList>();
             string str = @"{";
@@ -79,22 +79,14 @@ namespace TicketRoom.Views.MainTab.Shop
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Label label = new Label
-                {
-                    Text = "검색 결과를 찾을 수 없습니다!",
-                    FontSize = 18,
-                    TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                };
-                //MainGrid.Children.Add(label, 0, 1);
+                await DisplayAlert("에러", ex.ToString(), "확인");
             }
         }
 
         // DB에서 홈 상품 인덱스로 다른 고객이 본 상품을 가져오기
-        private void PostSearchOtherViewToProduct(int productIndex)
+        private async void PostSearchOtherViewToProductAsync(int productIndex)
         {
             otherList = new List<SH_OtherView>();
             string str = @"{";
@@ -131,22 +123,14 @@ namespace TicketRoom.Views.MainTab.Shop
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Label label = new Label
-                {
-                    Text = "검색 결과를 찾을 수 없습니다!",
-                    FontSize = 18,
-                    TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                };
-                //MainGrid.Children.Add(label, 0, 1);
+                await DisplayAlert("에러", ex.ToString(), "확인");
             }
         }
 
         // DB에서 홈 상품 인덱스로 다른 고객이 본 상품을 가져오기
-        private void PostSearchProOptionToProduct(int productIndex)
+        private async void PostSearchProOptionToProductAsync(int productIndex)
         {
             optionList = new List<SH_Pro_Option>();
             string str = @"{";
@@ -183,17 +167,9 @@ namespace TicketRoom.Views.MainTab.Shop
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Label label = new Label
-                {
-                    Text = "검색 결과를 찾을 수 없습니다!",
-                    FontSize = 18,
-                    TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                };
-                //MainGrid.Children.Add(label, 0, 1);
+                await DisplayAlert("에러", ex.ToString(), "확인");
             }
         }
 
