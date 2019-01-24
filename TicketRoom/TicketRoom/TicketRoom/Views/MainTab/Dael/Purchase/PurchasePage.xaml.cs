@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using TicketRoom.Models.Gift;
+using TicketRoom.Models.Gift.Purchase;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -93,13 +94,46 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         private void DoPurchase_Clicked(object sender, EventArgs e)
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            data.Add(Pro_Name.Text, Count_label.Text);
-            Navigation.PushModalAsync(new PurchaseDetailPage(data));
+            if (int.Parse(Count_label.Text) == 0)
+            {
+                DisplayAlert("알림", "수량을 입력해주세요", "OK");
+                return;
+            }
+
+            List<G_PurchasedetailInfo> g_PurchasedetailInfos = new List<G_PurchasedetailInfo>();
+            if (prepaymentradio.Source.ToString().Contains("radio_checked_icon.png"))
+            {
+                G_PurchasedetailInfo g_PurchasedetailInfo = new G_PurchasedetailInfo
+                {
+                    PDL_PRONUM = productInfo.PRONUM,
+                    PDL_PROCOUNT = Count_label.Text,
+                    PDL_PROTYPE = "1",
+                    PDL_ALLPRICE = (int.Parse(productInfo.PURCHASEDISCOUNTPRICE)*int.Parse(Count_label.Text)).ToString()
+                };
+                g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
+            }
+            else
+            {
+                G_PurchasedetailInfo g_PurchasedetailInfo = new G_PurchasedetailInfo
+                {
+                    PDL_PRONUM = productInfo.PRONUM,
+                    PDL_PROCOUNT = Count_label.Text,
+                    PDL_PROTYPE = "2",
+                    PDL_ALLPRICE = (int.Parse(productInfo.PURCHASEDISCOUNTPRICE) * int.Parse(Count_label.Text)).ToString()
+                };
+                g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
+            }
+
+            Navigation.PushModalAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
         }
 
         private void AddBasketBtn_Clicked(object sender, EventArgs e)
         {
+            if (int.Parse(Count_label.Text) == 0)
+            {
+                DisplayAlert("알림", "수량을 정해주세요", "OK");
+                return;
+            }
             G_BasketInfo basketInfo = new G_BasketInfo();
             basketInfo.BK_PRONUM = productInfo.PRONUM;
             basketInfo.BK_PROCOUNT = Count_label.Text;
