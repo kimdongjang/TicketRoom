@@ -157,12 +157,13 @@
                     </Grid.RowDefinitions>
                     <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Grid.Row="0" Text="포인트 사용" HorizontalOptions="Start" VerticalOptions="Center"/>
                     <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Grid.Row="1" Text="잔여 포인트: 1000" HorizontalOptions="Start" VerticalOptions="Center"/>
-                    <local1:CustomButton Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1" HeightRequest="30" Padding="0" Grid.RowSpan="2" Text="포인트 적용"
+                    <local1:CustomButton Size="22" FontFamily="{StaticResource FontStyle}" Clicked="UsedPointBtn_Clicked" Grid.Column="1" HeightRequest="30" Padding="0" Grid.RowSpan="2" Text="포인트 적용"
                                          TextColor="White" BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
                 </Grid>
 
                 <!--#region 9행 포인트 Entry(Input)-->
                 <Entry Grid.Row="9" x:Name="Point_box"
+                           TextChanged="Point_box_TextChanged"
                            Placeholder="사용할 포인트 입력 ex) 1000" FontSize="15" 
                            Keyboard="Numeric"
                            HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null"
@@ -172,8 +173,31 @@
 
                 <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Row="11" Text="결제하실 금액" HorizontalOptions="Start" VerticalOptions="Center"/>
 
-                <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Row="13" Text="75,000원" TextColor="Red" HorizontalOptions="Start" VerticalOptions="Center"/>
-
+                <!--#region 1행 1열 할인전 가격 Label-->
+                <Label Grid.Row="13" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span x:Name="Purchase_AllPrice_label" TextColor="Red" FontSize="18">
+                                <Span.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                    </OnPlatform>
+                                </Span.FontFamily>
+                            </Span>
+                            <Span Text=" 원" TextColor="Red" FontSize="18">
+                                <Span.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                    </OnPlatform>
+                                </Span.FontFamily>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <!--#endregion-->
+                
                 <!--#region 12행 Grid라인-->
                 <BoxView Grid.Row="15" BackgroundColor="#f4f2f2" HeightRequest="1" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
                 <!--#endregion-->
@@ -200,7 +224,7 @@
         </ScrollView>
 
 
-        <local1:CustomButton Size="26" FontFamily="{StaticResource FontStyle}" Grid.Row="2" Text="주문하기" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand"
+        <local1:CustomButton Size="26" Clicked="PurchaseBtn_Clicked" FontFamily="{StaticResource FontStyle}" Grid.Row="2" Text="주문하기" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
     </Grid>
     <!--#endregion-->
