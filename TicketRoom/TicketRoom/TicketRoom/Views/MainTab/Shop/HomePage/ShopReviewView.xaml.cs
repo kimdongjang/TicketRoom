@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
 using Xamarin.Forms;
@@ -9,22 +10,28 @@ namespace TicketRoom.Views.MainTab.Shop
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShopReviewView : ContentView
     {
-        string myShopName = "";
+        public static bool isOpenPage = false;
+
+        ShopDBFunc SH_DB = ShopDBFunc.Instance();
+        SH_Home home;
+        public List<SH_Review> reviewList = new List<SH_Review>();
+
         ShopDataFunc dataclass = new ShopDataFunc();
 
-        public ShopReviewView(string titleName)
+        public ShopReviewView(string titleName, SH_Home home)
         {
             InitializeComponent();
-            myShopName = titleName;
+            this.home = home;
+            reviewList = SH_DB.PostSearchReviewToHome(home.SH_HOME_INDEX);
             Init();
         }
-        private void Init()
+        public void Init()
         {
-            for (int i = 0; i < dataclass.GetShopReviewCnt(myShopName); i++)
+            ReviewGrid.Children.Clear();
+
+            for (int i = 0; i < reviewList.Count; i++)
             {
                 ReviewGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-
 
                 // 리뷰 그리드에 내부 그리드 추가
                 Grid grid = new Grid
@@ -46,7 +53,8 @@ namespace TicketRoom.Views.MainTab.Shop
                 #region 리뷰 에디터 구분선 생성
                 BoxView gridbox = new BoxView
                 {
-                    BackgroundColor = Color.Black,
+                    BackgroundColor = Color.Gray,
+                    Opacity = 0.5,
                 };
                 grid.Children.Add(gridbox, 0, 0);
                 #endregion
@@ -54,7 +62,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
                 Label id_label = new Label
                 {
-                    Text = "작성자 ID : " + i,
+                    Text = "작성자 ID : " + reviewList[i].SH_REVIEW_ID,
                     FontSize = 18,
                     TextColor = Color.Black,
                     Margin = new Thickness(15, 0, 0, 0),
@@ -80,7 +88,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 };
                 Label grade_label = new Label
                 {
-                    Text = "평점 : " + i,
+                    Text = "평점 : " + reviewList[i].SH_REVIEW_GRADE,
                     FontSize = 18,
                     TextColor = Color.Black,
                 };
@@ -112,15 +120,11 @@ namespace TicketRoom.Views.MainTab.Shop
                 grid.Children.Add(border_Grid, 0, 3);
                 #endregion
 
-                CustomEditor review_editor = new CustomEditor
+                CustomLabel review_editor = new CustomLabel
                 {
-                    Text = "ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇdddddddd" +
-                    "asdasdwmdjvxckvxkdfmksdlfmkjsldfkxcz" +
-                    "daksdmjknvkjxcnvbkjdxcmgkjdfsnghjisdljfgknesrg" +
-                    "sdlkfgnxdjikgbkjfdghm klfgh",
-                    FontSize = 18,
+                    Text = reviewList[i].SH_REVIEW_CONTENT,
+                    Size = 18,
                     TextColor = Color.Black,
-                    AutoSize = EditorAutoSizeOption.TextChanges,
                     IsEnabled = false,
                 };
 
@@ -130,7 +134,12 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void WriteReview_btn_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new WriteReviewPage());
+            if (ShopReviewView.isOpenPage == true)
+            {
+                return;
+            }
+            ShopReviewView.isOpenPage = true;
+            Navigation.PushModalAsync(new WriteReviewPage(home, this));
         }
     }
 }

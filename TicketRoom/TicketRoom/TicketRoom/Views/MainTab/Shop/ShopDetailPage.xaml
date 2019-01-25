@@ -20,7 +20,11 @@
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
                 <!--#region 0열 백버튼 등 이미지-->
-                <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Image="backbutton_icon.png" Clicked="ImageButton_Clicked" />
+                <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButton_Clicked"/>
+                    </Image.GestureRecognizers>
+                </Image>
                 <!--#endregion-->
 
                 <!--#region 1열 액션바 타이틀-->
@@ -43,17 +47,30 @@
                         <RowDefinition Height="300"/>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
-                        <RowDefinition Height="50"/>
                         <RowDefinition Height="100"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <!--#region 0행 옷 이미지-->
-                    <Image Grid.Row="0" Source="shop_clothes1.jpg" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill"/>
+                    <Image Grid.Row="0" Source="shop_clothes1.jpg" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill"  x:Name="MainImage"/>
                     <!--#endregion-->
-                    <!--#region 1행 수량-->
+                    <!--#region 1행 옵션-->
                     <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0"
+                                            Text="옵션" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
+                        <local1:CustomPicker FontSize="18" FontFamily="{StaticResource FontStyle}" Grid.Column="2"
+                                            Title="옵션 선택" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ClothesSelectOption"
+                                             SelectedIndexChanged="ClothesSelectOption_SelectedIndexChanged"/>
+                    </Grid>
+                    <!--#endregion-->
+                    <!--#region 2행 수량-->
+                    <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="5*"/>
@@ -65,60 +82,28 @@
                                             Text="수량" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
                         <Image Grid.Column="2" Source="plus.png" HorizontalOptions="Center" VerticalOptions="Center" x:Name="plusCount"/>
                         <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="3"
-                                            Text="11" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ClothesCountLabel"/>
+                                            Text="0" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ClothesCountLabel"/>
                         <Image Grid.Column="4" Source="minus.png" HorizontalOptions="Center" VerticalOptions="Center" x:Name="minusCount"/>
                     </Grid>
                     <!--#endregion-->
-                    <!--#region 2행 색상-->
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="5*"/>
-                            <ColumnDefinition Width="3*"/>
-                        </Grid.ColumnDefinitions>
-                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0"
-                                            Text="색상" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
-                        <local1:CustomPicker FontSize="18" FontFamily="{StaticResource FontStyle}" Grid.Column="2"
-                                            Title="색상 선택" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ClothesSelectColor"/>
-                    </Grid>
-                    <!--#endregion-->
-                    <!--#region 3행 사이즈-->
-                    <Grid Grid.Row="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="5*"/>
-                            <ColumnDefinition Width="3*"/>
-                        </Grid.ColumnDefinitions>
-                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0"
-                                            Text="사이즈" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
-                        <local1:CustomPicker FontSize="18" FontFamily="{StaticResource FontStyle}" Grid.Column="2"
-                                            Title="사이즈 선택" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ClothesSelectSize"/>
-                    </Grid>
-                    <!--#endregion-->
-                    <!--#region 4행 옷 디자인-->
-                    <Grid Grid.Row="4" ColumnSpacing="0" x:Name="ImageListGrid">
+                    <!--#region 3행 옷 디자인-->
+                    <Grid Grid.Row="3" ColumnSpacing="0" x:Name="ImageListGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="shop_clothes1.jpg" Aspect="AspectFill"/>
-                        <Image Grid.Column="2" Source="shop_clothes1.jpg" Aspect="AspectFill"/>
-                        <Image Grid.Column="1" Source="shop_clothes1.jpg" Aspect="AspectFill"/>
                         <Grid Grid.Column="2">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5*"/>
                                 <RowDefinition Height="5*"/>
                             </Grid.RowDefinitions>
-                            <BoxView Grid.Row="1" BackgroundColor="Black" Opacity="0.5"/>
-                            <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Row="1" TextColor="White"
-                                            Text="+12장" HorizontalOptions="Center" VerticalOptions="Center" x:Name="etcClothesCount" />
                         </Grid>
 
                     </Grid>
                     <!--#endregion-->
-                    <!--#region 5행 상품 설명-->
-                    <Grid Grid.Row="5" Margin="15,0,15,0">
+                    <!--#region 4행 상품 설명-->
+                    <Grid Grid.Row="4" Margin="15,0,15,0">
                         <local1:CustomLabel HeightRequest="150" x:Name="DetailEditor" Size="14" MaxLines="5"
                                             Text="추가 설명 : ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
                                             asdasdfgㅇㄹ하ㅡㅇ루헝루ㅠㅏㅓㅇ류ㅝㅏㅇ류ㅜㅏㅓㅇ류아ㅣㄹ
@@ -126,8 +111,8 @@
                                             ㅇㄹ흐ㅏㅇ류ㅡㅏㅣㅇ류ㅡㅇ라ㅣㅎㅇ러ㅏ후너ㅏ" />
                     </Grid>
                     <!--#endregion-->
-                    <!--#region 6행 다른 고객이 함께 본 상품 레이블-->
-                    <Grid Grid.Row="6">
+                    <!--#region 5행 다른 고객이 함께 본 상품 레이블-->
+                    <Grid Grid.Row="5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
@@ -135,10 +120,10 @@
                                             VerticalOptions="Center" HorizontalOptions="Center"  TextColor="Black"/>
                     </Grid>
                     <!--#endregion-->
-                    <!--#region 7행 다른 고객이 함께 본 상품 이미지-->
-                    <Grid Grid.Row="7" x:Name="OtherProduct">
+                    <!--#region 6행 다른 고객이 함께 본 상품 이미지-->
+                    <Grid Grid.Row="6" x:Name="OtherProduct">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="150"/>
                         </Grid.RowDefinitions>
                     </Grid>
                     <!--#endregion-->

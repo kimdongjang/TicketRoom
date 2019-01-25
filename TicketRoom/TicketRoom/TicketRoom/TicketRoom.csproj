@@ -82,22 +82,22 @@
     <EmbeddedResource Update="Views\MainTab\Shop\ShopDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainTab\Shop\ShopInfoView.xaml">
+    <EmbeddedResource Update="Views\MainTab\Shop\HomePage\ShopInfoView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MainTab\Shop\ShopListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainTab\Shop\ShopMainPage.xaml">
+    <EmbeddedResource Update="Views\MainTab\Shop\HomePage\ShopMainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MainTab\Shop\ShopOrderPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainTab\Shop\ShopReviewView.xaml">
+    <EmbeddedResource Update="Views\MainTab\Shop\HomePage\ShopReviewView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainTab\Shop\ShopSaleView.xaml">
+    <EmbeddedResource Update="Views\MainTab\Shop\HomePage\ShopSaleView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MainTab\Shop\WriteReviewPage.xaml">

@@ -9,7 +9,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <ContentView Grid.Row="0" x:Name="TabContent"/>
+        <ContentView Grid.Row="0" x:Name="TabContent" x:FieldModifier="Public" />
 
 
         <!--#region 0행 커스텀 탭바 -->

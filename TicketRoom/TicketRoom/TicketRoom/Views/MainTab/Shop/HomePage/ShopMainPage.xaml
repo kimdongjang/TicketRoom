@@ -9,6 +9,7 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
@@ -20,7 +21,11 @@
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
                 <!--#region 0열 백버튼 등 이미지-->
-                <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Image="backbutton_icon.png" BackgroundColor="White" Clicked="ImageButton_Clicked" />
+                <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButton_Clicked"/>
+                    </Image.GestureRecognizers>
+                </Image>
                 <!--#endregion-->
 
                 <!--#region 1열 액션바 타이틀-->
@@ -52,7 +57,7 @@
                     <!--#region 0행 쇼핑몰 메인 페이지-->
                     <Grid Grid.Row="0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="250"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
@@ -61,7 +66,7 @@
                         <!--#region 0행 쇼핑몰 이미지-->
                         <Grid Grid.Row="0">
                             <StackLayout HorizontalOptions="Center">
-                                <Image Source="shop_clothes1.png"  WidthRequest="300" HeightRequest="300" x:Name="MainShopImage" Aspect="AspectFit"/>
+                                <Image x:Name="MainShopImage" HeightRequest="300" WidthRequest="300" Aspect="AspectFill"/>
                             </StackLayout>
                         </Grid>
                         <!--#endregion-->
@@ -141,9 +146,12 @@
             <!--#endregion-->
 
 
+            <!--#region 3행 구분선  -->
+            <BoxView Grid.Row="3" BackgroundColor="Black"/>
+            <!--#endregion-->
 
-            <!--#region 3행 전화문의 및 장바구니 탭바 -->
-            <Grid Grid.Row="3" ColumnSpacing="0">
+            <!--#region 4행 전화문의 및 장바구니 탭바 -->
+            <Grid Grid.Row="4" ColumnSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>

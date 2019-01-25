@@ -16,7 +16,7 @@ namespace TicketRoom.Views.MainTab.Shop.GridImage
         public PopupImage(string name)
         {
             InitializeComponent();
-            image_source = name.Remove(0, 6); // 문자열 형식 File: 파일이름으로 들어오기 때문에 0부터 6개 문자를 제거함.
+            image_source = name.Replace("Uri: ","");
             SeenImage.Source = image_source;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Rg.Plugins.Popup.Services;
 using System;
-
+using System.Collections.Generic;
+using TicketRoom.Models.ShopData;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,52 +10,56 @@ namespace TicketRoom.Views.MainTab.Shop.GridImage
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PictureList : ContentPage
     {
-        int picture_count = 6;
+        List<SH_ImageList> imageList;
+        
         PopupImage popup_image;
-        public PictureList()
+        public PictureList(List<SH_ImageList> imageList)
         {
             InitializeComponent();
+            this.imageList = imageList;
             Init();
         }
         private void Init()
         {
-            for (int i = 0; i < picture_count / 2; i++)
-            {
-                ScrollGrid.RowDefinitions.Add(new RowDefinition { Height = 200 });
+            int row = 0;
+            int column = 2;
+            Grid pictureGrid = new Grid();
 
-                Grid pictureGrid = new Grid
+            for (int i = 0; i < imageList.Count; i++)
+            {
+                if (column > 1)
                 {
-                    ColumnDefinitions =
+                    column = 0;
+
+                    ScrollGrid.RowDefinitions.Add(new RowDefinition { Height = 200 });
+                    pictureGrid = new Grid
                     {
-                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)  },
-                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)  },
-                    }
-                };
-                ScrollGrid.Children.Add(pictureGrid, 0, i);
-                Image image1 = new Image
+                        ColumnDefinitions = {
+                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                        },
+                    };
+
+                    ScrollGrid.Children.Add(pictureGrid, 0, row);
+                    row++;
+
+                }
+                
+                Image image = new Image
                 {
-                    Source = "shop_clothes1.jpg",
+                    Source = ImageSource.FromUri(new Uri(imageList[i].SH_IMAGELIST_SOURCE)),
                     Aspect = Aspect.AspectFill,
                 };
-                Image image2 = new Image
-                {
-                    Source = "shop_clothes1.jpg",
-                    Aspect = Aspect.AspectFill,
-                };
-                pictureGrid.Children.Add(image1, 0, 0);
-                pictureGrid.Children.Add(image2, 1, 0);
-                image1.GestureRecognizers.Add(new TapGestureRecognizer()
+
+                // 컬럼은 0번 1번이 고정이다.
+                pictureGrid.Children.Add(image, column, 0);
+                column++;
+
+                image.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
                     Command = new Command(() =>
                     {
-                        PopupNavigation.PushAsync(popup_image = new PopupImage(image1.Source.ToString()));
-                    })
-                });
-                image2.GestureRecognizers.Add(new TapGestureRecognizer()
-                {
-                    Command = new Command(() =>
-                    {
-                        PopupNavigation.PushAsync(popup_image = new PopupImage(image2.Source.ToString()));
+                        PopupNavigation.PushAsync(popup_image = new PopupImage(image.Source.ToString()));
                     })
                 });
             }

@@ -19,8 +19,11 @@
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
                 <!--#region 0열 백버튼 등 이미지-->
-                <Button Grid.Column="0" Image="backbutton_icon.png" BackgroundColor="White" Clicked="ImageButton_Clicked" 
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ></Button>
+                <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButton_Clicked"/>
+                    </Image.GestureRecognizers>
+                </Image>
                 <!--#endregion-->
 
                 <!--#region 1열 액션바 타이틀-->
@@ -114,7 +117,7 @@
                 <Grid Grid.Row="3" Margin="20,0,20,0">
                     <BoxView BackgroundColor="Black"/>
                     <StackLayout BackgroundColor="White" Margin="1">
-                        <local1:CustomEditor Placeholder="내용을 입력하세요" AutoSize="TextChanges" HeightRequest="250"/>
+                        <local1:CustomEditor Placeholder="내용을 입력하세요" AutoSize="TextChanges" HeightRequest="250" x:Name="InputReview"/>
                     </StackLayout>
                 </Grid>
                 <!--#endregion-->
@@ -122,7 +125,7 @@
                 <Grid Grid.Row="4" Margin="20,0,20,0" HeightRequest="50">
                     <local1:CustomButton  Size="18" FontFamily="{StaticResource FontStyle}"  Text="리뷰 쓰기"
                                           HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" TextColor="White"
-                                        BackgroundColor="Black"  x:Name="ReviewWrite"/>
+                                        BackgroundColor="Black"  x:Name="ReviewWrite" Clicked="ReviewWrite_ClickedAsync"/>
                 </Grid>
                 <!--#endregion-->
             </Grid>

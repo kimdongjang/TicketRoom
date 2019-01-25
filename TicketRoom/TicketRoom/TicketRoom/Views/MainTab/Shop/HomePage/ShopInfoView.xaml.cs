@@ -15,11 +15,12 @@ namespace TicketRoom.Views.MainTab.Shop
     {
         string myShopName = "";
         ShopDataFunc dataclass = new ShopDataFunc();
+        SH_Home home;
 
-        public ShopInfoView(string titleName)
+        public ShopInfoView(string titleName, SH_Home home)
         {
             InitializeComponent();
-            myShopName = titleName;
+            this.home = home;
             Init();
         }
         private void Init()
@@ -27,7 +28,7 @@ namespace TicketRoom.Views.MainTab.Shop
             #region 쇼핑 메인 정보
             CustomLabel editor = new CustomLabel
             {
-                Text = dataclass.GetShopInfoData(myShopName),
+                Text = home.SH_HOME_INFO,
                 Size = 18,
                 TextColor = Color.Black,
                 IsEnabled = false,

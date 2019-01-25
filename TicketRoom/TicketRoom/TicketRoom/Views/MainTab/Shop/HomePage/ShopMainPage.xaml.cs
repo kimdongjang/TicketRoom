@@ -15,91 +15,33 @@ namespace TicketRoom.Views.MainTab.Shop
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShopMainPage : ContentPage
     {
+        ShopDBFunc SH_DB = ShopDBFunc.Instance();
         SH_Home home;
 
         Uri instaUri;
         Uri webUri;
 
-        string myShopName = "";
+        ShopSaleView ssv;
+        ShopInfoView siv;
+        ShopReviewView srv;
+
         ShopDataFunc dataclass = new ShopDataFunc();
         List<Button> tablist = new List<Button>();
         Queue<CustomButton> SelectTap_Queue = new Queue<CustomButton>();
+        CustomButton selectedtab;
 
-        public ShopMainPage(int sub_index, string sub_name)
+        public ShopMainPage(int sub_index)
         {
             InitializeComponent();
-            myShopName = sub_name;
-            PostSearchHomeAsync(sub_index);
+            home = SH_DB.PostSearchHomeAsync(sub_index);
+            Init();
         }
-
-        private async void PostSearchHomeAsync(int sub_index)
-        {
-            // loading start
-            Loading loadingScreen = new Loading(true);
-            await Navigation.PushModalAsync(loadingScreen);
-
-            home = new SH_Home();
-            string str = @"{";
-            str += "subCateIndex : " + sub_index;
-            str += "}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchHome") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-
-            try
-            {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
-
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-
-                        // readdata
-                        var readdata = reader.ReadToEnd();
-                        home = JsonConvert.DeserializeObject<SH_Home>(readdata);
-                    }
-                    Init();
-                }
-            }
-            catch (Exception ex)
-            {
-
-                System.Diagnostics.Debug.WriteLine(ex);
-                Label label = new Label
-                {
-                    Text = "검색 결과를 찾을 수 없습니다!",
-                    FontSize = 18,
-                    TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                };
-
-                //MainGrid.Children.Add(label, 0, 1);
-            }
-
-            // loading end
-            await Navigation.PopModalAsync();
-        }
-
 
         // DB에서 가져온 홈 페이지 정보로 초기화 진행
         private void Init()
         {
             // 타이틀 탭 초기화
-            TitleName.Text = myShopName;
+            TitleName.Text = home.SH_HOME_NAME;
 
             // 리스트에 버튼 추가
             tablist.Add(Content_Sale);
@@ -126,7 +68,7 @@ namespace TicketRoom.Views.MainTab.Shop
         /// <param name="e"></param>
         private void Content_Changed(object sender, EventArgs e)
         {
-            CustomButton selectedtab = (CustomButton)sender;
+            selectedtab = (CustomButton)sender;
 
             if (SelectTap_Queue.Count < 2)
             {
@@ -143,21 +85,16 @@ namespace TicketRoom.Views.MainTab.Shop
 
             if (selectedtab.Text.Equals("판매품"))
             {
-                ShopContentView.Content = new ShopSaleView(myShopName, home);
+                ShopContentView.Content = ssv = new ShopSaleView(TitleName.Text, home);
             }
             else if (selectedtab.Text.Equals("정보"))
             {
-                ShopContentView.Content = new ShopInfoView(myShopName);
+                ShopContentView.Content = siv = new ShopInfoView(TitleName.Text, home);
             }
             else if (selectedtab.Text.Equals("리뷰"))
             {
-                ShopContentView.Content = new ShopReviewView(myShopName);
+                ShopContentView.Content = srv = new ShopReviewView(TitleName.Text, home);
             }
-
-        }
-
-        private void ImageButton_Clicked(object sender, EventArgs e)
-        {
 
         }
 
@@ -168,7 +105,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void CallBtn_Clicked(object sender, EventArgs e)
         {
-
+            Device.OpenUri(new Uri("tel:010-9257-8836"));
         }
 
         private void BasketBtn_Clicked(object sender, EventArgs e)
@@ -178,12 +115,44 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void Insta_btn_Clicked(object sender, EventArgs e)
         {
-            Xamarin.Forms.Device.OpenUri(instaUri);
+            Device.OpenUri(instaUri);
         }
 
         private void MoveShop_btn_Clicked(object sender, EventArgs e)
         {
-            Xamarin.Forms.Device.OpenUri(webUri);
+            Device.OpenUri(webUri);
+        }
+
+        private void BackButton_Clicked(object sender, EventArgs e)
+        {
+            ShopListPage.isOpenPage = false;
+            Navigation.PopModalAsync();
+        }
+        protected override bool OnBackButtonPressed()
+        {
+            if (ShopContentView.Content != ssv) // 컨텐츠뷰가 메인으로 활성화 되어있지 않으면 메인으로 활성화 시킴
+            {
+                // 선택 탭 컬러 변경
+                if (SelectTap_Queue.Count < 2)
+                {
+                    if (SelectTap_Queue.Count != 0)
+                    {
+                        CustomButton temp = SelectTap_Queue.Dequeue();
+                        temp.TextColor = Color.Black;
+                        temp.BackgroundColor = Color.White;
+                    }
+                    Content_Sale.TextColor = Color.White;
+                    Content_Sale.BackgroundColor = Color.Black;
+                    SelectTap_Queue.Enqueue(Content_Sale);
+                }
+                ShopContentView.Content = ssv = new ShopSaleView(TitleName.Text, home);
+                return true;
+            }
+            else
+            {
+                ShopListPage.isOpenPage = false;
+                return base.OnBackButtonPressed();
+            }
         }
     }
 }

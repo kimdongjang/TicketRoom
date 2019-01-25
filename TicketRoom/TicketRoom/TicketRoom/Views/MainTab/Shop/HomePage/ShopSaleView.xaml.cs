@@ -17,75 +17,23 @@ namespace TicketRoom.Views.MainTab.Shop
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShopSaleView : ContentView
     {
+        ShopDBFunc SH_DB = ShopDBFunc.Instance();
+        public static bool isOpenPage = false;
+
         List<SH_Product> productList = new List<SH_Product>();
         SH_Home home;
 
         string myShopName = "";
-        ShopDataFunc dataclass = new ShopDataFunc();
 
         public ShopSaleView(string titleName, SH_Home home)
         {
             InitializeComponent();
             this.home = home;
-            PostSearchProductToHome(home.SH_HOME_INDEX);
+            productList = SH_DB.PostSearchProductToHome(home.SH_HOME_INDEX);
+            Init();
 
             myShopName = titleName;
         }
-
-
-        // DB에서 홈 인덱스로 상품 목록을 가져오기
-        private void PostSearchProductToHome(int homeIndex)
-        {
-            productList = new List<SH_Product>();
-            string str = @"{";
-            str += "homeIndex : " + homeIndex;
-            str += "}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchProductToHome") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-
-            try
-            {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
-
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-
-                        // readdata
-                        var readdata = reader.ReadToEnd();
-                        productList = JsonConvert.DeserializeObject<List<SH_Product>>(readdata);
-                    }
-                }
-                Init();
-            }
-            catch
-            {
-                Label label = new Label
-                {
-                    Text = "검색 결과를 찾을 수 없습니다!",
-                    FontSize = 18,
-                    TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                };
-                //MainGrid.Children.Add(label, 0, 1);
-            }
-        }
-
 
         private void Init()
         {
@@ -187,6 +135,13 @@ namespace TicketRoom.Views.MainTab.Shop
                     {
                         Command = new Command(() =>
                         {
+                            // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
+                            if (ShopSaleView.isOpenPage == true)
+                            {
+                                return;
+                            }
+                            ShopSaleView.isOpenPage = true;
+
                             string tempString = bestHome.Text.Replace("상품 이름 : ", "");
                             for(int j = 0; j < productList.Count; j++)
                             {
@@ -285,6 +240,12 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     Command = new Command(() =>
                     {
+                        // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
+                        if (ShopSaleView.isOpenPage == true)
+                        {
+                            return;
+                        }
+                        ShopSaleView.isOpenPage = true;
                         string tempString = naturalHome.Text.Replace("상품 이름 : ", "");
                         for (int j = 0; j < productList.Count; j++)
                         {
