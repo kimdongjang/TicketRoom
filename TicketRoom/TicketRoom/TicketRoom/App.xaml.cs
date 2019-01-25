@@ -1,4 +1,5 @@
 ﻿using TicketRoom.Views;
+using TicketRoom.Views.MainTab.Shop;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +12,7 @@ namespace TicketRoom
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new ShopOrderPage();
         }
 
         protected override void OnStart()
