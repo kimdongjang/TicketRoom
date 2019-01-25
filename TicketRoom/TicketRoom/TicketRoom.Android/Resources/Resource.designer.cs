@@ -2348,6 +2348,16 @@ namespace TicketRoom.Droid
 			// aapt resource value: 0x7f020055
 			public const int avd_hide_password = 2130837589;
 			
+<<<<<<< HEAD
+			// aapt resource value: 0x7f02015a
+			public const int avd_hide_password_1 = 2130837850;
+			
+			// aapt resource value: 0x7f02015b
+			public const int avd_hide_password_2 = 2130837851;
+			
+			// aapt resource value: 0x7f02015c
+			public const int avd_hide_password_3 = 2130837852;
+=======
 			// aapt resource value: 0x7f02015b
 			public const int avd_hide_password_1 = 2130837851;
 			
@@ -2356,10 +2366,21 @@ namespace TicketRoom.Droid
 			
 			// aapt resource value: 0x7f02015d
 			public const int avd_hide_password_3 = 2130837853;
+>>>>>>> 846c0cdd11f23bba1307eaa9c9b29a4ea93fc054
 			
 			// aapt resource value: 0x7f020056
 			public const int avd_show_password = 2130837590;
 			
+<<<<<<< HEAD
+			// aapt resource value: 0x7f02015d
+			public const int avd_show_password_1 = 2130837853;
+			
+			// aapt resource value: 0x7f02015e
+			public const int avd_show_password_2 = 2130837854;
+			
+			// aapt resource value: 0x7f02015f
+			public const int avd_show_password_3 = 2130837855;
+=======
 			// aapt resource value: 0x7f02015e
 			public const int avd_show_password_1 = 2130837854;
 			
@@ -2368,6 +2389,7 @@ namespace TicketRoom.Droid
 			
 			// aapt resource value: 0x7f020160
 			public const int avd_show_password_3 = 2130837856;
+>>>>>>> 846c0cdd11f23bba1307eaa9c9b29a4ea93fc054
 			
 			// aapt resource value: 0x7f020057
 			public const int backbutton_icon = 2130837591;
