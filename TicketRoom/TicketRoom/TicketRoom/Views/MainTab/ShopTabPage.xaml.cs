@@ -18,6 +18,9 @@ namespace TicketRoom.Views.MainTab
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShopTabPage : ContentView
     {
+        public static bool isOpenPage = false;
+        ShopDBFunc SH_DB = ShopDBFunc.Instance();
+
         List<Grid> ClickList = new List<Grid>();
         public static List<MainCate> mclist;
         Queue<string> imageList = new Queue<string>();
@@ -27,12 +30,30 @@ namespace TicketRoom.Views.MainTab
         int columnCount = 0;
         int rowCount = 0;
 
-
         public ShopTabPage()
         {
             InitializeComponent();
             ImageSlideAsync();
-            GetCategoryListAsync();
+
+            mclist = SH_DB.GetCategoryListAsync();
+
+            if (mclist != null)
+            {
+                GridUpdate();
+            }
+            else
+            {
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "검색 결과를 찾을 수 없습니다!",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                };
+                //IsInputAdress = false;
+                MainGrid.Children.Add(label, 0, 0);
+            }
         }
 
         [System.ComponentModel.TypeConverter(typeof(System.UriTypeConverter))]
@@ -69,93 +90,19 @@ namespace TicketRoom.Views.MainTab
 
             }
         }
-
-        /*
-        private void Init()
-        {
-            #region 그리드 탭 이벤트
-
-            for (int i = 0; i < ClickList.Count; i++)
-            {
-                Grid tempGrid = ClickList[i];
-                var temp = (CustomLabel)tempGrid.Children.ElementAt(1);
-                CustomLabel cl = (CustomLabel)temp;
-
-                tempGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-                {
-                    Command = new Command(() =>
-                    {
-                        Navigation.PushModalAsync(new ShopListPage(cl.Text));
-                    })
-                });
-            }
-
-            #endregion
-        }
-        */
-
-        #region 서버에서 GET메소드/메인 카테고리 리스트 요청
-        private async void GetCategoryListAsync()
-        {
-
-            // loading 
-            Loading loadingScreen = new Loading(true);
-            await Navigation.PushModalAsync(loadingScreen);
-            mclist = new List<MainCate>();
-
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchMainCate") as HttpWebRequest;
-            request.Method = "GET";
-            request.ContentType = "application/json";
-            try
-            {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
-
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-
-                        // readdata
-                        var readdata = reader.ReadToEnd();
-                        mclist = JsonConvert.DeserializeObject<List<MainCate>>(readdata);
-
-                    }
-                    GridUpdate();
-
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-                CustomLabel label = new CustomLabel
-                {
-                    Text = "검색 결과를 찾을 수 없습니다!",
-                    Size = 18,
-                    TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                };
-                //IsInputAdress = false;
-                MainGrid.Children.Add(label, 0, 0);
-            }
-
-            // loading end
-            await Navigation.PopModalAsync();
-        }
-        #endregion
-
+        
         private void GridUpdate()
         {
-            int three_row = 0;
-            int three_col = 0;
+            int row = -1;
+            int column = 2;
             Grid RowGrid = new Grid();
 
             for (int i = 0; i < mclist.Count; i++)
             {
-                if (i % 3 == 0)
+                if (column >= 2)
                 {
-                    MainGrid.RowDefinitions.Add(new RowDefinition { Height = 130 });
+                    MainGrid.RowDefinitions.Add(new RowDefinition { Height = 200 });
+                    row++;
 
                     RowGrid = new Grid
                     {
@@ -163,40 +110,32 @@ namespace TicketRoom.Views.MainTab
                         {
                             new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                             new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                         },
                         RowSpacing = 0,
                         ColumnSpacing = 0,
+                        BackgroundColor = Color.White,
                     };
-                    MainGrid.Children.Add(RowGrid, 0, three_row); // 열 그리드 추가
-                    three_row++;
+                    column = 0;
+                    MainGrid.Children.Add(RowGrid, 0, row);
                 }
-                if (three_col >= 3)
-                {
-                    three_col = 0;
-                }
-                // 열 추가를 위한 그리드 생성
-
-
-                BoxView gridBox = new BoxView // 구분선
-                {
-                    BackgroundColor = Color.Gray
-                };
+                // 구분선
+                //BoxView gridBox = new BoxView{BackgroundColor = Color.Gray};
                 Grid inGrid = new Grid
                 {
                     RowDefinitions = {
-                        new RowDefinition { Height = 100 },
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
                         new RowDefinition { Height = 30 },
                     },
                     BackgroundColor = Color.White,
                     Margin = 0.5,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center,
                 };
-                RowGrid.Children.Add(gridBox, three_col, 0);
-                RowGrid.Children.Add(inGrid, three_col, 0);
-                three_col++;
+                //RowGrid.Children.Add(gridBox, column, row);
+                RowGrid.Children.Add(inGrid, column, row);
+                column++;
 
                 ClickList.Add(inGrid);
-
 
                 StackLayout SLayout = new StackLayout
                 {
@@ -207,11 +146,11 @@ namespace TicketRoom.Views.MainTab
                 CustomLabel label = new CustomLabel();
 
                 #region 의류 카테고리 이미지 생성
-                if (mclist[i].SH_MAINCATE_NAME == "단체복")
+                if (mclist[i].SH_MAINCATE_NAME == "남성의류")
                 {
                     image = new Image
                     {
-                        Source = "uniform_icon.png",
+                        Source = "men_wear_icon.png",
                         WidthRequest = 100,
                         HeightRequest = 100,
                     };
@@ -221,24 +160,6 @@ namespace TicketRoom.Views.MainTab
                     image = new Image
                     {
                         Source = "women_icon.png",
-                        WidthRequest = 100,
-                        HeightRequest = 100,
-                    };
-                }
-                else if (mclist[i].SH_MAINCATE_NAME == "남성의류")
-                {
-                    image = new Image
-                    {
-                        Source = "men_wear_icon.png",
-                        WidthRequest = 100,
-                        HeightRequest = 100,
-                    };
-                }
-                else if (mclist[i].SH_MAINCATE_NAME == "기프티콘")
-                {
-                    image = new Image
-                    {
-                        Source = "gift_icon.png",
                         WidthRequest = 100,
                         HeightRequest = 100,
                     };
@@ -267,8 +188,8 @@ namespace TicketRoom.Views.MainTab
                 inGrid.Children.Add(image, 0, 0);
                 inGrid.Children.Add(label, 0, 1);
             }
-            #region 그리드 탭 이벤트
 
+            #region 그리드 탭 이벤트
             for (int k = 0; k < ClickList.Count; k++)
             {
                 Grid tempGrid = ClickList[k];
@@ -278,6 +199,13 @@ namespace TicketRoom.Views.MainTab
                 {
                     Command = new Command(() =>
                     {
+                        // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
+                        if (isOpenPage == true)
+                        {
+                            return;
+                        }
+                        isOpenPage = true;
+
                         int tempIndex = 0;
                         for (int i = 0; i < mclist.Count; i++)
                         {
@@ -291,6 +219,7 @@ namespace TicketRoom.Views.MainTab
                 });
             }
             #endregion
+
         }
 
 

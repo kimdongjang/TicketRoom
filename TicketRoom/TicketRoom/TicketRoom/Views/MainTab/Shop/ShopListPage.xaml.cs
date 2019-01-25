@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
 using Xamarin.Forms;
@@ -16,13 +17,14 @@ namespace TicketRoom.Views.MainTab.Shop
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShopListPage : ContentPage
     {
+        public static bool isOpenPage = false;
+        ShopDBFunc SH_DB = ShopDBFunc.Instance();
+
         int main_index = 0;
         List<SubCate> sclist = new List<SubCate>();
 
-        string myShopName = "";
-
         Queue<Grid> titleList_Queue = new Queue<Grid>();
-        List<string> shopList = new List<string>();
+        List<string> subCateTapList = new List<string>();
         List<Grid> ShopTapEventList = new List<Grid>();
         Queue<Grid> SelectList_Queue = new Queue<Grid>();
 
@@ -31,94 +33,33 @@ namespace TicketRoom.Views.MainTab.Shop
         public ShopListPage(int main_index)
         {
             InitializeComponent();
-            PostSubCategoryListAsync(main_index);
-        }
-
-        #region POST형식으로 서브 카테고리 리스트를 받아옴
-        private async void PostSubCategoryListAsync(int main_index)
-        {
-            // loading start
-            Loading loadingScreen = new Loading(true);
-            await Navigation.PushModalAsync(loadingScreen);
-
-
-
-            sclist = new List<SubCate>();
-            string str = @"{";
-            str += "mainCateIndex : " + main_index;
-            str += "}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchSubCate") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-
-            try
+            /* 로딩창 사용할 경우
+            if (PostSubCategoryListAsync(main_index).IsCompleted) // 카테고리 데이터를 다 받아왔을 경우 타이틀 탭 초기화
             {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                TitleTapInit();
+            }*/
+
+            // 최상위 탭 카테고리 이름 초기화
+            for (int i = 0; i < ShopTabPage.mclist.Count; i++)
+            {
+                if (ShopTabPage.mclist[i].SH_MAINCATE_INDEX == main_index)
                 {
-
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-
-                        // readdata
-                        var readdata = reader.ReadToEnd();
-                        sclist = JsonConvert.DeserializeObject<List<SubCate>>(readdata);
-                    }
-
-                    // 최상위 탭 카테고리 이름 초기화
-                    for (int i = 0; i < ShopTabPage.mclist.Count; i++)
-                    {
-                        if (ShopTabPage.mclist[i].SH_MAINCATE_INDEX == main_index)
-                        {
-                            myShopName = ShopTabPage.mclist[i].SH_MAINCATE_NAME;
-                        }
-                    }
-
-                    TitleTapInit();
+                    TitleName.Text = ShopTabPage.mclist[i].SH_MAINCATE_NAME;
                 }
             }
-            catch
-            {
-                Label label = new Label
-                {
-                    Text = "검색 결과를 찾을 수 없습니다!",
-                    FontSize = 18,
-                    TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                };
 
-                //AdrListParentGrid.Children.Add(label, 0, 1);
-            }
-
-            // loading end
-            await Navigation.PopModalAsync();
+            sclist = SH_DB.PostSubCategoryListAsync(main_index);
+            TitleTapInit();
+            UpdateList();
         }
-        #endregion
 
         // 타이틀 탭 이름 초기화 및 이벤트 등록 초기화 함수
         private void TitleTapInit()
         {
-            // 타이틀 탭 초기화
-            TitleName.Text = myShopName;
-
-
             #region 타이틀 탭 바로 밑에 탭 리스트 초기화
             for (int i = 0; i < ShopTabPage.mclist.Count; i++)
             {
-                shopList.Add(ShopTabPage.mclist[i].SH_MAINCATE_NAME);
+                subCateTapList.Add(ShopTabPage.mclist[i].SH_MAINCATE_NAME);
 
                 Grid inGrid = new Grid
                 {
@@ -133,14 +74,14 @@ namespace TicketRoom.Views.MainTab.Shop
                 };
 
                 inGrid.Children.Add(label, 0, 0);
-                ShopListTap.Children.Add(inGrid, i, 0);
+                SubCateTapGrid.Children.Add(inGrid, i, 0);
 
                 // 처음으로 선택한 탭 이름 초기화
-                if (label.Text == myShopName)
+                if (label.Text == TitleName.Text)
                 {
                     label.TextColor = Color.White;
-                    inGrid.BackgroundColor = Color.Black;
-                    titleList_Queue.Enqueue((Grid)ShopListTap.Children.ElementAt(i));
+                    inGrid.BackgroundColor = Color.LightPink;
+                    titleList_Queue.Enqueue((Grid)SubCateTapGrid.Children.ElementAt(i));
                 }
 
                 #region 탭 클릭시 색상 변경 및 밑줄 생성 이벤트
@@ -152,27 +93,34 @@ namespace TicketRoom.Views.MainTab.Shop
                         {
                             if (titleList_Queue.Count != 0)
                             {
+                                // 이전 탭 색상 초기화
                                 Grid temp_grid = titleList_Queue.Dequeue();
                                 CustomLabel temp_label = (CustomLabel)temp_grid.Children.ElementAt(0);
                                 temp_label.TextColor = Color.Black;
                                 temp_grid.BackgroundColor = Color.White;
                                 TitleName.Text = temp_label.Text;
                             }
+                            // 탭 클릭시 색상 변경
                             label.TextColor = Color.White;
-                            inGrid.BackgroundColor = Color.Black;
+                            inGrid.BackgroundColor = Color.LightPink;
                             titleList_Queue.Enqueue(inGrid);
                             TitleName.Text = label.Text;
                         }
-                        UpdateList();
+                        for (int j = 0; j < ShopTabPage.mclist.Count; j++)
+                        {
+                            if(ShopTabPage.mclist[j].SH_MAINCATE_NAME == TitleName.Text)
+                            {
+                                sclist = SH_DB.PostSubCategoryListAsync(ShopTabPage.mclist[j].SH_MAINCATE_INDEX);
+                                
+                                UpdateList();
+                            }
+                        }
+                        
                     })
                 });
                 #endregion
             }
             #endregion
-
-
-            UpdateList();
-
         }
 
         // 메인 리스트 초기화 함수
@@ -187,7 +135,7 @@ namespace TicketRoom.Views.MainTab.Shop
             // 베스트 라벨
             Grid bestlabel_grid = new Grid
             {
-                BackgroundColor = Color.Gray,
+                BackgroundColor = Color.Orange,
                 Opacity = 0.5,
             };
             CustomLabel bestlabel = new CustomLabel
@@ -302,30 +250,36 @@ namespace TicketRoom.Views.MainTab.Shop
                     {
                         Command = new Command(() =>
                         {
+                            // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
+                            if (isOpenPage == true)
+                            {
+                                return;
+                            }
+                            isOpenPage = true;
+
                             if (SelectList_Queue.Count < 2)
                             {
                                 if (SelectList_Queue.Count != 0)
                                 {
                                     Grid temp = SelectList_Queue.Dequeue();
                                     temp.BackgroundColor = Color.White;
+                                    best_rowGrid.Opacity = 1;
                                 }
-                                best_rowGrid.BackgroundColor = Color.Gray;
+                                best_rowGrid.BackgroundColor = Color.LightBlue;
                                 best_rowGrid.Opacity = 0.5;
                                 SelectList_Queue.Enqueue(best_rowGrid);
 
                             }
 
                             int tempIndex = 0;
-                            string tempName = "";
                             for (int j = 0; j < sclist.Count; j++)
                             {
                                 if (bestHome.Text == sclist[j].SH_SUBCATE_NAME)
                                 {
                                     tempIndex = sclist[j].SH_SUBCATE_INDEX;
-                                    tempName = sclist[j].SH_SUBCATE_NAME;
                                 }
                             }
-                            Navigation.PushModalAsync(new ShopMainPage(tempIndex, tempName));
+                            Navigation.PushModalAsync(new ShopMainPage(tempIndex));
                         })
                     });
                     #endregion
@@ -340,7 +294,7 @@ namespace TicketRoom.Views.MainTab.Shop
             #region 일반 쇼핑몰 레이블 추가
             Grid naturallabel_grid = new Grid
             {
-                BackgroundColor = Color.Gray,
+                BackgroundColor = Color.RosyBrown,
                 Opacity = 0.5,
             };
             CustomLabel naturallabel = new CustomLabel
@@ -455,30 +409,36 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     Command = new Command(() =>
                     {
+                        // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
+                        if (isOpenPage == true)
+                        {
+                            return;
+                        }
+                        isOpenPage = true;
+
                         if (SelectList_Queue.Count < 2)
                         {
                             if (SelectList_Queue.Count != 0)
                             {
                                 Grid temp = SelectList_Queue.Dequeue();
                                 temp.BackgroundColor = Color.White;
+                                natural_rowGrid.Opacity = 1;
                             }
-                            natural_rowGrid.BackgroundColor = Color.Gray;
+                            natural_rowGrid.BackgroundColor = Color.LightBlue;
                             natural_rowGrid.Opacity = 0.5;
                             SelectList_Queue.Enqueue(natural_rowGrid);
 
                         }
 
                         int tempIndex = 0;
-                        string tempName = "";
                         for (int j = 0; j < sclist.Count; j++)
                         {
                             if (naturalHome.Text == sclist[j].SH_SUBCATE_NAME)
                             {
                                 tempIndex = sclist[j].SH_SUBCATE_INDEX;
-                                tempName = sclist[j].SH_SUBCATE_NAME;
                             }
                         }
-                        Navigation.PushModalAsync(new ShopMainPage(tempIndex, tempName));
+                        Navigation.PushModalAsync(new ShopMainPage(tempIndex));
                     })
                 });
                 #endregion
@@ -501,6 +461,18 @@ namespace TicketRoom.Views.MainTab.Shop
         private void Tab_Changed(object sender, EventArgs e)
         {
 
+        }
+
+        private void BackButton_Clicked(object sender, EventArgs e)
+        {
+            ShopTabPage.isOpenPage = false;
+            Navigation.PopModalAsync();
+        }
+        protected override bool OnBackButtonPressed()
+        {
+            ShopTabPage.isOpenPage = false;
+            return base.OnBackButtonPressed();
+            
         }
     }
 }

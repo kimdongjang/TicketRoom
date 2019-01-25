@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TicketRoom.Views.MainTab.Shop.ShopReviewView">
+    <ContentView.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!--#region 0행 쇼핑 정보 그리드 -->
+            <Button Grid.Row="0" Text="리뷰 쓰기"  FontSize="26" HorizontalOptions="Center" VerticalOptions="Center" x:Name="WriteReview_btn"
+                            BackgroundColor="Black" TextColor="White" Margin="30" Clicked="WriteReview_btn_Clicked">
+                <Button.FontFamily>
+                    <OnPlatform x:TypeArguments="x:String">
+                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                    </OnPlatform>
+                </Button.FontFamily>
+            </Button>
+            <Grid Grid.Row="1" BackgroundColor="White" x:Name="ReviewGrid" Margin="10"/>
+            <!--#endregion-->
+        </Grid>
+    </ContentView.Content>
+</ContentView>

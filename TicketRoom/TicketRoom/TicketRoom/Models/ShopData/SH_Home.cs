@@ -28,5 +28,7 @@ namespace TicketRoom.Models.ShopData
         public string SH_HOME_DETAIL { get; set; } // 상품 설명
         [JsonProperty("SH_HOME_INFO")]
         public string SH_HOME_INFO { get; set; } // 사이트 정보
+        [JsonProperty("SH_HOME_NAME")]
+        public string SH_HOME_NAME { get; set; } // 사이트 이름
     }
 }

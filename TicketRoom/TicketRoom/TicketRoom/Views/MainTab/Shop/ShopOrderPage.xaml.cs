@@ -78,8 +78,6 @@ namespace TicketRoom.Views.MainTab.Shop
             });
             #endregion
 
-
-
             #region 카드 현금 휴대폰 결제 방식 선택
             CardPay.GestureRecognizers.Add(new TapGestureRecognizer()
             {
