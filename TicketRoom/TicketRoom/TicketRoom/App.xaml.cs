@@ -12,7 +12,7 @@ namespace TicketRoom
         {
             InitializeComponent();
 
-            MainPage = new ShopOrderPage();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()

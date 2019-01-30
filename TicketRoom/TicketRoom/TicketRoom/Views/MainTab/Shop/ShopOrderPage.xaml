@@ -44,149 +44,195 @@
             <ScrollView Grid.Row="2">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="1"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/> <!-- 주문 목록-->
+                        <RowDefinition Height="Auto"/> <!-- 배송지 -->
+                        <RowDefinition Height="Auto"/> <!-- 핸드폰 번호 -->
+                        <RowDefinition Height="Auto"/> <!-- 세부사항 -->
                     </Grid.RowDefinitions>
-
-                    <!--#region 0행 선불 / 착불-->
-                    <Grid Grid.Row="0" Margin="15,15,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0" x:Name="PayRadioGrid">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="radio_checked_icon.png" x:Name="PayRadioImage"
-                                   BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
-                                   HeightRequest="40" WidthRequest="40"/>
-                            <local1:CustomLabel Grid.Column="1" Text="선불" Size="18"  VerticalOptions="Center"/>
-                        </Grid>
-                        <Grid Grid.Column="1" x:Name="ArriveRadioGrid">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="radio_unchecked_icon.png" x:Name="ArriveRadioImage"
-                                   BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
-                                   HeightRequest="40" WidthRequest="40"/>
-                            <local1:CustomLabel Grid.Column="1" Text="착불(방문수령)" Size="18"  VerticalOptions="Center"/>
-                        </Grid>
-                    </Grid>
-                    <!--#endregion-->
-                    <!--#region 1행 배송비-->
-                    <Grid Grid.Row="1" Margin="15,0,0,0">
-                        <local1:CustomLabel x:Name="deliveryPayLabel" Size="18" Text="배송비: 3,000원"/>
-                    </Grid>
-                    <!--#endregion-->
-                    <!--#region 2행 구분선-->
-                    <BoxView  Grid.Row="2" BackgroundColor="Gray"/>
-                    <!--#endregion-->
-
-
-                    <!--#region 3행 포인트 사용 레이블/버튼-->
-                    <Grid Grid.Row="3" Margin="15,0,15,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="6*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <local1:CustomLabel Grid.Column="0" Text="포인트 사용" Size="18"  VerticalOptions="Center" TextColor="Black"/>
-                        <local1:CustomButton Grid.Column="2" Text="포인트 적용" Size="18" BackgroundColor="Black" TextColor="White"
-                                             x:Name="PointUseBtn" Clicked="PointUseBtn_ClickedAsync"/>
-                    </Grid>
-                    <!--#endregion-->
-                    <!--#region 4행 포인트 사용 레이블/버튼, 결제할 금액-->
-                    <Grid Grid.Row="4" Margin="15,0,15,0">
+                    <Grid Grid.Row="0" Margin="10" BackgroundColor="White"> <!-- 주문 목록-->
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <local1:CustomLabel Grid.Row="0"  Size="26" Text="결제할 상품" TextColor="Black" Margin="15"/>
+                        <BoxView Grid.Row="1" BackgroundColor="LightGray"/>
+                        <Grid Grid.Row="1" x:Name="PurchaseListGrid" RowSpacing="0" Margin="10" BackgroundColor="White"/>
+                    </Grid>
+                    <Grid Grid.Row="1" x:Name="AdressListGrid" ColumnSpacing="0" Margin="10"> <!-- 배송지-->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="3"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <BoxView  Grid.Row="0" Grid.Column="0" BackgroundColor="Gray"/>
+                        <BoxView  Grid.Row="0" Grid.Column="1" BackgroundColor="Gray"/>
+                        <local1:CustomLabel Grid.Row="1" Size="22" Text="배송지" TextColor="Black" Margin="15"/>
+                        <local1:CustomLabel Grid.Row="2" Grid.Column="0" Size="18" Text="서울시 동작구 우암로 121-2" TextColor="Black" Margin="10,0,0,0" x:Name="AdressLabel"/>
+                        <local1:CustomButton Grid.Row="2" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="배송지 변경" HorizontalOptions="Center" VerticalOptions="Center"
+                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangeAdressBtn" Clicked="ChangeAdressBtn_Clicked" HeightRequest="30" WidthRequest="120"/>
+                        <BoxView  Grid.Row="3" Grid.Column="0"  BackgroundColor="Gray"/>
+                        <BoxView  Grid.Row="3" Grid.Column="1"  BackgroundColor="Gray"/>
+                    </Grid>
+                    <Grid Grid.Row="2" x:Name="MyPhoneGrid" ColumnSpacing="0" Margin="10"> <!-- 연락가능한번호-->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="3"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <local1:CustomLabel Grid.Row="0" Size="22" Text="연락 가능한 번호" TextColor="Black" Margin="15"/>
+                        <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" Text="010-2411-0596" TextColor="Black" Margin="10,0,0,0" x:Name="MyPhoneLabel"/>
+                        <local1:CustomButton Grid.Row="1" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="번호 변경" HorizontalOptions="Center" VerticalOptions="Center"
+                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangePhoneBtn" Clicked="ChangePhoneBtn_Clicked" HeightRequest="30" WidthRequest="120"/>
+                        <BoxView  Grid.Row="2" Grid.Column="0"  BackgroundColor="Gray"/>
+                        <BoxView  Grid.Row="2" Grid.Column="1"  BackgroundColor="Gray"/>
+                    </Grid>
+
+
+                    <Grid Grid.Row="3"> <!-- 세부사항 -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="3"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <local1:CustomLabel Grid.Row="0" Text="잔여 포인트 : 0" Size="18" x:Name="RestPoint"
-                                            VerticalOptions="Center" TextColor="Black"/>
-                        <BoxView  Grid.Row="1" BackgroundColor="Black"/>
-                        <Grid Grid.Row="1" BackgroundColor="White" Margin="0.5">
-                            <local1:CustomEntry Text="ex) 사용할 포인트 입력" Size="18" FontFamily="{StaticResource FontStyle}"
-                                            x:Name="InputPoint" Focused="InputPoint_Focused"/>
-                        </Grid>
-                        <local1:CustomLabel Grid.Row="2" Text="결제하실 금액" Size="18" Margin="0,15,0,0" 
-                                            TextColor="Black" VerticalOptions="Center"/>
-                        <local1:CustomLabel Grid.Row="3" Text="73,000원" Size="18" TextColor="Orange" x:Name="UsedPay"/>
 
-                        <!--#region 4행 배송 요청사항-->
-                        <Grid Grid.Row="4" BackgroundColor="White" x:Name="DeliveryGrid">
+                        <!--#region 0행 선불 / 착불-->
+                        <Grid Grid.Row="0" Margin="15,15,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" x:Name="PayRadioGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="radio_checked_icon.png" x:Name="PayRadioImage"
+                                   BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
+                                   HeightRequest="40" WidthRequest="40"/>
+                                <local1:CustomLabel Grid.Column="1" Text="선불" Size="18"  VerticalOptions="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="1" x:Name="ArriveRadioGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="radio_unchecked_icon.png" x:Name="ArriveRadioImage"
+                                   BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
+                                   HeightRequest="40" WidthRequest="40"/>
+                                <local1:CustomLabel Grid.Column="1" Text="착불(방문수령)" Size="18"  VerticalOptions="Center"/>
+                            </Grid>
+                        </Grid>
+                        <!--#endregion-->
+                        <!--#region 1행 배송비-->
+                        <Grid Grid.Row="1" Margin="15,0,0,0">
+                            <local1:CustomLabel x:Name="deliveryPayLabel" Size="18" Text="배송비: 3,000원"/>
+                        </Grid>
+                        <!--#endregion-->
+                        <!--#region 2행 구분선-->
+                        <BoxView  Grid.Row="2" BackgroundColor="Gray" Margin="10"/>
+                        <!--#endregion-->
+
+                        <!--#region 3행 포인트 사용 레이블/버튼-->
+                        <Grid Grid.Row="3" Margin="15,0,15,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <local1:CustomLabel Grid.Column="0" Text="포인트 사용" Size="18"  VerticalOptions="Center" TextColor="Black"/>
+                            <local1:CustomButton Grid.Column="2" Text="포인트 적용" Size="18" BackgroundColor="Black" TextColor="White"
+                                             x:Name="PointUseBtn" Clicked="PointUseBtn_ClickedAsync"/>
+                        </Grid>
+                        <!--#endregion-->
+                        <!--#region 4행 포인트 사용 레이블/버튼, 결제할 금액-->
+                        <Grid Grid.Row="4" Margin="15,0,15,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <local1:CustomPicker Grid.Row="0" Title="배송시 요청사항(선택사항)"  FontFamily="{StaticResource FontStyle}"
+                            <local1:CustomLabel Grid.Row="0" Text="잔여 포인트 : 0" Size="18" x:Name="RestPoint"
+                                            VerticalOptions="Center" TextColor="Black"/>
+                            <BoxView  Grid.Row="1" BackgroundColor="Black"/>
+                            <Grid Grid.Row="1" BackgroundColor="White" Margin="0.5">
+                                <local1:CustomEntry Text="ex) 사용할 포인트 입력" Size="18" FontFamily="{StaticResource FontStyle}"
+                                            x:Name="InputPoint" Focused="InputPoint_Focused"/>
+                            </Grid>
+                            <local1:CustomLabel Grid.Row="2" Text="결제하실 금액" Size="18" Margin="0,15,0,0" 
+                                            TextColor="Black" VerticalOptions="Center"/>
+                            <local1:CustomLabel Grid.Row="3" Text="" Size="18" TextColor="Orange" x:Name="UsedPay"/>
+
+                            <!--#region 4행 배송 요청사항-->
+                            <Grid Grid.Row="4" BackgroundColor="White" x:Name="DeliveryGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <local1:CustomPicker Grid.Row="0" Title="배송시 요청사항(선택사항)"  FontFamily="{StaticResource FontStyle}"
                                             x:Name="DeliveryContentPicker" Focused="DeliveryContent_Focused" Margin="0,15,0,0"/>
+                            </Grid>
+                            <local1:CustomLabel Grid.Row="5" Text="결제 방식" Size="18" TextColor="Black" Margin="0,15,0,0"/>
+                            <!--#endregion-->
                         </Grid>
-                        <local1:CustomLabel Grid.Row="5" Text="결제 방식" Size="18" TextColor="Black" Margin="0,15,0,0"/>
                         <!--#endregion-->
-                    </Grid>
-                    <!--#endregion-->
-                    <!--#region 5행 결제방식 라디오-->
-                    <Grid Grid.Row="5" Margin="15,0,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" x:Name="CardPay">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="radio_checked_icon.png" x:Name="CardRadio"
+                        <!--#region 5행 결제방식 라디오-->
+                        <Grid Grid.Row="5" Margin="15,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" x:Name="CardPay">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="radio_checked_icon.png" x:Name="CardRadio"
                                    BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
                                    HeightRequest="40" WidthRequest="40"/>
-                            <local1:CustomLabel Grid.Column="1" Text="신용/체크 카드 결제" Size="18" VerticalOptions="Center" />
-                        </Grid>
-                        <Grid Grid.Row="1" x:Name="CashPay">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="radio_unchecked_icon.png" x:Name="CashRadio"
+                                <local1:CustomLabel Grid.Column="1" Text="신용/체크 카드 결제" Size="18" VerticalOptions="Center" />
+                            </Grid>
+                            <Grid Grid.Row="1" x:Name="CashPay">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="radio_unchecked_icon.png" x:Name="CashRadio"
                                    BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
                                    HeightRequest="40" WidthRequest="40"/>
-                            <local1:CustomLabel Grid.Column="1" Text="현금 결제" Size="18" VerticalOptions="Center" />
-                        </Grid>
-                        <Grid Grid.Row="2" x:Name="PhonePay">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="radio_unchecked_icon.png" x:Name="PhoneRadio"
+                                <local1:CustomLabel Grid.Column="1" Text="현금 결제" Size="18" VerticalOptions="Center" />
+                            </Grid>
+                            <Grid Grid.Row="2" x:Name="PhonePay">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="radio_unchecked_icon.png" x:Name="PhoneRadio"
                                    BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
                                    HeightRequest="40" WidthRequest="40"/>
-                            <local1:CustomLabel Grid.Column="1" Text="휴대폰 결제" Size="18" VerticalOptions="Center" />
+                                <local1:CustomLabel Grid.Column="1" Text="휴대폰 결제" Size="18" VerticalOptions="Center" />
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <!--#endregion-->
+                        <!--#endregion-->
 
-                    <!--#region 5행 결제방식 라디오-->
-                    <Grid Grid.Row="6" Margin="15,15,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <local1:CustomLabel Grid.Row="0" Text="통신사 선택" Size="18"/>
-                        <local1:CustomPicker Grid.Row="1" Title="통신사를 선택해주세요." x:Name="PhoneSelectPicker" FontSize="18"/>
+                        <!--#region 6행 통신사 선택-->
+                        <Grid Grid.Row="6" Margin="15,15,0,0" x:Name="PhoneOptionGrid"/>
                     </Grid>
-                    <!--#endregion-->
-
                 </Grid>
             </ScrollView>
             <!--#endregion-->

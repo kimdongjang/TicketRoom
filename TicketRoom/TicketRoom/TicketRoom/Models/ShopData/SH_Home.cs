@@ -10,8 +10,6 @@ namespace TicketRoom.Models.ShopData
     {
         [JsonProperty("SH_HOME_INDEX")]
         public int SH_HOME_INDEX { get; set; } // 자기 인덱스
-        [JsonProperty("SH_SUBCATE_INDEX")]
-        public int SH_SUBCATE_INDEX { get; set; } // 서브 카테고리 인덱스(리스트에서 클릭할시 조회 유무)
         [JsonProperty("SH_HOME_FREEDELEVERY")]
         public int SH_HOME_FREEDELEVERY { get; set; } // 무료 배송금액
         [JsonProperty("SH_HOME_PAYWAY")]
@@ -30,5 +28,7 @@ namespace TicketRoom.Models.ShopData
         public string SH_HOME_INFO { get; set; } // 사이트 정보
         [JsonProperty("SH_HOME_NAME")]
         public string SH_HOME_NAME { get; set; } // 사이트 이름
+        [JsonProperty("SH_HOME_DELEVERY")]
+        public int SH_HOME_DELEVERY { get; set; } // 배송비
     }
 }

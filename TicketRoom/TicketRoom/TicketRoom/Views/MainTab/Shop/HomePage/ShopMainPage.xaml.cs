@@ -25,15 +25,14 @@ namespace TicketRoom.Views.MainTab.Shop
         ShopInfoView siv;
         ShopReviewView srv;
 
-        ShopDataFunc dataclass = new ShopDataFunc();
         List<Button> tablist = new List<Button>();
         Queue<CustomButton> SelectTap_Queue = new Queue<CustomButton>();
         CustomButton selectedtab;
 
-        public ShopMainPage(int sub_index)
+        public ShopMainPage(int home_index)
         {
             InitializeComponent();
-            home = SH_DB.PostSearchHomeAsync(sub_index);
+            home = SH_DB.PostSearchHomeToHome(home_index);
             Init();
         }
 

@@ -17,5 +17,7 @@ namespace TicketRoom.Models.ShopData
         public string SH_PRO_OPTION_SIZE { get; set; } // 상품 상세 옵션 중 사이즈
         [JsonProperty("SH_PRO_OPTION_COLOR")]
         public string SH_PRO_OPTION_COLOR { get; set; }// 상품 상세 옵션 중 색상
+        [JsonProperty("SH_PRO_OPTION_PRICE")]
+        public int SH_PRO_OPTION_PRICE { get; set; } // 상품 상세 옵션 중 수량
     }
 }

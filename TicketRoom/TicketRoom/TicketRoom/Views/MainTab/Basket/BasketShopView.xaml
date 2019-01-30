@@ -1,16 +1,31 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.Basket.BasketShopView">
     <ContentView.Content>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ScrollView Grid.Row="0" Margin="10,0,10,20" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <ScrollView Grid.Row="0" Margin="10,0,10,20" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="MainScoll">
                 <Grid  x:Name="Basketlist_Grid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0"
                         x:FieldModifier="Public"/>
             </ScrollView>
+            <Grid Grid.Row="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <BoxView Grid.Row="0" BackgroundColor="Gray"/>
+                <custom:CustomLabel Grid.Row="1" HorizontalOptions="CenterAndExpand" Size="20" VerticalOptions="CenterAndExpand" TextColor="Black" x:Name="PriceLabel"/>
+                <custom:CustomButton Grid.Row="2" Text="주문하기" Clicked="OrderBtn_ClickedAsync" Size="26" FontFamily="{StaticResource FontStyle}" 
+                    BackgroundColor="DarkGray" TextColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+
+            </Grid>
         </Grid>
+
     </ContentView.Content>
 </ContentView>

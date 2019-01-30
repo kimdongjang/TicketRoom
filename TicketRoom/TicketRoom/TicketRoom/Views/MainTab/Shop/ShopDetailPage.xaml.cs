@@ -8,6 +8,7 @@ using System.Net;
 using System.Text;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
+using TicketRoom.Views.MainTab.Basket;
 using TicketRoom.Views.MainTab.Shop.GridImage;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,6 +20,8 @@ namespace TicketRoom.Views.MainTab.Shop
     {
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
 
+        SH_Home home;
+        SH_Product product;
         List<SH_ImageList> imageList;
         List<SH_OtherView> otherList;
         List<SH_Pro_Option> optionList;
@@ -31,18 +34,21 @@ namespace TicketRoom.Views.MainTab.Shop
         int clothes_count = 0;
         int productIndex = 0;
 
-        public ShopDetailPage(string titleName, int productIndex)
+        public ShopDetailPage(string titleName, int productIndex, SH_Home home)
         {
             InitializeComponent();
             myShopName = titleName;
             this.productIndex = productIndex;
+            this.home = home;
 
             imageList = SH_DB.PostSearchImageListToProductAsync(productIndex);
             otherList = SH_DB.PostSearchOtherViewToProductAsync(productIndex);
             optionList = SH_DB.PostSearchProOptionToProductAsync(productIndex);
-            for(int i = 0; i<3; i++)
+            product = SH_DB.PostSearchProductToProduct(productIndex);
+
+            for (int i = 0; i<3; i++)
             {
-                otherHomeList.Add(SH_DB.PostSearchHomeAsync(otherList[i].SH_SUBCATE_INDEX)); // 다른 고객이 본 상품 목록을 리스트에 추가
+                otherHomeList.Add(SH_DB.PostSearchHomeToHome(otherList[i].SH_HOME_INDEX)); // 다른 고객이 본 상품 목록을 리스트에 추가
             }
 
             Init();
@@ -61,23 +67,42 @@ namespace TicketRoom.Views.MainTab.Shop
                     //장바구니로 이동
                     var answer = await DisplayAlert("사이즈 : " + optionList[selectedIndex].SH_PRO_OPTION_SIZE + 
                         " , 색상 : " + optionList[selectedIndex].SH_PRO_OPTION_COLOR +
-                        " , 수량 : " + ClothesCountLabel.Text, "주문 정보가 맞습니까?", "확인", "취소");
+                        " , 수량 : " + ClothesCountLabel.Text +
+                        " , 가격 : " + ClothesPriceLabel.Text + "원",
+                        "주문 정보가 맞습니까?", "확인", "취소");
                     if (answer)
                     {
-                        var basket_answer = await DisplayAlert("주문 완료", "장바구니로 이동하시겠습니까?", "확인", "취소");
-                        if (basket_answer)
+                        // DB 장바구니 테이블에 데이터 삽입
+                        if (SH_DB.PostInsertBasketListToHome(
+                            home.SH_HOME_INDEX.ToString(), // 홈 페이지 인덱스
+                            ClothesPriceLabel.Text.Replace("원", "").Replace(",", ""), // 가격
+                            ClothesCountLabel.Text, // 수량
+                            optionList[selectedIndex].SH_PRO_OPTION_COLOR, // 색상
+                            optionList[selectedIndex].SH_PRO_OPTION_SIZE, // 사이즈
+                            "dnsrl1122", // 아이디
+                            product.SH_PRODUCT_NAME, // 상품이름
+                            System.DateTime.Now.ToLongDateString(),
+                            product.SH_PRODUCT_MAINIMAGE) == true)
                         {
-                            MainPage mp = new MainPage();
-                            App.Current.MainPage = mp;
-                            mp.TabContent.Content = new BasketTabPage();
-                            //Navigation.PushModalAsync();
+                            var basket_answer = await DisplayAlert("주문 완료", "장바구니로 이동하시겠습니까?", "확인", "취소");
+                            if (basket_answer)
+                            {
+                                MainPage mp = new MainPage();
+                                BasketTabPage btp = new BasketTabPage();
+
+                                App.Current.MainPage = mp;
+                                mp.TabContent.Content = btp; // 메인 페이지의 컨텐츠를 장바구니 페이지로 변경,
+                                btp.init(new BasketShopView(btp)); // 장바구니 페이지의 컨텐츠를 쇼핑몰로 변경
+                                //Navigation.PushModalAsync();
+                            }
+                        }
+                        else
+                        {
+                            await DisplayAlert("주문 실패", "다시 한 번 시도해주십시오.", "확인");
                         }
                     }
                 }
             }
-
-                
-            
         }
 
         private void Tab_Changed(object sender, EventArgs e)
@@ -140,7 +165,6 @@ namespace TicketRoom.Views.MainTab.Shop
                 inGrid.Children.Add(label, 0, 1);
                 other_grid.Children.Add(inGrid, i, 0);
 
-                // 이미지 클릭시 해당 페이지로 이동(아직 미구현)
                 inGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
                     Command = new Command(() =>
@@ -149,7 +173,7 @@ namespace TicketRoom.Views.MainTab.Shop
                         {
                             if(label.Text == otherHomeList[j].SH_HOME_NAME)
                             {
-                                Navigation.PushModalAsync(new ShopMainPage(otherHomeList[j].SH_SUBCATE_INDEX)); 
+                                Navigation.PushModalAsync(new ShopMainPage(otherHomeList[j].SH_HOME_INDEX)); 
                             }
                         }
                     })
@@ -272,10 +296,12 @@ namespace TicketRoom.Views.MainTab.Shop
 
         }
 
+        // 피커에서 색상 및 디자인을 선택하는 이벤트
         private void ClothesSelectOption_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectColor = optionList[ClothesSelectOption.SelectedIndex].SH_PRO_OPTION_COLOR;
             selectSize = optionList[ClothesSelectOption.SelectedIndex].SH_PRO_OPTION_SIZE;
+            ClothesPriceLabel.Text = optionList[ClothesSelectOption.SelectedIndex].SH_PRO_OPTION_PRICE.ToString("N0") + "원";
         }
 
         private void BackButton_Clicked(object sender, EventArgs e)
