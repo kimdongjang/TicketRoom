@@ -698,7 +698,7 @@ namespace TicketRoom.Models.ShopData
 
         // 구매 리스트 생성을 위해 상품 목록을 생성
         public bool PostInsertProductToPurchaseList(string p_homeindex, string p_image, string p_count, string p_color, string p_size, string p_name,
-                                                string p_id, string p_index)
+                                                string p_id, string p_index, string p_price)
         {
             bool isResult = false;
             string str = @"{";
@@ -710,6 +710,7 @@ namespace TicketRoom.Models.ShopData
             str += "',p_name:'" + p_name;
             str += "',p_id:'" + p_id;
             str += "',p_index:'" + p_index;
+            str += "',p_price:'" + p_price;
             str += "'}";
 
             //// JSON 문자열을 파싱하여 JObject를 리턴
@@ -798,12 +799,13 @@ namespace TicketRoom.Models.ShopData
         }
 
         // 결제 수단 중 현금 결제(사업자)를 선택할시 선택한 방법을 테이블에 저장
-        public bool PostInsertPayBusinessToPay(string p_num, string p_name, string p_index)
+        public bool PostInsertPayBusinessToPay(string p_num, string p_name, string p_bank, string p_index)
         {
             bool isChecked = false;
             string str = @"{";
             str += "p_num : '" + p_num;
             str += "',p_name : '" + p_name;
+            str += "',p_bank : '" + p_bank;
             str += "',p_index : '" + p_index;
             str += "'}";
 
@@ -846,12 +848,13 @@ namespace TicketRoom.Models.ShopData
         }
 
         // 결제 수단 중 현금 결제(개인)를 선택할시 선택한 방법을 테이블에 저장
-        public bool PostInsertPayPersonalToPay(string p_num, string p_name, string p_index)
+        public bool PostInsertPayPersonalToPay(string p_num, string p_name, string p_bank, string p_index)
         {
             bool isChecked = false;
             string str = @"{";
             str += "p_num : '" + p_num;
             str += "',p_name : '" + p_name;
+            str += "',p_bank : '" + p_bank;
             str += "',p_index : '" + p_index;
             str += "'}";
 
@@ -937,6 +940,376 @@ namespace TicketRoom.Models.ShopData
             {
                 System.Diagnostics.Debug.WriteLine(ex);
                 return isChecked;
+            }
+        }
+
+
+        // 유저 아이디를 통해 구매리스트 가져오기
+        public List<SH_Pur_List> PostSearchPurchaseListToID(string userid)
+        {
+            List<SH_Pur_List> purList = new List<SH_Pur_List>();
+            string str = @"{";
+            str += "userid : '" + userid;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchPurchaseListToID") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        purList = JsonConvert.DeserializeObject<List<SH_Pur_List>>(readdata);
+                    }
+                }
+                return purList;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
+        // 구매 목록 인덱스를 통해 배송 관련 리스트 가져오기
+        public List<SH_Pur_Delivery> PostSearchPurchaseDeliveryListToIndex(string pl_index)
+        {
+            List<SH_Pur_Delivery> delList = new List<SH_Pur_Delivery>();
+            string str = @"{";
+            str += "pl_index : '" + pl_index;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchPurchaseDeliveryListToIndex") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        delList = JsonConvert.DeserializeObject<List<SH_Pur_Delivery>>(readdata);
+                    }
+                }
+                return delList;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
+        // 구매 목록 인덱스를 통해 구매 상품 리스트 가져오기
+        public List<SH_Pur_Product> PostSearchPurchaseProductListToIndex(string pl_index)
+        {
+            List<SH_Pur_Product> proList = new List<SH_Pur_Product>();
+            string str = @"{";
+            str += "pl_index : '" + pl_index;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchPurchaseProductListToIndex") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        proList = JsonConvert.DeserializeObject<List<SH_Pur_Product>>(readdata);
+                    }
+                }
+                return proList;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
+        // 구매 목록 인덱스를 통해 결제 관련 리스트 가져오기
+        public List<SH_Pur_Pay> PostSearchPurchasePayListToIndex(string pl_index)
+        {
+            List<SH_Pur_Pay> purList = new List<SH_Pur_Pay>();
+            string str = @"{";
+            str += "pl_index : '" + pl_index;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchPurchasePayListToIndex") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        purList = JsonConvert.DeserializeObject<List<SH_Pur_Pay>>(readdata);
+                    }
+                }
+                return purList;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
+
+        // 결제 인덱스를 통해 사업자 결제 방법 리스트 가져오기
+        public List<SH_Pay_Business> PostSearchPayBusinessToIndex(string pay_index)
+        {
+            List<SH_Pay_Business> busList = new List<SH_Pay_Business>();
+            string str = @"{";
+            str += "pay_index : '" + pay_index;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchPayBusinessToIndex") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        busList = JsonConvert.DeserializeObject<List<SH_Pay_Business>>(readdata);
+                    }
+                }
+                return busList;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
+        // 결제 인덱스를 통해 개인 결제 방법 리스트 가져오기
+        public List<SH_Pay_Personal> PostSearchPayPersonalToIndex(string pay_index)
+        {
+            List<SH_Pay_Personal> perList = new List<SH_Pay_Personal>();
+            string str = @"{";
+            str += "pay_index : '" + pay_index;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchPayPersonalToIndex") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        perList = JsonConvert.DeserializeObject<List<SH_Pay_Personal>>(readdata);
+                    }
+                }
+                return perList;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
+        // 결제 인덱스를 통해 핸드폰 결제 방법 리스트 가져오기
+        public List<SH_Pay_Phone> PostSearchPayPhoneToIndex(string pay_index)
+        {
+            List<SH_Pay_Phone> phoneList = new List<SH_Pay_Phone>();
+            string str = @"{";
+            str += "pay_index : '" + pay_index;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchPayPhoneToIndex") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        phoneList = JsonConvert.DeserializeObject<List<SH_Pay_Phone>>(readdata);
+                    }
+                }
+                return phoneList;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
+        // 결제 인덱스를 통해 카드 결제 방법 리스트 가져오기
+        public List<SH_Pay_Card> PostSearchPayCardToIndex(string pay_index)
+        {
+            List<SH_Pay_Card> cardList = new List<SH_Pay_Card>();
+            string str = @"{";
+            str += "pay_index : '" + pay_index;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchPayCardToIndex") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        cardList = JsonConvert.DeserializeObject<List<SH_Pay_Card>>(readdata);
+                    }
+                }
+                return cardList;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return null;
             }
         }
     }

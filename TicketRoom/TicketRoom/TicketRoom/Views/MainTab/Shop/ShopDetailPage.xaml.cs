@@ -81,7 +81,7 @@ namespace TicketRoom.Views.MainTab.Shop
                             optionList[selectedIndex].SH_PRO_OPTION_SIZE, // 사이즈
                             "dnsrl1122", // 아이디
                             product.SH_PRODUCT_NAME, // 상품이름
-                            System.DateTime.Now.ToLongDateString(),
+                            System.DateTime.Now.ToString(),
                             product.SH_PRODUCT_MAINIMAGE) == true)
                         {
                             var basket_answer = await DisplayAlert("주문 완료", "장바구니로 이동하시겠습니까?", "확인", "취소");
@@ -272,6 +272,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     clothes_count = int.Parse(ClothesCountLabel.Text);
                     clothes_count += 1;
                     ClothesCountLabel.Text = clothes_count.ToString();
+                    ClothesPriceLabel.Text = (optionList[ClothesSelectOption.SelectedIndex].SH_PRO_OPTION_PRICE * clothes_count).ToString("N0") + "원";
                 })
             });
 
@@ -285,6 +286,7 @@ namespace TicketRoom.Views.MainTab.Shop
                         clothes_count -= 1;
                     }
                     ClothesCountLabel.Text = clothes_count.ToString();
+                    ClothesPriceLabel.Text = (optionList[ClothesSelectOption.SelectedIndex].SH_PRO_OPTION_PRICE * clothes_count).ToString("N0") + "원";
                 })
             });
             #endregion
@@ -301,7 +303,7 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             selectColor = optionList[ClothesSelectOption.SelectedIndex].SH_PRO_OPTION_COLOR;
             selectSize = optionList[ClothesSelectOption.SelectedIndex].SH_PRO_OPTION_SIZE;
-            ClothesPriceLabel.Text = optionList[ClothesSelectOption.SelectedIndex].SH_PRO_OPTION_PRICE.ToString("N0") + "원";
+            ClothesPriceLabel.Text = (optionList[ClothesSelectOption.SelectedIndex].SH_PRO_OPTION_PRICE * clothes_count).ToString("N0") + "원";
         }
 
         private void BackButton_Clicked(object sender, EventArgs e)

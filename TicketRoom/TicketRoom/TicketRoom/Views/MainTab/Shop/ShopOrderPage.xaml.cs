@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace TicketRoom.Views.MainTab.Shop
@@ -31,16 +32,21 @@ namespace TicketRoom.Views.MainTab.Shop
         bool b_Personal = true;
         bool b_Business = false;
 
+        // 포인트 사용할때의 엔트리 포커스 여부 확인
+        bool b_pointLabel = false;
+        // 배송 관련 피커 오픈 여부 확인
+        bool b_deliveryPicker = false;
+
         string user_id = "dnsrl1122";
 
         CustomPicker card_picker = new CustomPicker();
         CustomPicker cash_picker = new CustomPicker();
         CustomPicker phone_picker = new CustomPicker();
 
-        Entry phoneEntry = new Entry();
-        Entry nameEntry = new Entry();
+        Xamarin.Forms.Entry phoneEntry = new Xamarin.Forms.Entry();
+        Xamarin.Forms.Entry nameEntry = new Xamarin.Forms.Entry();
 
-
+        Xamarin.Forms.Entry deliveryEntry = new Xamarin.Forms.Entry();
 
         int MyPoint = 100; // 잔여 포인트
         int AmountOfPay = 0; // 결제금액
@@ -50,6 +56,7 @@ namespace TicketRoom.Views.MainTab.Shop
         #region 생성자
         public ShopOrderPage(List<SH_BasketList> basketList)
         {
+            Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
             InitializeComponent();
             this.basketList = basketList;
             PurchaseListInit();
@@ -241,18 +248,35 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 DeliveryContentPicker.Items.Add(name);
             }
+            
             // 직접입력 피커가 선택되었을 경우
+            DeliveryContentPicker.Focused += (object sender, FocusEventArgs e) =>
+            {
+                if(b_deliveryPicker == false)
+                {
+                    b_deliveryPicker = true;
+                    DeliveryContentPicker.IsEnabled = false;
+                }
+            };
+            DeliveryContentPicker.Unfocused += (object sender, FocusEventArgs e) =>
+            {
+                b_deliveryPicker = false;
+                DeliveryContentPicker.IsEnabled = true;
+            };
             DeliveryContentPicker.SelectedIndexChanged += (object sender, EventArgs e) =>
             {
                 if (DeliveryContentPicker.SelectedIndex == 3) // 직접 입력이 선택되었을 경우
                 {
-                    DeliveryContentPicker.Unfocus();
-                    Entry entry = new Entry
+                    deliveryEntry = new Xamarin.Forms.Entry
                     {
 
                     };
-                    DeliveryGrid.Children.Add(entry, 0, 1); // 피커 바로 아래에 입력사항 엔트리 추가
-                    entry.Focus();
+                    DeliveryGrid.Children.Add(deliveryEntry, 0, 1); // 피커 바로 아래에 입력사항 엔트리 추가
+                    deliveryEntry.Focus();
+                }
+                else if(DeliveryContentPicker.SelectedIndex != 3 && DeliveryGrid.Children[1] != null) // 직접 입력을 선택하지 않을 경우 엔트리 삭제
+                {
+                    DeliveryGrid.Children.RemoveAt(1);
                 }
             };
             #endregion
@@ -261,6 +285,8 @@ namespace TicketRoom.Views.MainTab.Shop
             PointUpdate();
             Get_SH_ProductPrice();
         }
+
+
         private void CardOptionEnable()
         {
             PhoneOptionGrid.Children.Clear();
@@ -440,7 +466,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 Size = 18,
             };
             PhoneOptionGrid.Children.Add(phoneLabel, 0, 4);
-            phoneEntry = new Entry
+            phoneEntry = new Xamarin.Forms.Entry
             {
                 FontSize = 18,
             };
@@ -450,7 +476,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 Size = 18,
             };
             PhoneOptionGrid.Children.Add(nameLabel, 0, 6);
-            nameEntry = new Entry
+            nameEntry = new Xamarin.Forms.Entry
             {
                 FontSize = 18,
             };
@@ -541,15 +567,14 @@ namespace TicketRoom.Views.MainTab.Shop
                 return;
             }
 
-            // 입력한 엔트리의 값이 숫자가 아니거나 없을 경우 리턴.
-            if (Regex.Replace(InputPoint.Text, @"\D", "") == "")
+            if (InputPoint.Text == "") // 포인트 칸이 빈칸일 경우,
             {
                 await DisplayAlert("주의", "사용할 포인트를 입력해주십시오!", "확인");
                 return;
             }
             else
             {
-                if (int.Parse(InputPoint.Text) > MyPoint)
+                if (int.Parse(Regex.Replace(InputPoint.Text, @"\D", "")) > MyPoint)
                 {
                     await DisplayAlert("주의", "사용 가능한 포인트 금액을 초과했습니다!", "확인");
                     return;
@@ -557,7 +582,8 @@ namespace TicketRoom.Views.MainTab.Shop
                 else
                 {
                     AmountOfPay -= int.Parse(InputPoint.Text); // 결제금액 갱신
-                    UsedPay.Text = AmountOfPay.ToString() + "원";
+                    UsedPay.Text = AmountOfPay.ToString() + "원"; // xaml에 보이는 결제금액 갱신
+                    UsedPointLabel.Text = "포인트 사용 : " + MyPoint.ToString() + " Point";
                     MyPoint -= int.Parse(InputPoint.Text); // 소유한 포인트 갱신
                     PointUpdate(); // xaml 잔여 포인트 갱신
                 }
@@ -589,7 +615,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     {
                         int OrderIndex = SH_DB.PostInsertPurchaseListToID(DeliveryPrice.ToString()/*배송비*/, DeliveryOption/*선불착불*/, ""/*배송선택사항*/,
                             AdressLabel.Text/*배송지*/, MyPhoneLabel.Text/*휴대폰번호*/, "", payOption/*결제수단*/,
-                            AmountOfPay.ToString()/*결제금액*/, MyPoint.ToString()/*사용포인트*/, user_id/*아이디*/, System.DateTime.Now.ToShortDateString().ToString());
+                            AmountOfPay.ToString()/*결제금액*/, MyPoint.ToString()/*사용포인트*/, user_id/*아이디*/, System.DateTime.Now.ToString());
                         if(OrderIndex == -1)
                         {
                             await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
@@ -606,7 +632,8 @@ namespace TicketRoom.Views.MainTab.Shop
                                     basketList[i].SH_BASKET_SIZE,
                                     basketList[i].SH_BASKET_NAME,
                                     basketList[i].SH_BASKET_ID,
-                                    OrderIndex.ToString()) == false)
+                                    OrderIndex.ToString(),
+                                    basketList[i].SH_BASKET_PRICE.ToString()) == false)
                                 {
                                     await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
                                 }
@@ -621,14 +648,14 @@ namespace TicketRoom.Views.MainTab.Shop
                             }
                             else if (payOption == "Business")
                             {
-                                if (SH_DB.PostInsertPayBusinessToPay(phoneEntry.Text, nameEntry.Text, OrderIndex.ToString()) == false)
+                                if (SH_DB.PostInsertPayBusinessToPay(phoneEntry.Text, nameEntry.Text, cash_picker.SelectedItem.ToString(), OrderIndex.ToString()) == false)
                                 {
                                     await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
                                 }
                             }
                             else if (payOption == "Personal")
                             {
-                                if (SH_DB.PostInsertPayPersonalToPay(phoneEntry.Text, nameEntry.Text, OrderIndex.ToString()) == false)
+                                if (SH_DB.PostInsertPayPersonalToPay(phoneEntry.Text, nameEntry.Text, cash_picker.SelectedItem.ToString(), OrderIndex.ToString()) == false)
                                 {
                                     await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
                                 }
@@ -664,6 +691,15 @@ namespace TicketRoom.Views.MainTab.Shop
         private void InputPoint_Focused(object sender, FocusEventArgs e)
         {
             InputPoint.Text = "";
+            b_pointLabel = true;
+        }
+        private void InputPoint_Unfocused(object sender, FocusEventArgs e)
+        {
+            if(b_pointLabel == true)
+            {
+                InputPoint.Text = "0";
+                b_pointLabel = false;
+            }
         }
 
         private void ChangeAdressBtn_Clicked(object sender, EventArgs e)
@@ -688,5 +724,6 @@ namespace TicketRoom.Views.MainTab.Shop
         {
 
         }
+
     }
 }

@@ -17,5 +17,7 @@ namespace TicketRoom.Models.ShopData
         public string SH_PAY_BUSINESS_NUM { get; set; } // 사업자 휴대폰
         [JsonProperty("SH_PAY_BUSINESS_NAME")]
         public string SH_PAY_BUSINESS_NAME { get; set; } // 사업자 이름
+        [JsonProperty("SH_PAY_BUSINESS_BANK")]
+        public string SH_PAY_BUSINESS_BANK { get; set; } // 은행
     }
 }

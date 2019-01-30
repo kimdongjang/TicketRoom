@@ -17,5 +17,7 @@ namespace TicketRoom.Models.ShopData
         public string SH_PAY_PERSONAL_NUM { get; set; } // 개인휴대폰번호
         [JsonProperty("SH_PAY_PERSONAL_NAME")]
         public string SH_PAY_PERSONAL_NAME { get; set; } // 개인소득공제
+        [JsonProperty("SH_PAY_PERSONAL_BANK")]
+        public string SH_PAY_PERSONAL_BANK { get; set; } // 은행
     }
 }

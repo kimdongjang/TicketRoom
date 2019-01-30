@@ -152,7 +152,7 @@
                                 <ColumnDefinition Width="6*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <local1:CustomLabel Grid.Column="0" Text="포인트 사용" Size="18"  VerticalOptions="Center" TextColor="Black"/>
+                            <local1:CustomLabel Grid.Column="0" Text="포인트 사용" Size="18"  VerticalOptions="Center" TextColor="Black" x:Name="UsedPointLabel"/>
                             <local1:CustomButton Grid.Column="2" Text="포인트 적용" Size="18" BackgroundColor="Black" TextColor="White"
                                              x:Name="PointUseBtn" Clicked="PointUseBtn_ClickedAsync"/>
                         </Grid>
@@ -171,8 +171,8 @@
                                             VerticalOptions="Center" TextColor="Black"/>
                             <BoxView  Grid.Row="1" BackgroundColor="Black"/>
                             <Grid Grid.Row="1" BackgroundColor="White" Margin="0.5">
-                                <local1:CustomEntry Text="ex) 사용할 포인트 입력" Size="18" FontFamily="{StaticResource FontStyle}"
-                                            x:Name="InputPoint" Focused="InputPoint_Focused"/>
+                                <local1:CustomEntry Text="0" Size="18" FontFamily="{StaticResource FontStyle}"
+                                            x:Name="InputPoint" Focused="InputPoint_Focused" Unfocused="InputPoint_Unfocused"/>
                             </Grid>
                             <local1:CustomLabel Grid.Row="2" Text="결제하실 금액" Size="18" Margin="0,15,0,0" 
                                             TextColor="Black" VerticalOptions="Center"/>
