@@ -98,13 +98,33 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <!--#region 0행 잔여 포인트 Label-->
-                    <Label Grid.Row="0" x:Name="NowPoint_Label" TextColor="Black" Text="잔여 포인트: 1000" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                    <Label Grid.Row="0" x:Name="NowPoint_Label" TextColor="Black" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                         <Label.FontFamily>
                             <OnPlatform x:TypeArguments="x:String">
                                 <On Platform="iOS" Value="BMHANNAAir_ttf" />
                                 <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
                             </OnPlatform>
                         </Label.FontFamily>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="잔여 포인트: ">
+                                    <Span.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String">
+                                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                        </OnPlatform>
+                                    </Span.FontFamily>
+                                </Span>
+                                <Span x:Name="Point_label">
+                                    <Span.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String">
+                                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                        </OnPlatform>
+                                    </Span.FontFamily>
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
                     </Label>
                     <!--#endregion-->
 

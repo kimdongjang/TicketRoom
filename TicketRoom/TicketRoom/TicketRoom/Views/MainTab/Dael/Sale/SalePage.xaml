@@ -78,7 +78,7 @@
                             <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
                         <!--#region 0열 상품권 이미지-->
-                        <Image Grid.Column="0" Source="productimage.png" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                        <Image Grid.Column="0" x:Name="Pro_imgae" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
                         <!--#endregion-->
 
                         <!--#region 1열 상품정보 Label Grid-->
@@ -90,7 +90,7 @@
                             </Grid.RowDefinitions>
 
                             <!--#region 1열 상품명 Label-->
-                            <Label Grid.Row="0" x:Name="productName_label" Text="롯데백화점 50만원권" FontSize="18" TextColor="Black" 
+                            <Label Grid.Row="0" x:Name="Pro_Name" FontSize="18" TextColor="Black" 
                     HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center">
                                 <Label.FontFamily>
                                     <OnPlatform x:TypeArguments="x:String">
@@ -113,7 +113,7 @@
                                                 </OnPlatform>
                                             </Span.FontFamily>
                                         </Span>
-                                        <Span Text="480,000[4%]" TextColor="Blue" FontSize="12">
+                                        <Span x:Name="Pro_price" TextColor="Blue" FontSize="12">
                                             <Span.FontFamily>
                                                 <OnPlatform x:TypeArguments="x:String">
                                                     <On Platform="iOS" Value="BMHANNAAir_ttf" />

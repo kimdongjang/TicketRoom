@@ -14,8 +14,8 @@ namespace TicketRoom
         //운기 로컬 Services
         //public static string WCFURL = @"http://220.90.190.218:8081/Service1.svc/";
 
-        public static string ID = "";
+        public static string ID = "1147725";
 
-        public static bool ISLOGIN = false;
+        public static bool ISLOGIN = true;
     }
 }

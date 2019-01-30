@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using TicketRoom.Models.Gift;
 using TicketRoom.Models.Gift.Purchase;
 using Xamarin.Forms;
@@ -127,7 +128,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             Navigation.PushModalAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
         }
 
-        private void AddBasketBtn_Clicked(object sender, EventArgs e)
+        private async void AddBasketBtn_Clicked(object sender, EventArgs e)
         {
             if (int.Parse(Count_label.Text) == 0)
             {
@@ -151,7 +152,10 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 basketInfo.BK_TYPE = "2";
             }
             Global.BasketList.Add(basketInfo);
-            DisplayAlert("알림", "장바구니에 추가되었습니다.", "OK");
+            await ShowMessage("장바구니에 추가되었습니다.", "알림", "OK", async () =>
+            {
+                this.OnBackButtonPressed();
+            });
         }
 
         private void Radio1_Clicked(object sender, EventArgs e)
@@ -164,6 +168,13 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         {
             prepaymentradio.Source = "radio_unchecked_icon.png";
             Cashondeliveryradio.Source = "radio_checked_icon.png";
+        }
+
+        public async Task ShowMessage(string message, string title, string buttonText, Action afterHideCallback)
+        {
+            await DisplayAlert(title, message, buttonText);
+
+            afterHideCallback?.Invoke();
         }
     }
 }

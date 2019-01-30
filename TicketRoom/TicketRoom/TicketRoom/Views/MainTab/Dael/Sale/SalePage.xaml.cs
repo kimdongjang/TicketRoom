@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using TicketRoom.Models.Gift;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,6 +13,17 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
     public partial class SalePage : ContentPage
     {
         int PinNumCount = 0;
+        G_ProductInfo productInfo = null;
+
+        public SalePage(G_ProductInfo productInfo)
+        {
+            InitializeComponent();
+            this.productInfo = productInfo;
+            Pro_imgae.Source = productInfo.PRODUCTIMAGE;
+            Pro_Name.Text = productInfo.PRODUCTTYPE + " " + productInfo.PRODUCTVALUE;
+            Pro_price.Text = productInfo.SALEDISCOUNTPRICE + "[" + productInfo.SALEDISCOUNTRATE + "%]";
+        }
+
         public SalePage()
         {
             InitializeComponent();

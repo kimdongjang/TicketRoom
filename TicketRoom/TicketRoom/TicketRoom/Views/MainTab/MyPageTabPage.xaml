@@ -108,7 +108,7 @@
                 <!--#endregion-->
 
                 <!--#region  7행 포인트 확인 -->
-                <Button  Grid.Row="7" Text="포인트 확인"  TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Button  Grid.Row="7" Text="포인트 확인" Clicked="PointCheck_Clicked" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                     <Button.FontFamily>
                         <OnPlatform x:TypeArguments="x:String">
                             <On Platform="iOS" Value="BMHANNAAir_ttf" />

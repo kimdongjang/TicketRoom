@@ -185,7 +185,28 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Grid.Row="0" Text="포인트 사용" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
-                    <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Grid.Row="1" Text="잔여 포인트: 1000" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Grid.Row="1" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center">
+                        <local1:CustomLabel.FormattedText>
+                            <FormattedString>
+                                <Span Text="잔여 포인트: " TextColor="Black">
+                                    <Span.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String">
+                                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                        </OnPlatform>
+                                    </Span.FontFamily>
+                                </Span>
+                                <Span x:Name="Point_label" TextColor="Black">
+                                    <Span.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String">
+                                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                        </OnPlatform>
+                                    </Span.FontFamily>
+                                </Span>
+                            </FormattedString>
+                        </local1:CustomLabel.FormattedText>
+                    </local1:CustomLabel>
                     <local1:CustomButton Size="22" FontFamily="{StaticResource FontStyle}" Clicked="UsedPointBtn_Clicked" Grid.Column="1" HeightRequest="30" Padding="0" Grid.RowSpan="2" Text="포인트 적용"
                                          TextColor="White" BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
                 </Grid>
