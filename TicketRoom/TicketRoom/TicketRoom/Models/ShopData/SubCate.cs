@@ -18,5 +18,7 @@ namespace TicketRoom.Models.ShopData
         public int SH_MAINCATE_INDEX { get; set; }// 메인 카테고리 인덱스
         [JsonProperty("SH_SUBCATE_ISBEST")]
         public string SH_SUBCATE_ISBEST { get; set; }// 서브 카테고리 이름
+        [JsonProperty("SH_HOME_INDEX")]
+        public int SH_HOME_INDEX { get; set; }//홈 페이지 인덱스
     }
 }

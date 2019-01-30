@@ -47,6 +47,7 @@
                         <RowDefinition Height="300"/>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
                         <RowDefinition Height="100"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -86,8 +87,22 @@
                         <Image Grid.Column="4" Source="minus.png" HorizontalOptions="Center" VerticalOptions="Center" x:Name="minusCount"/>
                     </Grid>
                     <!--#endregion-->
-                    <!--#region 3행 옷 디자인-->
-                    <Grid Grid.Row="3" ColumnSpacing="0" x:Name="ImageListGrid">
+                    <!--#region 3행 가격-->
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0"
+                                            Text="가격" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
+                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="2"
+                                            Text="0원" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ClothesPriceLabel"/>
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region 4행 옷 디자인-->
+                    <Grid Grid.Row="4" ColumnSpacing="0" x:Name="ImageListGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="3*"/>
@@ -102,8 +117,8 @@
 
                     </Grid>
                     <!--#endregion-->
-                    <!--#region 4행 상품 설명-->
-                    <Grid Grid.Row="4" Margin="15,0,15,0">
+                    <!--#region 5행 상품 설명-->
+                    <Grid Grid.Row="5" Margin="15,0,15,0">
                         <local1:CustomLabel HeightRequest="150" x:Name="DetailEditor" Size="14" MaxLines="5"
                                             Text="추가 설명 : ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
                                             asdasdfgㅇㄹ하ㅡㅇ루헝루ㅠㅏㅓㅇ류ㅝㅏㅇ류ㅜㅏㅓㅇ류아ㅣㄹ
@@ -111,8 +126,8 @@
                                             ㅇㄹ흐ㅏㅇ류ㅡㅏㅣㅇ류ㅡㅇ라ㅣㅎㅇ러ㅏ후너ㅏ" />
                     </Grid>
                     <!--#endregion-->
-                    <!--#region 5행 다른 고객이 함께 본 상품 레이블-->
-                    <Grid Grid.Row="5">
+                    <!--#region 6행 다른 고객이 함께 본 상품 레이블-->
+                    <Grid Grid.Row="6">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
@@ -120,8 +135,8 @@
                                             VerticalOptions="Center" HorizontalOptions="Center"  TextColor="Black"/>
                     </Grid>
                     <!--#endregion-->
-                    <!--#region 6행 다른 고객이 함께 본 상품 이미지-->
-                    <Grid Grid.Row="6" x:Name="OtherProduct">
+                    <!--#region 7행 다른 고객이 함께 본 상품 이미지-->
+                    <Grid Grid.Row="7" x:Name="OtherProduct">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="150"/>
                         </Grid.RowDefinitions>

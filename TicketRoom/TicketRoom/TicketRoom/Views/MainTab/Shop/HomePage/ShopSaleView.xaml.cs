@@ -147,7 +147,7 @@ namespace TicketRoom.Views.MainTab.Shop
                             {
                                 if(tempString == productList[j].SH_PRODUCT_NAME)
                                 {
-                                    Navigation.PushModalAsync(new ShopDetailPage(productList[j].SH_PRODUCT_NAME, productList[j].SH_PRODUCT_INDEX));
+                                    Navigation.PushModalAsync(new ShopDetailPage(productList[j].SH_PRODUCT_NAME, productList[j].SH_PRODUCT_INDEX, home));
                                 }
                             }
                         })
@@ -251,7 +251,7 @@ namespace TicketRoom.Views.MainTab.Shop
                         {
                             if (tempString == productList[j].SH_PRODUCT_NAME)
                             {
-                                Navigation.PushModalAsync(new ShopDetailPage(productList[j].SH_PRODUCT_NAME, productList[j].SH_PRODUCT_INDEX));
+                                Navigation.PushModalAsync(new ShopDetailPage(productList[j].SH_PRODUCT_NAME, productList[j].SH_PRODUCT_INDEX, home));
                             }
                         }
                     })

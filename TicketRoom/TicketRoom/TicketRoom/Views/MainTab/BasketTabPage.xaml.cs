@@ -13,7 +13,7 @@ namespace TicketRoom.Views.MainTab
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BasketTabPage : ContentView
     {
-
+        public static bool isOpenPage = false;
         BasketGiftView bgv;
         BasketShopView bsv;
         Queue<CustomLabel> SelectTap_Queue = new Queue<CustomLabel>();
@@ -21,35 +21,46 @@ namespace TicketRoom.Views.MainTab
         public BasketTabPage()
         {
             InitializeComponent();
-            init();
+            bgv = new BasketGiftView(this);
+            bsv = new BasketShopView(this);
+            init(bgv);
+        }
+        private void TapColorChange(ContentView cv)
+        {
+            if (cv == bgv) // 상품권이 선택되었을 경우
+            {
+                ShopSelect.TextColor = Color.Black;
+                ((Grid)ShopSelect.Parent).BackgroundColor = Color.White;
+
+                GiftSelect.TextColor = Color.White;
+                ((Grid)GiftSelect.Parent).BackgroundColor = Color.Black;
+            }
+            else // 쇼핑몰이 선택 되었을 경우
+            {
+                ShopSelect.TextColor = Color.White;
+                ((Grid)ShopSelect.Parent).BackgroundColor = Color.Black;
+
+                GiftSelect.TextColor = Color.Black;
+                ((Grid)GiftSelect.Parent).BackgroundColor = Color.White;
+            }
         }
 
-        private void init()
+
+        public void init(ContentView cv)
         {
-            BasketContentView.Content = bgv = new BasketGiftView(this);
-            SelectTap_Queue.Enqueue(GiftSelect);
+            BasketContentView.Content = cv;
+
+            TapColorChange(cv);
 
             // 상품권 탭을 선택할 경우 상품권 컨텐츠 뷰를 보여줌
             GiftSelectGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(() =>
                 {
-                    if (SelectTap_Queue.Count < 2)
-                    {
-                        if (SelectTap_Queue.Count != 0)
-                        {
-                            CustomLabel temp_label = SelectTap_Queue.Dequeue();
-                            Grid temp_grid = (Grid)temp_label.Parent;
-                            temp_label.TextColor = Color.Black;
-                            temp_grid.BackgroundColor = Color.White;
-                        }
-                        GiftSelect.TextColor = Color.White;
-                        ((Grid)GiftSelect.Parent).BackgroundColor = Color.Black;
-                        SelectTap_Queue.Enqueue(GiftSelect);
-                    }
-
                     bgv = new BasketGiftView(this);
                     BasketContentView.Content = bgv;
+
+                    TapColorChange(bgv);
 
                 })
             });
@@ -58,21 +69,10 @@ namespace TicketRoom.Views.MainTab
             {
                 Command = new Command(() =>
                 {
-                    if (SelectTap_Queue.Count < 2)
-                    {
-                        if (SelectTap_Queue.Count != 0)
-                        {
-                            CustomLabel temp_label = SelectTap_Queue.Dequeue();
-                            Grid temp_grid = (Grid)temp_label.Parent;
-                            temp_label.TextColor = Color.Black;
-                            temp_grid.BackgroundColor = Color.White;
-                        }
-                        ShopSelect.TextColor = Color.White;
-                        ((Grid)ShopSelect.Parent).BackgroundColor = Color.Black;
-                        SelectTap_Queue.Enqueue(ShopSelect);
-                    }
                     bsv = new BasketShopView(this);
                     BasketContentView.Content = bsv;
+
+                    TapColorChange(bsv);
                 })
             });
         }
@@ -80,7 +80,7 @@ namespace TicketRoom.Views.MainTab
         private async void OrderBtn_ClickedAsync(object sender, EventArgs e)
         {
             if (BasketContentView.Content == bsv) // 쇼핑몰 컨텐츠가 활성화 되어있을때
-            {
+            { /*
                 string orderString = "";
                 string changeStringToInt = "";
                 int orderPay = 0;
@@ -100,7 +100,7 @@ namespace TicketRoom.Views.MainTab
                 {
                     return;
                 }
-                await Navigation.PushModalAsync(new ShopOrderPage(bsv.SH_ProductNameList));
+                await Navigation.PushModalAsync(new ShopOrderPage(bsv.SH_ProductNameList));*/
             }
             else // 상품권 컨텐츠일때.
             {

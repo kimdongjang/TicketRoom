@@ -28,16 +28,10 @@ namespace TicketRoom.Views.MainTab.Shop
         List<Grid> ShopTapEventList = new List<Grid>();
         Queue<Grid> SelectList_Queue = new Queue<Grid>();
 
-        ShopDataFunc sdf = new ShopDataFunc();
 
         public ShopListPage(int main_index)
         {
             InitializeComponent();
-            /* 로딩창 사용할 경우
-            if (PostSubCategoryListAsync(main_index).IsCompleted) // 카테고리 데이터를 다 받아왔을 경우 타이틀 탭 초기화
-            {
-                TitleTapInit();
-            }*/
 
             // 최상위 탭 카테고리 이름 초기화
             for (int i = 0; i < ShopTabPage.mclist.Count; i++)
@@ -110,7 +104,7 @@ namespace TicketRoom.Views.MainTab.Shop
                         {
                             if(ShopTabPage.mclist[j].SH_MAINCATE_NAME == TitleName.Text)
                             {
-                                sclist = SH_DB.PostSubCategoryListAsync(ShopTabPage.mclist[j].SH_MAINCATE_INDEX);
+                                sclist = SH_DB.PostSubCategoryListAsync(ShopTabPage.mclist[j].SH_MAINCATE_INDEX); // 서브 카테고리 리스트 초기화
                                 
                                 UpdateList();
                             }
@@ -276,7 +270,7 @@ namespace TicketRoom.Views.MainTab.Shop
                             {
                                 if (bestHome.Text == sclist[j].SH_SUBCATE_NAME)
                                 {
-                                    tempIndex = sclist[j].SH_SUBCATE_INDEX;
+                                    tempIndex = sclist[j].SH_HOME_INDEX; // 홈 인덱스로 변경
                                 }
                             }
                             Navigation.PushModalAsync(new ShopMainPage(tempIndex));
@@ -435,7 +429,7 @@ namespace TicketRoom.Views.MainTab.Shop
                         {
                             if (naturalHome.Text == sclist[j].SH_SUBCATE_NAME)
                             {
-                                tempIndex = sclist[j].SH_SUBCATE_INDEX;
+                                tempIndex = sclist[j].SH_HOME_INDEX;
                             }
                         }
                         Navigation.PushModalAsync(new ShopMainPage(tempIndex));

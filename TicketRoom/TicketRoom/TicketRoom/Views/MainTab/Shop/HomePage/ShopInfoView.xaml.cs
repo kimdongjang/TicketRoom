@@ -14,7 +14,6 @@ namespace TicketRoom.Views.MainTab.Shop
     public partial class ShopInfoView : ContentView
     {
         string myShopName = "";
-        ShopDataFunc dataclass = new ShopDataFunc();
         SH_Home home;
 
         public ShopInfoView(string titleName, SH_Home home)
