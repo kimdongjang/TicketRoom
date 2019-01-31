@@ -16,7 +16,6 @@ namespace TicketRoom.Views.MainTab.Shop
         SH_Home home;
         public List<SH_Review> reviewList = new List<SH_Review>();
 
-        ShopDataFunc dataclass = new ShopDataFunc();
 
         public ShopReviewView(string titleName, SH_Home home)
         {

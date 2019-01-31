@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.MyPage.PurchaseListPage">
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
         <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -54,8 +56,25 @@
         </Grid>
         <!--#endregion-->
 
-        <!--#region 1행 탭매뉴-->
-        <Grid Grid.Row="1" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+
+        <!--#region 1행 상품권/쇼핑몰 탭매뉴-->
+        <Grid Grid.Row="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <BoxView Grid.Column="0" BackgroundColor="LightGray"/>
+            <Grid Grid.Column="0" BackgroundColor="White" Margin="2" x:Name="TapGiftGrid" Opacity="0.5">
+                <custom:CustomLabel Size="22" Text="상품권" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" x:Name="TapGiftGridLabel" />
+            </Grid>
+            <BoxView Grid.Column="1" BackgroundColor="LightGray"/>
+            <Grid Grid.Column="1" BackgroundColor="White" Margin="2" x:Name="TapShopingGrid" Opacity="0.5">
+                <custom:CustomLabel Size="22" Text="쇼핑몰" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" x:Name="TapShopingGridLabel"/>
+            </Grid>
+        </Grid>
+
+        <!--#region 2행 탭매뉴-->
+        <Grid Grid.Row="2" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="Auto"/>
@@ -93,14 +112,9 @@
         </Grid>
         <!--#endregion-->
 
-        <ScrollView Grid.Row="2" Margin="15,0,15,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <Grid x:Name="Salelist_Grid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="5" ColumnSpacing="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-            </Grid>
-        </ScrollView>
+        <!--#region 구매 목록 페이지 상품권, 쇼핑몰-->
+        <ContentView Grid.Row="3" x:Name="PurchaseListContentView"/>
+        <!--#endregion-->
     </Grid>
     <!--#endregion-->
 </ContentPage>

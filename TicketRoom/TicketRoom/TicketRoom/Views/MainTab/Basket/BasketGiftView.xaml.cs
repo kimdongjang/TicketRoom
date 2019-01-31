@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Views.MainTab.Dael.Purchase;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,7 +12,7 @@ namespace TicketRoom.Views.MainTab.Basket
     public partial class BasketGiftView : ContentView
     {
         BasketTabPage btp;
-
+        List<Grid> productgridlist = new List<Grid>();
         public BasketGiftView(BasketTabPage btp)
         {
             InitializeComponent();
@@ -68,6 +69,7 @@ namespace TicketRoom.Views.MainTab.Basket
                         new ColumnDefinition { Width = 20 }
                     }
                 };
+                productgridlist.Add(product_grid);
 
                 #region 장바구니 상품 이미지
                 Image product_image = new Image
@@ -342,21 +344,26 @@ namespace TicketRoom.Views.MainTab.Basket
 
         private void OrderBtn_Clicked(object sender, EventArgs e)
         {
-            //Dictionary<string, string> data = new Dictionary<string, string>();
-            //List<Xamarin.Forms.View> container = Basketlist_Grid.Children.ToList();
-            //for (int i = 0; i < container.Count; i++)
-            //{
-            //    if (i % 2 == 0)
-            //    {
-            //        List<Xamarin.Forms.View> productlist = ((Grid)container[i]).Children.ToList();
-            //        List<Xamarin.Forms.View> labelgrid = ((Grid)productlist[1]).Children.ToList();
-            //        List<Xamarin.Forms.View> countgrid = ((Grid)productlist[2]).Children.ToList();
+            List<G_PurchasedetailInfo> g_PurchasedetailInfos = new List<G_PurchasedetailInfo>();
+            for (int i = 0; i < Global.BasketList.Count; i++)
+            {
+                Grid g = productgridlist[i];
+                List<Xamarin.Forms.View> b = g.Children.ToList();
+                Grid g2 = (Grid)b[2];
+                List<Xamarin.Forms.View> b2 = g2.Children.ToList();
+                Label g3 = (Label)b2[1];
 
-            //        data.Add(((Label)labelgrid[0]).Text, ((Label)countgrid[1]).Text);
-            //    }
-            //}
+                G_PurchasedetailInfo g_PurchasedetailInfo = new G_PurchasedetailInfo
+                {
+                    PDL_PRONUM = Global.BasketList[i].BK_PRONUM,
+                    PDL_PROCOUNT = g3.Text,
+                    PDL_PROTYPE = Global.BasketList[i].BK_TYPE,
+                    PDL_ALLPRICE = (int.Parse(Global.BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE) * int.Parse(g3.Text)).ToString()
+                };
+                g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
+            }
 
-            Navigation.PushModalAsync(new PurchaseDetailPage());
+            Navigation.PushModalAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
         }
     }
 }

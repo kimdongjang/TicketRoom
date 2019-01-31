@@ -20,9 +20,9 @@ namespace TicketRoom.Views.MainTab
     {
         public static bool isOpenPage = false;
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
+        public static List<MainCate> mclist;
 
         List<Grid> ClickList = new List<Grid>();
-        public static List<MainCate> mclist;
         Queue<string> imageList = new Queue<string>();
 
         public static int imagelist_count = 2;
@@ -211,10 +211,10 @@ namespace TicketRoom.Views.MainTab
                         {
                             if (tempLabel.Text == mclist[i].SH_MAINCATE_NAME)
                             {
-                                tempIndex = mclist[i].SH_MAINCATE_INDEX;
+                                tempIndex = mclist[i].SH_MAINCATE_INDEX; // 메인 카테고리 인덱스를 찾음
                             }
                         }
-                        Navigation.PushModalAsync(new ShopListPage(tempIndex));
+                        Navigation.PushModalAsync(new ShopListPage(tempIndex)); // 메인 카테고리 인덱스 기반으로 서브 카테고리(리스트 페이지)를 오픈
                     })
                 });
             }

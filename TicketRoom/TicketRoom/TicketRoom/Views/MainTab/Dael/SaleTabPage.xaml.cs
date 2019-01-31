@@ -22,6 +22,49 @@ namespace TicketRoom.Views.MainTab.Dael
             InitializeComponent();
             this.categorynum = categorynum;
             SelectSaleCategory(categorynum);
+            ShowPoint();
+        }
+
+        private void ShowPoint()
+        {
+            if (Global.ISLOGIN)
+            {
+                string str = @"{";
+                str += "USER_ID:'" + Global.ID;  //아이디찾기에선 Name으로 
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectUserPoint") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        string test = JsonConvert.DeserializeObject<string>(readdata);
+                        Point_label.Text = int.Parse(test).ToString("N0");
+                    }
+                }
+            }
+            else
+            {
+                Point_label.Text = int.Parse("0").ToString("N0");
+            }
         }
 
         private void SelectSaleCategory(string categorynum)
@@ -66,7 +109,8 @@ namespace TicketRoom.Views.MainTab.Dael
             var label_tap = new TapGestureRecognizer();
             label_tap.Tapped += (s, e) =>
             {
-                Navigation.PushModalAsync(new SalePage());
+                Grid g = (Grid)s;
+                Navigation.PushModalAsync(new SalePage(salelist[int.Parse(g.BindingContext.ToString())]));
             };
 
             if (salelist.Count == 0)
@@ -99,6 +143,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     HorizontalOptions = LayoutOptions.FillAndExpand,
                     RowSpacing = 0,
                     ColumnSpacing = 0,
+                    BindingContext = i,
                     ColumnDefinitions =
                     {
                         new ColumnDefinition { Width = 100 },
