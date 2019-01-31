@@ -27,5 +27,10 @@ namespace TicketRoom.Views.MainTab
         {
             Navigation.PushModalAsync(new PurchaseListPage());
         }
+
+        private void PointCheck_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new PointCheckPage());
+        }
     }
 }

@@ -18,20 +18,63 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
     {
         List<G_PurchasedetailInfo> g_PurchasedetailInfos = null;
         InputAdress adrAPI;
-        string UsedPoint = "";
+        int UsedPoint = 0;
         int OldPoint = 0;
+        int tempdeliveryprice = 0;
         int price = 0;
         int deliveryprice = 3000;
-        bool radiostate = true; // true : 선불 , false : 착불
 
         public PurchaseDetailPage(List<G_PurchasedetailInfo> g_PurchasedetailInfos)
         {
             InitializeComponent();
             this.g_PurchasedetailInfos = g_PurchasedetailInfos;
             DeliveryPrice_label.Text = (deliveryprice).ToString("N0");
-            price += deliveryprice;
+            ShowPoint();
             ShowPrice();
             SelectAllAccount();
+            Radio1_Clicked(prepaymentradio, null);  //선불 착불 기본값인 선불 선택해놈
+        }
+
+        private void ShowPoint()
+        {
+            if (Global.ISLOGIN)
+            {
+                string str = @"{";
+                str += "USER_ID:'" + Global.ID;  //아이디찾기에선 Name으로 
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectUserPoint") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        string test = JsonConvert.DeserializeObject<string>(readdata);
+                        Point_label.Text = int.Parse(test).ToString("N0");
+                    }
+                }
+            }
+            else
+            {
+                Point_label.Text = int.Parse("0").ToString("N0");
+            }
         }
 
         public void ShowPrice()
@@ -40,7 +83,6 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             {
                 price += int.Parse(g_PurchasedetailInfos[i].PDL_ALLPRICE);
             }
-            Purchase_AllPrice_label.Text = price.ToString("N0");
         }
 
         public PurchaseDetailPage()
@@ -66,25 +108,82 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         private void Radio1_Clicked(object sender, EventArgs e)
         {
-            if (!radiostate)
-            {
-                prepaymentradio.Source = "radio_checked_icon.png";
-                Cashondeliveryradio.Source = "radio_unchecked_icon.png";
-                price += deliveryprice;
-                radiostate = true;
-                Purchase_AllPrice_label.Text = price.ToString("N0");
-            }
+            prepaymentradio.Source = "radio_checked_icon.png";
+            Cashondeliveryradio.Source = "radio_unchecked_icon.png";
+            tempdeliveryprice = deliveryprice;
+            Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0");
         }
 
         private void Radio2_Clicked(object sender, EventArgs e)
         {
-            if (radiostate)
+            prepaymentradio.Source = "radio_unchecked_icon.png";
+            Cashondeliveryradio.Source = "radio_checked_icon.png";
+            tempdeliveryprice = 0;
+            if ((price + tempdeliveryprice - UsedPoint) < 0)
             {
-                prepaymentradio.Source = "radio_unchecked_icon.png";
-                Cashondeliveryradio.Source = "radio_checked_icon.png";
-                price -= deliveryprice;
-                radiostate = false;
+                UsedPoint = price; 
+                Point_label.Text = (int.Parse(Point_label.Text.Replace(",", "")) + (OldPoint-UsedPoint)).ToString("N0");
+                Point_box.Text = UsedPoint.ToString();
+                price = 0;
                 Purchase_AllPrice_label.Text = price.ToString("N0");
+            }
+            else
+            {
+                Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0");
+            }
+        }
+
+        private void UsedPointBtn_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                UsedPoint = int.Parse(Point_box.Text);
+                OldPoint = UsedPoint;
+                Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0");
+                Point_label.Text = (int.Parse(Point_label.Text.Replace(",", "")) + (OldPoint-UsedPoint)).ToString("N0");
+                DisplayAlert("알림", "포인트가 적용되었습니다.", "OK");
+            }
+            catch
+            {
+                DisplayAlert("알림", "숫자만입력해주세요", "OK");
+            }
+        }
+
+        private void Point_box_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
+                {
+                    if (e.OldTextValue != null)
+                    {
+                        Point_box.Text = e.OldTextValue;
+                    }
+                    else
+                    {
+                        Point_box.Text = "";
+                    }
+                    return;
+                }
+                else
+                {
+                    if (int.Parse(Point_box.Text) > price)
+                    {
+                        Point_box.Text = (price + tempdeliveryprice).ToString();
+                    }
+                    else
+                    {
+                        if (int.Parse(Point_box.Text) > int.Parse(Point_label.Text.Replace(",", "")))
+                        {
+                            Point_box.Text = Point_label.Text.Replace(",", "");
+                        }
+                    }
+
+                }
+            }
+            catch
+            {
+
             }
         }
 
@@ -112,7 +211,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                         {
                             ID = "01024313236",
                             PL_DELIVERY_ADDRESS = EntryAdress.Text,
-                            PL_USED_POINT = UsedPoint,
+                            PL_USED_POINT = UsedPoint.ToString(),
                             PL_ISSUCCESS = "",
                             PL_DELIVERYPAY_TYPE = "1",
                             PL_PAYMENT_PRICE = Purchase_AllPrice_label.Text.ToString().Replace(",", ""),
@@ -127,7 +226,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                         {
                             ID = "01024313236",
                             PL_DELIVERY_ADDRESS = EntryAdress.Text,
-                            PL_USED_POINT = UsedPoint,
+                            PL_USED_POINT = UsedPoint.ToString(),
                             PL_ISSUCCESS = "",
                             PL_DELIVERYPAY_TYPE = "2",
                             PL_PAYMENT_PRICE = Purchase_AllPrice_label.Text.ToString().Replace(",", ""),
@@ -218,53 +317,6 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             await DisplayAlert(title, message, buttonText);
 
             afterHideCallback?.Invoke();
-        }
-
-        private void UsedPointBtn_Clicked(object sender, EventArgs e)
-        {
-            try
-            {
-                price += OldPoint;
-                UsedPoint = int.Parse(Point_box.Text).ToString();
-                OldPoint = int.Parse(UsedPoint);
-                price -= int.Parse(UsedPoint);
-                Purchase_AllPrice_label.Text = price.ToString("N0");
-                DisplayAlert("알림", "포인트가 적용되었습니다.", "OK");
-            }
-            catch
-            {
-                DisplayAlert("알림", "숫자만입력해주세요", "OK");
-            }
-        }
-
-        private void Point_box_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                if (e.NewTextValue.Contains(".")|| e.NewTextValue.Equals("-"))
-                {
-                    if (e.OldTextValue != null)
-                    {
-                        Point_box.Text = e.OldTextValue;
-                    }
-                    else
-                    {
-                        Point_box.Text = "";
-                    }
-                    return;
-                }
-                else
-                {
-                    if (int.Parse(Point_box.Text) > 1000)
-                    {
-                        Point_box.Text = 1000.ToString();
-                    }
-                }
-            }
-            catch
-            {
-
-            }
         }
 
         private void Point_box_Focused(object sender, FocusEventArgs e)

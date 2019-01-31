@@ -21,7 +21,50 @@ namespace TicketRoom.Views.MainTab.Dael
         {
             InitializeComponent();
             this.categorynum = categorynum;
+            ShowPoint();
             SelectPurchaseCategory(categorynum);
+        }
+
+        private void ShowPoint()
+        {
+            if (Global.ISLOGIN)
+            {
+                string str = @"{";
+                str += "USER_ID:'" + Global.ID;  //아이디찾기에선 Name으로 
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectUserPoint") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        string test = JsonConvert.DeserializeObject<string>(readdata);
+                        Point_label.Text = int.Parse(test).ToString("N0");
+                    }
+                }
+            }
+            else
+            {
+                Point_label.Text = int.Parse("0").ToString("N0");
+            }
         }
 
         private void SelectPurchaseCategory(string categorynum)
