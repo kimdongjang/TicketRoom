@@ -21,5 +21,7 @@ namespace TicketRoom.Models.ShopData
         public string SH_PUR_LIST_ID { get; set; } // 구매자 아이디
         [JsonProperty("SH_PUR_LIST_INDEX")]
         public int SH_PUR_LIST_INDEX { get; set; } // 주문 번호 인덱스
+        [JsonProperty("SH_PUR_PAY_STATE")]
+        public string SH_PUR_PAY_STATE { get; set; } // 결제 상태
     }
 }

@@ -36,6 +36,8 @@ namespace TicketRoom.Views.MainTab.Shop
         bool b_pointLabel = false;
         // 배송 관련 피커 오픈 여부 확인
         bool b_deliveryPicker = false;
+        // 배송 요청사항 직접사항 엔트리 생성 여부
+        bool b_deliveryEntry = false;
 
         string user_id = "dnsrl1122";
 
@@ -265,17 +267,19 @@ namespace TicketRoom.Views.MainTab.Shop
             };
             DeliveryContentPicker.SelectedIndexChanged += (object sender, EventArgs e) =>
             {
-                if (DeliveryContentPicker.SelectedIndex == 3) // 직접 입력이 선택되었을 경우
+                if (DeliveryContentPicker.SelectedIndex == 3 && b_deliveryEntry == false) // 직접 입력이 선택되었을 경우
                 {
                     deliveryEntry = new Xamarin.Forms.Entry
                     {
 
                     };
                     DeliveryGrid.Children.Add(deliveryEntry, 0, 1); // 피커 바로 아래에 입력사항 엔트리 추가
+                    b_deliveryEntry = true;
                     deliveryEntry.Focus();
                 }
-                else if(DeliveryContentPicker.SelectedIndex != 3 && DeliveryGrid.Children[1] != null) // 직접 입력을 선택하지 않을 경우 엔트리 삭제
+                else if(b_deliveryEntry == true) // 직접 입력을 선택하지 않을 경우 엔트리 삭제
                 {
+                    b_deliveryEntry = false;
                     DeliveryGrid.Children.RemoveAt(1);
                 }
             };
@@ -614,8 +618,9 @@ namespace TicketRoom.Views.MainTab.Shop
                     if(DeliveryContentPicker.SelectedIndex != -1) // 배송 선택사항이 선택되지 않았을 경우
                     {
                         int OrderIndex = SH_DB.PostInsertPurchaseListToID(DeliveryPrice.ToString()/*배송비*/, DeliveryOption/*선불착불*/, ""/*배송선택사항*/,
-                            AdressLabel.Text/*배송지*/, MyPhoneLabel.Text/*휴대폰번호*/, "", payOption/*결제수단*/,
-                            AmountOfPay.ToString()/*결제금액*/, MyPoint.ToString()/*사용포인트*/, user_id/*아이디*/, System.DateTime.Now.ToString());
+                            AdressLabel.Text/*배송지*/, MyPhoneLabel.Text/*휴대폰번호*/, "상품준비중"/*배송상태*/, payOption/*결제수단*/,
+                            AmountOfPay.ToString()/*결제금액*/, MyPoint.ToString()/*사용포인트*/, "결제대기중"/*결제상태*/,
+                            user_id/*아이디*/, System.DateTime.Now.ToString());
                         if(OrderIndex == -1)
                         {
                             await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;

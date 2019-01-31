@@ -21,8 +21,8 @@ namespace TicketRoom.Models.ShopData
         public string SH_PUR_DELIVERY_ADRESS { get; set; } // 배송지
         [JsonProperty("SH_PUR_DELIVERY_PHONE")]
         public string SH_PUR_DELIVERY_PHONE { get; set; } // 배송 연락번호
-        [JsonProperty("SH_PUR_DELIVERY_INFO")]
-        public string SH_PUR_DELIVERY_INFO { get; set; } // 배송 정보
+        [JsonProperty("SH_PUR_DELIVERY_STATE")]
+        public string SH_PUR_DELIVERY_STATE { get; set; } // 배송 정보
         [JsonProperty("SH_PUR_LIST_ID")]
         public string SH_PUR_LIST_ID { get; set; } // 구매자 아이디
         [JsonProperty("SH_PUR_LIST_INDEX")]
