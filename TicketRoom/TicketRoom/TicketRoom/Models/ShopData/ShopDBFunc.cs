@@ -639,8 +639,8 @@ namespace TicketRoom.Models.ShopData
         }
 
         // 구매시 구매 리스트 정보 생성(return 값은 주문 번호)
-        public int PostInsertPurchaseListToID(string p_d_pay, string p_d_option, string p_d_detail, string p_d_adress, string p_d_phone, string p_d_info, // 딜리버리 인풋값
-                                                string p_p_option, string p_p_value, string p_p_point, // 결제 수단 및 결제금액 인풋값
+        public int PostInsertPurchaseListToID(string p_d_pay, string p_d_option, string p_d_detail, string p_d_adress, string p_d_phone, string p_d_state, // 딜리버리 인풋값
+                                                string p_p_option, string p_p_value, string p_p_point, string p_p_state, // 결제 수단 및 결제금액 인풋값
                                                 string p_id, string p_date) // 유저 아이디 및 구매 날짜
         {
             int result = -1;
@@ -650,10 +650,11 @@ namespace TicketRoom.Models.ShopData
             str += "',p_d_detail:'" + p_d_detail;
             str += "',p_d_adress:'" + p_d_adress;
             str += "',p_d_phone:'" + p_d_phone;
-            str += "',p_d_info:'" + p_d_info;
+            str += "',p_d_state:'" + p_d_state;
             str += "',p_p_option:'" + p_p_option;
             str += "',p_p_value:'" + p_p_value;
             str += "',p_p_point:'" + p_p_point;
+            str += "',p_p_state:'" + p_p_state;
             str += "',p_id:'" + p_id;
             str += "',p_date:'" + p_date;
             str += "'}";
