@@ -59,7 +59,15 @@ namespace TicketRoom.Views.MainTab
                     {
                         var readdata = reader.ReadToEnd();
                         string test = JsonConvert.DeserializeObject<string>(readdata);
-                        Point_label.Text = int.Parse(test).ToString("N0");
+                        if (test != null)
+                        {
+                            Point_label.Text = int.Parse(test).ToString("N0");
+                        }
+                        else
+                        {
+                            Point_label.Text = "0";
+                        }
+                        
                     }
                 }
             }
