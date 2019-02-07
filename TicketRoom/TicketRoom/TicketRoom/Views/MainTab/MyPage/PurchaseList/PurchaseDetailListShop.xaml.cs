@@ -46,7 +46,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 Margin = new Thickness(15, 0, 0, 0),
                 VerticalOptions = LayoutOptions.CenterAndExpand,
             };
-            coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            coverGrid.RowDefinitions.Add(new RowDefinition { Height = 40 });
             coverGrid.Children.Add(order_numLabel, 0, 0);
             #endregion
 
@@ -545,7 +545,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             };
             CustomLabel input_pay_priceLabel = new CustomLabel
             {
-                Text = ppList[0].SH_PUR_PAY_VALUE.ToString(),
+                Text = ppList[0].SH_PUR_PAY_VALUE.ToString("N0"),
                 Size = 14,
                 TextColor = Color.DarkGray,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -585,7 +585,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             };
             CustomLabel input_pay_pointLabel = new CustomLabel
             {
-                Text = ppList[0].SH_PUR_PAY_USEPOINT.ToString(),
+                Text = ppList[0].SH_PUR_PAY_USEPOINT.ToString() + " point",
                 Size = 14,
                 TextColor = Color.DarkGray,
                 VerticalOptions = LayoutOptions.CenterAndExpand,

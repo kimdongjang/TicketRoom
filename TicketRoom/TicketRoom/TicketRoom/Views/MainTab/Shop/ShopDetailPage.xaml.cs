@@ -82,7 +82,8 @@ namespace TicketRoom.Views.MainTab.Shop
                             "dnsrl1122", // 아이디
                             product.SH_PRODUCT_NAME, // 상품이름
                             System.DateTime.Now.ToString(),
-                            product.SH_PRODUCT_MAINIMAGE) == true)
+                            product.SH_PRODUCT_MAINIMAGE,
+                            product.SH_PRODUCT_INDEX.ToString()) == true)
                         {
                             var basket_answer = await DisplayAlert("주문 완료", "장바구니로 이동하시겠습니까?", "확인", "취소");
                             if (basket_answer)

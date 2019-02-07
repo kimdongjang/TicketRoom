@@ -492,7 +492,7 @@ namespace TicketRoom.Models.ShopData
         }
 
         // DB에 장바구니 내용 담기
-        public bool PostInsertBasketListToHome(string sh_homeIndex, string sh_price, string sh_count, string sh_color, string sh_size, string sh_id, string sh_name, string sh_date, string sh_image)
+        public bool PostInsertBasketListToHome(string sh_homeIndex, string sh_price, string sh_count, string sh_color, string sh_size, string sh_id, string sh_name, string sh_date, string sh_image, string sh_prdouct_index)
         {
             bool isResult = false;
             string str = @"{";
@@ -505,6 +505,7 @@ namespace TicketRoom.Models.ShopData
             str += "',sh_name:'" + sh_name;
             str += "',sh_date:'" + sh_date;
             str += "',sh_image:'" + sh_image;
+            str += "',sh_prdouct_index:'" + sh_prdouct_index;
             str += "'}";
 
             //// JSON 문자열을 파싱하여 JObject를 리턴
@@ -545,7 +546,7 @@ namespace TicketRoom.Models.ShopData
         }
 
 
-        // DB에서 홈 상품 인덱스로 다른 고객이 본 상품을 가져오기
+        // DB에서 장바구니 리스트 가져오기
         public List<SH_BasketList> PostSearchBasketListToID(string id)
         {
             List<SH_BasketList> basketList = new List<SH_BasketList>();
@@ -699,7 +700,7 @@ namespace TicketRoom.Models.ShopData
 
         // 구매 리스트 생성을 위해 상품 목록을 생성
         public bool PostInsertProductToPurchaseList(string p_homeindex, string p_image, string p_count, string p_color, string p_size, string p_name,
-                                                string p_id, string p_index, string p_price)
+                                                string p_id, string p_index, string p_price, string p_productindex)
         {
             bool isResult = false;
             string str = @"{";
@@ -712,6 +713,7 @@ namespace TicketRoom.Models.ShopData
             str += "',p_id:'" + p_id;
             str += "',p_index:'" + p_index;
             str += "',p_price:'" + p_price;
+            str += "',p_productindex:'" + p_productindex;
             str += "'}";
 
             //// JSON 문자열을 파싱하여 JObject를 리턴
@@ -1313,5 +1315,52 @@ namespace TicketRoom.Models.ShopData
                 return null;
             }
         }
+
+        // DB에 장바구니 내용 담기
+        public bool SH_UpdateProductCountToIndex(string p_product_index, string p_count)
+        {
+            bool isResult = false;
+            string str = @"{";
+            str += "p_product_index:'" + p_product_index;
+            str += "',p_count:'" + p_count;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_UpdateProductCountToIndex") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        isResult = JsonConvert.DeserializeObject<bool>(readdata);
+                    }
+                }
+                return isResult;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return isResult;
+            }
+        }
+
     }
 }

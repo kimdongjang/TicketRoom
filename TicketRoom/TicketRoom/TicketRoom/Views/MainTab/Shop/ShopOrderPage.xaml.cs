@@ -51,6 +51,7 @@ namespace TicketRoom.Views.MainTab.Shop
         Xamarin.Forms.Entry deliveryEntry = new Xamarin.Forms.Entry();
 
         int MyPoint = 100; // 잔여 포인트
+        int MyUsePoint = 0; // 사용 포인트
         int AmountOfPay = 0; // 결제금액
         int DeliveryPrice = 0; // 배송비
 
@@ -187,6 +188,8 @@ namespace TicketRoom.Views.MainTab.Shop
                     ArriveRadioImage.Source = "radio_unchecked_icon.png";
                     DeliveryOption = "선불";
                     deliveryPayLabel.Text = "배송비: " + DeliveryPrice;
+                    DeliveryPayUpdate();
+                    AmountOfPayUpdate();
                 })
             });
             ArriveRadioGrid.GestureRecognizers.Add(new TapGestureRecognizer()
@@ -197,6 +200,8 @@ namespace TicketRoom.Views.MainTab.Shop
                     PayRadioImage.Source = "radio_unchecked_icon.png";
                     DeliveryOption = "착불";
                     deliveryPayLabel.Text = "";
+                    DeliveryPrice = 0;
+                    AmountOfPayUpdate();
                 })
             });
             #endregion
@@ -257,7 +262,6 @@ namespace TicketRoom.Views.MainTab.Shop
                 if(b_deliveryPicker == false)
                 {
                     b_deliveryPicker = true;
-                    DeliveryContentPicker.IsEnabled = false;
                 }
             };
             DeliveryContentPicker.Unfocused += (object sender, FocusEventArgs e) =>
@@ -287,7 +291,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
             DeliveryPayUpdate();
             PointUpdate();
-            Get_SH_ProductPrice();
+            AmountOfPayUpdate();
         }
 
 
@@ -427,7 +431,7 @@ namespace TicketRoom.Views.MainTab.Shop
             };
             CustomLabel busLabel = new CustomLabel
             {
-                Text = "개인소득공제",
+                Text = "사업자 지출증빙",
                 Size = 18,
                 VerticalOptions = LayoutOptions.Center,
             };
@@ -444,6 +448,8 @@ namespace TicketRoom.Views.MainTab.Shop
                     perImage.Source = "radio_checked_icon.png";
                     busImage.Source = "radio_unchecked_icon.png";
                     payOption = "Personal";
+                    b_Business = false;
+                    b_Personal = true;
                 })
             });
             inGrid.Children.Add(perGrid, 0, 0);
@@ -454,6 +460,8 @@ namespace TicketRoom.Views.MainTab.Shop
                     busImage.Source = "radio_checked_icon.png";
                     perImage.Source = "radio_unchecked_icon.png";
                     payOption = "Business";
+                    b_Business = true;
+                    b_Personal = false;
                 })
             });
             inGrid.Children.Add(busGrid, 1, 0);
@@ -530,6 +538,7 @@ namespace TicketRoom.Views.MainTab.Shop
         // 배송비 갱신 함수
         private void DeliveryPayUpdate()
         {
+            DeliveryPrice = 0;
             for (int i = 0; i < basketList.Count; i++)
             {
                 SH_Home home = SH_DB.PostSearchHomeToHome(basketList[i].SH_HOME_INDEX);
@@ -538,9 +547,24 @@ namespace TicketRoom.Views.MainTab.Shop
                     homeList.Add(home);
                 }
             }
-            for (int i = 0; i < homeList.Count; i++)
+
+            List<int> countList = new List<int>();
+            for (int i = 0; i < homeList.Count; i++) // Soruce
             {
-                DeliveryPrice += homeList[i].SH_HOME_DELEVERY; // 배송비 갱신
+                bool bVal = false;
+                for (int j = 0; j< countList.Count; j++) // A
+                {
+                    if(homeList[i].SH_HOME_INDEX == countList[j]) // 중복된 쇼핑몰이 있다면 브레이크.
+                    {
+                        bVal = true;
+                        break;
+                    }
+                }
+                if(bVal == false) // 중복되지 않은 쇼핑몰이 있다면
+                {
+                    countList.Add(homeList[i].SH_HOME_INDEX);
+                    DeliveryPrice += homeList[i].SH_HOME_DELEVERY; // 배송비 갱신
+                }
             }
         }
 
@@ -552,44 +576,47 @@ namespace TicketRoom.Views.MainTab.Shop
         }
 
         // 상품 가격 갱신 함수
-        private void Get_SH_ProductPrice() // 상품 가격
+        private void AmountOfPayUpdate() // 상품 가격
         {
+            AmountOfPay = 0;
             for (int i = 0; i < basketList.Count; i++)
             {
                 AmountOfPay += basketList[i].SH_BASKET_PRICE;
             }
-            UsedPay.Text = AmountOfPay.ToString("N0") + "원";
+            AmountOfPay -= DeliveryPrice; // 결제금액 - 배송비
+            AmountOfPay -= MyUsePoint; // 결제금액 - 사용 포인트
+            PriceLabel.Text = AmountOfPay.ToString("N0") + "원";
         }
 
 
         // 포인트 사용
         private async void PointUseBtn_ClickedAsync(object sender, EventArgs e)
         {
-            bool check = await DisplayAlert("포인트 사용", "포인트를 사용하시겠습니까?", "확인", "취소");
-            if (check == false)
+            if (await DisplayAlert("포인트 사용", "포인트를 사용하시겠습니까?", "확인", "취소") == false)
             {
                 return;
             }
 
-            if (InputPoint.Text == "") // 포인트 칸이 빈칸일 경우,
+            if (InputPointEntry.Text == "") // 포인트 칸이 빈칸일 경우,
             {
                 await DisplayAlert("주의", "사용할 포인트를 입력해주십시오!", "확인");
                 return;
             }
             else
             {
-                if (int.Parse(Regex.Replace(InputPoint.Text, @"\D", "")) > MyPoint)
+                if (int.Parse(Regex.Replace(InputPointEntry.Text, @"\D", "")) > MyPoint) // 보유 포인트가 모자를 경우
                 {
                     await DisplayAlert("주의", "사용 가능한 포인트 금액을 초과했습니다!", "확인");
                     return;
                 }
                 else
                 {
-                    AmountOfPay -= int.Parse(InputPoint.Text); // 결제금액 갱신
-                    UsedPay.Text = AmountOfPay.ToString() + "원"; // xaml에 보이는 결제금액 갱신
-                    UsedPointLabel.Text = "포인트 사용 : " + MyPoint.ToString() + " Point";
-                    MyPoint -= int.Parse(InputPoint.Text); // 소유한 포인트 갱신
+                    MyUsePoint = int.Parse(InputPointEntry.Text); // 사용 포인트 엔트리 -> int 변수
+
+                    UsedPointLabel.Text = "포인트 사용 : " + MyUsePoint.ToString() + " Point";
+                    MyPoint -= MyUsePoint; // 소유한 포인트 갱신
                     PointUpdate(); // xaml 잔여 포인트 갱신
+                    AmountOfPayUpdate(); // 결제금액 갱신
                 }
             }
         }
@@ -612,7 +639,7 @@ namespace TicketRoom.Views.MainTab.Shop
             else
             { 
                 //장바구니로 이동
-                var answer = await DisplayAlert("결제금액 : " + UsedPay.Text, "결제 정보가 맞습니까?", "확인", "취소");
+                var answer = await DisplayAlert("결제금액 : " + PriceLabel.Text, "결제 정보가 맞습니까?", "확인", "취소");
                 if (answer)
                 {
                     if(DeliveryContentPicker.SelectedIndex != -1) // 배송 선택사항이 선택되지 않았을 경우
@@ -629,8 +656,14 @@ namespace TicketRoom.Views.MainTab.Shop
                         {
                             for(int i = 0; i < basketList.Count; i++)
                             {
+
+                                if (SH_DB.SH_UpdateProductCountToIndex(basketList[i].SH_PRODUCT_INDEX.ToString(), basketList[i].SH_BASKET_COUNT.ToString()) == false)
+                                {
+                                    await DisplayAlert("알림", "구매 가능한 수량이 부족합니다.", "확인"); return;
+                                }
+
                                 // 구매 목록에 장바구니에 저장했던 상품들 추가
-                                if(SH_DB.PostInsertProductToPurchaseList(basketList[i].SH_HOME_INDEX.ToString(),
+                                if (SH_DB.PostInsertProductToPurchaseList(basketList[i].SH_HOME_INDEX.ToString(),
                                     basketList[i].SH_BASKET_IMAGE,
                                     basketList[i].SH_BASKET_COUNT.ToString(),
                                     basketList[i].SH_BASKET_COLOR,
@@ -638,9 +671,14 @@ namespace TicketRoom.Views.MainTab.Shop
                                     basketList[i].SH_BASKET_NAME,
                                     basketList[i].SH_BASKET_ID,
                                     OrderIndex.ToString(),
-                                    basketList[i].SH_BASKET_PRICE.ToString()) == false)
+                                    basketList[i].SH_BASKET_PRICE.ToString(),
+                                    basketList[i].SH_PRODUCT_INDEX.ToString()) == false)
                                 {
                                     await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
+                                }
+                                if(SH_DB.PostDeleteBasketListToBasket(basketList[i].SH_BASKET_INDEX.ToString()) == false)
+                                {
+                                    await DisplayAlert("알림", "장바구니의 내용을 갱신하는 도중 문제가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
                                 }
                             }
                             //Personal, Card, Business, Phone
@@ -672,7 +710,10 @@ namespace TicketRoom.Views.MainTab.Shop
                                     await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
                                 }
                             }
-                            await DisplayAlert("알림", "결제 성공", "확인"); return;
+                            await DisplayAlert("알림", "결제 성공", "확인");
+                            base.OnBackButtonPressed();
+
+                            // 구매 성공시 상품 수량 마이너스 할 것.
                         }
                     }
                     
@@ -692,20 +733,6 @@ namespace TicketRoom.Views.MainTab.Shop
 
         }
 
-        // 엔트리 텍스트 내용 초기화
-        private void InputPoint_Focused(object sender, FocusEventArgs e)
-        {
-            InputPoint.Text = "";
-            b_pointLabel = true;
-        }
-        private void InputPoint_Unfocused(object sender, FocusEventArgs e)
-        {
-            if(b_pointLabel == true)
-            {
-                InputPoint.Text = "0";
-                b_pointLabel = false;
-            }
-        }
 
         private void ChangeAdressBtn_Clicked(object sender, EventArgs e)
         {
@@ -730,5 +757,43 @@ namespace TicketRoom.Views.MainTab.Shop
 
         }
 
+        private void InputPointEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            try
+            {
+                if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
+                {
+                    if (e.OldTextValue != null)
+                    {
+                        InputPointEntry.Text = e.OldTextValue;
+                    }
+                    else
+                    {
+                        InputPointEntry.Text = "";
+                    }
+                    return;
+                }
+                else
+                {
+                    if (int.Parse(InputPointEntry.Text) > AmountOfPay)
+                    {
+                        InputPointEntry.Text = (AmountOfPay + DeliveryPrice).ToString();
+                    }
+                    else
+                    {
+                        if (int.Parse(InputPointEntry.Text) > int.Parse(MyPoint.ToString().Replace(",", "")))
+                        {
+                            InputPointEntry.Text = MyPoint.ToString().Replace(",", "");
+                        }
+                    }
+
+                }
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

@@ -55,6 +55,18 @@ namespace TicketRoom.Views.MainTab.Basket
             Basketlist_Grid.Children.Clear();
             Basketlist_Grid.RowDefinitions.Clear();
 
+            if(basketList == null)
+            {
+                CustomLabel alert = new CustomLabel
+                {
+                    Text = "장바구니에 내용이 없습니다!",
+                    Size = 18,
+                    HorizontalOptions = LayoutOptions.Center,
+                };
+                Basketlist_Grid.Children.Add(alert);
+                return;
+            }
+
             int row = 0;
             for (int i = 0; i < basketList.Count; i++)
             {
@@ -146,7 +158,6 @@ namespace TicketRoom.Views.MainTab.Basket
 
 
                 // 카테고리 길게 클릭시 해당 상품 페이지로 넘어갈 수 있는 이벤트
-                inGrid.Effects.Add(new LongPressedEffect());
                 LongPressedEffect.SetCommand(inGrid, new Command(execute: async () =>
                 {
                     if (isScollUsed == false) // 만약 스크롤이 활성화 되어있지 않다면 이벤트 실행

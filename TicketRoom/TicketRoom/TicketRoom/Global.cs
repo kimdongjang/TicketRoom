@@ -6,6 +6,7 @@ namespace TicketRoom
     public class Global
     {
         public static string WCFURL = @"http://221.141.58.49:8088/Service1.svc/";
+        //public static string WCFURL = @"http://52.231.66.251/Service1.svc/";
 
         public static List<G_BasketInfo> BasketList = new List<G_BasketInfo>();
         //public static string WCFURL = @"http://52.231.66.251/Service1.svc/";
