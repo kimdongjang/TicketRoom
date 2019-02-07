@@ -29,5 +29,7 @@ namespace TicketRoom.Models.ShopData
         public int SH_PUR_LIST_INDEX { get; set; } // 주문 번호 인덱스
         [JsonProperty("SH_PUR_PRODUCT_PRICE")]
         public int SH_PUR_PRODUCT_PRICE { get; set; } // 상품 금액
+        [JsonProperty("SH_PRODUCT_INDEX")]
+        public int SH_PRODUCT_INDEX { get; set; } // 상품 인덱스
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using TicketRoom.Views.MainTab;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -18,6 +19,21 @@ namespace TicketRoom.Views
             tablist.Add(BasketTab);
             tablist.Add(MyPageTab);
             Tab_Changed(tablist[0], null);
+        }
+
+        private void LoginInit()
+        {
+            if ( File.Exists("app.config") == false) // 앱 설정 파일이 없다면 생성
+            {
+                // db에서 비회원 아이디를 가져옴. 중복 검사 필요.
+                File.WriteAllText("app.config",
+                    "UserID=" + "\n"
+                    + "IsLogin=True");
+            }
+            else
+            {
+
+            }
         }
 
         private void Tab_Changed(object sender, EventArgs e)

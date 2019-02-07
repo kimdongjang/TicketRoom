@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.MyPage.PointCheckPage">
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
@@ -31,20 +32,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label 
+                <custom:CustomLabel 
                     Grid.Column="0"
                     Text="포인트 내역"
-                    FontSize="18"
+                    Size="18"
                     TextColor="Black"
-                     XAlign="End" YAlign="Center"
-                    >
-                    <Label.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                        </OnPlatform>
-                    </Label.FontFamily>
-                </Label>
+                     XAlign="End" YAlign="Center"/>
             </Grid>
             <!--#endregion-->
 
@@ -68,8 +61,10 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="1" Source="Month_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
-                <Image Grid.Column="2" Source="year_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                <Image Grid.Column="0" Source="Month_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="AddImage"/>
+                <Image Grid.Column="1" Source="year_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="UsedImage"/>
+                <Image Grid.Column="2" Source="year_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="ChargeImage"/>
+                <Image Grid.Column="3" Source="year_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="WidhdrawImage"/>
             </Grid>
             <!--#endregion-->
 
@@ -91,14 +86,7 @@
         </Grid>
         <!--#endregion-->
 
-        <ScrollView Grid.Row="2" Margin="15,0,15,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <Grid x:Name="Salelist_Grid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-            </Grid>
-        </ScrollView>
+        <ContentView Grid.Row="2" x:Name="PointContentView"/>
     </Grid>
     <!--#endregion-->
 </ContentPage>

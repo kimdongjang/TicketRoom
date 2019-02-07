@@ -27,5 +27,7 @@ namespace TicketRoom.Models.ShopData
         public string SH_BASKET_DATE { get; set; } // 장바구니에 저장된 날짜
         [JsonProperty("SH_BASKET_IMAGE")]
         public string SH_BASKET_IMAGE { get; set; } //장바구니에 저장된 이미지
+        [JsonProperty("SH_PRODUCT_INDEX")]
+        public int SH_PRODUCT_INDEX { get; set; } // 홈 페이지 인덱스
     }
 }

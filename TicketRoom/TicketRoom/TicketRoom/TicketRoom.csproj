@@ -61,7 +61,19 @@
     <EmbeddedResource Update="Views\MainTab\MyPage\MyInfoUpdatePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainTab\MyPage\PointCheckPage.xaml">
+    <EmbeddedResource Update="Views\MainTab\MyPage\Point\PointAddList.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainTab\MyPage\Point\PointChargeView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainTab\MyPage\Point\PointCheckPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainTab\MyPage\Point\PointUsedList.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainTab\MyPage\Point\PointWidhdrawView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MainTab\MyPage\PurchaseListPage.xaml">
@@ -139,9 +151,5 @@
     <EmbeddedResource Update="Views\Users\Login\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\MainTab\MyPage\Point\" />
   </ItemGroup>
 </Project>

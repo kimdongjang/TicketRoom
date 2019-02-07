@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
+             x:Class="TicketRoom.Views.MainTab.MyPage.Point.PointChargeView">
+    <ContentView.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <!-- 0행 포인트 충전 상세 레이블 목록 -->
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <custom:CustomLabel Grid.Row="0" Text="보유 포인트" Size="18" TextColor="Black" Margin="15,0,0,0"/>
+                <custom:CustomLabel Grid.Row="1" Text="1,000 포인트" Size="16" TextColor="Black"  Margin="15,0,0,0" x:Name="MyPointLabel"/>
+
+                <!-- 2행 구분선 -->
+                <BoxView Grid.Row="2" BackgroundColor="LightGray"/>
+                <Grid Grid.Row="3" BackgroundColor="DarkGray" >
+                    <custom:CustomLabel Text="포인트 충전하기" Size="16" TextColor="White"  Margin="15,0,0,0" VerticalOptions="Center" />
+                </Grid>
+                <custom:CustomLabel Grid.Row="4" Text="결제수단" Size="18" TextColor="Black" Margin="15,30,0,0"/>
+                <!-- 5행 결제수단 라디오 버튼 -->
+                <Grid Grid.Row="5" Margin="15,00,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" x:Name="CardOptionGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="radio_checked_icon.png" x:Name="CardRadioImage"
+                                   BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
+                                   HeightRequest="40" WidthRequest="40"/>
+                        <custom:CustomLabel Grid.Column="1" Text="신용/체크카드 결제" Size="18"  VerticalOptions="Center"/>
+                    </Grid>
+                    <Grid Grid.Column="1" x:Name="CashOptionGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="radio_unchecked_icon.png" x:Name="CashRadioImage"
+                                   BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
+                                   HeightRequest="40" WidthRequest="40"/>
+                        <custom:CustomLabel Grid.Column="1" Text="현금 결제" Size="18"  VerticalOptions="Center"/>
+                    </Grid>
+                </Grid>
+                <!-- 6행 라디오 버튼 클릭시 생성되는 레이블 -->
+                <Grid Grid.Row="6" x:Name="PayOptionGrid"/>
+            </Grid>
+            <!-- 1행 포인트 충전 버튼 -->
+            <custom:CustomButton Grid.Row="1" Text="충전하기" Size="20" BackgroundColor="LightGray" TextColor="White" x:Name="ConfirmBtn" Clicked="ConfirmBtn_ClickedAsync"/>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

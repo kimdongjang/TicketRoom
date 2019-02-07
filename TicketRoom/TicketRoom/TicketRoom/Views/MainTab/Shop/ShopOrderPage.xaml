@@ -167,16 +167,15 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <local1:CustomLabel Grid.Row="0" Text="잔여 포인트 : 0" Size="18" x:Name="RestPoint"
-                                            VerticalOptions="Center" TextColor="Black"/>
+                            <local1:CustomLabel Grid.Row="0" Text="잔여 포인트 : 0" Size="18" x:Name="RestPoint" VerticalOptions="Center" TextColor="Black"/>
                             <BoxView  Grid.Row="1" BackgroundColor="Black"/>
                             <Grid Grid.Row="1" BackgroundColor="White" Margin="0.5">
                                 <local1:CustomEntry Text="0" Size="18" FontFamily="{StaticResource FontStyle}"
-                                            x:Name="InputPoint" Focused="InputPoint_Focused" Unfocused="InputPoint_Unfocused"/>
+                                            x:Name="InputPointEntry" TextChanged="InputPointEntry_TextChanged"/>
                             </Grid>
                             <local1:CustomLabel Grid.Row="2" Text="결제하실 금액" Size="18" Margin="0,15,0,0" 
                                             TextColor="Black" VerticalOptions="Center"/>
-                            <local1:CustomLabel Grid.Row="3" Text="" Size="18" TextColor="Orange" x:Name="UsedPay"/>
+                            <local1:CustomLabel Grid.Row="3" Text="" Size="18" TextColor="Orange" x:Name="PriceLabel"/>
 
                             <!--#region 4행 배송 요청사항-->
                             <Grid Grid.Row="4" BackgroundColor="White" x:Name="DeliveryGrid">

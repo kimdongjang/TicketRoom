@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
+             x:Class="TicketRoom.Views.MainTab.MyPage.Point.PointUsedList">
+    <ContentView.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <ScrollView Grid.Row="0">
+                <Grid x:Name="MainGrid" RowSpacing="10" Margin="10"/>
+            </ScrollView>
+            <BoxView Grid.Row="1"  BackgroundColor="Gray"/>
+            <custom:CustomLabel Grid.Row="2" Text="보유 포인트 > " Size="18" TextColor="Black" VerticalOptions="Center" HorizontalOptions = "Center"/>
+            <custom:CustomLabel Grid.Row="3" Text="" Size="24" TextColor="Orange" x:Name="MyPointLabel" VerticalOptions="Center" HorizontalOptions = "Center"/>
+        </Grid>
+    </ContentView.Content>
+</ContentView>
