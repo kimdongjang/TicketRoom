@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TicketRoom.Views.MainTab;
+using TicketRoom.Views.MainTab.MyPage;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
