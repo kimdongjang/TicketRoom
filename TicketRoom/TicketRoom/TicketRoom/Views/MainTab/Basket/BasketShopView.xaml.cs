@@ -64,6 +64,7 @@ namespace TicketRoom.Views.MainTab.Basket
                     HorizontalOptions = LayoutOptions.Center,
                 };
                 Basketlist_Grid.Children.Add(alert);
+                return;
             }
 
             int row = 0;
