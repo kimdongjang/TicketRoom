@@ -136,11 +136,13 @@
                             </Grid>
                         </Grid>
                         <!--#endregion-->
+                        
                         <!--#region 1행 배송비-->
                         <Grid Grid.Row="1" Margin="15,0,0,0">
                             <local1:CustomLabel x:Name="deliveryPayLabel" Size="18" Text="배송비: 3,000원"/>
                         </Grid>
                         <!--#endregion-->
+                        
                         <!--#region 2행 구분선-->
                         <BoxView  Grid.Row="2" BackgroundColor="Gray" Margin="10"/>
                         <!--#endregion-->
@@ -157,6 +159,7 @@
                                              x:Name="PointUseBtn" Clicked="PointUseBtn_ClickedAsync"/>
                         </Grid>
                         <!--#endregion-->
+                        
                         <!--#region 4행 포인트 사용 레이블/버튼, 결제할 금액-->
                         <Grid Grid.Row="4" Margin="15,0,15,0">
                             <Grid.RowDefinitions>
@@ -189,6 +192,7 @@
                             <!--#endregion-->
                         </Grid>
                         <!--#endregion-->
+                        
                         <!--#region 5행 결제방식 라디오-->
                         <Grid Grid.Row="5" Margin="15,0,0,0">
                             <Grid.RowDefinitions>
@@ -231,6 +235,7 @@
 
                         <!--#region 6행 통신사 선택-->
                         <Grid Grid.Row="6" Margin="15,15,0,0" x:Name="PhoneOptionGrid"/>
+                        <!--#endregion-->
                     </Grid>
                 </Grid>
             </ScrollView>

@@ -109,7 +109,10 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                     PDL_PRONUM = productInfo.PRONUM,
                     PDL_PROCOUNT = Count_label.Text,
                     PDL_PROTYPE = "1",
-                    PDL_ALLPRICE = (int.Parse(productInfo.PURCHASEDISCOUNTPRICE)*int.Parse(Count_label.Text)).ToString()
+                    PDL_ALLPRICE = (int.Parse(productInfo.PURCHASEDISCOUNTPRICE)*int.Parse(Count_label.Text)).ToString(),
+                    PRODUCT_IMAGE = productInfo.PRODUCTIMAGE,
+                    PRODUCT_TYPE = productInfo.PRODUCTTYPE,
+                    PRODUCT_VALUE = productInfo.PRODUCTVALUE
                 };
                 g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
             }
@@ -120,7 +123,10 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                     PDL_PRONUM = productInfo.PRONUM,
                     PDL_PROCOUNT = Count_label.Text,
                     PDL_PROTYPE = "2",
-                    PDL_ALLPRICE = (int.Parse(productInfo.PURCHASEDISCOUNTPRICE) * int.Parse(Count_label.Text)).ToString()
+                    PDL_ALLPRICE = (int.Parse(productInfo.PURCHASEDISCOUNTPRICE) * int.Parse(Count_label.Text)).ToString(),
+                    PRODUCT_IMAGE = productInfo.PRODUCTIMAGE,
+                    PRODUCT_TYPE = productInfo.PRODUCTTYPE,
+                    PRODUCT_VALUE = productInfo.PRODUCTVALUE
                 };
                 g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
             }

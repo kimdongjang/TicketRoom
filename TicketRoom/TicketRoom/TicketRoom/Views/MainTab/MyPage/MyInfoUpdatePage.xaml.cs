@@ -30,7 +30,10 @@ namespace TicketRoom.Views.MainTab.MyPage
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            timer.Stop();
+            if (timer != null)
+            {
+                timer.Stop();
+            }
             this.OnBackButtonPressed();
         }
 
