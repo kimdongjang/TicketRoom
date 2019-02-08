@@ -34,6 +34,8 @@ namespace TicketRoom.Views.MainTab.Shop
         int clothes_count = 0;
         int productIndex = 0;
 
+        string shopDetailPage_ID = "";
+
         public ShopDetailPage(string titleName, int productIndex, SH_Home home)
         {
             InitializeComponent();
@@ -49,6 +51,15 @@ namespace TicketRoom.Views.MainTab.Shop
             for (int i = 0; i<3; i++)
             {
                 otherHomeList.Add(SH_DB.PostSearchHomeToHome(otherList[i].SH_HOME_INDEX)); // 다른 고객이 본 상품 목록을 리스트에 추가
+            }
+
+            if(Global.b_user_login == false)
+            {
+                shopDetailPage_ID = Global.non_user_id;
+            }
+            else if(Global.b_user_login == true)
+            {
+                shopDetailPage_ID = Global.ID;
             }
 
             Init();
@@ -79,7 +90,7 @@ namespace TicketRoom.Views.MainTab.Shop
                             ClothesCountLabel.Text, // 수량
                             optionList[selectedIndex].SH_PRO_OPTION_COLOR, // 색상
                             optionList[selectedIndex].SH_PRO_OPTION_SIZE, // 사이즈
-                            "dnsrl1122", // 아이디
+                            shopDetailPage_ID, // 아이디
                             product.SH_PRODUCT_NAME, // 상품이름
                             System.DateTime.Now.ToString(),
                             product.SH_PRODUCT_MAINIMAGE,

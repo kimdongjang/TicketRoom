@@ -1,11 +1,15 @@
-﻿using System;
+﻿using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
+using TicketRoom.Models.PointData;
 using TicketRoom.Models.ShopData;
+using TicketRoom.Models.Users;
+using TicketRoom.Views.MainTab.Popup;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.Xaml;
@@ -16,6 +20,8 @@ namespace TicketRoom.Views.MainTab.Shop
     public partial class ShopOrderPage : ContentPage
     {
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
+        PointDBFunc PT_DB = PointDBFunc.Instance();
+        UserDBFunc USER_DB = UserDBFunc.Instance();
         List<SH_BasketList> basketList = new List<SH_BasketList>();
         List<SH_Home> homeList = new List<SH_Home>();
 
@@ -39,7 +45,7 @@ namespace TicketRoom.Views.MainTab.Shop
         // 배송 요청사항 직접사항 엔트리 생성 여부
         bool b_deliveryEntry = false;
 
-        string user_id = "dnsrl1122";
+        string ShopOrderPage_ID = "";
 
         CustomPicker card_picker = new CustomPicker();
         CustomPicker cash_picker = new CustomPicker();
@@ -47,13 +53,18 @@ namespace TicketRoom.Views.MainTab.Shop
 
         Xamarin.Forms.Entry phoneEntry = new Xamarin.Forms.Entry();
         Xamarin.Forms.Entry nameEntry = new Xamarin.Forms.Entry();
-
         Xamarin.Forms.Entry deliveryEntry = new Xamarin.Forms.Entry();
 
         int MyPoint = 100; // 잔여 포인트
         int MyUsePoint = 0; // 사용 포인트
         int AmountOfPay = 0; // 결제금액
         int DeliveryPrice = 0; // 배송비
+
+        USERS user;
+        ADRESS adress;
+
+
+        PopupPhoneEntry popup_phone; // 핸드폰 번호 변경 팝업 객체
 
         // 결제할 금액을 생성자로 받아와야함
         #region 생성자
@@ -62,6 +73,25 @@ namespace TicketRoom.Views.MainTab.Shop
             Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
             InitializeComponent();
             this.basketList = basketList;
+
+            if (Global.b_user_login == false) // 로그인이 안되있을 경우
+            {
+                ShopOrderPage_ID = Global.non_user_id;
+                MyPoint = 0;
+                AdressLabel.Text = "";
+                MyPhoneLabel.Text = "";
+            }
+            else if (Global.b_user_login == true) // 로그인이 되어있을 경우
+            {
+                ShopOrderPage_ID = Global.ID;
+                MyPoint = PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_HAVEPOINT;
+                user = USER_DB.PostSelectUserToID(ShopOrderPage_ID);
+                adress = USER_DB.PostSelectAdressToID(ShopOrderPage_ID);
+                AdressLabel.Text = adress.ROADADDR; // 도로명 주소
+                MyPhoneLabel.Text = user.PHONENUM; // 폰 넘버 초기화
+            }
+
+
             PurchaseListInit();
             Init();
         }
@@ -647,7 +677,7 @@ namespace TicketRoom.Views.MainTab.Shop
                         int OrderIndex = SH_DB.PostInsertPurchaseListToID(DeliveryPrice.ToString()/*배송비*/, DeliveryOption/*선불착불*/, ""/*배송선택사항*/,
                             AdressLabel.Text/*배송지*/, MyPhoneLabel.Text/*휴대폰번호*/, "상품준비중"/*배송상태*/, payOption/*결제수단*/,
                             AmountOfPay.ToString()/*결제금액*/, MyPoint.ToString()/*사용포인트*/, "결제대기중"/*결제상태*/,
-                            user_id/*아이디*/, System.DateTime.Now.ToString());
+                            ShopOrderPage_ID/*아이디*/, System.DateTime.Now.ToString());
                         if(OrderIndex == -1)
                         {
                             await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
@@ -754,7 +784,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void ChangePhoneBtn_Clicked(object sender, EventArgs e)
         {
-
+            PopupNavigation.PushAsync(popup_phone = new PopupPhoneEntry(this));
         }
 
         private void InputPointEntry_TextChanged(object sender, TextChangedEventArgs e)
