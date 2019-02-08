@@ -152,4 +152,10 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\MainTab\Popup\PopupPhoneEntry.xaml.cs">
+      <DependentUpon>PopupPhoneEntry.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

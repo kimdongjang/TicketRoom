@@ -56,7 +56,12 @@ namespace TicketRoom.Views.Users.Login
                             {
                                 case -1: DisplayAlert("알림", "비밀번호가 틀렸습니다", "OK"); return;
                                 case 0: DisplayAlert("알림", "아이디가 존재하지 않습니다.", "OK"); return;
-                                case 1: Navigation.PushModalAsync(new MainPage()); return;
+                                case 1: Navigation.PushModalAsync(new MainPage()); // 로그인 성공시
+                                    Global.b_user_login = true; // 회원 로그인 상태
+                                    Global.b_auto_login = true; // 자동 로그인 상태
+                                    Global.ID = id_box.Text; // 회원 아이디
+                                    MainPage.ConfigUpdateIsLogin(); // 회원 로그인 상태 Config 업데이트
+                                    return;
                                 default: DisplayAlert("알림", "서버 점검중입니다.", "OK"); return;
                             }
                         }

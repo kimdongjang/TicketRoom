@@ -23,16 +23,23 @@ namespace TicketRoom.Views.MainTab.Basket
         public List<Grid> BasketGridList = new List<Grid>();
         public int orderPay = 0;
 
+        public string basketID = "";
 
         public BasketShopView(BasketTabPage btp)
         {
             InitializeComponent();
             this.btp = btp;
 
-            ShowBasketList();
-
-
-            PriceUpdate();
+            if(Global.b_user_login == true)
+            {
+                basketID = Global.ID;
+                ShowBasketList();
+            }
+            else if(Global.b_user_login == false)
+            {
+                basketID = Global.non_user_id;
+                ShowBasketList();
+            }
         }
 
         // 결제 금액 갱신
@@ -49,7 +56,7 @@ namespace TicketRoom.Views.MainTab.Basket
 
         private void ShowBasketList()
         {
-            basketList = SH_DB.PostSearchBasketListToID("dnsrl1122"); // 사용자 아이디
+            basketList = SH_DB.PostSearchBasketListToID(basketID); // 사용자 아이디
 
             BasketGridList.Clear();
             Basketlist_Grid.Children.Clear();
@@ -246,6 +253,8 @@ namespace TicketRoom.Views.MainTab.Basket
                 Basketlist_Grid.Children.Add(gridline, 0, row);
                 row++;
             }
+
+            PriceUpdate();
         }
 
         // 그리드 리스트에서 그리드와 일치하는 인덱스 반환

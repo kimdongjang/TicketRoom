@@ -89,9 +89,9 @@
                             <ColumnDefinition Width="120"/>
                         </Grid.ColumnDefinitions>
                         <local1:CustomLabel Grid.Row="0" Size="22" Text="연락 가능한 번호" TextColor="Black" Margin="15"/>
-                        <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" Text="010-2411-0596" TextColor="Black" Margin="10,0,0,0" x:Name="MyPhoneLabel"/>
+                        <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" Text="010-2411-0596" TextColor="Black" Margin="10,0,0,0" x:Name="MyPhoneLabel" x:FieldModifier="Public"/>
                         <local1:CustomButton Grid.Row="1" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="번호 변경" HorizontalOptions="Center" VerticalOptions="Center"
-                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangePhoneBtn" Clicked="ChangePhoneBtn_Clicked" HeightRequest="30" WidthRequest="120"/>
+                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangePhoneBtn" Clicked="ChangePhoneBtn_Clicked" HeightRequest="30" WidthRequest="120" />
                         <BoxView  Grid.Row="2" Grid.Column="0"  BackgroundColor="Gray"/>
                         <BoxView  Grid.Row="2" Grid.Column="1"  BackgroundColor="Gray"/>
                     </Grid>
