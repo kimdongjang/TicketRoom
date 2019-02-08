@@ -23,5 +23,9 @@ namespace TicketRoom.Models.Gift.Purchase
         public string AC_NUM { get; set; } // 입금계좌번호
         [JsonProperty("G_PD_LIST")]
         public List<G_PurchasedetailInfo> G_PD_LIST { get; set; } // 입금계좌번호
+        [JsonProperty("PL_DV_NAME")]
+        public string PL_DV_NAME { get; set; } // 배송받을 사람 이름
+        [JsonProperty("PL_DV_PHONE")]
+        public string PL_DV_PHONE { get; set; } // 배송받을 사람 전화번호
     }
 }

@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Views.Users.CreateUser;
 using Xamarin.Forms;
@@ -33,6 +34,130 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             ShowPrice();
             SelectAllAccount();
             Radio1_Clicked(prepaymentradio, null);  //선불 착불 기본값인 선불 선택해놈
+            PurchaseListInit();
+        }
+
+        private void PurchaseListInit() // 구매할 목록 초기화
+        {
+            int row = 0;
+            for (int i = 0; i < g_PurchasedetailInfos.Count; i++)
+            {
+                PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+                
+                Grid inGrid = new Grid
+                {
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 30 }
+                    },
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.FillAndExpand,
+                    Margin = new Thickness(20, 5, 20, 5),
+                    RowSpacing = 0,
+                    ColumnSpacing = 0,
+                };
+
+                #region 장바구니 상품 이미지
+                Image product_image = new Image
+                {
+                    Source = g_PurchasedetailInfos[i].PRODUCT_IMAGE,
+                    VerticalOptions = LayoutOptions.CenterAndExpand,
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    Aspect = Aspect.AspectFill,
+                };
+                #endregion
+
+                #region 상품 설명 Labellist 그리드
+                Grid product_label_grid = new Grid
+                {
+                    Margin = new Thickness(10, 0, 0, 0),
+                    VerticalOptions = LayoutOptions.CenterAndExpand,
+                    HorizontalOptions = LayoutOptions.FillAndExpand,
+                    RowSpacing = 0,
+                    ColumnSpacing = 0,
+                    RowDefinitions =
+                    {
+                        new RowDefinition { Height = GridLength.Auto },
+                        new RowDefinition { Height = GridLength.Auto },
+                        new RowDefinition { Height = 10 },
+                        new RowDefinition { Height = GridLength.Auto }
+                    },
+
+                };
+
+                #region 상품 제목 Label
+                CustomLabel pro_label = new CustomLabel
+                {
+                    Text = g_PurchasedetailInfos[i].PRODUCT_TYPE+ " "+g_PurchasedetailInfos[i].PRODUCT_VALUE,
+                    Size = 18,
+                    TextColor = Color.Black,
+                };
+                #endregion
+
+                #region 상품 종류 Label (사이즈, 색상, 추가옵션)
+                CustomLabel type_label = null;
+                if (g_PurchasedetailInfos[i].PDL_PROTYPE.Equals("1"))
+                {
+                    type_label = new CustomLabel
+                    {
+                        Text = g_PurchasedetailInfos[i].PDL_PROCOUNT + "개 (지류)",
+                        Size = 14,
+                        TextColor = Color.DarkGray,
+                    };
+                }
+                else
+                {
+                    type_label = new CustomLabel
+                    {
+                        Text = g_PurchasedetailInfos[i].PDL_PROCOUNT + "개 (핀번호)",
+                        Size = 14,
+                        TextColor = Color.DarkGray,
+                    };
+                }
+                #endregion
+
+                #region 가격 내용 Label 및 장바구니 담은 날짜
+                CustomLabel price_label = new CustomLabel
+                {
+                    Text = int.Parse(g_PurchasedetailInfos[i].PDL_ALLPRICE).ToString("N0") + "원",
+                    Size = 14,
+                    TextColor = Color.Gray,
+                };
+                #endregion
+
+                //상품 설명 라벨 그리드에 추가
+                product_label_grid.Children.Add(pro_label, 0, 0);
+                product_label_grid.Children.Add(type_label, 0, 1);
+                product_label_grid.Children.Add(price_label, 0, 3);
+                #endregion
+
+                #region 상품권 그리드 자식 추가
+                inGrid.Children.Add(product_image, 0, 0);
+                inGrid.Children.Add(product_label_grid, 1, 0);
+                #endregion
+
+
+                //장바구니 리스트 그리드에 추가 
+                PurchaseListGrid.Children.Add(inGrid, 0, row);
+                row++;
+                if (g_PurchasedetailInfos.Count > 1)
+                {
+                    PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = 3 });
+                    #region 구분선
+                    BoxView gridline = new BoxView
+                    {
+                        BackgroundColor = Color.FromHex("#f4f2f2"),
+                        VerticalOptions = LayoutOptions.End,
+                        HorizontalOptions = LayoutOptions.FillAndExpand
+                    };
+                    //구분선 그리드에 추가 
+                    PurchaseListGrid.Children.Add(gridline, 0, row);
+                    row++;
+                    #endregion
+                }
+            }
         }
 
         private void ShowPoint()
@@ -217,7 +342,9 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                             PL_PAYMENT_PRICE = Purchase_AllPrice_label.Text.ToString().Replace(",", ""),
                             AC_NUM = (Combo.SelectedIndex + 1).ToString(),
                             G_PD_LIST = g_PurchasedetailInfos,
-                            PL_ACCUSER_NAME = Name_box.Text
+                            PL_ACCUSER_NAME = Name_box.Text,
+                            PL_DV_NAME = MyNameLabel.Text,
+                            PL_DV_PHONE = MyPhoneLabel.Text
                         };
                     }
                     else
@@ -232,7 +359,9 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                             PL_PAYMENT_PRICE = Purchase_AllPrice_label.Text.ToString().Replace(",", ""),
                             AC_NUM = (Combo.SelectedIndex + 1).ToString(),
                             G_PD_LIST = g_PurchasedetailInfos,
-                            PL_ACCUSER_NAME = Name_box.Text
+                            PL_ACCUSER_NAME = Name_box.Text,
+                            PL_DV_NAME = MyNameLabel.Text,
+                            PL_DV_PHONE = MyPhoneLabel.Text
                         };
                     }
 

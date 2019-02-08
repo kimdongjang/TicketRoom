@@ -101,7 +101,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.Start,
-                    XAlign = TextAlignment.Center,
+                    XAlign = TextAlignment.Start,
                     YAlign = TextAlignment.Center
                 };
 

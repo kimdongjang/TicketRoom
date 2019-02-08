@@ -10,22 +10,22 @@ using Xamarin.Forms.Xaml;
 
 namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class PurchaseListShop : ContentView
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class PurchaseListShop : ContentView
     {
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
         PurchaseListPage plp;
 
         List<SH_Pur_List> purchaseList = new List<SH_Pur_List>();
 
-        public PurchaseListShop (PurchaseListPage plp)
-		{
-			InitializeComponent ();
+        public PurchaseListShop(PurchaseListPage plp)
+        {
+            InitializeComponent();
             this.plp = plp;
             purchaseList = SH_DB.PostSearchPurchaseListToID("dnsrl1122"); // 사용자 아이디로 구매 목록 가져옴
             Init();
         }
-        
+
         private void Init()
         {
             if (purchaseList != null)
@@ -245,8 +245,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     row_Grid.Children.Add(dateLine, 0, 3);
                     row_Grid.Children.Add(dateGrid, 0, 4);
                 }
-                    
+
             }
         }
-	}
+    }
 }

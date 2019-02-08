@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using TicketRoom.Models.Users;
 using TicketRoom.Views.MainTab;
+using TicketRoom.Views.MainTab.MyPage;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

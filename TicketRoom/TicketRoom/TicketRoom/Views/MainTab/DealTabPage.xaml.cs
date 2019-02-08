@@ -23,7 +23,7 @@ namespace TicketRoom.Views.MainTab
         {
             InitializeComponent();
             Showdeal();
-            //ShowPoint();
+            ShowPoint();
             SelectAllCategory();
         }
 

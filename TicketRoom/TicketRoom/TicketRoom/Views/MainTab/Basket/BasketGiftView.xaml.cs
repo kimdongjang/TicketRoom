@@ -358,7 +358,10 @@ namespace TicketRoom.Views.MainTab.Basket
                     PDL_PRONUM = Global.BasketList[i].BK_PRONUM,
                     PDL_PROCOUNT = g3.Text,
                     PDL_PROTYPE = Global.BasketList[i].BK_TYPE,
-                    PDL_ALLPRICE = (int.Parse(Global.BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE) * int.Parse(g3.Text)).ToString()
+                    PDL_ALLPRICE = (int.Parse(Global.BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE) * int.Parse(g3.Text)).ToString(),
+                    PRODUCT_IMAGE = Global.BasketList[i].BK_PRODUCT_IMAGE,
+                    PRODUCT_TYPE = Global.BasketList[i].BK_PRODUCT_TYPE,
+                    PRODUCT_VALUE = Global.BasketList[i].BK_PRODUCT_VALUE
                 };
                 g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
             }

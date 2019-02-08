@@ -47,148 +47,166 @@
         </Grid>
         <!--#endregion-->
 
-        <ScrollView Grid.Row="1" Margin="15,0,15,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
-            <Grid  BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <!--#region 2행 메인 페이지 뷰-->
+        <ScrollView Grid.Row="1">
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="30"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="5"/>
-                    <RowDefinition Height="20"/>
+                    <!-- 주문 목록-->
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="1"/>
+                    <!-- 배송지 -->
                     <RowDefinition Height="Auto"/>
+                    <!-- 수취인 이름 -->
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
+                    <!-- 핸드폰 번호 -->
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <!-- 세부사항 -->
                 </Grid.RowDefinitions>
-                
-                <!--#region  0행 여백-->
-                <!--#endregion-->
-                
-                <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="7*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
 
-                    <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Text="주소" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"/>
-
-                    <local1:CustomButton Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1" Padding="0" HeightRequest="30" Text="최근 주소" TextColor="White" 
-                            x:Name="RecentAdress"
-                            BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
-                </Grid>
-
-                <!--#region 2행 주소 Entry(Input)-->
-                <Grid Grid.Row="2" Margin="10">
-                    <BoxView  BackgroundColor="Black"/>
-                    <Grid BackgroundColor="White" Margin="1">
-                        <local1:CustomEntry x:Name="EntryAdress" x:FieldModifier="Public"
-                               Placeholder="지번 혹은 도로명 주소 입력" FontSize="18" TextColor="Black"
-                               Keyboard="Text"
-                               Focused="EntryAdress_Focused"/>
-                    </Grid>
-                </Grid>
-                <!--#endregion-->
-
-                <!--#region  3행 여백-->
-                <!--#endregion-->
-
-                <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Row="4" Text="배송비 결제" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
-
-                <Grid Grid.Row="5" Margin="0,10,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="15"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" x:Name="prepaymentradio" Source="radio_checked_icon.png" BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"></Image>
-                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="2" TextColor="Black" Text="선불" HorizontalOptions="Start" VerticalOptions="Center"/>
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="Radio1_Clicked"/>
-                        </Grid.GestureRecognizers>
-                    </Grid>
-
-                    <Grid Grid.Column="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="15"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" x:Name="Cashondeliveryradio" Source="radio_unchecked_icon.png" BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"></Image>
-                        <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="2" TextColor="Black" Text="착불(방문수령)" HorizontalOptions="Start" VerticalOptions="Center"/>
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="Radio2_Clicked"/>
-                        </Grid.GestureRecognizers>
-                    </Grid>
-                </Grid>
-
-                <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Row="6" HorizontalOptions="Start" VerticalOptions="Center">
-                    <local1:CustomLabel.FormattedText>
-                        <FormattedString>
-                            <Span Text="배송비: " TextColor="Black">
-                                <Span.FontFamily>
-                                    <OnPlatform x:TypeArguments="x:String">
-                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                    </OnPlatform>
-                                </Span.FontFamily>
-                            </Span>
-                            <Span x:Name="DeliveryPrice_label" TextColor="Black">
-                                <Span.FontFamily>
-                                    <OnPlatform x:TypeArguments="x:String">
-                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                    </OnPlatform>
-                                </Span.FontFamily>
-                            </Span>
-                            <Span Text=" 원" TextColor="Black">
-                                <Span.FontFamily>
-                                    <OnPlatform x:TypeArguments="x:String">
-                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                    </OnPlatform>
-                                </Span.FontFamily>
-                            </Span>
-                        </FormattedString>
-                    </local1:CustomLabel.FormattedText>
-                </local1:CustomLabel>
-
-                <!--#region 7행 Grid라인-->
-                <BoxView Grid.Row="7" BackgroundColor="#f4f2f2" HeightRequest="1" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
-                <!--#endregion-->
-
-                <Grid Grid.Row="8" Margin="0,10,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" RowSpacing="5" ColumnSpacing="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="7*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Margin="10" BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <!-- 주문 목록-->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Grid.Row="0" Text="포인트 사용" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
-                    <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Grid.Row="1" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center">
+                    <local1:CustomLabel Grid.Row="0"  Size="26" Text="결제할 상품" TextColor="Black" Margin="15"/>
+                    <BoxView Grid.Row="1" BackgroundColor="LightGray"/>
+                    <Grid Grid.Row="1" x:Name="PurchaseListGrid" RowSpacing="0" Margin="10" BackgroundColor="White"/>
+                </Grid>
+
+                <Grid Grid.Row="1" x:Name="AdressListGrid" Margin="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <!-- 배송지-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="3"/>
+                    </Grid.RowDefinitions>
+                    <BoxView  Grid.Row="0" BackgroundColor="Gray"/>
+
+                    <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <local1:CustomLabel Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Text="배송지" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Margin="15,10,15,10"/>
+
+                        <local1:CustomButton Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1" Padding="0" HeightRequest="30" Text="최근 주소" TextColor="White" 
+                            x:Name="RecentAdress"
+                            BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Margin="15,10,15,10"/>
+                    </Grid>
+
+                    <!--#region 2행 주소 Entry(Input)-->
+                    <Grid Grid.Row="2" Margin="10">
+                        <BoxView  BackgroundColor="Black"/>
+                        <Grid BackgroundColor="White" Margin="1">
+                            <local1:CustomEntry x:Name="EntryAdress" x:FieldModifier="Public"
+                               Placeholder="지번 혹은 도로명 주소 입력" Size="18" TextColor="Black"
+                               Keyboard="Text"
+                               Focused="EntryAdress_Focused"/>
+                        </Grid>
+                    </Grid>
+                    <!--#endregion-->
+
+                    <BoxView  Grid.Row="3"  BackgroundColor="Gray"/>
+                </Grid>
+
+                <Grid Grid.Row="2" x:Name="MyNameGrid" Margin="10,0,10,10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <!--수취인 이름-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="3"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <local1:CustomLabel Grid.Row="0" Size="22" Text="수취인 이름" TextColor="Black" Margin="15,0,15,10"/>
+                    <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" Text="이대현" TextColor="Black" Margin="15,10,0,10" VerticalTextAlignment="Center" x:Name="MyNameLabel"/>
+                    <local1:CustomButton Grid.Row="1" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="이름 변경" HorizontalOptions="Center" VerticalOptions="Center"
+                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangeNameBtn" HeightRequest="30" WidthRequest="120" Margin="0,10,15,10"/>
+                    <BoxView  Grid.Row="2" Grid.Column="0"  BackgroundColor="Gray"/>
+                    <BoxView  Grid.Row="2" Grid.Column="1"  BackgroundColor="Gray"/>
+                </Grid>
+
+                <Grid Grid.Row="3" x:Name="MyPhoneGrid" Margin="10,0,10,10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <!-- 연락가능한번호-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="3"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <local1:CustomLabel Grid.Row="0" Size="22" Text="연락 가능한 번호" TextColor="Black" Margin="15,0,15,10"/>
+                    <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" Text="010-2411-0596" TextColor="Black" Margin="15,10,0,10" VerticalTextAlignment="Center" x:Name="MyPhoneLabel"/>
+                    <local1:CustomButton Grid.Row="1" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="번호 변경" HorizontalOptions="Center" VerticalOptions="Center"
+                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangePhoneBtn" HeightRequest="30" WidthRequest="120" Margin="0,10,15,10"/>
+                    <BoxView  Grid.Row="2" Grid.Column="0"  BackgroundColor="Gray"/>
+                    <BoxView  Grid.Row="2" Grid.Column="1"  BackgroundColor="Gray"/>
+                </Grid>
+
+                <Grid Grid.Row="4" Margin="10,0,10,10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <!-- 세부사항 -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="3"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="3"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+
+                    <local1:CustomLabel Grid.Row="0" Size="22" Margin="0,10,0,0" FontFamily="{StaticResource FontStyle}" Text="배송비 결제" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                    <Grid Grid.Row="1" Margin="10,10,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" x:Name="prepaymentradio" Source="radio_checked_icon.png" BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"></Image>
+                            <local1:CustomLabel Size="20" FontFamily="{StaticResource FontStyle}" Grid.Column="2" TextColor="Black" Text="선불" HorizontalOptions="Start" VerticalOptions="Center"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Radio1_Clicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+
+                        <Grid Grid.Column="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" x:Name="Cashondeliveryradio" Source="radio_unchecked_icon.png" BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"></Image>
+                            <local1:CustomLabel Size="20" FontFamily="{StaticResource FontStyle}" Grid.Column="2" TextColor="Black" Text="착불(방문수령)" HorizontalOptions="Start" VerticalOptions="Center"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Radio2_Clicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Grid>
+
+                    <local1:CustomLabel Grid.Row="2" Size="18" Margin="0,10,0,10" FontFamily="{StaticResource FontStyle}" HorizontalOptions="Start" VerticalOptions="Center">
                         <local1:CustomLabel.FormattedText>
                             <FormattedString>
-                                <Span Text="잔여 포인트: " TextColor="Black">
+                                <Span Text="배송비: " TextColor="Black" FontSize="18">
                                     <Span.FontFamily>
                                         <OnPlatform x:TypeArguments="x:String">
                                             <On Platform="iOS" Value="BMHANNAAir_ttf" />
@@ -196,7 +214,15 @@
                                         </OnPlatform>
                                     </Span.FontFamily>
                                 </Span>
-                                <Span x:Name="Point_label" TextColor="Black">
+                                <Span x:Name="DeliveryPrice_label" TextColor="Black" FontSize="18">
+                                    <Span.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String">
+                                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                        </OnPlatform>
+                                    </Span.FontFamily>
+                                </Span>
+                                <Span Text=" 원" TextColor="Black" FontSize="18">
                                     <Span.FontFamily>
                                         <OnPlatform x:TypeArguments="x:String">
                                             <On Platform="iOS" Value="BMHANNAAir_ttf" />
@@ -207,68 +233,111 @@
                             </FormattedString>
                         </local1:CustomLabel.FormattedText>
                     </local1:CustomLabel>
-                    <local1:CustomButton Size="22" FontFamily="{StaticResource FontStyle}" Clicked="UsedPointBtn_Clicked" Grid.Column="1" HeightRequest="30" Padding="0" Grid.RowSpan="2" Text="포인트 적용"
-                                         TextColor="White" BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
-                </Grid>
 
-                <!--#region 9행 포인트 Entry(Input)-->
-                <Entry Grid.Row="9" x:Name="Point_box"
+                    <!--#region 3행 Grid라인-->
+                    <BoxView Grid.Row="3" BackgroundColor="Gray" HeightRequest="3" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+                    <!--#endregion-->
+
+                    <Grid Grid.Row="4" Margin="0,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <local1:CustomLabel Size="20" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Grid.Row="0" Text="포인트 사용" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                        <local1:CustomLabel Margin="0,5,0,0" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Grid.Row="1" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center">
+                            <local1:CustomLabel.FormattedText>
+                                <FormattedString>
+                                    <Span Text="잔여 포인트: " TextColor="Black" FontSize="18">
+                                        <Span.FontFamily>
+                                            <OnPlatform x:TypeArguments="x:String">
+                                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                            </OnPlatform>
+                                        </Span.FontFamily>
+                                    </Span>
+                                    <Span x:Name="Point_label" TextColor="Black" FontSize="18">
+                                        <Span.FontFamily>
+                                            <OnPlatform x:TypeArguments="x:String">
+                                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                            </OnPlatform>
+                                        </Span.FontFamily>
+                                    </Span>
+                                </FormattedString>
+                            </local1:CustomLabel.FormattedText>
+                        </local1:CustomLabel>
+
+                        <local1:CustomButton Size="20" FontFamily="{StaticResource FontStyle}" Clicked="UsedPointBtn_Clicked" Grid.Column="1" HeightRequest="30" Padding="0" Grid.RowSpan="2" Text="포인트 적용"
+                                         TextColor="White" BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
+
+                        <!--#region 5행 포인트 Entry(Input)-->
+                        <Entry Grid.Row="2" Grid.ColumnSpan="2" x:Name="Point_box"
                            TextChanged="Point_box_TextChanged"
                            Focused="Point_box_Focused"
-                           Placeholder="사용할 포인트 입력 ex) 1000" FontSize="15" 
+                           Placeholder="사용할 포인트 입력 ex) 1000" FontSize="16" 
                            Keyboard="Numeric"
                            HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null" TextColor="Black"
                            >
-                </Entry>
-                <!--#endregion-->
+                        </Entry>
+                        <!--#endregion-->
+                    </Grid>
 
-                <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Row="11" Text="결제하실 금액" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    <local1:CustomLabel Grid.Row="5" Size="20" Margin="0,15,0,0" FontFamily="{StaticResource FontStyle}" Text="결제하실 금액" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
 
-                <!--#region 13행 총 결제금액 Label-->
-                <Label Grid.Row="13" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span x:Name="Purchase_AllPrice_label" TextColor="Red" FontSize="18">
-                                <Span.FontFamily>
-                                    <OnPlatform x:TypeArguments="x:String">
-                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                    </OnPlatform>
-                                </Span.FontFamily>
-                            </Span>
-                            <Span Text=" 원" TextColor="Red" FontSize="18">
-                                <Span.FontFamily>
-                                    <OnPlatform x:TypeArguments="x:String">
-                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                    </OnPlatform>
-                                </Span.FontFamily>
-                            </Span>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <!--#endregion-->
-                
-                <!--#region 12행 Grid라인-->
-                <BoxView Grid.Row="15" BackgroundColor="#f4f2f2" HeightRequest="1" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
-                <!--#endregion-->
+                    <!--#region 6행 총 결제금액 Label-->
+                    <Label Grid.Row="6" Margin="0,10,0,10" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span x:Name="Purchase_AllPrice_label" TextColor="Red" FontSize="18">
+                                    <Span.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String">
+                                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                        </OnPlatform>
+                                    </Span.FontFamily>
+                                </Span>
+                                <Span Text=" 원" TextColor="Red" FontSize="18">
+                                    <Span.FontFamily>
+                                        <OnPlatform x:TypeArguments="x:String">
+                                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                        </OnPlatform>
+                                    </Span.FontFamily>
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <!--#endregion-->
 
-                <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Row="17" Text="입금예정인" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    <!--#region 7행 Grid라인-->
+                    <BoxView Grid.Row="7" BackgroundColor="Gray" HeightRequest="3" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+                    <!--#endregion-->
 
-                <!--#region 13행 입금 예정인 Entry(Input)-->
-                <Entry Grid.Row="19" x:Name="Name_box"
-                           Placeholder="ex) 홍길동" FontSize="15" 
+                    <local1:CustomLabel Grid.Row="8" Size="20" Margin="0,15,0,0" TextColor="Black" FontFamily="{StaticResource FontStyle}" Text="입금예정인" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                    <!--#region 9행 입금 예정인 Entry(Input)-->
+                    <Entry Grid.Row="9" x:Name="Name_box" Margin="0,0,0,0"
+                           Placeholder="ex) 홍길동" FontSize="18" 
                            Keyboard="Text"
                            TextColor="Black"
                            HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null"
                            >
-                </Entry>
-
-                <Picker Grid.Row="20" x:Name="Combo" Title="입금 계좌 선택" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectedIndexChanged="Picker_SelectedIndexChanged"/>
+                    </Entry>
+                    <!--#endregion-->
+                    
+                    <local1:CustomLabel Grid.Row="10" Size="20" Margin="0,15,0,0" TextColor="Black" FontFamily="{StaticResource FontStyle}" Text="입금예정인" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    
+                    <Picker Grid.Row="11" x:Name="Combo" Title="입금 계좌 선택" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectedIndexChanged="Picker_SelectedIndexChanged"/>
+                </Grid>
             </Grid>
-            <!--#endregion-->
         </ScrollView>
-
+        <!--#endregion-->
 
         <local1:CustomButton Size="26" Clicked="PurchaseBtn_Clicked" FontFamily="{StaticResource FontStyle}" Grid.Row="2" Text="주문하기" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
