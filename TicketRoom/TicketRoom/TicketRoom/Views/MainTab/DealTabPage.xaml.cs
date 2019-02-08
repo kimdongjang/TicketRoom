@@ -29,7 +29,7 @@ namespace TicketRoom.Views.MainTab
 
         private void ShowPoint()
         {
-            if (Global.ISLOGIN)
+            if (Global.b_user_login)
             {
                 string str = @"{";
                 str += "USER_ID:'" + Global.ID;  //아이디찾기에선 Name으로 

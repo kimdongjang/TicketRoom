@@ -74,6 +74,7 @@ namespace TicketRoom.Views
             if(s == "True") return true;
             else return false;
         }
+
         public static void ConfigUpdateIsLogin()
         {
             File.WriteAllText(Global.localPath + "app.config",
