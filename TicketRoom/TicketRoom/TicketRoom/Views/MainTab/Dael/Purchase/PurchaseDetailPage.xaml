@@ -94,7 +94,9 @@
 
                         <local1:CustomButton Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1" Padding="0" HeightRequest="30" Text="최근 주소" TextColor="White" 
                             x:Name="RecentAdress"
+                            Clicked="ShowAddr_btnClicked"
                             BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Margin="15,10,15,10"/>
+                        <Picker x:Name="Addr_Picker" SelectedIndexChanged="Addr_PickerChanged" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="False"/>
                     </Grid>
 
                     <!--#region 2행 주소 Entry(Input)-->
@@ -238,7 +240,7 @@
                     <BoxView Grid.Row="3" BackgroundColor="Gray" HeightRequest="3" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
                     <!--#endregion-->
 
-                    <Grid Grid.Row="4" Margin="0,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" RowSpacing="0" ColumnSpacing="0">
+                    <Grid Grid.Row="4" x:Name="Point_Grid" Margin="0,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" RowSpacing="0" ColumnSpacing="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="7*"/>
                             <ColumnDefinition Width="3*"/>

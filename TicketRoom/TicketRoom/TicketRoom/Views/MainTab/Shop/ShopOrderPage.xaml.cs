@@ -65,7 +65,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
 
         PopupPhoneEntry popup_phone; // 핸드폰 번호 변경 팝업 객체
-        PopupNameEntry popup_name; // 핸드폰 번호 변경 팝업 객체
+        //PopupNameEntry popup_name; // 핸드폰 번호 변경 팝업 객체
 
         // 결제할 금액을 생성자로 받아와야함
         #region 생성자

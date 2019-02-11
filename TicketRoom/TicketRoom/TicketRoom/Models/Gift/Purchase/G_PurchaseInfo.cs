@@ -3,12 +3,16 @@ using System.Collections.Generic;
 
 namespace TicketRoom.Models.Gift.Purchase
 {
-    class G_PurchaseInfo
+    public class G_PurchaseInfo
     {
         [JsonProperty("ID")]
         public string ID { get; set; } // 구매자 ID
         [JsonProperty("PL_DELIVERY_ADDRESS")]
-        public string PL_DELIVERY_ADDRESS { get; set; }// 배송지 주소
+        public string PL_DELIVERY_ADDRESS { get; set; }// 배송지 도로명 주소
+        [JsonProperty("DELIVERY_JIBUNADDR")]
+        public string DELIVERY_JIBUNADDR { get; set; }// 배송지 지번 주소
+        [JsonProperty("DELIVERY_ZIPNO")]
+        public string DELIVERY_ZIPNO { get; set; }// 배송지 우편번호 
         [JsonProperty("PL_USED_POINT")]
         public string PL_USED_POINT { get; set; } // 사용 포인트
         [JsonProperty("PL_ISSUCCESS")]

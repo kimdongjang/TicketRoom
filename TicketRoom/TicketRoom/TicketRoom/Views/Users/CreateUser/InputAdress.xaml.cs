@@ -111,6 +111,8 @@ namespace TicketRoom.Views.Users.CreateUser
             else if (answer && pdp != null)
             {
                 pdp.EntryAdress.Text = EntryAdress.Text + DetailEntry.Text;
+                pdp.jibunAddr = jibunAddr;
+                pdp.zipNo = zipNo;
                 _canClose = false;
                 this.OnBackButtonPressed();
             }
