@@ -43,7 +43,7 @@
                 <custom:CustomLabel Grid.Row="8" Text="예금주" Size="18" TextColor="Black"  Margin="15,10,0,0"/>
                 <Entry Grid.Row="9" x:Name="NameEntry" Placeholder="ex) 홍길동" HorizontalTextAlignment="Center"/>
                 <custom:CustomLabel Grid.Row="10" Text="출금 포인트" Size="18" TextColor="Black"  Margin="15,10,0,0"/>
-                <Entry Grid.Row="11" x:Name="WidhdrawPointEntry" Placeholder="ex) 1000" HorizontalTextAlignment="Center"/>
+                <Entry Grid.Row="11" x:Name="WidhdrawPointEntry" Placeholder="ex) 1000" HorizontalTextAlignment="Center" TextChanged="WidhdrawPointEntry_TextChanged" Keyboard="Numeric"/>
                 <custom:CustomLabel Grid.Row="12" Text="[유의사항]" Size="14" TextColor="Gray"  Margin="15,0,0,0"/>
                 <custom:CustomLabel Grid.Row="13" Text="포인트 출금은 10,000 포인트 이상부터 가능합니다." Size="12" TextColor="Gray"  Margin="15,0,0,0"/>
             </Grid>

@@ -113,7 +113,7 @@ namespace TicketRoom.Views
             }
             else if (selectedtab.Text.Equals("내정보"))
             {
-                TabContent.Content = new MyPageTabPage();
+                TabContent.Content = new MyPageTabPage(this);
             }
         }
 

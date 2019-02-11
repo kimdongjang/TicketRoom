@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.PointData;
@@ -109,9 +110,11 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 Placeholder = "0원(숫자만 입력해주십시오.)",
                 FontSize = 18,
                 HorizontalTextAlignment = TextAlignment.Center,
+                Keyboard = Keyboard.Numeric,
             };
             PayOptionGrid.Children.Add(priceLabel, 0, 2);
             PayOptionGrid.Children.Add(priceEntry, 0, 3);
+            priceEntry.TextChanged += InputPointEntry_TextChanged;
 
             CustomLabel alretLabel1 = new CustomLabel
             {
@@ -129,6 +132,20 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             };
             PayOptionGrid.Children.Add(alretLabel1, 0, 4);
             PayOptionGrid.Children.Add(alretLabel2, 0, 5);
+        }
+
+
+        private void InputPointEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("retsd");
+                priceEntry.Text = Regex.Replace(priceEntry.Text, @"\D", "");
+            }
+            catch
+            {
+
+            }
         }
 
         private void CashOptionEnable()
@@ -174,9 +191,11 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 Placeholder = "0원(숫자만 입력해주십시오.)",
                 FontSize = 18,
                 HorizontalTextAlignment = TextAlignment.Center,
+                Keyboard = Keyboard.Numeric,
             };
             PayOptionGrid.Children.Add(priceLabel, 0, 2);
             PayOptionGrid.Children.Add(priceEntry, 0, 3);
+            priceEntry.TextChanged += InputPointEntry_TextChanged;
 
             CustomLabel alretLabel1 = new CustomLabel
             {

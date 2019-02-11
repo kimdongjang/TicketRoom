@@ -278,7 +278,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         {
             try
             {
-                if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
+                if (e.NewTextValue.Contains(".") || e.NewTextValue.Contains("-"))
                 {
                     if (e.OldTextValue != null)
                     {

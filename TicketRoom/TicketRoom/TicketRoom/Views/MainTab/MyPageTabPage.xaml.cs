@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using TicketRoom.Views.MainTab.MyPage;
 using TicketRoom.Views.Users.Login;
 using Xamarin.Forms;
@@ -9,9 +10,11 @@ namespace TicketRoom.Views.MainTab
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MyPageTabPage : ContentView
     {
-        public MyPageTabPage()
+        MainPage mp;
+        public MyPageTabPage(MainPage mp)
         {
             InitializeComponent();
+            this.mp = mp;
             Init();
         }
 
@@ -71,7 +74,16 @@ namespace TicketRoom.Views.MainTab
                 if(await App.Current.MainPage.DisplayAlert("알림", "로그아웃 하시겠습니까?", "확인", "취소") == true)
                 {
                     Global.b_user_login = false;
+                    Global.b_auto_login = false;
                     Global.ID = "";
+
+                    // config파일 재설정
+                    File.WriteAllText(Global.localPath + "app.config",
+                        "NonUserID=" + Global.non_user_id + "\n" +
+                        "IsLogin=" + Global.b_user_login.ToString() + "\n" + // 회원 로그인 false
+                        "AutoLogin=" + Global.b_auto_login.ToString() + "\n" + // 자동 로그인 false
+                        "UserID=" + Global.ID + "\n");
+
                     await App.Current.MainPage.DisplayAlert("알림", "성공적으로 로그아웃 되었습니다.", "확인");
                     Init();
                 }                

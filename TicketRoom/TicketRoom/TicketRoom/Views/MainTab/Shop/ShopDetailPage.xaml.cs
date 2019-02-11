@@ -48,10 +48,14 @@ namespace TicketRoom.Views.MainTab.Shop
             optionList = SH_DB.PostSearchProOptionToProductAsync(productIndex);
             product = SH_DB.PostSearchProductToProduct(productIndex);
 
-            for (int i = 0; i<3; i++)
+            if(otherList != null && otherList.Count != 0)
             {
-                otherHomeList.Add(SH_DB.PostSearchHomeToHome(otherList[i].SH_HOME_INDEX)); // 다른 고객이 본 상품 목록을 리스트에 추가
+                for (int i = 0; i < 3; i++)
+                {
+                    otherHomeList.Add(SH_DB.PostSearchHomeToHome(otherList[i].SH_HOME_INDEX)); // 다른 고객이 본 상품 목록을 리스트에 추가
+                }
             }
+
 
             if(Global.b_user_login == false)
             {
@@ -132,10 +136,19 @@ namespace TicketRoom.Views.MainTab.Shop
             TitleName.Text = myShopName;
             CountEvent();
             ColorSizeInit();
-            
-            MainImage.Source = ImageSource.FromUri(new Uri(imageList[0].SH_IMAGELIST_SOURCE)); // 이미지 리스트의 첫번째 사진 노출
+
+            if (imageList.Count != 0)
+            {
+                MainImage.Source = ImageSource.FromUri(new Uri(imageList[0].SH_IMAGELIST_SOURCE)); // 이미지 리스트의 첫번째 사진 노출
+            }
 
             ImageListInit();
+
+            // 상품설명
+            if (optionList.Count != 0)
+            {
+                DetailEditor.Text = optionList[0].SH_PRO_OPTION_CONTENT;
+            }
 
             #region 다른 고객이 함께 본 상품 목록
             Grid other_grid = new Grid
@@ -148,6 +161,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 },
                 Margin = new Thickness(15, 0, 15, 0),
             };
+            // 다른 고객이 함께본 상품이 없다면 리턴.
             for (int i = 0; i < 3; i++)
             {
                 Grid inGrid = new Grid
@@ -161,18 +175,37 @@ namespace TicketRoom.Views.MainTab.Shop
                 };
                 Image image = new Image
                 {
-                    Source = ImageSource.FromUri(new Uri(otherList[i].SH_OTHERVIEW_IMAGE)),
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
                     Aspect = Aspect.AspectFill,
                 };
+
+                if (otherList.Count <= i) // 다른 고객이 함께본 상품에 이미지가 없을 경우
+                {
+                    image.Source = "no_image.png";
+                }
+                else
+                {
+                    image.Source = ImageSource.FromUri(new Uri(otherList[i].SH_OTHERVIEW_IMAGE));
+                }
+
+
                 CustomLabel label = new CustomLabel
                 {
-                    Text = otherHomeList[i].SH_HOME_NAME, // 홈 페이지의 타이틀
                     Size = 14,
                     TextColor = Color.Black,
                     HorizontalOptions = LayoutOptions.Center,
                 };
+
+                if (otherHomeList.Count <= i) // 다른 고객이 함께본 상품에 이미지가 없을 경우
+                {
+                    label.Text = "No data";
+                }
+                else
+                {
+                    label.Text = otherHomeList[i].SH_HOME_NAME; // 홈 페이지의 타이틀
+                }
+
                 inGrid.Children.Add(image, 0, 0);
                 inGrid.Children.Add(label, 0, 1);
                 other_grid.Children.Add(inGrid, i, 0);
@@ -181,12 +214,23 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     Command = new Command(() =>
                     {
+                        // 다른 고객이 본 상품 -> 홈 메인 페이지로 이동하는데 더블 클릭 제어
+                        if(Global.isOpen_ShopOtherPage == true)
+                        {
+                            return;
+                        }
+                        Global.isOpen_ShopOtherPage = true;
+
                         for (int j = 0; j < otherHomeList.Count; j++)
                         {
                             if(label.Text == otherHomeList[j].SH_HOME_NAME)
                             {
                                 Navigation.PushModalAsync(new ShopMainPage(otherHomeList[j].SH_HOME_INDEX)); 
                             }
+                        }
+                        if(otherHomeList.Count == 0)
+                        {
+                            Global.isOpen_ShopOtherPage = false;
                         }
                     })
                 });
@@ -200,55 +244,67 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void ImageListInit()
         {
-            int column = 0;
-            // 3장까지 혹은 3장 이하의 이미지일 경우 3개의 콜럼에 이미지를 채우도록 한다.
-            for (int i = 0; i < 3; i++)
+            try
             {
-                column = i;
-                Image image = new Image { Aspect = Aspect.AspectFill };
-                if (imageList[i] == null)
+                int column = 0;
+                // 3장까지 혹은 3장 이하의 이미지일 경우 3개의 콜럼에 이미지를 채우도록 한다.
+                for (int i = 0; i < 3; i++)
                 {
-                    image.Source = "no_image.png";
+                    column = i;
+                    Image image = new Image { Aspect = Aspect.AspectFill };
+                    if (imageList.Count <= i)
+                    {
+                        image.Source = "no_image.png";
+                    }
+                    else
+                    {
+                        image.Source = ImageSource.FromUri(new Uri(imageList[i].SH_IMAGELIST_SOURCE));
+                    }
+                    ImageListGrid.Children.Add(image, i, 0);
                 }
-                else
+                // 3장 이상의 사진이 있을 경우
+                if (imageList.Count > 3)
                 {
-                    image.Source = ImageSource.FromUri(new Uri(imageList[i].SH_IMAGELIST_SOURCE));
-                }
-                ImageListGrid.Children.Add(image, i, 0);
-            }
-            // 3장 이상의 사진이 있을 경우
-            if (imageList.Count > 3)
-            {
-                Grid Dubogi = new Grid
-                {
-                    RowDefinitions =
+                    Grid Dubogi = new Grid
+                    {
+                        RowDefinitions =
                 {
                      new RowDefinition { Height = new GridLength(5, GridUnitType.Star) },
                      new RowDefinition { Height = new GridLength(5, GridUnitType.Star) },
                 }
-                };
-                BoxView borderLine = new BoxView { BackgroundColor = Color.Black, Opacity = 0.5 };
-                CustomLabel Label = new CustomLabel
+                    };
+                    BoxView borderLine = new BoxView { BackgroundColor = Color.Black, Opacity = 0.5 };
+                    CustomLabel Label = new CustomLabel
+                    {
+                        Size = 18,
+                        TextColor = Color.White,
+                        Text = "+" + (imageList.Count - 3).ToString() + "장", // 3장을 뺀 더 볼 수 있는 이미지
+                        HorizontalOptions = LayoutOptions.Center,
+                        VerticalOptions = LayoutOptions.Center
+                    };
+                    Dubogi.Children.Add(borderLine, 0, 1);
+                    Dubogi.Children.Add(Label, 0, 1);
+                    ImageListGrid.Children.Add(Dubogi, column, 0);
+                }
+                #region 이미지 리스트 그리드 클릭 이벤트
+                ImageListGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
-                    Size = 18,
-                    TextColor = Color.White,
-                    Text = "+" + (imageList.Count - 3).ToString() + "장", // 3장을 뺀 더 볼 수 있는 이미지
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center
-                };
-                Dubogi.Children.Add(borderLine, 0, 1);
-                Dubogi.Children.Add(Label, 0, 1);
-                ImageListGrid.Children.Add(Dubogi, column, 0);
+                    Command = new Command(() =>
+                    {
+                        if(Global.isOpen_PictureList == true)
+                        {
+                            return;
+                        }
+                        Global.isOpen_PictureList = true;
+                        Navigation.PushModalAsync(new PictureList(imageList));
+                    })
+                });
+                #endregion
             }
-            #region 이미지 리스트 그리드 클릭 이벤트
-            ImageListGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            catch (Exception ex)// 이미지 리스트가 초기화가 안되어있을 경우
             {
-                Command = new Command(() =>
-                {
-                    Navigation.PushModalAsync(new PictureList(imageList));
-                })
-            });
-            #endregion
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
         }
 
         // 선택 가능한 색상 및 사이즈 초기화
@@ -267,6 +323,12 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 Command = new Command(async () =>
                 {
+                    // 옵션이 선택되지 않을 경우 리턴
+                    if(ClothesSelectOption.SelectedIndex == -1)
+                    {
+                        return;
+                    }
+
                     int max_count = 0;
                     for (int i = 0; i < optionList.Count; i++)
                     { 
@@ -292,6 +354,11 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 Command = new Command(() =>
                 {
+                    // 옵션이 선택되지 않을 경우 리턴
+                    if (ClothesSelectOption.SelectedIndex == -1)
+                    {
+                        return;
+                    }
                     clothes_count = int.Parse(ClothesCountLabel.Text);
                     if (clothes_count != 0)
                     {
@@ -320,13 +387,13 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void BackButton_Clicked(object sender, EventArgs e)
         {
-            ShopSaleView.isOpenPage = false;
+            Global.isOpen_ShopDetailPage = false;
             Navigation.PopModalAsync();
         }
 
         protected override bool OnBackButtonPressed()
         {
-            ShopSaleView.isOpenPage = false;
+            Global.isOpen_ShopDetailPage = false;
             return base.OnBackButtonPressed();
 
         }

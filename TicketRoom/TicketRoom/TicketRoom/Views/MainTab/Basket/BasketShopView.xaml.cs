@@ -13,8 +13,6 @@ namespace TicketRoom.Views.MainTab.Basket
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BasketShopView : ContentView
     {
-        public bool isScollUsed = false;
-
         BasketTabPage btp;
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
         public List<SH_BasketList> basketList = new List<SH_BasketList>();
@@ -45,6 +43,7 @@ namespace TicketRoom.Views.MainTab.Basket
         // 결제 금액 갱신
         private void PriceUpdate()
         {
+            orderPay = 0;
             string changeStringToInt = "";
 
             for (int i = 0; i < basketList.Count; i++)
@@ -167,8 +166,6 @@ namespace TicketRoom.Views.MainTab.Basket
                 // 카테고리 길게 클릭시 해당 상품 페이지로 넘어갈 수 있는 이벤트
                 LongPressedEffect.SetCommand(inGrid, new Command(execute: async () =>
                 {
-                    if (isScollUsed == false) // 만약 스크롤이 활성화 되어있지 않다면 이벤트 실행
-                    {
                         if (await Application.Current.MainPage.DisplayAlert("안내", "해당 페이지로 이동하시겠습니까?", "확인", "취소"))
                         {
                             int tempIndex = 0;
@@ -181,7 +178,6 @@ namespace TicketRoom.Views.MainTab.Basket
                             }
                             await Navigation.PushModalAsync(new ShopMainPage(tempIndex));
                         }
-                    }
                 }));
 
                 #region 장바구니 삭제 버튼
@@ -225,15 +221,10 @@ namespace TicketRoom.Views.MainTab.Basket
                         }
 
                         await App.Current.MainPage.DisplayAlert("알림", "정상적으로 삭제되었습니다.", "확인");
-                        /*
-                        SH_ProductPriceList.RemoveAt(index);
-                        SH_ProductTypeList.RemoveAt(index);
-                        SH_ProductNameList.RemoveAt(index);
-                        SH_ImageSourceList.RemoveAt(index);
-                        SH_ProductCountList.RemoveAt(index);*/
                         System.Diagnostics.Debug.WriteLine("갱신@@");
 
                         ShowBasketList();
+                        PriceUpdate();
                     })
                 });
                 #endregion
@@ -275,6 +266,11 @@ namespace TicketRoom.Views.MainTab.Basket
         // 주문하기 버튼
         private async void OrderBtn_ClickedAsync(object sender, EventArgs e)
         {
+            if(basketList == null || basketList.Count == 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("알림", "장바구니에 목록이 없습니다!", "확인");
+                return;
+            }
             if (BasketTabPage.isOpenPage == false)
             {
                 await Navigation.PushModalAsync(new ShopOrderPage(basketList)); // 주문 페이지로 이동

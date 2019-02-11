@@ -65,6 +65,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
 
         PopupPhoneEntry popup_phone; // 핸드폰 번호 변경 팝업 객체
+        PopupNameEntry popup_name; // 핸드폰 번호 변경 팝업 객체
 
         // 결제할 금액을 생성자로 받아와야함
         #region 생성자
@@ -641,7 +642,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 }
                 else
                 {
-                    MyUsePoint = int.Parse(InputPointEntry.Text); // 사용 포인트 엔트리 -> int 변수
+                    MyUsePoint += int.Parse(InputPointEntry.Text); // 사용 포인트 엔트리 -> int 변수
 
                     UsedPointLabel.Text = "포인트 사용 : " + MyUsePoint.ToString() + " Point";
                     MyPoint -= MyUsePoint; // 소유한 포인트 갱신
@@ -782,14 +783,9 @@ namespace TicketRoom.Views.MainTab.Shop
 
         }
 
-        private void ChangePhoneBtn_Clicked(object sender, EventArgs e)
-        {
-            PopupNavigation.PushAsync(popup_phone = new PopupPhoneEntry(this));
-        }
 
         private void InputPointEntry_TextChanged(object sender, TextChangedEventArgs e)
         {
-
             try
             {
                 if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
@@ -806,24 +802,33 @@ namespace TicketRoom.Views.MainTab.Shop
                 }
                 else
                 {
-                    if (int.Parse(InputPointEntry.Text) > AmountOfPay)
+                    if (int.Parse(InputPointEntry.Text) > AmountOfPay) // 입력한 포인트가 결제금액보다 클 경우
                     {
-                        InputPointEntry.Text = (AmountOfPay + DeliveryPrice).ToString();
+                        InputPointEntry.Text = MyPoint.ToString();
                     }
                     else
                     {
                         if (int.Parse(InputPointEntry.Text) > int.Parse(MyPoint.ToString().Replace(",", "")))
                         {
-                            InputPointEntry.Text = MyPoint.ToString().Replace(",", "");
+                            InputPointEntry.Text = (AmountOfPay + DeliveryPrice).ToString().Replace(",", "");
                         }
                     }
-
                 }
             }
             catch
             {
 
             }
+        }
+
+        private void ChangePhoneBtn_Clicked(object sender, EventArgs e)
+        {
+            PopupNavigation.PushAsync(popup_phone = new PopupPhoneEntry(this));
+        }
+
+        private void ChangeNameBtn_Clicked(object sender, EventArgs e)
+        {
+            PopupNavigation.PushAsync(popup_name = new PopupNameEntry(this));
         }
     }
 }

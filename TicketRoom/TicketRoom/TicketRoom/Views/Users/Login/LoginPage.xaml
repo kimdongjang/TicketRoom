@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.Users.Login.LoginPage">
     <!--#region 전체 화면 그리드(행) - 0 액션바 1 로그인정보 2 로그인연동 3 회원가입&아디비번 찾기-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="6*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
@@ -28,18 +29,12 @@
             <!--#endregion-->
 
             <!--#region 1열 액션바 타이틀-->
-            <Label Grid.Column="1"
+            <custom:CustomLabel Grid.Column="1"
                     Text="로그인"
-                    FontSize="18"
+                    Size="18"
                     TextColor="Black"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
-                <Label.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Label.FontFamily>
-            </Label>
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
+
             <!--#endregion-->
 
             <!--#region 2열 옵션등 이미지-->
@@ -50,24 +45,17 @@
         <!--#region 1행 앱이름&로그인정보 그리드 0 앱이름 2 아이디 4 비번-->
         <Grid BackgroundColor="White" Grid.Row="1" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
             <!--#region 0행 앱이름-->
-            <Label Grid.Row="0"
+            <custom:CustomLabel Grid.Row="0"
                     Text="상품권 거래 APP"
-                    FontSize="18"
+                    Size="18"
                     TextColor="Black"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
-                <Label.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Label.FontFamily>
-            </Label>
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 
             <!--#region 1행 아이디-->
@@ -91,36 +79,23 @@
         <!--#region 2행 로그인 연동-->
         <Grid Grid.Row="2" Margin="0,5,0,0" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="21*"/>
-                <RowDefinition Height="21*"/>
-                <RowDefinition Height="21*"/>
-                <RowDefinition Height="21*"/>
-                <RowDefinition Height="16*"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
             </Grid.RowDefinitions>
 
             <!--#region 0행 로그인 버튼-->
-            <Button Grid.Row="0" Margin="17,5,17,5" Text="로그인" BackgroundColor="Black" 
-                    Clicked="Button_Clicked"  HorizontalOptions="FillAndExpand" 
-                    VerticalOptions="FillAndExpand" TextColor="White">
-                <Button.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Button.FontFamily>
-            </Button>
+            <custom:CustomButton Grid.Row="0" Margin="17,5,17,5" Text="로그인" BackgroundColor="Black" 
+                    Clicked="Button_Clicked"  HorizontalOptions="FillAndExpand"  Size="18"
+                    VerticalOptions="FillAndExpand" TextColor="White"/>
+
             <!--#endregion-->
 
             <!--#region TEST 1행 로그인 버튼-->
-            <Button Grid.Row="1" Margin="17,5,17,5" Text="구글" BackgroundColor="White"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Clicked="GoogleLogin_Clicked">
-                <Button.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Button.FontFamily>
-            </Button>
+            <custom:CustomButton Grid.Row="1" Margin="17,5,17,5" Text="구글" BackgroundColor="White"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Clicked="GoogleLogin_Clicked"  Size="18"/>
             <!--#endregion-->
 
             <!--#region TEST 2행 로그인 버튼-->
@@ -150,7 +125,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Label TextDecorations="Underline" Text="아이디/비밀번호 찾기" HorizontalOptions="FillAndExpand" 
-                   VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center" >
+                   VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="FindIDPWBtn_Clicked"/>
                     </Label.GestureRecognizers>
@@ -170,14 +145,8 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Text="회원이 아니신가요?" XAlign="End" YAlign="Center">
-                    <Label.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                        </OnPlatform>
-                    </Label.FontFamily>
-                </Label>
+                <custom:CustomLabel Grid.Column="0" Text="회원이 아니신가요?" XAlign="End" YAlign="Center" Size="18"/>
+
                 <!--#region 회원가입 label 클릭이벤트-->
                 <Label Grid.Column="1" Text="회원가입" TextDecorations="Underline" XAlign="Start" YAlign="Center">
                     <Label.GestureRecognizers>
