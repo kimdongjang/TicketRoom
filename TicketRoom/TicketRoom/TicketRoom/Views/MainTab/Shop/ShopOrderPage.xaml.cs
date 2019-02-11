@@ -60,8 +60,6 @@ namespace TicketRoom.Views.MainTab.Shop
         int AmountOfPay = 0; // 결제금액
         int DeliveryPrice = 0; // 배송비
 
-        USERS user;
-        ADRESS adress;
 
 
         PopupPhoneEntry popup_phone; // 핸드폰 번호 변경 팝업 객체
@@ -86,10 +84,9 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 ShopOrderPage_ID = Global.ID;
                 MyPoint = PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_HAVEPOINT;
-                user = USER_DB.PostSelectUserToID(ShopOrderPage_ID);
-                adress = USER_DB.PostSelectAdressToID(ShopOrderPage_ID);
-                AdressLabel.Text = adress.ROADADDR; // 도로명 주소
-                MyPhoneLabel.Text = user.PHONENUM; // 폰 넘버 초기화
+
+                AdressLabel.Text = Global.adress.ROADADDR; // 도로명 주소
+                MyPhoneLabel.Text = Global.user.PHONENUM; // 폰 넘버 초기화
             }
 
 
@@ -286,11 +283,11 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 DeliveryContentPicker.Items.Add(name);
             }
-            
+
             // 직접입력 피커가 선택되었을 경우
             DeliveryContentPicker.Focused += (object sender, FocusEventArgs e) =>
             {
-                if(b_deliveryPicker == false)
+                if (b_deliveryPicker == false)
                 {
                     b_deliveryPicker = true;
                 }
@@ -312,7 +309,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     b_deliveryEntry = true;
                     deliveryEntry.Focus();
                 }
-                else if(b_deliveryEntry == true) // 직접 입력을 선택하지 않을 경우 엔트리 삭제
+                else if (b_deliveryEntry == true) // 직접 입력을 선택하지 않을 경우 엔트리 삭제
                 {
                     b_deliveryEntry = false;
                     DeliveryGrid.Children.RemoveAt(1);
@@ -531,7 +528,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 nameLabel.Text = "이름";
                 nameEntry.Placeholder = "ex) 홍길동";
             }
-            else if(b_Business == true) // 현금 영수증 사업자가 선택되었을 경우
+            else if (b_Business == true) // 현금 영수증 사업자가 선택되었을 경우
             {
                 phoneLabel.Text = "사업자 등록 번호(- 빼고 입력 해 주세요)";
                 phoneEntry.Placeholder = "ex) 1113330000";
@@ -583,15 +580,15 @@ namespace TicketRoom.Views.MainTab.Shop
             for (int i = 0; i < homeList.Count; i++) // Soruce
             {
                 bool bVal = false;
-                for (int j = 0; j< countList.Count; j++) // A
+                for (int j = 0; j < countList.Count; j++) // A
                 {
-                    if(homeList[i].SH_HOME_INDEX == countList[j]) // 중복된 쇼핑몰이 있다면 브레이크.
+                    if (homeList[i].SH_HOME_INDEX == countList[j]) // 중복된 쇼핑몰이 있다면 브레이크.
                     {
                         bVal = true;
                         break;
                     }
                 }
-                if(bVal == false) // 중복되지 않은 쇼핑몰이 있다면
+                if (bVal == false) // 중복되지 않은 쇼핑몰이 있다면
                 {
                     countList.Add(homeList[i].SH_HOME_INDEX);
                     DeliveryPrice += homeList[i].SH_HOME_DELEVERY; // 배송비 갱신
@@ -657,35 +654,35 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             if (AdressLabel.Text == "")
             {
-                await DisplayAlert("알림", "배송지가 입력되지 않았습니다!", "확인");  return;
+                await DisplayAlert("알림", "배송지가 입력되지 않았습니다!", "확인"); return;
             }
-            if(card_picker.SelectedIndex == -1 && cash_picker.SelectedIndex == -1 && phone_picker.SelectedIndex == -1)
+            if (card_picker.SelectedIndex == -1 && cash_picker.SelectedIndex == -1 && phone_picker.SelectedIndex == -1)
             {
                 await DisplayAlert("알림", "결제수단이 선택되지 않았습니다!", "확인"); return;
             }
-            if(cash_picker.SelectedIndex != -1 && phoneEntry.Text == "" && nameEntry.Text == "")
+            if (cash_picker.SelectedIndex != -1 && phoneEntry.Text == "" && nameEntry.Text == "")
             {
                 await DisplayAlert("알림", "빈 칸을 채워주십시오!", "확인"); return;
             }
             else
-            { 
+            {
                 //장바구니로 이동
                 var answer = await DisplayAlert("결제금액 : " + PriceLabel.Text, "결제 정보가 맞습니까?", "확인", "취소");
                 if (answer)
                 {
-                    if(DeliveryContentPicker.SelectedIndex != -1) // 배송 선택사항이 선택되지 않았을 경우
+                    if (DeliveryContentPicker.SelectedIndex != -1) // 배송 선택사항이 선택되지 않았을 경우
                     {
                         int OrderIndex = SH_DB.PostInsertPurchaseListToID(DeliveryPrice.ToString()/*배송비*/, DeliveryOption/*선불착불*/, ""/*배송선택사항*/,
                             AdressLabel.Text/*배송지*/, MyPhoneLabel.Text/*휴대폰번호*/, "상품준비중"/*배송상태*/, payOption/*결제수단*/,
                             AmountOfPay.ToString()/*결제금액*/, MyPoint.ToString()/*사용포인트*/, "결제대기중"/*결제상태*/,
                             ShopOrderPage_ID/*아이디*/, System.DateTime.Now.ToString());
-                        if(OrderIndex == -1)
+                        if (OrderIndex == -1)
                         {
                             await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
                         }
                         else
                         {
-                            for(int i = 0; i < basketList.Count; i++)
+                            for (int i = 0; i < basketList.Count; i++)
                             {
 
                                 if (SH_DB.SH_UpdateProductCountToIndex(basketList[i].SH_PRODUCT_INDEX.ToString(), basketList[i].SH_BASKET_COUNT.ToString()) == false)
@@ -707,7 +704,7 @@ namespace TicketRoom.Views.MainTab.Shop
                                 {
                                     await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
                                 }
-                                if(SH_DB.PostDeleteBasketListToBasket(basketList[i].SH_BASKET_INDEX.ToString()) == false)
+                                if (SH_DB.PostDeleteBasketListToBasket(basketList[i].SH_BASKET_INDEX.ToString()) == false)
                                 {
                                     await DisplayAlert("알림", "장바구니의 내용을 갱신하는 도중 문제가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
                                 }
@@ -715,7 +712,7 @@ namespace TicketRoom.Views.MainTab.Shop
                             //Personal, Card, Business, Phone
                             if (payOption == "Card")
                             {
-                                if(SH_DB.PostInsertPayCardToPay(card_picker.SelectedItem.ToString(), OrderIndex.ToString()) == false)
+                                if (SH_DB.PostInsertPayCardToPay(card_picker.SelectedItem.ToString(), OrderIndex.ToString()) == false)
                                 {
                                     await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
                                 }
@@ -747,7 +744,7 @@ namespace TicketRoom.Views.MainTab.Shop
                             // 구매 성공시 상품 수량 마이너스 할 것.
                         }
                     }
-                    
+
                     // 결제 완료 페이지 이동
                     // 장바구니 리스트, 유저 아이디, 날짜, 배송정보
                 }
@@ -826,9 +823,10 @@ namespace TicketRoom.Views.MainTab.Shop
             PopupNavigation.PushAsync(popup_phone = new PopupPhoneEntry(this));
         }
 
-        private void ChangeNameBtn_Clicked(object sender, EventArgs e)
+        private void ChangNameBtn_Clicked(object sender, EventArgs e)
         {
             PopupNavigation.PushAsync(popup_name = new PopupNameEntry(this));
         }
+
     }
 }

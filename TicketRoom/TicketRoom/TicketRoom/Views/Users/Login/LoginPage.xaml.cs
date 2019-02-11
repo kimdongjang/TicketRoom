@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using TicketRoom.Models.ShopData;
+using TicketRoom.Models.Users;
 using TicketRoom.Views.Users.CreateUser;
 using TicketRoom.Views.Users.FindUser;
 using Xamarin.Forms;
@@ -15,6 +16,7 @@ namespace TicketRoom.Views.Users.Login
     public partial class LoginPage : ContentPage
     {
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
+        UserDBFunc USER_DB = UserDBFunc.Instance();
 
         public LoginPage()
         {
@@ -64,7 +66,11 @@ namespace TicketRoom.Views.Users.Login
                                     Global.b_auto_login = true; // 자동 로그인 상태
                                     Global.ID = id_box.Text; // 회원 아이디
                                     MainPage.ConfigUpdateIsLogin(); // 회원 로그인 상태 Config 업데이트
-                                    if(SH_DB.PostUpdateBasketUserToID(Global.ID, Global.non_user_id) == false) // 비회원 -> 회원 로그인시 장바구니 목록 이동
+
+                                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+
+                                    if (SH_DB.PostUpdateBasketUserToID(Global.ID, Global.non_user_id) == false) // 비회원 -> 회원 로그인시 장바구니 목록 이동
                                     {
                                         DisplayAlert("알림", "장바구니 목록을 옮기는 과정에 문제가 발생했습니다.", "확인");
                                     }

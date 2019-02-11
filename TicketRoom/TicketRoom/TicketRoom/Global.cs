@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TicketRoom.Models.Gift;
+using TicketRoom.Models.Users;
 using TicketRoom.Views.MainTab.Shop;
 using Xamarin.Forms;
 
@@ -36,6 +37,10 @@ namespace TicketRoom
         public static bool isOpen_ShopDetailPage = false; // ShopMainPage(SaleView) -> ShopDetailPage
         public static bool isOpen_ShopOtherPage = false; // ShopDetailPage -> ShopOtherPage
         public static bool isOpen_PictureList = false; // ShopDetailPage -> PictureList
+
+
+        public static USERS user;
+        public static ADRESS adress;
 
     }
 }

@@ -20,6 +20,10 @@ namespace TicketRoom.Views
         {
             InitializeComponent();
             Init();
+
+            Global.user = USER_DB.PostSelectUserToID(Global.ID);
+            Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+
             tablist.Add(DealTab);
             tablist.Add(ShopTab);
             tablist.Add(BasketTab);
@@ -74,6 +78,7 @@ namespace TicketRoom.Views
             if(s == "True") return true;
             else return false;
         }
+
         public static void ConfigUpdateIsLogin()
         {
             File.WriteAllText(Global.localPath + "app.config",

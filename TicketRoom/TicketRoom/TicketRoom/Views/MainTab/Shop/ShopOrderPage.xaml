@@ -94,7 +94,7 @@
                         <local1:CustomLabel Grid.Row="0" Size="22" Text="수취인 이름" TextColor="Black" Margin="15,0,15,10"/>
                         <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" Text="" TextColor="Black" Margin="15,10,0,10" VerticalTextAlignment="Center" x:Name="MyNameLabel" x:FieldModifier="Public"/>
                         <local1:CustomButton Grid.Row="1" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="이름 변경" HorizontalOptions="Center" VerticalOptions="Center"
-                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangeNameBtn" HeightRequest="30" WidthRequest="120" Clicked="ChangeNameBtn_Clicked"/>
+                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangeNameBtn" HeightRequest="30" WidthRequest="120" Clicked="ChangNameBtn_Clicked"/>
                         <BoxView  Grid.Row="2" Grid.Column="0"  BackgroundColor="Gray"/>
                         <BoxView  Grid.Row="2" Grid.Column="1"  BackgroundColor="Gray"/>
                     </Grid>
