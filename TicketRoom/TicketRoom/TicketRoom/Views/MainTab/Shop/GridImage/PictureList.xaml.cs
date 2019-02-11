@@ -73,6 +73,7 @@ namespace TicketRoom.Views.MainTab.Shop.GridImage
             }
             else
             {
+                Global.isOpen_PictureList = false;
                 return base.OnBackButtonPressed();
             }
         }
@@ -80,7 +81,7 @@ namespace TicketRoom.Views.MainTab.Shop.GridImage
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

@@ -60,8 +60,6 @@ namespace TicketRoom.Views.MainTab.Shop
         int AmountOfPay = 0; // 결제금액
         int DeliveryPrice = 0; // 배송비
 
-        USERS user;
-        ADRESS adress;
 
 
         PopupPhoneEntry popup_phone; // 핸드폰 번호 변경 팝업 객체
@@ -86,10 +84,9 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 ShopOrderPage_ID = Global.ID;
                 MyPoint = PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_HAVEPOINT;
-                user = USER_DB.PostSelectUserToID(ShopOrderPage_ID);
-                adress = USER_DB.PostSelectAdressToID(ShopOrderPage_ID);
-                AdressLabel.Text = adress.ROADADDR; // 도로명 주소
-                MyPhoneLabel.Text = user.PHONENUM; // 폰 넘버 초기화
+
+                AdressLabel.Text = Global.adress.ROADADDR; // 도로명 주소
+                MyPhoneLabel.Text = Global.user.PHONENUM; // 폰 넘버 초기화
             }
 
 
@@ -117,7 +114,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     },
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Margin = new Thickness(20, 0, 20, 0),
+                    Margin = new Thickness(20,0,20,0),
                     RowSpacing = 0,
                     ColumnSpacing = 0,
                 };
@@ -422,7 +419,7 @@ namespace TicketRoom.Views.MainTab.Shop
             Image perImage = new Image
             {
                 Source = "radio_checked_icon.png",
-                VerticalOptions = LayoutOptions.Center,
+                VerticalOptions= LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.Center,
                 Aspect = Aspect.AspectFit,
                 HeightRequest = 40,
@@ -642,7 +639,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 }
                 else
                 {
-                    MyUsePoint = int.Parse(InputPointEntry.Text); // 사용 포인트 엔트리 -> int 변수
+                    MyUsePoint += int.Parse(InputPointEntry.Text); // 사용 포인트 엔트리 -> int 변수
 
                     UsedPointLabel.Text = "포인트 사용 : " + MyUsePoint.ToString() + " Point";
                     MyPoint -= MyUsePoint; // 소유한 포인트 갱신
@@ -786,7 +783,6 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void InputPointEntry_TextChanged(object sender, TextChangedEventArgs e)
         {
-
             try
             {
                 if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
@@ -803,18 +799,17 @@ namespace TicketRoom.Views.MainTab.Shop
                 }
                 else
                 {
-                    if (int.Parse(InputPointEntry.Text) > AmountOfPay)
+                    if (int.Parse(InputPointEntry.Text) > AmountOfPay) // 입력한 포인트가 결제금액보다 클 경우
                     {
-                        InputPointEntry.Text = (AmountOfPay + DeliveryPrice).ToString();
+                        InputPointEntry.Text = MyPoint.ToString();
                     }
                     else
                     {
                         if (int.Parse(InputPointEntry.Text) > int.Parse(MyPoint.ToString().Replace(",", "")))
                         {
-                            InputPointEntry.Text = MyPoint.ToString().Replace(",", "");
+                            InputPointEntry.Text = (AmountOfPay + DeliveryPrice).ToString().Replace(",", "");
                         }
                     }
-
                 }
             }
             catch
@@ -828,9 +823,10 @@ namespace TicketRoom.Views.MainTab.Shop
             PopupNavigation.PushAsync(popup_phone = new PopupPhoneEntry(this));
         }
 
-        private void ChangeNameBtn_Clicked(object sender, EventArgs e)
+        private void ChangNameBtn_Clicked(object sender, EventArgs e)
         {
-            //PopupNavigation.PushAsync(popup_name = new PopupNameEntry(this));
+            PopupNavigation.PushAsync(popup_name = new PopupNameEntry(this));
         }
+
     }
 }

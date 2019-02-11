@@ -46,6 +46,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/> <!-- 주문 목록-->
                         <RowDefinition Height="Auto"/> <!-- 배송지 -->
+                        <RowDefinition Height="Auto"/> <!-- 수취인 이름 -->
                         <RowDefinition Height="Auto"/> <!-- 핸드폰 번호 -->
                         <RowDefinition Height="Auto"/> <!-- 세부사항 -->
                     </Grid.RowDefinitions>
@@ -78,7 +79,27 @@
                         <BoxView  Grid.Row="3" Grid.Column="0"  BackgroundColor="Gray"/>
                         <BoxView  Grid.Row="3" Grid.Column="1"  BackgroundColor="Gray"/>
                     </Grid>
-                    <Grid Grid.Row="2" x:Name="MyPhoneGrid" ColumnSpacing="0" Margin="10"> <!-- 연락가능한번호-->
+
+                    <!--수취인 이름-->
+                    <Grid Grid.Row="2" x:Name="MyNameGrid" Margin="10,0,10,10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="3"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <local1:CustomLabel Grid.Row="0" Size="22" Text="수취인 이름" TextColor="Black" Margin="15,0,15,10"/>
+                        <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" Text="" TextColor="Black" Margin="15,10,0,10" VerticalTextAlignment="Center" x:Name="MyNameLabel" x:FieldModifier="Public"/>
+                        <local1:CustomButton Grid.Row="1" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="이름 변경" HorizontalOptions="Center" VerticalOptions="Center"
+                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangeNameBtn" HeightRequest="30" WidthRequest="120" Clicked="ChangNameBtn_Clicked"/>
+                        <BoxView  Grid.Row="2" Grid.Column="0"  BackgroundColor="Gray"/>
+                        <BoxView  Grid.Row="2" Grid.Column="1"  BackgroundColor="Gray"/>
+                    </Grid>
+
+                    <Grid Grid.Row="3" x:Name="MyPhoneGrid" ColumnSpacing="0" Margin="10"> <!-- 연락가능한번호-->
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -97,7 +118,7 @@
                     </Grid>
 
 
-                    <Grid Grid.Row="3"> <!-- 세부사항 -->
+                    <Grid Grid.Row="4"> <!-- 세부사항 -->
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>

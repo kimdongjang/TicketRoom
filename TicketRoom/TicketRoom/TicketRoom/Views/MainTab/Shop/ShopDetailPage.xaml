@@ -120,10 +120,7 @@
                     <!--#region 5행 상품 설명-->
                     <Grid Grid.Row="5" Margin="15,0,15,0">
                         <local1:CustomLabel HeightRequest="150" x:Name="DetailEditor" Size="14" MaxLines="5"
-                                            Text="추가 설명 : ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-                                            asdasdfgㅇㄹ하ㅡㅇ루헝루ㅠㅏㅓㅇ류ㅝㅏㅇ류ㅜㅏㅓㅇ류아ㅣㄹ
-                                            ㅇ르할어ㅏ훋가ㅓㅎ우ㅡ라ㅠㅝ차퓨ㅡㅊ파ㅠㅇ라ㅣㅎ
-                                            ㅇㄹ흐ㅏㅇ류ㅡㅏㅣㅇ류ㅡㅇ라ㅣㅎㅇ러ㅏ후너ㅏ" />
+                                            Text="" />
                     </Grid>
                     <!--#endregion-->
                     <!--#region 6행 다른 고객이 함께 본 상품 레이블-->

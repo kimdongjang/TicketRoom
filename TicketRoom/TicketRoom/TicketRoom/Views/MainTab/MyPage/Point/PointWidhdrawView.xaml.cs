@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TicketRoom.Models.PointData;
 using Xamarin.Forms;
@@ -26,7 +27,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
         }
         private void Init()
         {
-            MyPointLabel.Text = pp.PT_POINT_HAVEPOINT.ToString("N0") + "포인트";
+            MyPointLabel.Text = pp.PT_POINT_HAVEPOINT.ToString("N0") + "포인트"; // 보유 포인트
 
             #region 카드결제 피커 초기화
             BankPicker.Items.Add("농협");
@@ -74,6 +75,40 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             
             await App.Current.MainPage.DisplayAlert("알림", "포인트 출금에 성공했습니다.", "확인");
             await Navigation.PopModalAsync();
+        }
+
+        private void WidhdrawPointEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                WidhdrawPointEntry.Text = Regex.Replace(WidhdrawPointEntry.Text, @"\D", "");
+                if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
+                {
+                    if (e.OldTextValue != null)
+                    {
+                        WidhdrawPointEntry.Text = e.OldTextValue;
+                    }
+                    else
+                    {
+                        WidhdrawPointEntry.Text = "";
+                    }
+                    return;
+                }
+                else
+                {
+                    if (int.Parse(WidhdrawPointEntry.Text) > pp.PT_POINT_HAVEPOINT) // 입력한 포인트가 보유 포인트보다 클 경우
+                    {
+                        WidhdrawPointEntry.Text = pp.PT_POINT_HAVEPOINT.ToString();
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+            catch
+            {
+
+            }
         }
     }
 }

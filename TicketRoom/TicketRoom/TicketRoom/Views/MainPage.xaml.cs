@@ -20,6 +20,10 @@ namespace TicketRoom.Views
         {
             InitializeComponent();
             Init();
+
+            Global.user = USER_DB.PostSelectUserToID(Global.ID);
+            Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+
             tablist.Add(DealTab);
             tablist.Add(ShopTab);
             tablist.Add(BasketTab);
@@ -114,7 +118,7 @@ namespace TicketRoom.Views
             }
             else if (selectedtab.Text.Equals("내정보"))
             {
-                TabContent.Content = new MyPageTabPage();
+                TabContent.Content = new MyPageTabPage(this);
             }
         }
 

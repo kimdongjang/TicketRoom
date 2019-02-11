@@ -124,7 +124,8 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void BackButton_Clicked(object sender, EventArgs e)
         {
-            ShopListPage.isOpenPage = false;
+            Global.isOpen_ShopMainPage = false;
+            Global.isOpen_ShopOtherPage = false;
             Navigation.PopModalAsync();
         }
         protected override bool OnBackButtonPressed()
@@ -149,7 +150,8 @@ namespace TicketRoom.Views.MainTab.Shop
             }
             else
             {
-                ShopListPage.isOpenPage = false;
+                Global.isOpen_ShopMainPage = false;
+                Global.isOpen_ShopOtherPage = false;
                 return base.OnBackButtonPressed();
             }
         }

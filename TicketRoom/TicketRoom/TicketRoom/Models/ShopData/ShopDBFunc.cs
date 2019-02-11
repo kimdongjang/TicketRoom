@@ -396,7 +396,7 @@ namespace TicketRoom.Models.ShopData
             }
         }
 
-        // DB에서 홈 상품 인덱스로 다른 고객이 본 상품을 가져오기
+        // DB에서 홈 상품 인덱스로 상품 옵션을 가져오기
         public List<SH_Pro_Option> PostSearchProOptionToProductAsync(int productIndex)
         {
             List<SH_Pro_Option> optionList = new List<SH_Pro_Option>();
@@ -1332,6 +1332,52 @@ namespace TicketRoom.Models.ShopData
             byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
 
             HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_UpdateProductCountToIndex") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        isResult = JsonConvert.DeserializeObject<bool>(readdata);
+                    }
+                }
+                return isResult;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return isResult;
+            }
+        }
+
+        // DB에 장바구니 내용 담기
+        public bool PostUpdateBasketUserToID(string p_id, string p_nonid)
+        {
+            bool isResult = false;
+            string str = @"{";
+            str += "p_id:'" + p_id;
+            str += "',p_nonid:'" + p_nonid;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_UpdateBasketUserToID") as HttpWebRequest;
             request.Method = "POST";
             request.ContentType = "application/json";
             request.ContentLength = data.Length;

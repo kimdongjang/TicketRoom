@@ -17,7 +17,6 @@ namespace TicketRoom.Views.MainTab.Shop
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShopListPage : ContentPage
     {
-        public static bool isOpenPage = false;
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
 
         int main_index = 0;
@@ -245,11 +244,11 @@ namespace TicketRoom.Views.MainTab.Shop
                         Command = new Command(() =>
                         {
                             // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
-                            if (isOpenPage == true)
+                            if (Global.isOpen_ShopMainPage == true)
                             {
                                 return;
                             }
-                            isOpenPage = true;
+                            Global.isOpen_ShopMainPage = true;
 
                             if (SelectList_Queue.Count < 2)
                             {
@@ -404,11 +403,11 @@ namespace TicketRoom.Views.MainTab.Shop
                     Command = new Command(() =>
                     {
                         // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
-                        if (isOpenPage == true)
+                        if (Global.isOpen_ShopMainPage == true)
                         {
                             return;
                         }
-                        isOpenPage = true;
+                        Global.isOpen_ShopMainPage = true;
 
                         if (SelectList_Queue.Count < 2)
                         {
@@ -459,14 +458,13 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void BackButton_Clicked(object sender, EventArgs e)
         {
-            ShopTabPage.isOpenPage = false;
+            Global.isOpen_ShopListPage = false;
             Navigation.PopModalAsync();
         }
         protected override bool OnBackButtonPressed()
         {
-            ShopTabPage.isOpenPage = false;
+            Global.isOpen_ShopListPage = false;
             return base.OnBackButtonPressed();
-            
         }
     }
 }

@@ -18,7 +18,6 @@ namespace TicketRoom.Views.MainTab
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShopTabPage : ContentView
     {
-        public static bool isOpenPage = false;
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
         public static List<MainCate> mclist;
 
@@ -29,6 +28,7 @@ namespace TicketRoom.Views.MainTab
         public int grid_count = 2;
         int columnCount = 0;
         int rowCount = 0;
+
 
         public ShopTabPage()
         {
@@ -200,11 +200,11 @@ namespace TicketRoom.Views.MainTab
                     Command = new Command(() =>
                     {
                         // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
-                        if (isOpenPage == true)
+                        if (Global.isOpen_ShopListPage == true)
                         {
                             return;
                         }
-                        isOpenPage = true;
+                        Global.isOpen_ShopListPage = true;
 
                         int tempIndex = 0;
                         for (int i = 0; i < mclist.Count; i++)

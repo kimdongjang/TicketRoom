@@ -9,8 +9,6 @@ namespace TicketRoom.Models.Users
     {
         [JsonProperty("ID")]
         public string ID { get; set; }
-        [JsonProperty("PW")]
-        public string PW { get; set; }
         [JsonProperty("EMAIL")]
         public string EMAIL { get; set; }
         [JsonProperty("NAME")]

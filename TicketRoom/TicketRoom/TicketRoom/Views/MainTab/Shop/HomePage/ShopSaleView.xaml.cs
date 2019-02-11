@@ -136,11 +136,11 @@ namespace TicketRoom.Views.MainTab.Shop
                         Command = new Command(() =>
                         {
                             // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
-                            if (ShopSaleView.isOpenPage == true)
+                            if (Global.isOpen_ShopDetailPage == true)
                             {
                                 return;
                             }
-                            ShopSaleView.isOpenPage = true;
+                            Global.isOpen_ShopDetailPage = true;
 
                             string tempString = bestHome.Text.Replace("상품 이름 : ", "");
                             for(int j = 0; j < productList.Count; j++)
@@ -241,11 +241,12 @@ namespace TicketRoom.Views.MainTab.Shop
                     Command = new Command(() =>
                     {
                         // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
-                        if (ShopSaleView.isOpenPage == true)
+                        if (Global.isOpen_ShopDetailPage == true)
                         {
                             return;
                         }
-                        ShopSaleView.isOpenPage = true;
+                        Global.isOpen_ShopDetailPage = true;
+
                         string tempString = naturalHome.Text.Replace("상품 이름 : ", "");
                         for (int j = 0; j < productList.Count; j++)
                         {
