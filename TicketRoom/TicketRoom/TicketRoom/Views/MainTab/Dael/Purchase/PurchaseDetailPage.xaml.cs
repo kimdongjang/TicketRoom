@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Models.Users;
+using TicketRoom.Views.MainTab.Popup;
 using TicketRoom.Views.Users.CreateUser;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,6 +22,9 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
     {
         List<G_PurchasedetailInfo> g_PurchasedetailInfos = null;
         InputAdress adrAPI;
+
+        PopupPhoneEntry popup_phone; // 핸드폰 번호 변경 팝업 객체
+        PopupNameEntry popup_name; // 핸드폰 번호 변경 팝업 객체
 
         public string jibunAddr = ""; // 지번 주소 
         public string zipNo = "";     // 우편 번호
@@ -170,6 +175,8 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         {
             if (Global.b_user_login)
             {
+                MyNameLabel.Text = Global.user.NAME;
+                MyPhoneLabel.Text = Global.user.PHONENUM;
 
                 string str = @"{";
                 str += "USER_ID:'" + Global.ID;  //아이디찾기에선 Name으로 
@@ -396,12 +403,24 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             {
                 if (Name_box.Text != "" && Name_box.Text != null)
                 {
+                    string userid = "";
+                    string isuser = "";
+                    if (Global.b_user_login)
+                    {
+                        userid = Global.ID;
+                        isuser = "1";
+                    }
+                    else
+                    {
+                        userid = Global.non_user_id;
+                        isuser = "2";
+                    }
                     G_PurchaseInfo g_PurchaseInfo = null;
                     if (prepaymentradio.Source.ToString().Contains("radio_checked_icon.png"))
                     {
                         g_PurchaseInfo = new G_PurchaseInfo
                         {
-                            ID = Global.ID,
+                            ID = userid,
                             PL_DELIVERY_ADDRESS = EntryAdress.Text,
                             PL_USED_POINT = UsedPoint.ToString(),
                             PL_ISSUCCESS = "",
@@ -412,15 +431,16 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                             PL_ACCUSER_NAME = Name_box.Text,
                             PL_DV_NAME = MyNameLabel.Text,
                             PL_DV_PHONE = MyPhoneLabel.Text,
-                            DELIVERY_JIBUNADDR = jibunAddr, 
-                            DELIVERY_ZIPNO = zipNo
+                            DELIVERY_JIBUNADDR = jibunAddr,
+                            DELIVERY_ZIPNO = zipNo,
+                            ISUSER = isuser
                         };
                     }
                     else
                     {
                         g_PurchaseInfo = new G_PurchaseInfo
                         {
-                            ID = Global.ID,
+                            ID = userid,
                             PL_DELIVERY_ADDRESS = EntryAdress.Text,
                             PL_USED_POINT = UsedPoint.ToString(),
                             PL_ISSUCCESS = "",
@@ -432,7 +452,8 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                             PL_DV_NAME = MyNameLabel.Text,
                             PL_DV_PHONE = MyPhoneLabel.Text,
                             DELIVERY_JIBUNADDR = jibunAddr,
-                            DELIVERY_ZIPNO = zipNo
+                            DELIVERY_ZIPNO = zipNo,
+                            ISUSER = isuser
                         };
                     }
 
@@ -573,6 +594,16 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         private void Addr_PickerChanged(object sender, EventArgs e)
         {
             EntryAdress.Text = Addr_Picker.SelectedItem.ToString();
+        }
+
+        private void ChaneName_btnClicked(object sender, EventArgs e)
+        {
+            PopupNavigation.PushAsync(popup_name = new PopupNameEntry(this));
+        }
+
+        private void ChangePhone_btnClicked(object sender, EventArgs e)
+        {
+            PopupNavigation.PushAsync(popup_phone = new PopupPhoneEntry(this));
         }
     }
 }

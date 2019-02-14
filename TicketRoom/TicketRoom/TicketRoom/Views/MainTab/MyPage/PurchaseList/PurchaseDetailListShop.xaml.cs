@@ -31,6 +31,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             this.pl_index = pl_index;
             Init();
         }
+
         private void Init()
         {
 

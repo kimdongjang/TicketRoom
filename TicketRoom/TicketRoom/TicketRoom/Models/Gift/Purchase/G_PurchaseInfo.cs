@@ -31,5 +31,7 @@ namespace TicketRoom.Models.Gift.Purchase
         public string PL_DV_NAME { get; set; } // 배송받을 사람 이름
         [JsonProperty("PL_DV_PHONE")]
         public string PL_DV_PHONE { get; set; } // 배송받을 사람 전화번호
+        [JsonProperty("ISUSER")]
+        public string ISUSER { get; set; } // 회원상태 ( 1: 회원 2: 비회원)
     }
 }

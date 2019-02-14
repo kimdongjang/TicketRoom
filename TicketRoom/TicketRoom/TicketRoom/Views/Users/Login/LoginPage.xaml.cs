@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net;
@@ -62,6 +63,7 @@ namespace TicketRoom.Views.Users.Login
                                 case -1: DisplayAlert("알림", "비밀번호가 틀렸습니다", "OK"); return;
                                 case 0: DisplayAlert("알림", "아이디가 존재하지 않습니다.", "OK"); return;
                                 case 1: Navigation.PushModalAsync(new MainPage()); // 로그인 성공시
+
                                     Global.b_user_login = true; // 회원 로그인 상태
                                     Global.b_auto_login = true; // 자동 로그인 상태
                                     Global.ID = id_box.Text; // 회원 아이디
@@ -72,8 +74,52 @@ namespace TicketRoom.Views.Users.Login
 
                                     if (SH_DB.PostUpdateBasketUserToID(Global.ID, Global.non_user_id) == false) // 비회원 -> 회원 로그인시 장바구니 목록 이동
                                     {
-                                        DisplayAlert("알림", "장바구니 목록을 옮기는 과정에 문제가 발생했습니다.", "확인");
+                                        DisplayAlert("알림", "쇼핑몰 장바구니 목록을 옮기는 과정에 문제가 발생했습니다.", "확인");
                                     }
+
+                                    string str2 = @"{";
+                                    str2 += "nonuserid:'" + Global.non_user_id;  // 비회원아이디
+                                    str2 += "',userid:'" + Global.ID; // 회원 ID
+                                    str2 += "'}";
+
+                                    //// JSON 문자열을 파싱하여 JObject를 리턴
+                                    JObject jo2 = JObject.Parse(str2);
+
+                                    UTF8Encoding encoder2 = new UTF8Encoding();
+                                    byte[] data2 = encoder2.GetBytes(jo2.ToString()); // a json object, or xml, whatever...
+
+                                    //request.Method = "POST";
+                                    HttpWebRequest request2 = WebRequest.Create(Global.WCFURL + "Update_Basketlist") as HttpWebRequest;
+                                    request2.Method = "POST";
+                                    request2.ContentType = "application/json";
+                                    request2.ContentLength = data2.Length;
+
+                                    //request.Expect = "application/json";
+
+                                    request2.GetRequestStream().Write(data2, 0, data2.Length);
+
+                                    using (HttpWebResponse response2 = request2.GetResponse() as HttpWebResponse)
+                                    {
+                                        if (response2.StatusCode != HttpStatusCode.OK)
+                                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response2.StatusCode);
+                                        using (StreamReader reader2 = new StreamReader(response2.GetResponseStream()))
+                                        {
+                                            var readdata2 = reader2.ReadToEnd();
+                                            string test = JsonConvert.DeserializeObject<string>(readdata2);
+                                            if (test != null && test != "")
+                                            {
+                                                if (test.Equals("true"))
+                                                {
+                                                    //상품권 장바구니 업데이트 완료 (비회원 -> 회원)
+                                                }
+                                                else
+                                                {
+                                                    App.Current.MainPage.DisplayAlert("알림", "서버점검중입니다", "확인");
+                                                }
+                                            }
+                                        }
+                                    }
+
                                     return;
                                 default: DisplayAlert("알림", "서버 점검중입니다.", "OK"); return;
                             }

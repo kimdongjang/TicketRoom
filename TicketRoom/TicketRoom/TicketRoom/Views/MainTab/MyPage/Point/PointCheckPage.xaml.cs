@@ -8,7 +8,7 @@ using TicketRoom.Views.MainTab.MyPage.Point;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TicketRoom.Views.MainTab.MyPage
+namespace TicketRoom.Views.MainTab.MyPage.Point
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PointCheckPage : ContentPage

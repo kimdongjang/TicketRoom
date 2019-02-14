@@ -141,27 +141,76 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 DisplayAlert("알림", "수량을 정해주세요", "OK");
                 return;
             }
-            G_BasketInfo basketInfo = new G_BasketInfo();
-            basketInfo.BK_PRONUM = productInfo.PRONUM;
-            basketInfo.BK_PROCOUNT = Count_label.Text;
-            basketInfo.BK_PRODUCT_IMAGE = productInfo.PRODUCTIMAGE;
-            basketInfo.BK_PRODUCT_PURCHASE_DISCOUNTPRICE = productInfo.PURCHASEDISCOUNTPRICE;
-            basketInfo.BK_PRODUCT_TYPE = productInfo.PRODUCTTYPE;
-            basketInfo.BK_PRODUCT_VALUE = productInfo.PRODUCTVALUE;
 
-            if (prepaymentradio.Source.ToString().Contains("radio_checked_icon.png"))
+            string userid = "";
+            string protype = "";
+            if (Global.b_user_login)
             {
-                basketInfo.BK_TYPE = "1";
+                userid = Global.ID;
             }
             else
             {
-                basketInfo.BK_TYPE = "2";
+                userid = Global.non_user_id;
             }
-            Global.BasketList.Add(basketInfo);
-            await ShowMessage("장바구니에 추가되었습니다.", "알림", "OK", async () =>
+
+            if (prepaymentradio.Source.ToString().Contains("radio_checked_icon.png"))
             {
-                this.OnBackButtonPressed();
-            });
+                protype = "1";
+            }
+            else
+            {
+                protype = "2";
+            }
+            
+            string str = @"{";
+            str += "ID:'" + userid;  //아이디찾기에선 Name으로 
+            str += "',PRONUM:'" + productInfo.PRONUM;
+            str += "',PROCOUNT:'" + Count_label.Text;
+            str += "',PROTYPE:'" + protype;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            //request.Method = "POST";
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Insert_Basketlist") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            //request.Expect = "application/json";
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var readdata = reader.ReadToEnd();
+                    string test = JsonConvert.DeserializeObject<string>(readdata);
+                    if (test != null && test !="")
+                    {
+                        if (test.Equals("true"))
+                        {
+                            await ShowMessage("장바구니에 추가되었습니다.", "알림", "OK", async () =>
+                            {
+                                this.OnBackButtonPressed();
+                            });
+                        }
+                        else
+                        {
+                            await ShowMessage("서버점검중입니다.", "알림", "OK", async () =>
+                            {
+                            });
+                        }
+                    }
+                }
+            }
         }
 
         private void Radio1_Clicked(object sender, EventArgs e)

@@ -4,6 +4,8 @@ namespace TicketRoom.Models.Gift
 {
     public class G_BasketInfo
     {
+        [JsonProperty("BASKETLISTTABLE_NUM")]
+        public string BASKETLISTTABLE_NUM { get; set; } // 장바구니 인덱스
         [JsonProperty("BK_PRONUM")]
         public string BK_PRONUM { get; set; } // 장바구니 상품 번호
         [JsonProperty("BK_PROCOUNT")]

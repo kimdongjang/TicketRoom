@@ -70,7 +70,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!--#region 0열 구매-->
-                <Button Grid.Column="0" Text="구매"
+                <Button Grid.Column="0" Text="상품권 구매"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                     BackgroundColor="White"
                     Clicked="Tab_Changed"
@@ -90,7 +90,7 @@
                 <!--#endregion-->
 
                 <!--#region 2열 판매-->
-                <Button Grid.Column="2" Text="판매"
+                <Button Grid.Column="2" Text="상품권 판매"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                     BackgroundColor="White"
                     Clicked="Tab_Changed"
