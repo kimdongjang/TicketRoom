@@ -73,7 +73,7 @@
                         <BoxView  Grid.Row="0" Grid.Column="0" BackgroundColor="Gray"/>
                         <BoxView  Grid.Row="0" Grid.Column="1" BackgroundColor="Gray"/>
                         <local1:CustomLabel Grid.Row="1" Size="22" Text="배송지" TextColor="Black" Margin="15"/>
-                        <local1:CustomLabel Grid.Row="2" Grid.Column="0" Size="18" Text="서울시 동작구 우암로 121-2" TextColor="Black" Margin="10,0,0,0" x:Name="AdressLabel"/>
+                        <local1:CustomLabel Grid.Row="2" Grid.Column="0" Size="18" Text="" TextColor="Black" Margin="10,0,0,0" x:Name="AdressLabel" x:FieldModifier="Public"/>
                         <local1:CustomButton Grid.Row="2" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="배송지 변경" HorizontalOptions="Center" VerticalOptions="Center"
                                                     BackgroundColor="Black" TextColor="White" x:Name="ChangeAdressBtn" Clicked="ChangeAdressBtn_Clicked" HeightRequest="30" WidthRequest="120"/>
                         <BoxView  Grid.Row="3" Grid.Column="0"  BackgroundColor="Gray"/>
@@ -109,8 +109,8 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="120"/>
                         </Grid.ColumnDefinitions>
-                        <local1:CustomLabel Grid.Row="0" Size="22" Text="연락 가능한 번호" TextColor="Black" Margin="15"/>
-                        <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" Text="010-2411-0596" TextColor="Black" Margin="10,0,0,0" x:Name="MyPhoneLabel" x:FieldModifier="Public"/>
+                        <local1:CustomLabel Grid.Row="0" Size="22" Text="연락 가능한 번호" TextColor="Black" Margin="15,0,15,10"/>
+                        <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" Text="010-2411-0596" TextColor="Black" Margin="15,10,0,10" x:Name="MyPhoneLabel" x:FieldModifier="Public"/>
                         <local1:CustomButton Grid.Row="1" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="번호 변경" HorizontalOptions="Center" VerticalOptions="Center"
                                                     BackgroundColor="Black" TextColor="White" x:Name="ChangePhoneBtn" Clicked="ChangePhoneBtn_Clicked" HeightRequest="30" WidthRequest="120" />
                         <BoxView  Grid.Row="2" Grid.Column="0"  BackgroundColor="Gray"/>
@@ -195,7 +195,7 @@
                             <BoxView  Grid.Row="1" BackgroundColor="Black"/>
                             <Grid Grid.Row="1" BackgroundColor="White" Margin="0.5">
                                 <local1:CustomEntry Text="0" Size="18" FontFamily="{StaticResource FontStyle}"
-                                            x:Name="InputPointEntry" TextChanged="InputPointEntry_TextChanged"/>
+                                            x:Name="InputPointEntry" TextChanged="InputPointEntry_TextChanged" Keyboard="Numeric"/>
                             </Grid>
                             <local1:CustomLabel Grid.Row="2" Text="결제하실 금액" Size="18" Margin="0,15,0,0" 
                                             TextColor="Black" VerticalOptions="Center"/>

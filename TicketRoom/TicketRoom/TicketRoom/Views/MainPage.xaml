@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TicketRoom.Views.MainPage">
+             x:Class="TicketRoom.Views.MainPage"
+             Title=""
+             >
+    
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
         <Grid.RowDefinitions>
@@ -30,7 +33,6 @@
                 <Button.FontFamily>
                     <OnPlatform x:TypeArguments="x:String">
                         <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
                     </OnPlatform>
                 </Button.FontFamily>
             </Button>
@@ -46,7 +48,6 @@
                 <Button.FontFamily>
                     <OnPlatform x:TypeArguments="x:String">
                         <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
                     </OnPlatform>
                 </Button.FontFamily>
             </Button>
@@ -62,7 +63,6 @@
                 <Button.FontFamily>
                     <OnPlatform x:TypeArguments="x:String">
                         <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
                     </OnPlatform>
                 </Button.FontFamily>
             </Button>
@@ -78,7 +78,6 @@
                 <Button.FontFamily>
                     <OnPlatform x:TypeArguments="x:String">
                         <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
                     </OnPlatform>
                 </Button.FontFamily>
             </Button>

@@ -3,9 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:models="clr-namespace:TicketRoom.Models.Custom"
-             x:Class="TicketRoom.Views.MainTab.Shop.GridImage.PopupImage">
-    <StackLayout Margin="12" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="WhiteSmoke">
-        <Image x:Name="SeenImage" Aspect="AspectFill"/>
-        <models:CustomLabel Text="바우로 상품" Size="18"/>
-    </StackLayout>
+                 xmlns:local="clr-namespace:TicketRoom.Models.Zoom"
+                 x:Class="TicketRoom.Views.MainTab.Shop.GridImage.PopupImage">
+    <Grid Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <local:PinchToZoomContainer Grid.Row="0">
+            <local:PinchToZoomContainer.Content>
+                <Image x:Name="SeenImage" Aspect="AspectFit" HeightRequest="600" WidthRequest="300"/>
+            </local:PinchToZoomContainer.Content>
+        </local:PinchToZoomContainer>
+        <models:CustomLabel Grid.Row="1" Text="" Size="18" x:Name="ProductContentLabel"/>
+    </Grid>
 </pages:PopupPage>

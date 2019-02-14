@@ -29,6 +29,11 @@ namespace TicketRoom
 
         public static bool ISLOGIN = true;
 
+        // 다른 고객이 본 상품 인덱스 초기화 전역 변수        
+        public static int g_main_index = -1;
+        public static int g_other_index = -1;
+        public static int g_SetUsedValue = 0;
+
 
         // 페이지 두번 클릭 제한 bool 변수(쇼핑)
         // false는 열리지 않은 상태, true는 열려있는 상태
@@ -42,5 +47,30 @@ namespace TicketRoom
         public static USERS user;
         public static ADRESS adress;
 
+        /// <summary>
+        /// 다른 고객이 본 상품으로 연결하는 인덱스 업데이트 ( main페이지1 -> other페이지3 , main페이지3 -> other페이지2 )
+        /// other이 된 페이지는 main이 된다.
+        /// </summary>
+        /// <param name="index"></param>
+        public static void OtherIndexUpdate(int input)
+        {
+            if (Global.g_SetUsedValue == 0) // 첫 페이지를 열 때만( num1, x)
+            {
+                Global.g_main_index = input;
+                Global.g_SetUsedValue = 1;
+            }
+            else if (Global.g_SetUsedValue == 1) // 두번째 페이지 스왑(num1, num2)
+            {
+                Global.g_other_index = input;
+                Global.g_SetUsedValue = 2;
+            }
+            else if (Global.g_SetUsedValue == 2)// 세번째 부터 스왑의 연속(num2, num1)
+            {
+                Global.g_main_index = Global.g_other_index;
+                Global.g_other_index = input;
+            }
+        }
+
     }
+
 }

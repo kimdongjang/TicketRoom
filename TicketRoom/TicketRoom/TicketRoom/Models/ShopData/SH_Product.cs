@@ -23,6 +23,8 @@ namespace TicketRoom.Models.ShopData
         public string SH_PRODUCT_MAINIMAGE { get; set; } // 상품 메인 이미지
         [JsonProperty("SH_PRODUCT_ISBEST")]
         public string SH_PRODUCT_ISBEST { get; set; } // 상품 베스트 분류 유무
+        [JsonProperty("SH_PRODUCT_DETAIL")]
+        public string SH_PRODUCT_DETAIL { get; set; } // 상품 구매시 유의사항
 
     }
 }

@@ -21,7 +21,7 @@ namespace TicketRoom.Views.MainTab.Dael
         {
             InitializeComponent();
             this.categorynum = categorynum;
-            ShowPoint();
+            //ShowPoint();
             SelectPurchaseCategory(categorynum);
         }
 

@@ -22,6 +22,15 @@ namespace TicketRoom.Views.MainTab
         public DealTabPage()
         {
             InitializeComponent();
+
+            #region IOS의 경우 초기화
+            if (Device.OS == TargetPlatform.iOS)
+            {
+                TabGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+
+
             Showdeal();
             //ShowPoint();
             SelectAllCategory();

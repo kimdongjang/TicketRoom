@@ -54,7 +54,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <!--#region 0행 옷 이미지-->
-                    <Image Grid.Row="0" Source="shop_clothes1.jpg" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill"  x:Name="MainImage"/>
+                    <Image Grid.Row="0" Source="" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" HeightRequest="300" WidthRequest="300" x:Name="MainImage"/>
                     <!--#endregion-->
                     <!--#region 1행 옵션-->
                     <Grid Grid.Row="1">

@@ -4,15 +4,16 @@
              xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.ShopTabPage">
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
-    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="TabGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
 
         <!--#region 0행 커스텀 액션바 -->
-        <Grid Grid.Row="0" BackgroundColor="White">
+        <Grid Grid.Row="1" BackgroundColor="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="2*"/>
@@ -37,7 +38,7 @@
         <!--#endregion-->
 
         <!--#region 1행 메인 페이지-->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="200"/>

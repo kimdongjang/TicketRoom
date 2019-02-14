@@ -61,10 +61,10 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="Month_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="AddImage"/>
-                <Image Grid.Column="1" Source="year_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="UsedImage"/>
-                <Image Grid.Column="2" Source="year_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="ChargeImage"/>
-                <Image Grid.Column="3" Source="year_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="WidhdrawImage"/>
+                <Image Grid.Column="0" Source="poin_state.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="AddImage"/>
+                <Image Grid.Column="1" Source="using_state.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="UsedImage"/>
+                <Image Grid.Column="2" Source="withdraw_state.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="ChargeImage"/>
+                <Image Grid.Column="3" Source="charge_state.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="WidhdrawImage"/>
             </Grid>
             <!--#endregion-->
 

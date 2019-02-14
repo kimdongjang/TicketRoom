@@ -4,15 +4,16 @@
               xmlns:models="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.BasketTabPage">
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
-    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="TabGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--#region 0행 커스텀 액션바 -->
-        <Grid Grid.Row="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="1" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
@@ -50,7 +51,7 @@
         </Grid>
         <!--#endregion-->
 
-        <Grid Grid.Row="1" ColumnSpacing="0">
+        <Grid Grid.Row="2" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -66,7 +67,7 @@
         </Grid>
 
         <!--#region 장바구니 페이지 상품권, 쇼핑몰-->
-        <ContentView Grid.Row="2" x:Name="BasketContentView"/>
+        <ContentView Grid.Row="3" x:Name="BasketContentView"/>
         <!--#endregion-->
     </Grid>
     <!--#endregion-->

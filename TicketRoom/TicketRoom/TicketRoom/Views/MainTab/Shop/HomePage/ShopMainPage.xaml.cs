@@ -32,6 +32,8 @@ namespace TicketRoom.Views.MainTab.Shop
         public ShopMainPage(int home_index)
         {
             InitializeComponent();
+            Global.isOpen_ShopOtherPage = false; // 다른 고객이 본 상품을 클릭했을 경우 false처리를 더해야 연속해서 창을 볼 수 있다.
+            Global.isOpen_ShopDetailPage = false;
             home = SH_DB.PostSearchHomeToHome(home_index);
             Init();
         }
@@ -126,6 +128,8 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             Global.isOpen_ShopMainPage = false;
             Global.isOpen_ShopOtherPage = false;
+            Global.isOpen_ShopDetailPage = false;
+            
             Navigation.PopModalAsync();
         }
         protected override bool OnBackButtonPressed()
@@ -152,6 +156,7 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 Global.isOpen_ShopMainPage = false;
                 Global.isOpen_ShopOtherPage = false;
+                Global.isOpen_ShopDetailPage = false;
                 return base.OnBackButtonPressed();
             }
         }

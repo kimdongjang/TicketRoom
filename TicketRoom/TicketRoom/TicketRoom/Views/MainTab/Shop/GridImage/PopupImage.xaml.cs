@@ -16,7 +16,7 @@ namespace TicketRoom.Views.MainTab.Shop.GridImage
         public PopupImage(string name)
         {
             InitializeComponent();
-            image_source = name.Replace("Uri: ","");
+            image_source = name.Replace("Uri: ", "");            
             SeenImage.Source = image_source;
         }
     }

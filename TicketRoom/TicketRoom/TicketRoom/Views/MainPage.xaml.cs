@@ -18,11 +18,14 @@ namespace TicketRoom.Views
 
         public MainPage()
         {
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 사용하지 않는 코드
+
             InitializeComponent();
             Init();
 
             Global.user = USER_DB.PostSelectUserToID(Global.ID);
             Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+        
 
             tablist.Add(DealTab);
             tablist.Add(ShopTab);
@@ -107,18 +110,22 @@ namespace TicketRoom.Views
             if (selectedtab.Text.Equals("구매/판매"))
             {
                 TabContent.Content = new DealTabPage();
+                Title = "실시간 시세 표시";
             }
             else if (selectedtab.Text.Equals("쇼핑"))
             {
                 TabContent.Content = new ShopTabPage();
+                Title = "쇼핑 페이지";
             }
             else if (selectedtab.Text.Equals("장바구니"))
             {
                 TabContent.Content = new BasketTabPage();
+                Title = "장바구니";
             }
             else if (selectedtab.Text.Equals("내정보"))
             {
                 TabContent.Content = new MyPageTabPage(this);
+                Title = "내 정보";
             }
         }
 

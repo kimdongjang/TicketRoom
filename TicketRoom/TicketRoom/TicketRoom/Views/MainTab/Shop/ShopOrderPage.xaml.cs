@@ -10,6 +10,7 @@ using TicketRoom.Models.PointData;
 using TicketRoom.Models.ShopData;
 using TicketRoom.Models.Users;
 using TicketRoom.Views.MainTab.Popup;
+using TicketRoom.Views.Users.CreateUser;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.Xaml;
@@ -46,6 +47,8 @@ namespace TicketRoom.Views.MainTab.Shop
         bool b_deliveryEntry = false;
 
         string ShopOrderPage_ID = "";
+        InputAdress adrAPI; // 배송지 확인용
+        public ADRESS myAdress = new ADRESS(); // 입력한 배송지 정보 저장
 
         CustomPicker card_picker = new CustomPicker();
         CustomPicker cash_picker = new CustomPicker();
@@ -86,12 +89,18 @@ namespace TicketRoom.Views.MainTab.Shop
                 MyPoint = PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_HAVEPOINT;
 
                 AdressLabel.Text = Global.adress.ROADADDR; // 도로명 주소
+                MyNameLabel.Text = Global.user.NAME; // 유저 이름
                 MyPhoneLabel.Text = Global.user.PHONENUM; // 폰 넘버 초기화
             }
 
 
             PurchaseListInit();
             Init();
+
+            // Default값은 카드 결제 방식으로
+            payOption = "Card";
+            PhoneOptionGrid.Children.Clear();
+            CardOptionEnable();
         }
         #endregion
 
@@ -596,7 +605,7 @@ namespace TicketRoom.Views.MainTab.Shop
             }
         }
 
-        // 포인트 갱신 함수 (미완성)
+        // 포인트 갱신 함수
         private void PointUpdate()
         {
             // 잔여 포인트 갱신
@@ -611,7 +620,7 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 AmountOfPay += basketList[i].SH_BASKET_PRICE;
             }
-            AmountOfPay -= DeliveryPrice; // 결제금액 - 배송비
+            AmountOfPay += DeliveryPrice; // 결제금액 + 배송비
             AmountOfPay -= MyUsePoint; // 결제금액 - 사용 포인트
             PriceLabel.Text = AmountOfPay.ToString("N0") + "원";
         }
@@ -645,6 +654,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     MyPoint -= MyUsePoint; // 소유한 포인트 갱신
                     PointUpdate(); // xaml 잔여 포인트 갱신
                     AmountOfPayUpdate(); // 결제금액 갱신
+                    InputPointEntry.Text = "";
                 }
             }
         }
@@ -672,10 +682,13 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     if (DeliveryContentPicker.SelectedIndex != -1) // 배송 선택사항이 선택되지 않았을 경우
                     {
+                        int userCheck = 0;
+                        if (Global.b_user_login == true) userCheck = 1; else userCheck = 2; // 회원상태 ( 1: 회원 2: 비회원)
+
                         int OrderIndex = SH_DB.PostInsertPurchaseListToID(DeliveryPrice.ToString()/*배송비*/, DeliveryOption/*선불착불*/, ""/*배송선택사항*/,
-                            AdressLabel.Text/*배송지*/, MyPhoneLabel.Text/*휴대폰번호*/, "상품준비중"/*배송상태*/, payOption/*결제수단*/,
-                            AmountOfPay.ToString()/*결제금액*/, MyPoint.ToString()/*사용포인트*/, "결제대기중"/*결제상태*/,
-                            ShopOrderPage_ID/*아이디*/, System.DateTime.Now.ToString());
+                            AdressLabel.Text/*배송지*/, myAdress.JIBUNADDR/*지번주소*/, myAdress.ZIPNO.ToString()/*우편번호*/, MyPhoneLabel.Text/*휴대폰번호*/, "상품준비중"/*배송상태*/, payOption/*결제수단*/,
+                            AmountOfPay.ToString()/*결제금액*/, MyUsePoint.ToString()/*사용포인트*/, "결제대기중"/*결제상태*/,
+                            ShopOrderPage_ID/*아이디*/, System.DateTime.Now.ToString()/*날짜*/, userCheck.ToString()/*비회원상태확인*/);
                         if (OrderIndex == -1)
                         {
                             await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
@@ -738,8 +751,37 @@ namespace TicketRoom.Views.MainTab.Shop
                                     await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
                                 }
                             }
+                            if (MyUsePoint != 0)
+                            {
+                                if (basketList.Count != 0)
+                                {
+                                    PT_DB.PostInsertPointWithDrawToID(basketList[0].SH_BASKET_NAME + "외 " + (basketList.Count - 1).ToString() + "개 상품 구매",
+                                        "",/*은행*/
+                                        "",/*계좌번호*/
+                                        "",/*예금주*/
+                                        ShopOrderPage_ID,/*아이디*/
+                                        MyUsePoint.ToString(),/*사용포인트*/
+                                        System.DateTime.Now.ToString(), /*날짜*/
+                                        PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/
+                                        );
+                                }
+                                else
+                                {
+                                    PT_DB.PostInsertPointWithDrawToID(basketList[0].SH_BASKET_NAME + "상품 구매",
+                                        "",/*은행*/
+                                        "",/*계좌번호*/
+                                        "",/*예금주*/
+                                        ShopOrderPage_ID,/*아이디*/
+                                        MyUsePoint.ToString(),/*사용포인트*/
+                                        System.DateTime.Now.ToString(), /*날짜*/
+                                        PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/
+                                        );
+                                }
+                            }
                             await DisplayAlert("알림", "결제 성공", "확인");
-                            base.OnBackButtonPressed();
+
+                            BasketTabPage.isOpenPage = false;
+                            App.Current.MainPage = new MainPage();
 
                             // 구매 성공시 상품 수량 마이너스 할 것.
                         }
@@ -764,7 +806,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void ChangeAdressBtn_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PushModalAsync(adrAPI = new InputAdress(this));
         }
 
 
@@ -780,11 +822,12 @@ namespace TicketRoom.Views.MainTab.Shop
 
         }
 
-
+        // 포인트를 입력했을시 포인트 변경 이벤트
         private void InputPointEntry_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
+                InputPointEntry.Text = Regex.Replace(InputPointEntry.Text, @"\D", "");
                 if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
                 {
                     if (e.OldTextValue != null)

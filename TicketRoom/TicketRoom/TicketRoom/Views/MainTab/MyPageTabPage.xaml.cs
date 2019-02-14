@@ -15,6 +15,15 @@ namespace TicketRoom.Views.MainTab
         {
             InitializeComponent();
             this.mp = mp;
+
+            #region IOS의 경우 초기화
+            if (Device.OS == TargetPlatform.iOS)
+            {
+                TabGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+
+
             Init();
         }
 

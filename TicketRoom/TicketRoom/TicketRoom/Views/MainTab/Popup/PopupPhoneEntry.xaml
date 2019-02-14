@@ -7,7 +7,7 @@
     <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
         <StackLayout Orientation="Vertical" HeightRequest="200" WidthRequest="300" BackgroundColor="White">
             <models:CustomLabel Margin="20,20,20,10" Text="휴대폰 번호 입력" Size="18"/>
-            <Entry Margin="20,20,20,10" Placeholder="Enter Your Phone Number" x:Name="MyPhoneEntry"></Entry>
+            <Entry Margin="20,20,20,10" Placeholder="Enter Your Phone Number" x:Name="MyPhoneEntry" Keyboard="Numeric" TextChanged="MyPhoneEntry_TextChanged"></Entry>
             <Button Margin="20,0,20,0" Text="확인" x:Name="ConfirmBtn" Clicked="ConfirmBtn_Clicked"></Button>
         </StackLayout>
     </StackLayout>

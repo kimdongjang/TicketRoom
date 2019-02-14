@@ -31,13 +31,13 @@ namespace TicketRoom.Views.MainTab.Shop
         public ShopListPage(int main_index)
         {
             InitializeComponent();
-
             // 최상위 탭 카테고리 이름 초기화
             for (int i = 0; i < ShopTabPage.mclist.Count; i++)
             {
                 if (ShopTabPage.mclist[i].SH_MAINCATE_INDEX == main_index)
                 {
                     TitleName.Text = ShopTabPage.mclist[i].SH_MAINCATE_NAME;
+                    Title = ShopTabPage.mclist[i].SH_MAINCATE_NAME;
                 }
             }
 
@@ -272,7 +272,9 @@ namespace TicketRoom.Views.MainTab.Shop
                                     tempIndex = sclist[j].SH_HOME_INDEX; // 홈 인덱스로 변경
                                 }
                             }
-                            Navigation.PushModalAsync(new ShopMainPage(tempIndex));
+                            Global.OtherIndexUpdate(tempIndex); // 다른 고객이 함께본 상품 초기화를 위한 처리
+                            SH_DB.PostUpdateViewsOtherViewToIndex(Global.g_main_index, Global.g_other_index); // main인덱스와 other인덱스 서버로 전달
+                            Navigation.PushAsync(new ShopMainPage(tempIndex));
                         })
                     });
                     #endregion

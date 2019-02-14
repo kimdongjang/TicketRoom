@@ -351,11 +351,11 @@ namespace TicketRoom.Models.ShopData
         }
 
         // DB에서 홈 상품 인덱스로 다른 고객이 본 상품을 가져오기
-        public List<SH_OtherView> PostSearchOtherViewToProductAsync(int productIndex)
+        public List<SH_OtherView> PostSearchOtherViewToHome(int homeIndex)
         {
             List<SH_OtherView> otherList = new List<SH_OtherView>();
             string str = @"{";
-            str += "productIndex : " + productIndex;
+            str += "homeIndex : " + homeIndex;
             str += "}";
 
             //// JSON 문자열을 파싱하여 JObject를 리턴
@@ -364,7 +364,7 @@ namespace TicketRoom.Models.ShopData
             UTF8Encoding encoder = new UTF8Encoding();
             byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
 
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchOtherViewToProduct") as HttpWebRequest;
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SearchOtherViewToHome") as HttpWebRequest;
             request.Method = "POST";
             request.ContentType = "application/json";
             request.ContentLength = data.Length;
@@ -640,9 +640,9 @@ namespace TicketRoom.Models.ShopData
         }
 
         // 구매시 구매 리스트 정보 생성(return 값은 주문 번호)
-        public int PostInsertPurchaseListToID(string p_d_pay, string p_d_option, string p_d_detail, string p_d_adress, string p_d_phone, string p_d_state, // 딜리버리 인풋값
+        public int PostInsertPurchaseListToID(string p_d_pay, string p_d_option, string p_d_detail, string p_d_adress, string p_d_jibun, string p_d_zipno, string p_d_phone, string p_d_state, // 딜리버리 인풋값
                                                 string p_p_option, string p_p_value, string p_p_point, string p_p_state, // 결제 수단 및 결제금액 인풋값
-                                                string p_id, string p_date) // 유저 아이디 및 구매 날짜
+                                                string p_id, string p_date, string p_isuser) // 유저 아이디 및 구매 날짜, 비회원 회원 상태 확인
         {
             int result = -1;
             string str = @"{";
@@ -650,6 +650,8 @@ namespace TicketRoom.Models.ShopData
             str += "',p_d_option:'" + p_d_option;
             str += "',p_d_detail:'" + p_d_detail;
             str += "',p_d_adress:'" + p_d_adress;
+            str += "',p_d_jibun:'" + p_d_jibun;
+            str += "',p_d_zipno:'" + p_d_zipno;
             str += "',p_d_phone:'" + p_d_phone;
             str += "',p_d_state:'" + p_d_state;
             str += "',p_p_option:'" + p_p_option;
@@ -658,6 +660,7 @@ namespace TicketRoom.Models.ShopData
             str += "',p_p_state:'" + p_p_state;
             str += "',p_id:'" + p_id;
             str += "',p_date:'" + p_date;
+            str += "',p_isuser:'" + p_isuser;
             str += "'}";
 
             //// JSON 문자열을 파싱하여 JObject를 리턴
@@ -1316,7 +1319,7 @@ namespace TicketRoom.Models.ShopData
             }
         }
 
-        // DB에 장바구니 내용 담기
+        // 
         public bool SH_UpdateProductCountToIndex(string p_product_index, string p_count)
         {
             bool isResult = false;
@@ -1378,6 +1381,57 @@ namespace TicketRoom.Models.ShopData
             byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
 
             HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_UpdateBasketUserToID") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        isResult = JsonConvert.DeserializeObject<bool>(readdata);
+                    }
+                }
+                return isResult;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return isResult;
+            }
+        }
+
+        // 다른 고객이 본 상품 테이블 업데이트 및 초기화
+        public bool PostUpdateViewsOtherViewToIndex(int p_home_index, int p_other_index)
+        {
+            if(p_other_index == -1) // other index가 초기화가 안되어 있을 경우 리턴
+            {
+                return false;
+            }
+
+            bool isResult = false;
+            string str = @"{";
+            str += "p_home_index:'" + p_home_index.ToString();
+            str += "',p_other_index:'" + p_other_index.ToString();
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_UpdateViewsOtherViewToIndex") as HttpWebRequest;
             request.Method = "POST";
             request.ContentType = "application/json";
             request.ContentLength = data.Length;

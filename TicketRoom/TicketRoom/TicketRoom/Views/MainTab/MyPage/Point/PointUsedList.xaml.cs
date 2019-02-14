@@ -120,14 +120,21 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 };
                 #endregion
 
-                #region 사용 내역 Label 
+                #region 사용 내역 Label
                 CustomLabel content_label = new CustomLabel
                 {
-                    Text = "내역 : " + wdl[i].PT_WITHDRAW_CONTENT + " \n[" + wdl[i].PT_WITHDRAW_BANK + "]" +
-                            " \n[계좌번호:" + wdl[i].PT_WITHDRAW_ACCOUNT + "]" + "[예금주:" + wdl[i].PT_WITHDRAW_NAME + "]",
                     Size = 14,
                     TextColor = Color.Gray,
                 };
+                if (wdl[i].PT_WITHDRAW_BANK == "" && wdl[i].PT_WITHDRAW_ACCOUNT == "" && wdl[i].PT_WITHDRAW_NAME == "")
+                {
+                    content_label.Text = "내역 : " + wdl[i].PT_WITHDRAW_CONTENT;
+                }
+                else
+                {
+                    content_label.Text = "내역 : " + wdl[i].PT_WITHDRAW_CONTENT + " \n[" + wdl[i].PT_WITHDRAW_BANK + "]" +
+                            " \n[계좌번호:" + wdl[i].PT_WITHDRAW_ACCOUNT + "]" + "[예금주:" + wdl[i].PT_WITHDRAW_NAME + "]";
+                }
                 #endregion
 
                 //상품 설명 라벨 그리드에 추가

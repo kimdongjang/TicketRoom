@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
+using TicketRoom.Models.Users;
 using TicketRoom.Views.MainTab.Shop;
 using TicketRoom.Views.Users.CreateUser;
 using Xamarin.Forms;
@@ -29,14 +30,31 @@ namespace TicketRoom.Views.MainTab
         int columnCount = 0;
         int rowCount = 0;
 
+        public ADRESS myAdress = new ADRESS();
 
         public ShopTabPage()
         {
             InitializeComponent();
+
+            #region IOS의 경우 초기화
+            if (Device.OS == TargetPlatform.iOS)
+            {
+                TabGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+
             ImageSlideAsync();
 
             mclist = SH_DB.GetCategoryListAsync();
 
+            // 쇼핑 탭 주소 엔트리 초기화
+            EntryAdress.Text = Global.adress.ROADADDR;
+            if(Global.adress.ROADADDR == null)
+            {
+                EntryAdress.Text = "지번 또는 도로명 주소를 입력해주십시오.";
+            }
+
+            #region 검색 결과 찾을 수 없을 경우
             if (mclist != null)
             {
                 GridUpdate();
@@ -54,6 +72,7 @@ namespace TicketRoom.Views.MainTab
                 //IsInputAdress = false;
                 MainGrid.Children.Add(label, 0, 0);
             }
+            #endregion
         }
 
         [System.ComponentModel.TypeConverter(typeof(System.UriTypeConverter))]
@@ -214,7 +233,7 @@ namespace TicketRoom.Views.MainTab
                                 tempIndex = mclist[i].SH_MAINCATE_INDEX; // 메인 카테고리 인덱스를 찾음
                             }
                         }
-                        Navigation.PushModalAsync(new ShopListPage(tempIndex)); // 메인 카테고리 인덱스 기반으로 서브 카테고리(리스트 페이지)를 오픈
+                        Navigation.PushAsync(new ShopListPage(tempIndex)); // 메인 카테고리 인덱스 기반으로 서브 카테고리(리스트 페이지)를 오픈
                     })
                 });
             }

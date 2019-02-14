@@ -255,6 +255,26 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             #endregion
 
             #region 결제방식
+            string testOption = "";
+            if(ppList[0].SH_PUR_PAY_OPTION == "Personal")
+            {
+                testOption = "개인소득공제";
+            }
+            else if (ppList[0].SH_PUR_PAY_OPTION == "Card")
+            {
+                testOption = "신용카드";
+
+            }
+            else if (ppList[0].SH_PUR_PAY_OPTION == "Business")
+            {
+                testOption = "사업자지출증빙";
+
+            }
+            else if (ppList[0].SH_PUR_PAY_OPTION == "Phone")
+            {
+                testOption = "핸드폰 결제";
+
+            }
             Grid pay_optionGrid = new Grid
             {
                 ColumnDefinitions =
@@ -276,7 +296,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             };
             CustomLabel input_pay_optionLabel = new CustomLabel
             {
-                Text = ppList[0].SH_PUR_PAY_OPTION,
+                Text = testOption,
                 Size = 14,
                 TextColor = Color.DarkGray,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -449,7 +469,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 StackLayout pay_num_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
                 CustomLabel pay_num_Label = new CustomLabel
                 {
-                    Text = "사업자등록번호",
+                    Text = "현금영수증번호",
                     Size = 14,
                     TextColor = Color.DarkGray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -489,7 +509,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 StackLayout pay_name_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
                 CustomLabel pay_name_Label = new CustomLabel
                 {
-                    Text = "사업자이름",
+                    Text = "이름",
                     Size = 14,
                     TextColor = Color.DarkGray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,

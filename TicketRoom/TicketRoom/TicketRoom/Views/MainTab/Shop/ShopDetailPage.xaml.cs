@@ -44,19 +44,23 @@ namespace TicketRoom.Views.MainTab.Shop
             this.home = home;
 
             imageList = SH_DB.PostSearchImageListToProductAsync(productIndex);
-            otherList = SH_DB.PostSearchOtherViewToProductAsync(productIndex);
+            otherList = SH_DB.PostSearchOtherViewToHome(home.SH_HOME_INDEX);
             optionList = SH_DB.PostSearchProOptionToProductAsync(productIndex);
             product = SH_DB.PostSearchProductToProduct(productIndex);
 
-            if(otherList != null && otherList.Count != 0)
+            if(otherList.Count != 0)
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    otherHomeList.Add(SH_DB.PostSearchHomeToHome(otherList[i].SH_HOME_INDEX)); // 다른 고객이 본 상품 목록을 리스트에 추가
+                    if (otherList.Count <= i)
+                    {
+                        break;
+                    }                    
+                    otherHomeList.Add(SH_DB.PostSearchHomeToHome(otherList[i].SH_OTHERHOME_INDEX)); // 다른 고객이 본 상품 목록을 리스트에 추가
                 }
             }
 
-
+            // 아이디 초기화
             if(Global.b_user_login == false)
             {
                 shopDetailPage_ID = Global.non_user_id;
@@ -145,10 +149,8 @@ namespace TicketRoom.Views.MainTab.Shop
             ImageListInit();
 
             // 상품설명
-            if (optionList.Count != 0)
-            {
-                DetailEditor.Text = optionList[0].SH_PRO_OPTION_CONTENT;
-            }
+            DetailEditor.Text = product.SH_PRODUCT_DETAIL;
+            
 
             #region 다른 고객이 함께 본 상품 목록
             Grid other_grid = new Grid
@@ -225,7 +227,13 @@ namespace TicketRoom.Views.MainTab.Shop
                         {
                             if(label.Text == otherHomeList[j].SH_HOME_NAME)
                             {
-                                Navigation.PushModalAsync(new ShopMainPage(otherHomeList[j].SH_HOME_INDEX)); 
+                                Global.OtherIndexUpdate(otherHomeList[j].SH_HOME_INDEX); // 다른 고객이 함께본 상품 초기화를 위한 처리
+                                SH_DB.PostUpdateViewsOtherViewToIndex(Global.g_main_index, Global.g_other_index); // main인덱스와 other인덱스 서버로 전달
+
+                                var nav = Navigation.NavigationStack;
+                                this.Navigation.RemovePage(nav[nav.Count-1]);
+                                this.Navigation.RemovePage(nav[nav.Count-2]);
+                                Navigation.PushAsync(new ShopMainPage(otherHomeList[j].SH_HOME_INDEX)); 
                             }
                         }
                         if(otherHomeList.Count == 0)

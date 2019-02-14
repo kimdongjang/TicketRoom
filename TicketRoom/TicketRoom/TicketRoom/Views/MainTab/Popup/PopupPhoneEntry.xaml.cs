@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TicketRoom.Views.MainTab.Shop;
 using Xamarin.Forms;
@@ -24,6 +25,30 @@ namespace TicketRoom.Views.MainTab.Popup
         {
             sop.MyPhoneLabel.Text = MyPhoneEntry.Text;
             PopupNavigation.Instance.RemovePageAsync(this);
+        }
+
+        private void MyPhoneEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                MyPhoneEntry.Text = Regex.Replace(MyPhoneEntry.Text, @"\D", "");
+                if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
+                {
+                    if (e.OldTextValue != null)
+                    {
+                        MyPhoneEntry.Text = e.OldTextValue;
+                    }
+                    else
+                    {
+                        MyPhoneEntry.Text = "";
+                    }
+                    return;
+                }
+            }
+            catch
+            {
+
+            }
         }
     }
 }

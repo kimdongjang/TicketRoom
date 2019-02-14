@@ -61,7 +61,7 @@ namespace TicketRoom.Views.Users.Login
                             {
                                 case -1: DisplayAlert("알림", "비밀번호가 틀렸습니다", "OK"); return;
                                 case 0: DisplayAlert("알림", "아이디가 존재하지 않습니다.", "OK"); return;
-                                case 1: Navigation.PushModalAsync(new MainPage()); // 로그인 성공시
+                                case 1: // 로그인 성공시
                                     Global.b_user_login = true; // 회원 로그인 상태
                                     Global.b_auto_login = true; // 자동 로그인 상태
                                     Global.ID = id_box.Text; // 회원 아이디
@@ -74,6 +74,7 @@ namespace TicketRoom.Views.Users.Login
                                     {
                                         DisplayAlert("알림", "장바구니 목록을 옮기는 과정에 문제가 발생했습니다.", "확인");
                                     }
+                                    App.Current.MainPage = new MainPage(); // 기본 페이지를 메인 페이지로 변경
                                     return;
                                 default: DisplayAlert("알림", "서버 점검중입니다.", "OK"); return;
                             }

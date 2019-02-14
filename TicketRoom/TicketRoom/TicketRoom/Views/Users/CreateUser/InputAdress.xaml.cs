@@ -9,9 +9,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
+using TicketRoom.Models.Users;
 using TicketRoom.Models.USERS;
 using TicketRoom.Views.MainTab;
 using TicketRoom.Views.MainTab.Dael.Purchase;
+using TicketRoom.Views.MainTab.Shop;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -21,11 +23,13 @@ namespace TicketRoom.Views.Users.CreateUser
     public partial class InputAdress : ContentPage
     {
         List<AdressAPI> adl;
+        ADRESS myAdress = new ADRESS();
         Queue<Grid> adl_queue = new Queue<Grid>();
 
         CreateUserpage cup;
         PurchaseDetailPage pdp;
-        ShopTabPage stp;
+        ShopTabPage stp; // 쇼핑 탭 페이지
+        ShopOrderPage sop; // 쇼핑 주문 페이지
 
         private bool _canClose = true;
         private bool IsInputAdress = false;
@@ -55,6 +59,12 @@ namespace TicketRoom.Views.Users.CreateUser
         public InputAdress(CreateUserpage c)
         {
             cup = c;
+            InitializeComponent();
+        }
+
+        public InputAdress(ShopOrderPage sop)
+        {
+            this.sop = sop;
             InitializeComponent();
         }
 
@@ -118,6 +128,15 @@ namespace TicketRoom.Views.Users.CreateUser
             else if (answer && stp != null)
             {
                 stp.EntryAdress.Text = EntryAdress.Text + DetailEntry.Text;
+                stp.myAdress = myAdress; // 주소 정보 초기화
+                _canClose = false;
+                this.OnBackButtonPressed();
+            }
+            // 쇼핑몰 주문 페이지 주소 변경시
+            else if (answer && sop != null)
+            {
+                sop.AdressLabel.Text = EntryAdress.Text + DetailEntry.Text;
+                sop.myAdress = myAdress; // 주소 정보 초기화
                 _canClose = false;
                 this.OnBackButtonPressed();
             }
@@ -252,6 +271,12 @@ namespace TicketRoom.Views.Users.CreateUser
                     {
                         Command = new Command(() => {
                             var s = grid.BindingContext;
+                            // ADRESS 객체에 도로명,지번,우편번호 초기화
+                            myAdress.ROADADDR = adl[int.Parse(s.ToString())].roadAddr;
+                            myAdress.JIBUNADDR = adl[int.Parse(s.ToString())].jibunAddr;
+                            myAdress.ZIPNO = int.Parse(adl[int.Parse(s.ToString())].zipNo);
+
+                            // xaml UI에 도로명,지번,우편번호 초기화
                             EntryAdress.Text = adl[int.Parse(s.ToString())].roadAddr;
                             roadAddr = adl[int.Parse(s.ToString())].roadAddr;
                             jibunAddr = adl[int.Parse(s.ToString())].jibunAddr;
