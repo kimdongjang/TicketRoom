@@ -79,6 +79,9 @@
     <EmbeddedResource Update="Views\MainTab\MyPage\PurchaseListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainTab\MyPage\PurchaseList\PurchaseDetailListGift.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\MainTab\MyPage\PurchaseList\PurchaseDetailListShop.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

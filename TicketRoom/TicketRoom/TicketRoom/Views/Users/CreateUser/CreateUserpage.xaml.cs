@@ -37,9 +37,9 @@ namespace TicketRoom.Views.Users.CreateUser
                         {
                             if (Email_box.Text != "" && Email_box.Text != null)
                             {
-                                if (EntryAdress.Text != "" && EntryAdress.Text != null)
+                                if (Regex.Match(Email_box.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success)
                                 {
-                                    if (Regex.Match(Email_box.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success)
+                                    if (EntryAdress.Text != "" && EntryAdress.Text != null)
                                     {
                                         string str = @"{";
                                         str += "ID:'" + ID_box.Text + "'}";
@@ -83,6 +83,10 @@ namespace TicketRoom.Views.Users.CreateUser
                                                 }
                                             }
                                         }
+                                    }
+                                    else
+                                    {
+                                        DisplayAlert("알림", "주소를 입력해세요", "OK");
                                     }
                                 }
                                 else

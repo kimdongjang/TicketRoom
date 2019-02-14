@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net;
@@ -72,11 +73,16 @@ namespace TicketRoom.Views.Users.Login
 
                                     if (SH_DB.PostUpdateBasketUserToID(Global.ID, Global.non_user_id) == false) // 비회원 -> 회원 로그인시 장바구니 목록 이동
                                     {
-                                        DisplayAlert("알림", "장바구니 목록을 옮기는 과정에 문제가 발생했습니다.", "확인");
+                                        DisplayAlert("알림", "쇼핑몰 장바구니 목록을 옮기는 과정에 문제가 발생했습니다.", "확인");
                                     }
                                     App.Current.MainPage = new MainPage(); // 기본 페이지를 메인 페이지로 변경
+
+                                    if (USER_DB.PostGiftUpdateBaskeListToID(Global.non_user_id, Global.ID) == false)
+                                    {
+                                        App.Current.MainPage.DisplayAlert("알림", "서버점검중입니다", "확인");
+
+                                    }
                                     return;
-                                default: DisplayAlert("알림", "서버 점검중입니다.", "OK"); return;
                             }
                         }
                     }

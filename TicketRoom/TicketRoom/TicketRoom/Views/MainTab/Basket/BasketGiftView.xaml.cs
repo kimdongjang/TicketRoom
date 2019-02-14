@@ -1,6 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using TicketRoom.Models.Gift;
 using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Views.MainTab.Dael.Purchase;
 using Xamarin.Forms;
@@ -13,6 +20,8 @@ namespace TicketRoom.Views.MainTab.Basket
     {
         BasketTabPage btp;
         List<Grid> productgridlist = new List<Grid>();
+        List<G_BasketInfo> BasketList = new List<G_BasketInfo>();
+
         public BasketGiftView(BasketTabPage btp)
         {
             InitializeComponent();
@@ -22,6 +31,51 @@ namespace TicketRoom.Views.MainTab.Basket
 
         private void ShowBasketlist()
         {
+            string userid = "null";
+
+            if (Global.b_user_login)
+            {
+                userid = Global.ID;
+            }
+            else
+            {
+                userid = Global.non_user_id;
+            }
+
+            string str = @"{";
+            str += "ID:'" + userid;  //아이디찾기에선 Name으로 
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            //request.Method = "POST";
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Select_Basketlist") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            //request.Expect = "application/json";
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var readdata = reader.ReadToEnd();
+                    if (readdata != null && readdata != "")
+                    {
+                        BasketList = JsonConvert.DeserializeObject<List<G_BasketInfo>>(readdata);
+                    }
+                }
+            }
+
             Basketlist_Grid.Children.Clear();
             Basketlist_Grid.RowDefinitions.Clear();
 
@@ -29,7 +83,7 @@ namespace TicketRoom.Views.MainTab.Basket
             int result_price = 0;
 
             #region 상품이 준비중
-            if (Global.BasketList.Count == 0)
+            if (BasketList.Count == 0)
             {
                 Basketlist_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
@@ -48,7 +102,7 @@ namespace TicketRoom.Views.MainTab.Basket
             }
             #endregion
 
-            for (int i = 0; i < Global.BasketList.Count; i++)
+            for (int i = 0; i < BasketList.Count; i++)
             {
                 Basketlist_Grid.RowDefinitions.Add(new RowDefinition { Height = 100 });
                 Basketlist_Grid.RowDefinitions.Add(new RowDefinition { Height = 1 });
@@ -74,7 +128,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 #region 장바구니 상품 이미지
                 Image product_image = new Image
                 {
-                    Source = Global.BasketList[i].BK_PRODUCT_IMAGE,
+                    Source = BasketList[i].BK_PRODUCT_IMAGE,
                     BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -101,11 +155,11 @@ namespace TicketRoom.Views.MainTab.Basket
 
                 #region 상품 제목 Label
                 Label pro_label = null;
-                if (Global.BasketList[i].BK_TYPE.Equals("1"))
+                if (BasketList[i].BK_TYPE.Equals("1"))
                 {
                     pro_label = new Label
                     {
-                        Text = Global.BasketList[i].BK_PRODUCT_TYPE + " (지류)",
+                        Text = BasketList[i].BK_PRODUCT_TYPE + " (지류)",
                         FontSize = 16,
                         TextColor = Color.Black,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -118,7 +172,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 {
                     pro_label = new Label
                     {
-                        Text = Global.BasketList[i].BK_PRODUCT_TYPE + " (핀번호)",
+                        Text = BasketList[i].BK_PRODUCT_TYPE + " (핀번호)",
                         FontSize = 16,
                         TextColor = Color.Black,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -132,7 +186,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 #region 상품 종류 Label
                 Label type_label = new Label
                 {
-                    Text = Global.BasketList[i].BK_PRODUCT_VALUE,
+                    Text = BasketList[i].BK_PRODUCT_VALUE,
                     FontSize = 14,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -145,7 +199,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 #region 가격 내용 Label
                 Label price_label = new Label
                 {
-                    Text = Global.BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE + "원",
+                    Text = BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE + "원",
                     FontSize = 14,
                     TextColor = Color.Gray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -192,7 +246,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 {
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Text = Global.BasketList[i].BK_PROCOUNT,
+                    Text = BasketList[i].BK_PROCOUNT,
                     FontSize = 14,
                     TextColor = Color.Black,
                     XAlign = TextAlignment.Center,
@@ -260,7 +314,49 @@ namespace TicketRoom.Views.MainTab.Basket
                         return;
                     }
                     Image deletegrid = (Image)s;
-                    Global.BasketList.RemoveAt(int.Parse(deletegrid.BindingContext.ToString()));
+                    //Global.BasketList.RemoveAt(int.Parse(deletegrid.BindingContext.ToString()));
+
+                    string str2 = @"{";
+                    str2 += "basketlistnum:'" + BasketList[int.Parse(deletegrid.BindingContext.ToString())].BASKETLISTTABLE_NUM;  //아이디찾기에선 Name으로 
+                    str2 += "'}";
+
+                    //// JSON 문자열을 파싱하여 JObject를 리턴
+                    JObject jo2 = JObject.Parse(str2);
+
+                    UTF8Encoding encoder2 = new UTF8Encoding();
+                    byte[] data2 = encoder2.GetBytes(jo2.ToString()); // a json object, or xml, whatever...
+
+                    //request.Method = "POST";
+                    HttpWebRequest request2 = WebRequest.Create(Global.WCFURL + "Delete_Basketlist") as HttpWebRequest;
+                    request2.Method = "POST";
+                    request2.ContentType = "application/json";
+                    request2.ContentLength = data2.Length;
+
+                    //request.Expect = "application/json";
+
+                    request2.GetRequestStream().Write(data2, 0, data2.Length);
+
+                    using (HttpWebResponse response2 = request2.GetResponse() as HttpWebResponse)
+                    {
+                        if (response2.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response2.StatusCode);
+                        using (StreamReader reader = new StreamReader(response2.GetResponseStream()))
+                        {
+                            var readdata = reader.ReadToEnd();
+                            string test = JsonConvert.DeserializeObject<string>(readdata);
+                            if (test != null && test != "")
+                            {
+                                if (test.Equals("true"))
+                                {
+                                    //삭제되었습니다
+                                }
+                                else
+                                {
+                                    await App.Current.MainPage.DisplayAlert("알림", "서버점검중입니다", "확인");
+                                }
+                            }
+                        }
+                    }
                     ShowBasketlist();
                 };
                 #endregion
@@ -299,7 +395,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 Basketlist_Grid.Children.Add(gridline, 0, row);
                 row++;
 
-                result_price += int.Parse(Global.BasketList[i].BK_PROCOUNT) * int.Parse(Global.BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE);
+                result_price += int.Parse(BasketList[i].BK_PROCOUNT) * int.Parse(BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE);
             }
             ResultPrice_label.Text = result_price.ToString("N0");
         }
@@ -345,7 +441,7 @@ namespace TicketRoom.Views.MainTab.Basket
         private void OrderBtn_Clicked(object sender, EventArgs e)
         {
             List<G_PurchasedetailInfo> g_PurchasedetailInfos = new List<G_PurchasedetailInfo>();
-            for (int i = 0; i < Global.BasketList.Count; i++)
+            for (int i = 0; i < BasketList.Count; i++)
             {
                 Grid g = productgridlist[i];
                 List<Xamarin.Forms.View> b = g.Children.ToList();
@@ -355,13 +451,13 @@ namespace TicketRoom.Views.MainTab.Basket
 
                 G_PurchasedetailInfo g_PurchasedetailInfo = new G_PurchasedetailInfo
                 {
-                    PDL_PRONUM = Global.BasketList[i].BK_PRONUM,
+                    PDL_PRONUM = BasketList[i].BK_PRONUM,
                     PDL_PROCOUNT = g3.Text,
-                    PDL_PROTYPE = Global.BasketList[i].BK_TYPE,
-                    PDL_ALLPRICE = (int.Parse(Global.BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE) * int.Parse(g3.Text)).ToString(),
-                    PRODUCT_IMAGE = Global.BasketList[i].BK_PRODUCT_IMAGE,
-                    PRODUCT_TYPE = Global.BasketList[i].BK_PRODUCT_TYPE,
-                    PRODUCT_VALUE = Global.BasketList[i].BK_PRODUCT_VALUE
+                    PDL_PROTYPE = BasketList[i].BK_TYPE,
+                    PDL_ALLPRICE = (int.Parse(BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE) * int.Parse(g3.Text)).ToString(),
+                    PRODUCT_IMAGE = BasketList[i].BK_PRODUCT_IMAGE,
+                    PRODUCT_TYPE = BasketList[i].BK_PRODUCT_TYPE,
+                    PRODUCT_VALUE = BasketList[i].BK_PRODUCT_VALUE
                 };
                 g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
             }

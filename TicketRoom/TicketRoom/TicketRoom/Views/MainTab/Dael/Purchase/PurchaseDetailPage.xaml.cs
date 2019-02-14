@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift.Purchase;
+using TicketRoom.Models.Users;
+using TicketRoom.Views.MainTab.Popup;
 using TicketRoom.Views.Users.CreateUser;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,6 +22,13 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
     {
         List<G_PurchasedetailInfo> g_PurchasedetailInfos = null;
         InputAdress adrAPI;
+
+        PopupPhoneEntry popup_phone; // 핸드폰 번호 변경 팝업 객체
+        PopupNameEntry popup_name; // 핸드폰 번호 변경 팝업 객체
+
+        public string jibunAddr = ""; // 지번 주소 
+        public string zipNo = "";     // 우편 번호
+
         int UsedPoint = 0;
         int OldPoint = 0;
         int tempdeliveryprice = 0;
@@ -30,11 +40,12 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             InitializeComponent();
             this.g_PurchasedetailInfos = g_PurchasedetailInfos;
             DeliveryPrice_label.Text = (deliveryprice).ToString("N0");
-            ShowPoint();
+            ShowUserInfo();
             ShowPrice();
             SelectAllAccount();
             Radio1_Clicked(prepaymentradio, null);  //선불 착불 기본값인 선불 선택해놈
             PurchaseListInit();
+            ShowUserAddrlist();
         }
 
         private void PurchaseListInit() // 구매할 목록 초기화
@@ -160,10 +171,13 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             }
         }
 
-        private void ShowPoint()
+        private void ShowUserInfo()
         {
             if (Global.b_user_login)
             {
+                MyNameLabel.Text = Global.user.NAME;
+                MyPhoneLabel.Text = Global.user.PHONENUM;
+
                 string str = @"{";
                 str += "USER_ID:'" + Global.ID;  //아이디찾기에선 Name으로 
                 str += "'}";
@@ -193,6 +207,65 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                         var readdata = reader.ReadToEnd();
                         string test = JsonConvert.DeserializeObject<string>(readdata);
                         Point_label.Text = int.Parse(test).ToString("N0");
+                    }
+                }
+            }
+            else
+            {
+                Point_label.Text = int.Parse("0").ToString("N0");
+                Point_Grid.IsVisible = false;
+                MyNameLabel.Text = "이름을 입력하세요";
+                MyPhoneLabel.Text = "연락처를 입력해주세요";
+                RecentAdress.IsVisible = false;
+            }
+        }
+
+        private void ShowUserAddrlist()
+        {
+            if (Global.b_user_login)
+            {
+                string str = @"{";
+                str += "UserID:'" + Global.ID;  //아이디찾기에선 Name으로 
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectUserAddr") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        if(readdata != null && readdata!= "")
+                        {
+                            List<ADRESS> test = JsonConvert.DeserializeObject<List<ADRESS>>(readdata);
+
+                            if (test.Count >= 1)
+                            {
+                                Addr_Picker.Items.Clear();
+                                for (int i = 0; i < test.Count; i++)
+                                {
+                                    Addr_Picker.Items.Add(test[i].ROADADDR);
+                                }
+
+                                EntryAdress.Text = test[0].ROADADDR;
+                            }
+                        }
                     }
                 }
             }
@@ -320,6 +393,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         private void EntryAdress_Focused(object sender, FocusEventArgs e)
         {
             EntryAdress.Unfocus();
+
             Navigation.PushModalAsync(adrAPI = new InputAdress(this));
         }
 
@@ -329,12 +403,24 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             {
                 if (Name_box.Text != "" && Name_box.Text != null)
                 {
+                    string userid = "";
+                    string isuser = "";
+                    if (Global.b_user_login)
+                    {
+                        userid = Global.ID;
+                        isuser = "1";
+                    }
+                    else
+                    {
+                        userid = Global.non_user_id;
+                        isuser = "2";
+                    }
                     G_PurchaseInfo g_PurchaseInfo = null;
                     if (prepaymentradio.Source.ToString().Contains("radio_checked_icon.png"))
                     {
                         g_PurchaseInfo = new G_PurchaseInfo
                         {
-                            ID = "01024313236",
+                            ID = userid,
                             PL_DELIVERY_ADDRESS = EntryAdress.Text,
                             PL_USED_POINT = UsedPoint.ToString(),
                             PL_ISSUCCESS = "",
@@ -344,14 +430,17 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                             G_PD_LIST = g_PurchasedetailInfos,
                             PL_ACCUSER_NAME = Name_box.Text,
                             PL_DV_NAME = MyNameLabel.Text,
-                            PL_DV_PHONE = MyPhoneLabel.Text
+                            PL_DV_PHONE = MyPhoneLabel.Text,
+                            DELIVERY_JIBUNADDR = jibunAddr,
+                            DELIVERY_ZIPNO = zipNo,
+                            ISUSER = isuser
                         };
                     }
                     else
                     {
                         g_PurchaseInfo = new G_PurchaseInfo
                         {
-                            ID = "01024313236",
+                            ID = userid,
                             PL_DELIVERY_ADDRESS = EntryAdress.Text,
                             PL_USED_POINT = UsedPoint.ToString(),
                             PL_ISSUCCESS = "",
@@ -361,7 +450,10 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                             G_PD_LIST = g_PurchasedetailInfos,
                             PL_ACCUSER_NAME = Name_box.Text,
                             PL_DV_NAME = MyNameLabel.Text,
-                            PL_DV_PHONE = MyPhoneLabel.Text
+                            PL_DV_PHONE = MyPhoneLabel.Text,
+                            DELIVERY_JIBUNADDR = jibunAddr,
+                            DELIVERY_ZIPNO = zipNo,
+                            ISUSER = isuser
                         };
                     }
 
@@ -492,6 +584,26 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 Combo.Items.Clear();
                 Combo.Items.Add(accountlist[i].AC_BANKNAME + ": " + accountlist[i].AC_ACCOUNTNUM + " " + accountlist[i].AC_NAME);
             }
+        }
+
+        private void ShowAddr_btnClicked(object sender, EventArgs e)
+        {
+            Addr_Picker.Focus();
+        }
+
+        private void Addr_PickerChanged(object sender, EventArgs e)
+        {
+            EntryAdress.Text = Addr_Picker.SelectedItem.ToString();
+        }
+
+        private void ChaneName_btnClicked(object sender, EventArgs e)
+        {
+            PopupNavigation.PushAsync(popup_name = new PopupNameEntry(this));
+        }
+
+        private void ChangePhone_btnClicked(object sender, EventArgs e)
+        {
+            PopupNavigation.PushAsync(popup_phone = new PopupPhoneEntry(this));
         }
     }
 }

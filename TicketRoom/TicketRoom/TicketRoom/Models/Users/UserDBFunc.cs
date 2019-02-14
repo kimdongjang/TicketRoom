@@ -172,5 +172,54 @@ namespace TicketRoom.Models.Users
                 return adress;
             }
         }
+
+        // 상품권 장바구니 업데이트 기능
+        public bool PostGiftUpdateBaskeListToID(string nonuserid, string userid)
+        {
+            string str2 = @"{";
+            str2 += "nonuserid:'" + nonuserid;  // 비회원아이디
+            str2 += "',userid:'" + userid; // 회원 ID
+            str2 += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo2 = JObject.Parse(str2);
+
+            UTF8Encoding encoder2 = new UTF8Encoding();
+            byte[] data2 = encoder2.GetBytes(jo2.ToString()); // a json object, or xml, whatever...
+
+            
+            HttpWebRequest request2 = WebRequest.Create(Global.WCFURL + "Update_Basketlist") as HttpWebRequest;
+            request2.Method = "POST";
+            request2.ContentType = "application/json";
+            request2.ContentLength = data2.Length;
+
+            //request.Expect = "application/json";
+
+            request2.GetRequestStream().Write(data2, 0, data2.Length);
+
+            using (HttpWebResponse response2 = request2.GetResponse() as HttpWebResponse)
+            {
+                if (response2.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response2.StatusCode);
+                using (StreamReader reader2 = new StreamReader(response2.GetResponseStream()))
+                {
+                    var readdata2 = reader2.ReadToEnd();
+                    string test = JsonConvert.DeserializeObject<string>(readdata2);
+                    if (test != null && test != "")
+                    {
+                        if (test.Equals("true"))
+                        {
+                            //상품권 장바구니 업데이트 완료 (비회원 -> 회원)
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

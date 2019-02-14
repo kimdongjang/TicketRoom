@@ -32,11 +32,11 @@ namespace TicketRoom.Views.MainTab.Dael
             Button selectedtab = (Button)sender;
             selectedtab.FontSize = 15;
             selectedtab.TextColor = Color.Blue;
-            if (selectedtab.Text.Equals("구매"))
+            if (selectedtab.Text.Equals("상품권 구매"))
             {
                 TabContent.Content = new PurchaseTabPage(categorynum);
             }
-            else if (selectedtab.Text.Equals("판매"))
+            else if (selectedtab.Text.Equals("상품권 판매"))
             {
                 TabContent.Content = new SaleTabPage(categorynum);
             }

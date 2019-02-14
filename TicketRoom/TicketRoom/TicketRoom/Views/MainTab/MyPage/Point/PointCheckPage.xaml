@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
-             x:Class="TicketRoom.Views.MainTab.MyPage.PointCheckPage">
+             x:Class="TicketRoom.Views.MainTab.MyPage.Point.PointCheckPage">
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
         <Grid.RowDefinitions>

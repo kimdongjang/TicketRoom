@@ -94,7 +94,9 @@
 
                         <local1:CustomButton Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1" Padding="0" HeightRequest="30" Text="최근 주소" TextColor="White" 
                             x:Name="RecentAdress"
+                            Clicked="ShowAddr_btnClicked"
                             BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Margin="15,10,15,10"/>
+                        <Picker x:Name="Addr_Picker" SelectedIndexChanged="Addr_PickerChanged" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="False"/>
                     </Grid>
 
                     <!--#region 2행 주소 Entry(Input)-->
@@ -124,9 +126,10 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <local1:CustomLabel Grid.Row="0" Size="22" Text="수취인 이름" TextColor="Black" Margin="15,0,15,10"/>
-                    <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" Text="이대현" TextColor="Black" Margin="15,10,0,10" VerticalTextAlignment="Center" x:Name="MyNameLabel"/>
+                    <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" TextColor="Black" Margin="15,10,0,10" VerticalTextAlignment="Center" x:Name="MyNameLabel" x:FieldModifier="Public"/>
                     <local1:CustomButton Grid.Row="1" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="이름 변경" HorizontalOptions="Center" VerticalOptions="Center"
-                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangeNameBtn" HeightRequest="30" WidthRequest="120" Margin="0,10,15,10"/>
+                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangeNameBtn" HeightRequest="30" WidthRequest="120" Margin="0,10,15,10"
+                                                    Clicked="ChaneName_btnClicked"/>
                     <BoxView  Grid.Row="2" Grid.Column="0"  BackgroundColor="Gray"/>
                     <BoxView  Grid.Row="2" Grid.Column="1"  BackgroundColor="Gray"/>
                 </Grid>
@@ -143,9 +146,10 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <local1:CustomLabel Grid.Row="0" Size="22" Text="연락 가능한 번호" TextColor="Black" Margin="15,0,15,10"/>
-                    <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" Text="010-2411-0596" TextColor="Black" Margin="15,10,0,10" VerticalTextAlignment="Center" x:Name="MyPhoneLabel"/>
+                    <local1:CustomLabel Grid.Row="1" Grid.Column="0" Size="18" TextColor="Black" Margin="15,10,0,10" VerticalTextAlignment="Center" x:Name="MyPhoneLabel" x:FieldModifier="Public"/>
                     <local1:CustomButton Grid.Row="1" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="번호 변경" HorizontalOptions="Center" VerticalOptions="Center"
-                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangePhoneBtn" HeightRequest="30" WidthRequest="120" Margin="0,10,15,10"/>
+                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangePhoneBtn" HeightRequest="30" WidthRequest="120" Margin="0,10,15,10"
+                                                    Clicked="ChangePhone_btnClicked"/>
                     <BoxView  Grid.Row="2" Grid.Column="0"  BackgroundColor="Gray"/>
                     <BoxView  Grid.Row="2" Grid.Column="1"  BackgroundColor="Gray"/>
                 </Grid>
@@ -238,7 +242,7 @@
                     <BoxView Grid.Row="3" BackgroundColor="Gray" HeightRequest="3" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
                     <!--#endregion-->
 
-                    <Grid Grid.Row="4" Margin="0,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" RowSpacing="0" ColumnSpacing="0">
+                    <Grid Grid.Row="4" x:Name="Point_Grid" Margin="0,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" RowSpacing="0" ColumnSpacing="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="7*"/>
                             <ColumnDefinition Width="3*"/>

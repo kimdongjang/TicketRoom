@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using TicketRoom.Views.MainTab.MyPage;
+using TicketRoom.Views.MainTab.MyPage.Point;
 using TicketRoom.Views.Users.Login;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

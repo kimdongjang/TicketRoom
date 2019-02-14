@@ -870,6 +870,5 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             PopupNavigation.PushAsync(popup_name = new PopupNameEntry(this));
         }
-
     }
 }
