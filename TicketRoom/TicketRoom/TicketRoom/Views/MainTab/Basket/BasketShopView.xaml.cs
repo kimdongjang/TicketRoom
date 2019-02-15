@@ -191,7 +191,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 };
                 Image deleteImage = new Image
                 {
-                    Source = "x.png",
+                    Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/x.png")),
                     HeightRequest = 40,
                     WidthRequest = 40,
                 };

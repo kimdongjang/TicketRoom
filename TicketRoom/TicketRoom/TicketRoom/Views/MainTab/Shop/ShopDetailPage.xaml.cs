@@ -39,6 +39,16 @@ namespace TicketRoom.Views.MainTab.Shop
         public ShopDetailPage(string titleName, int productIndex, SH_Home home)
         {
             InitializeComponent();
+
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+            BackButtonImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/backbutton_icon.png"));
+
             myShopName = titleName;
             this.productIndex = productIndex;
             this.home = home;
@@ -59,9 +69,11 @@ namespace TicketRoom.Views.MainTab.Shop
                     otherHomeList.Add(SH_DB.PostSearchHomeToHome(otherList[i].SH_OTHERHOME_INDEX)); // 다른 고객이 본 상품 목록을 리스트에 추가
                 }
             }
+            plusCount.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/plus.png"));
+            minusCount.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/minus.png"));
 
             // 아이디 초기화
-            if(Global.b_user_login == false)
+            if (Global.b_user_login == false)
             {
                 shopDetailPage_ID = Global.non_user_id;
             }
@@ -262,7 +274,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     Image image = new Image { Aspect = Aspect.AspectFill };
                     if (imageList.Count <= i)
                     {
-                        image.Source = "no_image.png";
+                        image.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/no_image.png"));
                     }
                     else
                     {

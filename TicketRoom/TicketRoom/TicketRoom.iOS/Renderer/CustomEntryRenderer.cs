@@ -22,7 +22,7 @@ namespace TicketRoom.iOS.Renderer
             {
                 Control.BorderStyle = UITextBorderStyle.None;
                 Control.Layer.CornerRadius = 10;
-                Control.TextColor = UIColor.White;
+                //Control.TextColor = UIColor.White;
             }
         }
     }

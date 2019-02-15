@@ -171,4 +171,7 @@
       <Name>TicketRoom</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\uniform_icon.png" />
+  </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,7 @@ using TicketRoom.Models.Users;
 using TicketRoom.Models.USERS;
 using TicketRoom.Views.MainTab;
 using TicketRoom.Views.MainTab.Dael.Purchase;
+using TicketRoom.Views.MainTab.Popup;
 using TicketRoom.Views.MainTab.Shop;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -23,13 +25,15 @@ namespace TicketRoom.Views.Users.CreateUser
     public partial class InputAdress : ContentPage
     {
         List<AdressAPI> adl;
-        ADRESS myAdress = new ADRESS();
+        public ADRESS myAdress = new ADRESS();
         Queue<Grid> adl_queue = new Queue<Grid>();
 
-        CreateUserpage cup;
-        PurchaseDetailPage pdp;
-        ShopTabPage stp; // 쇼핑 탭 페이지
-        ShopOrderPage sop; // 쇼핑 주문 페이지
+        public CreateUserpage cup;
+        public PurchaseDetailPage pdp;
+        public ShopTabPage stp; // 쇼핑 탭 페이지
+        public ShopOrderPage sop; // 쇼핑 주문 페이지
+
+        PopupRecentAdress pra;
 
         private bool _canClose = true;
         private bool IsInputAdress = false;
@@ -40,51 +44,103 @@ namespace TicketRoom.Views.Users.CreateUser
 
         Thread t_loading;
 
+        #region 생성자
         public InputAdress()
         {
             InitializeComponent();
+            Init();
         }
         public InputAdress(ShopTabPage s)
         {
             stp = s;
             InitializeComponent();
+            EntryAdress.Focus();
+            Init();
         }
 
         public InputAdress(PurchaseDetailPage p)
         {
             pdp = p;
             InitializeComponent();
+            Init();
         }
 
         public InputAdress(CreateUserpage c)
         {
             cup = c;
             InitializeComponent();
+            Init();
         }
 
         public InputAdress(ShopOrderPage sop)
         {
             this.sop = sop;
             InitializeComponent();
+            Init();
         }
 
+
+        #endregion
+
+        private void Init()
+        {
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            #region IOS의 경우 초기화
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+            BackButtonImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/backbutton_icon.png"));
+
+
+            
+        }
+        #region 최근 주소 검색
+
+        #endregion
+
+        #region Back버튼 처리
+        protected override bool OnBackButtonPressed()
+        {
+            BackButtonFunc();
+            return base.OnBackButtonPressed();
+        }
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
+            BackButtonFunc();
             this.OnBackButtonPressed();
         }
+        // 뒤로 가기 버튼을 눌렀을 시의 Entry 처리
+        private void BackButtonFunc()
+        {
+            // 유저 회원 가입 주소 확인시
+            if (cup != null)
+            {
+                cup.EntryAdress.Text = Global.adress.ROADADDR;
+            }
+            // 상품권 구매 주소 확인시
+            else if (pdp != null)
+            {
+                pdp.EntryAdress.Text = Global.adress.ROADADDR;
+            }
+            // 쇼핑몰 탭 페이지 주소 확인시
+            else if (stp != null)
+            {
+                stp.EntryAdress.Text = Global.adress.ROADADDR;
+            }
+            // 쇼핑몰 주문 페이지 주소 변경시
+            else if (sop != null)
+            {
+                sop.AdressLabel.Text = Global.adress.ROADADDR;
+            }
+        }
+        #endregion
 
         // 주소 검색 이벤트
         private void SearchBtn_Clicked(object sender, EventArgs e)
         {
             Find_AdressAsync(EntryAdress.Text);
-        }
-        private void SearchBtnPressed(object sender, EventArgs e)
-        {
-            SearchBtn.BackgroundColor = Color.FromHex("#3b5998");
-        }
-        private void SearchBtnReleased(object sender, EventArgs e)
-        {
-            SearchBtn.BackgroundColor = Color.Black;
         }
 
 
@@ -110,38 +166,14 @@ namespace TicketRoom.Views.Users.CreateUser
                 DetailEntry.Text = "";
             }
             var answer = await DisplayAlert(EntryAdress.Text + " , " + DetailEntry.Text, "입력된 주소가 맞습니까?", "확인", "취소");
-            // 유저 회원 가입 주소 확인시
-            if (answer && cup != null)
-            {
-                cup.EntryAdress.Text = EntryAdress.Text + DetailEntry.Text;
-                _canClose = false;
-                this.OnBackButtonPressed();
-            }
-            // 상품권 구매 주소 확인시
-            else if (answer && pdp != null)
-            {
-                pdp.EntryAdress.Text = EntryAdress.Text + DetailEntry.Text;
-                pdp.jibunAddr = jibunAddr;
-                pdp.zipNo = zipNo;
-                _canClose = false;
-                this.OnBackButtonPressed();
-            }
-            // 쇼핑몰 메인 페이지 주소 확인시
-            else if (answer && stp != null)
-            {
-                stp.EntryAdress.Text = EntryAdress.Text + DetailEntry.Text;
-                stp.myAdress = myAdress; // 주소 정보 초기화
-                _canClose = false;
-                this.OnBackButtonPressed();
-            }
-            // 쇼핑몰 주문 페이지 주소 변경시
-            else if (answer && sop != null)
-            {
-                sop.AdressLabel.Text = EntryAdress.Text + DetailEntry.Text;
-                sop.myAdress = myAdress; // 주소 정보 초기화
-                _canClose = false;
-                this.OnBackButtonPressed();
-            }
+            if (answer == false) return;
+
+            // 입력된 주소로 전역 변수 초기화
+            Global.adress.ROADADDR = myAdress.ROADADDR + DetailEntry.Text;
+            Global.adress.JIBUNADDR = myAdress.JIBUNADDR;
+            Global.adress.ZIPNO = myAdress.ZIPNO;
+
+            this.OnBackButtonPressed();
         }
 
         private async Task Find_AdressAsync(string word)
@@ -210,6 +242,7 @@ namespace TicketRoom.Views.Users.CreateUser
             await Navigation.PopModalAsync();
         }
 
+        // 주소 리스트 갱신
         private void UpdateAdressList()
         {
             AdrListParentGrid.RowDefinitions.Clear();
@@ -221,51 +254,92 @@ namespace TicketRoom.Views.Users.CreateUser
 
                 Grid grid = new Grid // 주소 라벨을 묶는 그리드 생성
                 {
-                    RowSpacing = 0,
+                    RowSpacing = 10,
                     ColumnSpacing = 0,
                     BindingContext = i,
                     RowDefinitions =
                     {
-                        new RowDefinition { Height = 1 },
+                        new RowDefinition { Height = 3 },
                         new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) }
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition { Height = 3 },
                     }
                 };
 
-                AdrListParentGrid.Children.Add(grid, 0, i); //부모그리드에 약관 그리드 추가
+                AdrListParentGrid.Children.Add(grid, 0, i); //
 
-                BoxView boxview = new BoxView
+                BoxView borderLine = new BoxView { BackgroundColor = Color.LightGray };
+                if (i != 0) // 구분선 첫줄은 배제.
                 {
-                    BackgroundColor = Color.Black
+                    grid.Children.Add(borderLine, 0, 0); //
+                }
+                #region 도로명 구역
+                Grid roadGrid = new Grid
+                {
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
+                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                    }
                 };
-
+                CustomButton roadButton = new CustomButton
+                {
+                    Text = "도로명",
+                    Size = 14,
+                    BackgroundColor = Color.LightBlue,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
+                    HeightRequest = 25,
+                    TextColor = Color.White,
+                };
                 // 리스트 내용은 라벨로 설정
-                CustomLabel label = new CustomLabel
+                CustomLabel roadLabel = new CustomLabel
                 {
                     Text = adl[i].roadAddr + " ( " + adl[i].zipNo + " )",
-                    Size = 18,
-                    TextColor = Color.Black,
+                    Size = 14,
+                    TextColor = Color.Gray,
+                    VerticalOptions = LayoutOptions.Center,
                 };
+                roadGrid.Children.Add(roadButton, 0, 0);
+                roadGrid.Children.Add(roadLabel, 1, 0);
+                #endregion
 
-                CustomLabel label2 = new CustomLabel
+                #region 지번 구역
+                Grid jibunGrid = new Grid
+                {
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
+                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                    }
+                };
+                CustomButton jibunButton = new CustomButton
+                {
+                    Text = "지번",
+                    Size = 14,
+                    BackgroundColor = Color.LightBlue,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
+                    HeightRequest = 30,
+                    TextColor = Color.White,
+                };
+                CustomLabel jibunLabel = new CustomLabel
                 {
                     Text = adl[i].jibunAddr,
                     Size = 14,
-                    TextColor = Color.Black,
+                    TextColor = Color.Gray,
+                    VerticalOptions = LayoutOptions.Center,
                 };
-
-                #region 그리드에 추가
-                if (i != 0) // 구분선 첫줄은 배제.
-                {
-                    grid.Children.Add(boxview, 0, 0); //부모그리드에 약관 그리드 추가
-                }
-                grid.Children.Add(label, 0, 1); //부모그리드에 약관 그리드 추가
-                grid.Children.Add(label2, 0, 2); //부모그리드에 약관 그리드 추가
+                jibunGrid.Children.Add(jibunButton, 0, 0);
+                jibunGrid.Children.Add(jibunLabel, 1, 0);
                 #endregion
 
-                AdrListBackColor.BackgroundColor = Color.Black;
-                // 배경 컬러 검은색으로 변경
+                #region 그리드에 추가
+                grid.Children.Add(roadGrid, 0, 1); //
+                grid.Children.Add(jibunGrid, 0, 2); //
+                #endregion
 
+                AdrListBackColor.BackgroundColor = Color.LightGray; // 버튼 클릭시 검색결과 색상 처리
 
                 #region 리스트 내용 클릭 이벤트
                 grid.GestureRecognizers.Add(
@@ -285,14 +359,35 @@ namespace TicketRoom.Views.Users.CreateUser
                             zipNo = adl[int.Parse(s.ToString())].zipNo;
                             DetailEntry.IsEnabled = true;
 
+
                             if (adl_queue.Count < 2)
                             {
                                 if (adl_queue.Count != 0)
                                 {
-                                    adl_queue.Dequeue().BackgroundColor = Color.White;
+                                    Grid tempGrid = adl_queue.Dequeue();
+                                    if (tempGrid.Children.Count != 3) // 첫줄 구분선 제어
+                                    {
+                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(0)).Children.ElementAt(0)).BackgroundColor = Color.LightBlue;
+                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(1)).Children.ElementAt(0)).BackgroundColor = Color.LightBlue;
+                                    }
+                                    else
+                                    {
+                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(1)).Children.ElementAt(0)).BackgroundColor = Color.LightBlue;
+                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(2)).Children.ElementAt(0)).BackgroundColor = Color.LightBlue;
+                                    }
                                 }
-                                grid.BackgroundColor = Color.Gray;
+                                if (int.Parse(s.ToString()) != 0) // 첫줄 구분선 제어
+                                {
+                                    ((CustomButton)((Grid)grid.Children.ElementAt(1)).Children.ElementAt(0)).BackgroundColor = Color.Blue;
+                                    ((CustomButton)((Grid)grid.Children.ElementAt(2)).Children.ElementAt(0)).BackgroundColor = Color.Blue;
+                                }
+                                else
+                                {
+                                    ((CustomButton)((Grid)grid.Children.ElementAt(0)).Children.ElementAt(0)).BackgroundColor = Color.Blue;
+                                    ((CustomButton)((Grid)grid.Children.ElementAt(1)).Children.ElementAt(0)).BackgroundColor = Color.Blue;
+                                }
                                 adl_queue.Enqueue(grid);
+                                MainScroll.ScrollToAsync(0,0,true);
                             }
                         })
                     }
@@ -301,14 +396,9 @@ namespace TicketRoom.Views.Users.CreateUser
             }
         }
 
-        private void EntryAdress_Focused(object sender, FocusEventArgs e)
+        private void RecentAdressButton_Clicked(object sender, EventArgs e)
         {
-            EntryAdress.Text = "";
-        }
-
-        private void DetailEntry_Focused(object sender, FocusEventArgs e)
-        {
-            DetailEntry.Text = "";
+            PopupNavigation.PushAsync(pra = new PopupRecentAdress(this));
         }
     }
 }

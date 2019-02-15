@@ -90,7 +90,7 @@ namespace TicketRoom.Views.MainTab
                 //System.Diagnostics.Debug.WriteLine("Fade Out");
 
                 // Changes image source.
-                image.Source = ImageSource.FromFile("shophome.jpg");
+                image.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/shophome.jpg"));
                 Uri uri = new Uri("http://naver.com/");
                 image.GestureRecognizers.Add(new TapGestureRecognizer
                 {
@@ -169,7 +169,7 @@ namespace TicketRoom.Views.MainTab
                 {
                     image = new Image
                     {
-                        Source = "men_wear_icon.png",
+                        Source = "uniform_icon",
                         WidthRequest = 100,
                         HeightRequest = 100,
                     };
@@ -178,7 +178,7 @@ namespace TicketRoom.Views.MainTab
                 {
                     image = new Image
                     {
-                        Source = "women_icon.png",
+                        Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/women_icon.png")),
                         WidthRequest = 100,
                         HeightRequest = 100,
                     };
@@ -187,7 +187,7 @@ namespace TicketRoom.Views.MainTab
                 {
                     image = new Image
                     {
-                        Source = "ready.png",
+                        Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/ready.png")),
                         WidthRequest = 100,
                         HeightRequest = 100,
                     };
@@ -248,7 +248,7 @@ namespace TicketRoom.Views.MainTab
 
         private void EntryAdress_Focused(object sender, FocusEventArgs e)
         {
-            EntryAdress.Text = "";
+            EntryAdress.Unfocus();
             Navigation.PushModalAsync(new InputAdress(this));
 
         }

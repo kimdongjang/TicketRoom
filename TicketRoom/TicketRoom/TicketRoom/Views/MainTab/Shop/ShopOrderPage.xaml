@@ -6,21 +6,26 @@
     <ContentPage.Content>
         <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
             <Grid.RowDefinitions>
+                <RowDefinition Height="0"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <!--#region 0행 커스텀 액션바 -->
-            <Grid Grid.Row="0" BackgroundColor="White">
+            <!--#region 1행 커스텀 액션바 -->
+            <Grid Grid.Row="1" BackgroundColor="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
                 <!--#region 0열 백버튼 등 이미지-->
-                <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Image="backbutton_icon.png" BackgroundColor="White" Clicked="ImageButton_Clicked" />
+                <Image Grid.Column="0" Margin="10,0,0,0" x:Name="BackButtonImage" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButton_Clicked"/>
+                    </Image.GestureRecognizers>
+                </Image>
                 <!--#endregion-->
 
                 <!--#region 1열 액션바 타이틀-->
@@ -36,12 +41,12 @@
             </Grid>
             <!--#endregion-->
 
-            <!--#region 1행 구분선  -->
-            <BoxView Grid.Row="1" BackgroundColor="Black"/>
+            <!--#region 2행 구분선  -->
+            <BoxView Grid.Row="2" BackgroundColor="Black"/>
             <!--#endregion-->
 
-            <!--#region 2행 메인 페이지 뷰-->
-            <ScrollView Grid.Row="2">
+            <!--#region 3행 메인 페이지 뷰-->
+            <ScrollView Grid.Row="3">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/> <!-- 주문 목록-->
@@ -262,8 +267,8 @@
             </ScrollView>
             <!--#endregion-->
 
-            <!--#region 3행 결제하기 -->
-            <Grid Grid.Row="3">
+            <!--#region 4행 결제하기 -->
+            <Grid Grid.Row="4">
                 <local1:CustomButton Size="26" FontFamily="{StaticResource FontStyle}" Text="결제하기"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                     BackgroundColor="Black" TextColor="White" 

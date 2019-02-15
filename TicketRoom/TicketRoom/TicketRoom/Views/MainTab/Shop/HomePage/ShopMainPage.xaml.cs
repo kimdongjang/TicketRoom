@@ -41,6 +41,15 @@ namespace TicketRoom.Views.MainTab.Shop
         // DB에서 가져온 홈 페이지 정보로 초기화 진행
         private void Init()
         {
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+            BackButtonImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/backbutton_icon.png"));
+
             // 타이틀 탭 초기화
             TitleName.Text = home.SH_HOME_NAME;
 
@@ -130,7 +139,7 @@ namespace TicketRoom.Views.MainTab.Shop
             Global.isOpen_ShopOtherPage = false;
             Global.isOpen_ShopDetailPage = false;
             
-            Navigation.PopModalAsync();
+            Navigation.PopAsync();
         }
         protected override bool OnBackButtonPressed()
         {

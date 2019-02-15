@@ -237,7 +237,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                     card_picker.SelectedItem.ToString(), // 선택된 카드
                     pp.USER_ID, // 유저아이디
                     priceEntry.Text, // 입력금액
-                    System.DateTime.Now.ToString(), // 날짜
                     pp.PT_POINT_INDEX.ToString()) == false)  // 포인트 인덱스
                 {
                     await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 실패했습니다. 다시 한번 시도해주십시오.", "확인");
@@ -262,7 +261,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                     "", // null
                     pp.USER_ID, // 유저아이디
                     priceEntry.Text, // 입력금액
-                    System.DateTime.Now.ToString(), // 날짜
                     pp.PT_POINT_INDEX.ToString()) == false) // 포인트 인덱스
                 {
                     await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 실패했습니다. 다시 한번 시도해주십시오.", "확인");

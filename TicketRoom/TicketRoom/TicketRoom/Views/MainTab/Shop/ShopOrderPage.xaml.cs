@@ -74,6 +74,16 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
             InitializeComponent();
+
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+            BackButtonImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/backbutton_icon.png"));
+
             this.basketList = basketList;
 
             if (Global.b_user_login == false) // 로그인이 안되있을 경우
@@ -221,8 +231,8 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 Command = new Command(() =>
                 {
-                    PayRadioImage.Source = "radio_checked_icon.png";
-                    ArriveRadioImage.Source = "radio_unchecked_icon.png";
+                    PayRadioImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_checked_icon.png"));
+                    ArriveRadioImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
                     DeliveryOption = "선불";
                     deliveryPayLabel.Text = "배송비: " + DeliveryPrice;
                     DeliveryPayUpdate();
@@ -233,8 +243,8 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 Command = new Command(() =>
                 {
-                    ArriveRadioImage.Source = "radio_checked_icon.png";
-                    PayRadioImage.Source = "radio_unchecked_icon.png";
+                    ArriveRadioImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_checked_icon.png"));
+                    PayRadioImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
                     DeliveryOption = "착불";
                     deliveryPayLabel.Text = "";
                     DeliveryPrice = 0;
@@ -248,9 +258,9 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 Command = new Command(() =>
                 {
-                    CardRadio.Source = "radio_checked_icon.png";
-                    CashRadio.Source = "radio_unchecked_icon.png";
-                    PhoneRadio.Source = "radio_unchecked_icon.png";
+                    CardRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_checked_icon.png"));
+                    CashRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
+                    PhoneRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
                     payOption = "Card";
                     PhoneOptionGrid.Children.Clear();
                     CardOptionEnable();
@@ -260,9 +270,9 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 Command = new Command(() =>
                 {
-                    CardRadio.Source = "radio_unchecked_icon.png";
-                    CashRadio.Source = "radio_checked_icon.png";
-                    PhoneRadio.Source = "radio_unchecked_icon.png";
+                    CardRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
+                    CashRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_checked_icon.png"));
+                    PhoneRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
                     payOption = "Personal";
                     PhoneOptionGrid.Children.Clear();
                     CashOptionEnable();
@@ -272,9 +282,9 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 Command = new Command(() =>
                 {
-                    CardRadio.Source = "radio_unchecked_icon.png";
-                    CashRadio.Source = "radio_unchecked_icon.png";
-                    PhoneRadio.Source = "radio_checked_icon.png";
+                    CardRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
+                    CashRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
+                    PhoneRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_checked_icon.png"));
                     payOption = "Phone";
                     PhoneOptionGrid.Children.Clear();
                     PhoneOptionEnable();
@@ -761,7 +771,6 @@ namespace TicketRoom.Views.MainTab.Shop
                                         "",/*예금주*/
                                         ShopOrderPage_ID,/*아이디*/
                                         MyUsePoint.ToString(),/*사용포인트*/
-                                        System.DateTime.Now.ToString(), /*날짜*/
                                         PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/
                                         );
                                 }
@@ -773,7 +782,6 @@ namespace TicketRoom.Views.MainTab.Shop
                                         "",/*예금주*/
                                         ShopOrderPage_ID,/*아이디*/
                                         MyUsePoint.ToString(),/*사용포인트*/
-                                        System.DateTime.Now.ToString(), /*날짜*/
                                         PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/
                                         );
                                 }

@@ -126,7 +126,7 @@ namespace TicketRoom.Models.Users
             }
         }
 
-
+        
         public ADRESS PostSelectAdressToID(string p_id)
         {
             ADRESS adress = new ADRESS();
@@ -171,6 +171,46 @@ namespace TicketRoom.Models.Users
                 System.Diagnostics.Debug.WriteLine(ex);
                 return adress;
             }
+        }
+
+        // 최근 주소 검색
+        public List<ADRESS> PostRecentAdressToID(string UserID)
+        {
+            string str = @"{";
+            str += "UserID:'" + UserID;  //아이디찾기에선 Name으로 
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            //request.Method = "POST";
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectUserAddr") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            //request.Expect = "application/json";
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var readdata = reader.ReadToEnd();
+                    if (readdata != null && readdata != "")
+                    {
+                        List<ADRESS> test = JsonConvert.DeserializeObject<List<ADRESS>>(readdata);
+                        return test;
+                    }
+                }
+            }
+            return null;
         }
 
         // 상품권 장바구니 업데이트 기능

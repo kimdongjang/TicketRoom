@@ -21,6 +21,15 @@ namespace TicketRoom.Views.MainTab.Shop.GridImage
         }
         private void Init()
         {
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+            BackButtonImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/backbutton_icon.png"));
+
             int row = 0;
             int column = 2;
             Grid pictureGrid = new Grid();
@@ -78,10 +87,10 @@ namespace TicketRoom.Views.MainTab.Shop.GridImage
             }
         }
 
-
-        private void ImageButton_Clicked(object sender, EventArgs e)
+        private void BackButton_Clicked(object sender, EventArgs e)
         {
-            
+            Global.isOpen_PictureList = false;
+            base.OnBackButtonPressed();
         }
     }
 }
