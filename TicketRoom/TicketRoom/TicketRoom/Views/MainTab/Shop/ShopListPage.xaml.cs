@@ -42,6 +42,16 @@ namespace TicketRoom.Views.MainTab.Shop
             }
 
             sclist = SH_DB.PostSubCategoryListAsync(main_index);
+
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+            BackButtonImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/backbutton_icon.png"));
+
             TitleTapInit();
             UpdateList();
         }
@@ -117,7 +127,7 @@ namespace TicketRoom.Views.MainTab.Shop
         }
 
         // 메인 리스트 초기화 함수
-        private void UpdateList()
+        private async void UpdateList()
         {
             BestShopListGrid.Children.Clear();
             BestShopListGrid.RowDefinitions.Clear();
@@ -162,10 +172,9 @@ namespace TicketRoom.Views.MainTab.Shop
                         new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star)  }
                         },
                     };
-
                     // 쇼핑몰 이미지
                     Image bestimage = new Image
-                    {
+                    {                     
                         Source = ImageSource.FromUri(new Uri(sclist[i].SH_SUBCATE_IMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.Center,
@@ -461,7 +470,7 @@ namespace TicketRoom.Views.MainTab.Shop
         private void BackButton_Clicked(object sender, EventArgs e)
         {
             Global.isOpen_ShopListPage = false;
-            Navigation.PopModalAsync();
+            Navigation.PopAsync();
         }
         protected override bool OnBackButtonPressed()
         {

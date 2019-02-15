@@ -28,20 +28,13 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label 
+                <models:CustomLabel 
                     Grid.Column="0"
                     Text="장바구니"
-                    FontSize="18"
+                    Size="18"
                     TextColor="Black"
                      XAlign="End" YAlign="Center"
-                    >
-                    <Label.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                        </OnPlatform>
-                    </Label.FontFamily>
-                </Label>
+                    />
             </Grid>
             <!--#endregion-->
 

@@ -34,7 +34,7 @@ namespace TicketRoom.Views.MainTab
             if (Global.b_user_login == true)
             {
                 UserIDLabel.Text =  Global.ID;
-                IsLoginBtn.Text = "로그아웃";                
+                IsLoginBtn.Text = "로그아웃";
             }
             else if (Global.b_user_login == false)
             {
@@ -49,7 +49,7 @@ namespace TicketRoom.Views.MainTab
                 await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
                 return;
             }
-            await Navigation.PushModalAsync(new MyInfoUpdatePage());
+            await Navigation.PushAsync(new MyInfoUpdatePage());
         }
 
         private async void SaleList_Clicked(object sender, EventArgs e)
@@ -59,12 +59,12 @@ namespace TicketRoom.Views.MainTab
                 await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
                 return;
             }
-            await Navigation.PushModalAsync(new SaleListPage());
+            await Navigation.PushAsync(new SaleListPage());
         }
 
         private void PurchaseList_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new PurchaseListPage());
+            Navigation.PushAsync(new PurchaseListPage());
         }
 
         private async void PointCheck_Clicked(object sender, EventArgs e)
@@ -74,7 +74,7 @@ namespace TicketRoom.Views.MainTab
                 await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
                 return;
             }
-            await Navigation.PushModalAsync(new PointCheckPage());
+            await Navigation.PushAsync(new PointCheckPage());
         }
 
         private async void IsLoginBtn_ClickedAsync(object sender, EventArgs e)
@@ -100,7 +100,7 @@ namespace TicketRoom.Views.MainTab
             }
             else if (Global.b_user_login == false)
             {
-                await Navigation.PushModalAsync(new LoginPage()); // 로그인 페이지로 이동
+                await Navigation.PushAsync(new LoginPage()); // 로그인 페이지로 이동
             }
             
         }

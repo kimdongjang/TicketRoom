@@ -18,7 +18,7 @@ namespace TicketRoom.Views
 
         public MainPage()
         {
-            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 사용하지 않는 코드
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
 
             InitializeComponent();
             Init();

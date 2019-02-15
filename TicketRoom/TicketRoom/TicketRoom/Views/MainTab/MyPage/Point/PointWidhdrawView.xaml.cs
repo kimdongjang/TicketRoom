@@ -66,7 +66,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 NameEntry.Text, // 예금주
                 pp.USER_ID, // 유저아이디
                 WidhdrawPointEntry.Text, // 출금금액
-                System.DateTime.Now.ToString(), // 날짜
                 pp.PT_POINT_INDEX.ToString()) == false)  // 포인트 인덱스
             {
                 await App.Current.MainPage.DisplayAlert("알림", "포인트 출금에 실패했습니다. 다시 한번 시도해주십시오.", "확인");

@@ -160,6 +160,9 @@
     <Compile Update="Views\MainTab\Popup\PopupNameEntry.xaml.cs">
       <DependentUpon>PopupNameEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\MainTab\Popup\PopupRecentAdress.xaml.cs">
+      <DependentUpon>PopupRecentAdress.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MainTab\Popup\PopupPhoneEntry.xaml.cs">
       <DependentUpon>PopupPhoneEntry.xaml</DependentUpon>
     </Compile>
