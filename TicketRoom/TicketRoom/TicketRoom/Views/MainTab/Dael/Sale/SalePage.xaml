@@ -7,6 +7,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!--#region 0행 커스텀 액션바 -->
@@ -313,8 +314,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
 
 
@@ -505,18 +504,6 @@
                         <!--#endregion-->
                     </Grid>
                     <!--#endregion-->
-
-                    <!--#region 5행 여백-->
-                    <!--#endregion-->
-
-                    <Button  Grid.Row="6" Text="판매하기"  TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                        <Button.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Button.FontFamily>
-                    </Button>
                 </Grid>
 
                 <Grid Grid.Row="2" x:Name="RadioContent2" IsVisible="False" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
@@ -527,8 +514,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
 
                     <!--#region 0행 핀번호 추가 폼-->
@@ -813,22 +798,59 @@
                         <!--#endregion-->
                     </Grid>
                     <!--#endregion-->
-
-                    <!--#region 6행 여백-->
-                    <!--#endregion-->
-
-                    <Button  Grid.Row="7" Text="판매하기"  TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                        <Button.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Button.FontFamily>
-                    </Button>
                 </Grid>
             </Grid>
         </ScrollView>
 
+        <Grid Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            
+            <!--#region 0행 판매 가격 Label-->
+            <Label Grid.Row="0" Margin="0,10,0,10" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="판매 금액 :  " FontSize="18" TextColor="Black">
+                            <Span.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Span.FontFamily>
+                        </Span>
+                        <Span x:Name="Sale_DiscountPrice_span" TextColor="Black" FontSize="18">
+                            <Span.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Span.FontFamily>
+                        </Span>
+                        <Span Text=" 원" TextColor="Black" FontSize="18">
+                            <Span.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                </OnPlatform>
+                            </Span.FontFamily>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <!--#endregion-->
+            
+            <Button Grid.Row="1" Text="판매하기" TextColor="White" BackgroundColor="Black">
+                <Button.FontFamily>
+                    <OnPlatform x:TypeArguments="x:String">
+                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                    </OnPlatform>
+                </Button.FontFamily>
+            </Button>
+        </Grid>
+        
     </Grid>
     <!--#endregion-->
 </ContentPage>

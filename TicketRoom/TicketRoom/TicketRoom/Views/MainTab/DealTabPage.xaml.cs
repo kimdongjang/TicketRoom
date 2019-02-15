@@ -32,7 +32,7 @@ namespace TicketRoom.Views.MainTab
 
 
             Showdeal();
-            //ShowPoint();
+            ShowPoint();
             SelectAllCategory();
         }
 

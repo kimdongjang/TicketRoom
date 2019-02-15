@@ -15,6 +15,9 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
         int PinNumCount = 0;
         G_ProductInfo productInfo = null;
 
+        public string Sale_Price = "";
+        public string DiscountSale_Price = "";
+
         public SalePage(G_ProductInfo productInfo)
         {
             InitializeComponent();
@@ -36,12 +39,22 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
 
         private void PlusBtn_Clicked(object sender, EventArgs e)
         {
-
+            Count_label.Text = (int.Parse(Count_label.Text) + 1).ToString();
+            Sale_Price = (int.Parse(productInfo.PROPRICE) * int.Parse(Count_label.Text)).ToString("N0");
+            DiscountSale_Price = (int.Parse(productInfo.SALEDISCOUNTPRICE) * int.Parse(Count_label.Text)).ToString("N0");
+            Sale_DiscountPrice_span.Text = DiscountSale_Price;
+            //int teqwteqw = int.Parse(Purchase_Price.Replace(",", "")); //1,000->1000
         }
 
         private void MinusBtn_Clicked(object sender, EventArgs e)
         {
-
+            if (int.Parse(Count_label.Text) > 0)
+            {
+                Count_label.Text = (int.Parse(Count_label.Text) - 1).ToString();
+                Sale_Price = (int.Parse(productInfo.PROPRICE) * int.Parse(Count_label.Text)).ToString("N0");
+                DiscountSale_Price = (int.Parse(productInfo.SALEDISCOUNTPRICE) * int.Parse(Count_label.Text)).ToString("N0");
+                Sale_DiscountPrice_span.Text = DiscountSale_Price;
+            }
         }
 
         private void OnDateSelected(object sender, DateChangedEventArgs e)
@@ -75,7 +88,7 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
             if (Pin1.Text != null && Pin1.Text != "" && Pin2.Text != null && Pin2.Text != "" && Pin3.Text != null && Pin3.Text != "" && Pin4.Text != null && Pin4.Text != "")
             {
                 PinNumlist.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                #region 약관 내용 Label
+                #region 핀번호 라벨
                 Label label = new Label
                 {
                     Text = Pin1.Text + " " + Pin2.Text + " " + Pin3.Text + " " + Pin4.Text,
