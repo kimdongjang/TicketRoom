@@ -31,5 +31,13 @@ namespace TicketRoom.Models.Gift.SaleList
         public string SL_SENDSTRING { get; set; } // 전달사항
         [JsonProperty("SL_SALE_PW")]
         public string SL_SALE_PW { get; set; } // 접수비밀번호
+        [JsonProperty("SL_PIN_LIST")]
+        public List<G_PinInfo> SL_PIN_LIST { get; set; } // 핀번호 리스트
+        [JsonProperty("SL_PRONUM")]
+        public string SL_PRONUM { get; set; } // 판매상품 번호
+        [JsonProperty("SL_PROCOUNT")]
+        public string SL_PROCOUNT { get; set; } // 판매수량
+        [JsonProperty("SL_BANK_NAME")]
+        public string SL_BANK_NAME { get; set; } // 은행명
     }
 }

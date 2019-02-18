@@ -130,7 +130,7 @@
                         <!--#endregion-->
 
                         <!--#region 2열 수량 Grid-->
-                        <Grid Grid.Column="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" BackgroundColor="White">
+                        <Grid Grid.Column="2" x:Name="ProCount_Grid" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" BackgroundColor="White">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -285,7 +285,7 @@
                             </Grid.GestureRecognizers>
                         </Grid>
 
-                        <Grid Grid.Column="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                        <Grid Grid.Column="2" x:Name="PinGrid" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="15"/>
                                 <ColumnDefinition Width="10"/>
@@ -499,7 +499,7 @@
 
                         <!--#region 1행 전달사항 Entry(Input)-->
                         <ScrollView Grid.Row="2" Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
-                            <Editor Placeholder="훼손정도나 특이사항을 기재해 주세요" HeightRequest="300" />
+                            <Editor x:Name="SendString_editor" Placeholder="훼손정도나 특이사항을 기재해 주세요" HeightRequest="300" />
                         </ScrollView>
                         <!--#endregion-->
                     </Grid>
@@ -520,12 +520,13 @@
                     <Grid Grid.Row="0" Margin="15,0,15,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        
                         <!--#region 0행 핀번호 추가 폼-->
                         <Grid Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="5">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
@@ -560,12 +561,16 @@
                             <Entry Grid.Column="3" x:Name="Pin4" 
                                Placeholder="4~6자리" FontSize="14" 
                                Keyboard="Numeric"
-                               HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null" MaxLength="4" HorizontalTextAlignment ="Center">
+                               HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null" MaxLength="6" HorizontalTextAlignment ="Center">
                             </Entry>
                             <!--#endregion-->
-
+                        </Grid>
+                        <!--#endregion-->
+                        
+                        <!--#region  1행 컬쳐랜드 추가 버튼-->
+                        <Grid Grid.Row="1" x:Name="PinAddBtn_Grid1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                             <!--#region 0열 핀번호 1 Entry(Input)-->
-                            <Button Grid.Column="4" Margin="0,10,0,10" Clicked="AddPinNumBtn_Clicked" Text="추 가" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                            <Button Margin="0,10,0,10" Clicked="AddPinNumBtn_Clicked" Text="추 가" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                                 <Button.FontFamily>
                                     <OnPlatform x:TypeArguments="x:String">
                                         <On Platform="iOS" Value="BMHANNAAir_ttf" />
@@ -574,12 +579,39 @@
                                 </Button.FontFamily>
                             </Button>
                             <!--#endregion-->
-
                         </Grid>
                         <!--#endregion-->
 
-                        <!--#region 1행 핀번호 추가 목록-->
-                        <Grid Grid.Row="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                        <!--#region  1행 도서문화 , 해피머니 추가 버튼-->
+                        <Grid Grid.Row="1" x:Name="PinAddBtn_Grid2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <!--#region  0열 인증번호 및 발행일-->
+                            <Entry Grid.Column="0" x:Name="PinCertify_Entry" 
+                               Placeholder="발행일 또는 인증번호8자리" FontSize="14" 
+                               Keyboard="Numeric"
+                               HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null" MaxLength="8" HorizontalTextAlignment ="Center">
+                            </Entry>
+                            <!--#endregion-->
+                            
+                            <!--#region 1열 핀번호 1 Entry(Input)-->
+                            <Button Grid.Column="1" Margin="0,10,0,10" Clicked="AddPinNumBtn_Clicked" Text="추 가" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                <Button.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                                    </OnPlatform>
+                                </Button.FontFamily>
+                            </Button>
+                            <!--#endregion-->
+                        </Grid>
+                        <!--#endregion-->
+
+                        <!--#region 2행 핀번호 추가 목록-->
+                        <Grid Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1"/>
                                 <RowDefinition Height="*"/>
@@ -742,7 +774,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <!--#region 4행 접수 비밀번호 Label-->
+                        <!--#region 0행 접수 비밀번호 Label-->
                         <Label Grid.Row="0"
                         Text="접수 비밀번호"
                         FontSize="18"
@@ -757,7 +789,7 @@
                         </Label>
                         <!--#endregion-->
 
-                        <!--#region 1행 입금 계좌번호 Entry(Input)-->
+                        <!--#region 1행 접수 비밀번호 Entry(Input)-->
                         <Entry Grid.Row="1" x:Name="OrderNum_box" Margin="15,0,15,0" 
                            Placeholder="ex) 최대 8자리" FontSize="15" 
                            Keyboard="Numeric"
@@ -774,7 +806,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <!--#region 5행 접수 비밀번호 확인 Label-->
+                        <!--#region 0행 접수 비밀번호 확인 Label-->
                         <Label Grid.Row="0"
                         Text="접수 비밀번호 확인"
                         FontSize="18"
@@ -789,7 +821,7 @@
                         </Label>
                         <!--#endregion-->
 
-                        <!--#region 1행 입금 계좌번호 Entry(Input)-->
+                        <!--#region 1행 접수 비밀번호 Entry(Input)-->
                         <Entry Grid.Row="1" x:Name="OrderNumCheck_box" Margin="15,0,15,0" 
                            Placeholder="ex) 최대 8자리" FontSize="15" 
                            Keyboard="Numeric"
@@ -820,7 +852,7 @@
                                 </OnPlatform>
                             </Span.FontFamily>
                         </Span>
-                        <Span x:Name="Sale_DiscountPrice_span" TextColor="Black" FontSize="18">
+                        <Span x:Name="Sale_DiscountPrice_span" Text="0" TextColor="Black" FontSize="18">
                             <Span.FontFamily>
                                 <OnPlatform x:TypeArguments="x:String">
                                     <On Platform="iOS" Value="BMHANNAAir_ttf" />
@@ -841,7 +873,7 @@
             </Label>
             <!--#endregion-->
             
-            <Button Grid.Row="1" Text="판매하기" TextColor="White" BackgroundColor="Black">
+            <Button Grid.Row="1" Text="판매하기" TextColor="White" BackgroundColor="Black" Clicked="SaleBtn_Cliecked">
                 <Button.FontFamily>
                     <OnPlatform x:TypeArguments="x:String">
                         <On Platform="iOS" Value="BMHANNAAir_ttf" />

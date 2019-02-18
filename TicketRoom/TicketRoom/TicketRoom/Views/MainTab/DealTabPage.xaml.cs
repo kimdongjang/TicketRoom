@@ -68,7 +68,7 @@ namespace TicketRoom.Views.MainTab
                     {
                         var readdata = reader.ReadToEnd();
                         string test = JsonConvert.DeserializeObject<string>(readdata);
-                        if (test != null)
+                        if (test != null&& test != "null")
                         {
                             Point_label.Text = int.Parse(test).ToString("N0");
                         }

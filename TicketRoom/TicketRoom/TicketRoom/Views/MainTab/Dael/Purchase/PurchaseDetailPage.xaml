@@ -335,7 +335,7 @@
                     </Entry>
                     <!--#endregion-->
                     
-                    <local1:CustomLabel Grid.Row="10" Size="20" Margin="0,15,0,0" TextColor="Black" FontFamily="{StaticResource FontStyle}" Text="입금예정인" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    <local1:CustomLabel Grid.Row="10" Size="20" Margin="0,15,0,0" TextColor="Black" FontFamily="{StaticResource FontStyle}" Text="입금계좌" HorizontalOptions="Start" VerticalOptions="Center"/>
                     
                     <Picker Grid.Row="11" x:Name="Combo" Title="입금 계좌 선택" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectedIndexChanged="Picker_SelectedIndexChanged"/>
                 </Grid>

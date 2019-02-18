@@ -6,6 +6,8 @@ namespace TicketRoom.Models.Gift
     {
         [JsonProperty("PRONUM")]
         public string PRONUM { get; set; } // 상품 번호
+        [JsonProperty("DETAILCATEGORYNUM")]
+        public string DETAILCATEGORYNUM { get; set; } // 세부카테고리 테이블 번호
         [JsonProperty("PRODUCTTYPE")]
         public string PRODUCTTYPE { get; set; }// 상품 세부카테고리 이름
         [JsonProperty("PRODUCTIMAGE")]
