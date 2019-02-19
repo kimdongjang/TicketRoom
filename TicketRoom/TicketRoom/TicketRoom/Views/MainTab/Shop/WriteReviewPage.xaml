@@ -4,15 +4,15 @@
              xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.Shop.WriteReviewPage">
     <ContentPage.Content>
-        <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0"
-          x:Name="MainGrid">
+        <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
             <Grid.RowDefinitions>
+                <RowDefinition Height="0"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!--#region 0행 커스텀 액션바 -->
-            <Grid Grid.Row="0" BackgroundColor="White">
+            <!--#region 1행 커스텀 액션바 -->
+            <Grid Grid.Row="1" BackgroundColor="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
@@ -40,8 +40,8 @@
             <!--#endregion-->
 
 
-            <!--#region 1행 리뷰 작성 페이지 -->
-            <Grid Grid.Row="1">
+            <!--#region 2행 리뷰 작성 페이지 -->
+            <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="Auto"/>

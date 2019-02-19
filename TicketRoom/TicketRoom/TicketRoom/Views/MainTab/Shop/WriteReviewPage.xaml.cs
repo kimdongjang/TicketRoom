@@ -18,7 +18,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
         List<Grid> Grade_Grid = new List<Grid>();
         Queue<Grid> ColorChange_Queue = new Queue<Grid>();
-        int gradeScore = 0;
+        decimal gradeScore = 0;
 
         public WriteReviewPage(SH_Home home, ShopReviewView wrv)
         {
@@ -31,6 +31,14 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void Init()
         {
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+
             Grade_Grid.Add(OneGrade);
             Grade_Grid.Add(TwoGrade);
             Grade_Grid.Add(ThreeGrade);
@@ -111,17 +119,20 @@ namespace TicketRoom.Views.MainTab.Shop
                 return;
             }
 
-            if (SH_DB.PostInsertReviewTohome(home.SH_HOME_INDEX, gradeScore.ToString(), "testid", InputReview.Text))
+            if(Global.b_user_login == true)
             {
-                await DisplayAlert("알림", "성공적으로 작성되었습니다!", "확인");
-                wrv.reviewList = SH_DB.PostSearchReviewToHome(home.SH_HOME_INDEX);
-                wrv.Init();
-                ShopReviewView.isOpenPage = false;
-                await Navigation.PopModalAsync();
-            }
-            else
-            {
-                await DisplayAlert("알림", "리뷰 작성에 실패했습니다. 다시 시도해 주십시오!", "확인");
+                if (SH_DB.PostInsertReviewTohome(home.SH_HOME_INDEX, Math.Round(gradeScore, 1).ToString(), Global.ID, InputReview.Text))
+                {
+                    await DisplayAlert("알림", "성공적으로 작성되었습니다!", "확인");
+                    wrv.reviewList = SH_DB.PostSearchReviewToHome(home.SH_HOME_INDEX);
+                    wrv.Init();
+                    ShopReviewView.isOpenPage = false;
+                    await Navigation.PopModalAsync();
+                }
+                else
+                {
+                    await DisplayAlert("알림", "리뷰 작성에 실패했습니다. 다시 시도해 주십시오!", "확인");
+                }
             }
         }
 

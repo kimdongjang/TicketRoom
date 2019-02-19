@@ -5,7 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <OnPlatform x:Key="FontStyle" x:TypeArguments="x:String">
-                <On Platform="iOS" Value="BMHANNAAir_ttf" />
+                <On Platform="iOS" Value="BMHANNAProOTF.otf"/>
                 <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
             </OnPlatform>
         </ResourceDictionary>

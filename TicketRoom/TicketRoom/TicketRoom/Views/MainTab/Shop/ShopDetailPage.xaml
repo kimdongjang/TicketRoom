@@ -120,8 +120,7 @@
                     <!--#endregion-->
                     <!--#region 5행 상품 설명-->
                     <Grid Grid.Row="5" Margin="15,0,15,0">
-                        <local1:CustomLabel HeightRequest="150" x:Name="DetailEditor" Size="14" MaxLines="5"
-                                            Text="" />
+                        <local1:CustomLabel x:Name="DetailEditor" Size="14" Text="" />
                     </Grid>
                     <!--#endregion-->
                     <!--#region 6행 다른 고객이 함께 본 상품 레이블-->

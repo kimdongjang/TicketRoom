@@ -25,6 +25,7 @@ namespace TicketRoom
         public static bool b_auto_login = false; // 자동 로그인 상태
 
         public static string localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        public static string LoadingImagePath = "load.png";
 
         public static bool ISLOGIN = true;
 

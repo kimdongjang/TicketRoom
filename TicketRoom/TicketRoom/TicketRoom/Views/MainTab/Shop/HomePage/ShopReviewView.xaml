@@ -10,7 +10,7 @@
             </Grid.RowDefinitions>
             <!--#region 0행 쇼핑 정보 그리드 -->
             <Button Grid.Row="0" Text="리뷰 쓰기"  FontSize="26" HorizontalOptions="Center" VerticalOptions="Center" x:Name="WriteReview_btn"
-                            BackgroundColor="Black" TextColor="White" Margin="30" Clicked="WriteReview_btn_Clicked">
+                            BackgroundColor="Black" TextColor="White" Margin="30" Clicked="WriteReview_btn_Clicked" WidthRequest="200">
                 <Button.FontFamily>
                     <OnPlatform x:TypeArguments="x:String">
                         <On Platform="iOS" Value="BMHANNAAir_ttf" />
@@ -18,7 +18,7 @@
                     </OnPlatform>
                 </Button.FontFamily>
             </Button>
-            <Grid Grid.Row="1" BackgroundColor="White" x:Name="ReviewGrid" Margin="10"/>
+            <Grid Grid.Row="1" BackgroundColor="White" x:Name="ReviewGrid" Margin="10" RowSpacing="20"/>
             <!--#endregion-->
         </Grid>
     </ContentView.Content>

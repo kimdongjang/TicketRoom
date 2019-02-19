@@ -5,7 +5,7 @@
     <ContentView.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="300"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <!--#region 0행 쇼핑 정보 그리드 -->
             <StackLayout Grid.Row="0" x:Name="InfoStack"/>

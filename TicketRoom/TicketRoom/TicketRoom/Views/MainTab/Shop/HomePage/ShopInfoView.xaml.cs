@@ -28,11 +28,10 @@ namespace TicketRoom.Views.MainTab.Shop
             CustomLabel editor = new CustomLabel
             {
                 Text = home.SH_HOME_INFO,
-                Size = 18,
-                TextColor = Color.Black,
+                Size = 14,
+                TextColor = Color.Gray,
                 IsEnabled = false,
                 Margin = 10,
-                HeightRequest = 300,
             };
             InfoStack.Children.Add(editor);
             #endregion

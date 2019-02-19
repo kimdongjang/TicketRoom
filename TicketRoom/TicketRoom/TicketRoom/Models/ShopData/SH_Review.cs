@@ -17,5 +17,7 @@ namespace TicketRoom.Models.ShopData
         public string SH_REVIEW_ID { get; set; } // 작성자 아이디
         [JsonProperty("SH_REVIEW_CONTENT")]
         public string SH_REVIEW_CONTENT { get; set; }// 리뷰 내용
+        [JsonProperty("SH_REVIEW_DATE")]
+        public string SH_REVIEW_DATE { get; set; }// 작성 날짜
     }
 }
