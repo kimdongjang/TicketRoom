@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:models="clr-namespace:TicketRoom.Models.Custom"
+             x:Class="TicketRoom.Views.MainTab.Popup.SalePW">
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <StackLayout Orientation="Vertical" HeightRequest="200" WidthRequest="300" BackgroundColor="White">
+            <models:CustomLabel Margin="20,20,20,10" Text="접수 비밀번호 입력" Size="18"/>
+            <Entry Margin="20,20,20,10" Placeholder="ex)1234" x:Name="MyPWEntry"></Entry>
+            <Button Margin="20,0,20,0" Text="확인" x:Name="ConfirmBtn" Clicked="ConfirmBtn_Clicked"></Button>
+        </StackLayout>
+    </StackLayout>
+</pages:PopupPage>

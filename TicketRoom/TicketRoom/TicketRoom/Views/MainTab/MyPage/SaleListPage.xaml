@@ -92,8 +92,8 @@
             <!--#endregion-->
         </Grid>
         <!--#endregion-->
-        
-        <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="MainScroll">
+
+        <ScrollView Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="MainScroll">
             <Grid Margin="10" x:Name="RootGird">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

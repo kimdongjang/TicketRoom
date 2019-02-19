@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
-             x:Class="TicketRoom.Views.MainTab.MyPage.PurchaseList.PurchaseDetailListGift">
+             x:Class="TicketRoom.Views.MainTab.MyPage.SaleList.SaleDetailListGift">
     <ContentPage.Content>
 
         <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0">
@@ -31,7 +31,7 @@
 
                 <!--#region 1열 액션바 타이틀-->
                 <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
-                    x:Name="TitleName" Text="구매 상세 내역"
+                    x:Name="TitleName" Text="판매 상세 내역"
                     TextColor="Black"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
                 <!--#endregion-->

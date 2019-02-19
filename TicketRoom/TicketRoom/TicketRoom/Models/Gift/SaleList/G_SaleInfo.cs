@@ -39,5 +39,12 @@ namespace TicketRoom.Models.Gift.SaleList
         public string SL_PROCOUNT { get; set; } // 판매수량
         [JsonProperty("SL_BANK_NAME")]
         public string SL_BANK_NAME { get; set; } // 은행명
+
+        [JsonProperty("PRODUCTTYPE")]
+        public string PRODUCTTYPE { get; set; } // 상품 타입 (문상 , 해피머니 , 컬쳐)
+        [JsonProperty("PRODUCTVALUE")]
+        public string PRODUCTVALUE { get; set; } // 상품 가격(1만원권, 3만원권)
+        [JsonProperty("PRODUCTIMAGE")]
+        public string PRODUCTIMAGE { get; set; } // 상품 이미지
     }
 }

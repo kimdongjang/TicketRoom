@@ -94,6 +94,9 @@
     <EmbeddedResource Update="Views\MainTab\MyPage\SaleListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainTab\MyPage\SaleList\SaleDetailListGift.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\MainTab\ShopTabPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -157,6 +160,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\MainTab\Popup\SalePW.xaml.cs">
+      <DependentUpon>SalePW.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MainTab\Popup\PopupNameEntry.xaml.cs">
       <DependentUpon>PopupNameEntry.xaml</DependentUpon>
     </Compile>
