@@ -316,7 +316,7 @@ namespace TicketRoom.Views.MainTab.Shop
                             return;
                         }
                         Global.isOpen_PictureList = true;
-                        Navigation.PushModalAsync(new PictureList(imageList));
+                        Navigation.PushAsync(new PictureList(imageList));
                     })
                 });
                 #endregion

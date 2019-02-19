@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using TicketRoom.Models.Gift.PurchaseList;
 using TicketRoom.Models.Gift.SaleList;
 
 namespace TicketRoom.Services
@@ -35,7 +36,7 @@ namespace TicketRoom.Services
             return _instance;
         }
         // DB에서 홈 인덱스로 홈페이지 가져오기
-
+        
         public int UserAddSale(G_SaleInfo g_SaleInfo)
         {
             var dataString = JsonConvert.SerializeObject(g_SaleInfo);
@@ -80,6 +81,155 @@ namespace TicketRoom.Services
                     }
                 }
             }
+        }
+
+        public List<G_SaleInfo> SearchSaleListToID(string userid, int year, int mon, int day)
+        {
+            List<G_SaleInfo> salelist = new List<G_SaleInfo>();
+            string str = @"{";
+            str += "userid : '" + userid;
+            str += "',year:'" + year;
+            str += "',mon:'" + mon;
+            str += "',day:'" + day;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchSaleListToID") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        if (readdata != null && readdata != "")
+                        {
+                            salelist = JsonConvert.DeserializeObject<List<G_SaleInfo>>(readdata);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            return salelist;
+        }
+
+        public List<G_PLInfo> SearchPurchaseListToID(string userid, int year, int mon, int day)
+        {
+            List<G_PLInfo> purchaselist = new List<G_PLInfo>();
+            string str = @"{";
+            str += "userid : '" + userid;
+            str += "',year:'" + year;
+            str += "',mon:'" + mon;
+            str += "',day:'" + day;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPurchaseListToID") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        if (readdata != null && readdata != "")
+                        {
+                            purchaselist = JsonConvert.DeserializeObject<List<G_PLInfo>>(readdata);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            return purchaselist;
+        }
+
+        public List<PLProInfo> SearchPurchaseListToPlnum(string pl_num)
+        {
+            List<PLProInfo> productlist = new List<PLProInfo>();
+            //구매내역 가져오기
+            string str = @"{";
+            str += "plnum : '" + pl_num;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPurchaseListToPlnum") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        if (readdata != null && readdata != "")
+                        {
+                            productlist = JsonConvert.DeserializeObject<List<PLProInfo>>(readdata);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            return productlist;
         }
     }
 }

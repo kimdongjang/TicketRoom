@@ -19,6 +19,15 @@ namespace TicketRoom.Views.MainTab.MyPage
         public PurchaseListPage()
         {
             InitializeComponent();
+
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+
             plg = new PurchaseListGift(this);
             pls = new PurchaseListShop(this);
             Init(plg);
@@ -75,9 +84,77 @@ namespace TicketRoom.Views.MainTab.MyPage
             });
         }
 
-            private void ImageButton_Clicked(object sender, EventArgs e)
+        private void ImageButton_Clicked(object sender, EventArgs e)
         {
             this.OnBackButtonPressed();
+        }
+
+        private void allbtn_clicked(object sender, EventArgs e)
+        {
+            if(PurchaseListContentView.Content== plg)
+            {
+                if (Global.b_user_login)
+                {
+                    plg.PostSearchPurchaseListToID(Global.ID, -99, 0, 0);
+                    plg.Init();
+                }
+                else
+                {
+                    plg.PostSearchPurchaseListToID(Global.ID, -99, 0, 0);
+                    plg.Init();
+                }
+            }
+        }
+
+        private void yearbtn_clicked(object sender, EventArgs e)
+        {
+            if (PurchaseListContentView.Content == plg)
+            {
+                if (Global.b_user_login)
+                {
+                    plg.PostSearchPurchaseListToID(Global.ID, -1, 0, 0);
+                    plg.Init();
+                }
+                else
+                {
+                    plg.PostSearchPurchaseListToID(Global.ID, -1, 0, 0);
+                    plg.Init();
+                }
+            }
+        }
+
+        private void monthbtn_clicked(object sender, EventArgs e)
+        {
+            if (PurchaseListContentView.Content == plg)
+            {
+                if (Global.b_user_login)
+                {
+                    plg.PostSearchPurchaseListToID(Global.ID, 0, -1, 0);
+                    plg.Init();
+                }
+                else
+                {
+                    plg.PostSearchPurchaseListToID(Global.ID, 0, -1, 0);
+                    plg.Init();
+                }
+            }
+        }
+
+        private void weekbtn_clicked(object sender, EventArgs e)
+        {
+            if (PurchaseListContentView.Content == plg)
+            {
+                if (Global.b_user_login)
+                {
+                    plg.PostSearchPurchaseListToID(Global.ID, 0, 0, -7);
+                    plg.Init();
+                }
+                else
+                {
+                    plg.PostSearchPurchaseListToID(Global.ID, 0, 0, -7);
+                    plg.Init();
+                }
+            }
         }
     }
 }

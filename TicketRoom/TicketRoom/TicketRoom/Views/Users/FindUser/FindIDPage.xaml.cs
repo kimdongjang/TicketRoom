@@ -271,7 +271,7 @@ namespace TicketRoom.Views.Users.FindUser
                     {
                         await ShowMessage(test + "로 발송 되었습니다.", "알림", "OK", async () =>
                         {
-                            Navigation.PushModalAsync(new LoginPage());
+                            Navigation.PushAsync(new LoginPage());
                         });
                     }
                 }
@@ -290,7 +290,7 @@ namespace TicketRoom.Views.Users.FindUser
 
         private void FindPWBtn_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new FindPWPage());
+            Navigation.PushAsync(new FindPWPage());
         }
     }
 }

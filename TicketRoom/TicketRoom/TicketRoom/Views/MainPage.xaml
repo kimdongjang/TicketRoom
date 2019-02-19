@@ -6,17 +6,18 @@
              >
     
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
-    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <ContentView Grid.Row="0" x:Name="TabContent" x:FieldModifier="Public" />
+        <ContentView Grid.Row="1" x:Name="TabContent" x:FieldModifier="Public" />
 
 
         <!--#region 0행 커스텀 탭바 -->
-        <Grid Grid.Row="1" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="2" RowSpacing="0" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

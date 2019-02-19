@@ -4,16 +4,17 @@
              xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.Users.Login.LoginPage">
     <!--#region 전체 화면 그리드(행) - 0 액션바 1 로그인정보 2 로그인연동 3 회원가입&아디비번 찾기-->
-    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
-        <!--#region 0행 커스텀 액션바 -->
-        <Grid Grid.Row="0" BackgroundColor="White">
+        <!--#region 1행 커스텀 액션바 -->
+        <Grid Grid.Row="1" BackgroundColor="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -42,8 +43,8 @@
         </Grid>
         <!--#endregion-->
 
-        <!--#region 1행 앱이름&로그인정보 그리드 0 앱이름 2 아이디 4 비번-->
-        <Grid BackgroundColor="White" Grid.Row="1" RowSpacing="0" ColumnSpacing="0">
+        <!--#region 2행 앱이름&로그인정보 그리드 0 앱이름 2 아이디 4 비번-->
+        <Grid BackgroundColor="White" Grid.Row="2" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
@@ -76,8 +77,8 @@
         </Grid>
         <!--#endregion-->
 
-        <!--#region 2행 로그인 연동-->
-        <Grid Grid.Row="2" Margin="0,5,0,0" RowSpacing="0" ColumnSpacing="0">
+        <!--#region 3행 로그인 연동-->
+        <Grid Grid.Row="3" Margin="0,5,0,0" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="70"/>
@@ -111,8 +112,8 @@
         </Grid>
         <!--#endregion-->
 
-        <!--#region 3행 아디 비번 찾기 & 회원가입-->
-        <Grid Grid.Row="3" RowSpacing="0" ColumnSpacing="0">
+        <!--#region 4행 아디 비번 찾기 & 회원가입-->
+        <Grid Grid.Row="4" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>

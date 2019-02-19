@@ -49,7 +49,7 @@ namespace TicketRoom.Views.Users.Login
                 await vm.SetFacebookUserProfileAsync(accessToken);
 
                 //Page 이동 Test
-                await Navigation.PushModalAsync(new MainPage());
+                await Navigation.PushAsync(new MainPage());
             }
         }
 

@@ -135,7 +135,7 @@ namespace TicketRoom.Views.Users.CreateUser
 
         private void CheckContent_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new TermsContentPage());
+            Navigation.PushAsync(new TermsContentPage());
         }
 
 
@@ -212,7 +212,7 @@ namespace TicketRoom.Views.Users.CreateUser
                 }
             }
 
-            Navigation.PushModalAsync(new CreateUserpage(sendlist));
+            Navigation.PushAsync(new CreateUserpage(sendlist));
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift.PurchaseList;
 using TicketRoom.Models.ShopData;
+using TicketRoom.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,7 +20,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 	public partial class PurchaseListGift : ContentView
 	{
         PurchaseListPage plp;
-
+        GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
         List<G_PLInfo> purchaselist = new List<G_PLInfo>();
 
         public PurchaseListGift(PurchaseListPage plp)
@@ -29,61 +30,27 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
             if (Global.b_user_login)
             {
-                PostSearchPurchaseListToID(Global.ID);// 사용자 아이디로 구매 목록 가져옴
+                PostSearchPurchaseListToID(Global.ID, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
             }
             else
             {
-                PostSearchPurchaseListToID(Global.non_user_id);// 사용자 아이디로 구매 목록 가져옴
+                PostSearchPurchaseListToID(Global.non_user_id, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
             }
             
             Init();
         }
 
         // 유저 아이디를 통해 상품권 구매리스트 가져오기
-        public void PostSearchPurchaseListToID(string userid)
+        public void PostSearchPurchaseListToID(string userid, int year, int mon, int day)
         {
-            string str = @"{";
-            str += "userid : '" + userid;
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPurchaseListToID") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-
-            try
-            {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
-
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-
-                        // readdata
-                        var readdata = reader.ReadToEnd();
-                        purchaselist = JsonConvert.DeserializeObject<List<G_PLInfo>>(readdata);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
+            purchaselist.Clear();
+            purchaselist = giftDBFunc.SearchPurchaseListToID(userid, year, mon, day);
         }
 
-        private void Init()
+        public void Init()
         {
+            MainGrid.Children.Clear();
+            MainGrid.RowDefinitions.Clear();
             if (purchaselist.Count == 0)
             {
                 CustomLabel nonpurchase_label = new CustomLabel
@@ -109,47 +76,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 {
                     List<PLProInfo> productlist = new List<PLProInfo>();
 
-                    //구매내역 가져오기
-                    string str = @"{";
-                    str += "plnum : '" + purchaselist[i].PL_NUM;
-                    str += "'}";
-
-                    //// JSON 문자열을 파싱하여 JObject를 리턴
-                    JObject jo = JObject.Parse(str);
-
-                    UTF8Encoding encoder = new UTF8Encoding();
-                    byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-                    HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPurchaseListToPlnum") as HttpWebRequest;
-                    request.Method = "POST";
-                    request.ContentType = "application/json";
-                    request.ContentLength = data.Length;
-
-                    request.GetRequestStream().Write(data, 0, data.Length);
-
-
-                    try
-                    {
-                        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                        {
-
-                            if (response.StatusCode != HttpStatusCode.OK)
-                                Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                            {
-
-                                // readdata
-                                var readdata = reader.ReadToEnd();
-                                productlist = JsonConvert.DeserializeObject<List<PLProInfo>>(readdata);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine(ex);
-                    }
-
-
+                    productlist = giftDBFunc.SearchPurchaseListToPlnum(purchaselist[i].PL_NUM.ToString());
+                    
                     #region 전체 그리드
                     MainGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                     BoxView row_boxview = new BoxView { BackgroundColor = Color.Red, Opacity = 0.2, Margin = new Thickness(10), };
@@ -220,7 +148,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                         }
                         PurchaseListPage.isOpenPage = true;
                         
-                        Navigation.PushModalAsync(new PurchaseDetailListGift(orderBtn.BindingContext.ToString()));
+                        Navigation.PushAsync(new PurchaseDetailListGift(orderBtn.BindingContext.ToString()));
                     };
                     #endregion
 

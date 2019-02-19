@@ -26,6 +26,12 @@ namespace TicketRoom.Views.MainTab.MyPage
         public MyInfoUpdatePage()
         {
             InitializeComponent();
+            #region IOS의 경우 초기화
+            if (Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)

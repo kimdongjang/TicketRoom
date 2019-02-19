@@ -16,7 +16,7 @@ namespace TicketRoom.Views.MainTab.MyPage
         private void LoginCreate_Clicked(object sender, EventArgs e)
         {
             //로그인 페이지 이동
-            Navigation.PushModalAsync(new LoginPage());
+            Navigation.PushAsync(new LoginPage());
         }
     }
 }

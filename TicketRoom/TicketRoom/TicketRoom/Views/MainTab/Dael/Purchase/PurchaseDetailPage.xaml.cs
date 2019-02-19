@@ -38,6 +38,15 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         public PurchaseDetailPage(List<G_PurchasedetailInfo> g_PurchasedetailInfos)
         {
             InitializeComponent();
+
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+
             this.g_PurchasedetailInfos = g_PurchasedetailInfos;
             DeliveryPrice_label.Text = (deliveryprice).ToString("N0");
             ShowUserInfo();
@@ -394,7 +403,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         {
             EntryAdress.Unfocus();
 
-            Navigation.PushModalAsync(adrAPI = new InputAdress(this));
+            Navigation.PushAsync(adrAPI = new InputAdress(this));
         }
 
         private async void PurchaseBtn_Clicked(object sender, EventArgs e)

@@ -447,7 +447,7 @@ namespace TicketRoom.Views.MainTab.Shop
                                 tempIndex = sclist[j].SH_HOME_INDEX;
                             }
                         }
-                        Navigation.PushModalAsync(new ShopMainPage(tempIndex));
+                        Navigation.PushAsync(new ShopMainPage(tempIndex));
                     })
                 });
                 #endregion

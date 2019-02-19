@@ -69,7 +69,7 @@ namespace TicketRoom.Views.MainTab.Popup
                             if (test.Equals("true"))
                             {
                                 PopupNavigation.Instance.RemovePageAsync(this);
-                                slp.Navigation.PushModalAsync(new SaleDetailListGift(slnum));
+                                slp.Navigation.PushAsync(new SaleDetailListGift(slnum));
                             }
                             else
                             {

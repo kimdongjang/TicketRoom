@@ -22,12 +22,12 @@ namespace TicketRoom.Views.Users.FindUser
 
         private void FindIDPWBtn_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new FindPWPage());
+            Navigation.PushAsync(new FindPWPage());
         }
 
         private void SendEmailOKbtn_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new LoginPage());
+            Navigation.PushAsync(new LoginPage());
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)

@@ -176,7 +176,7 @@ namespace TicketRoom.Views.MainTab.Basket
                                     tempIndex = basketList[j].SH_HOME_INDEX;
                                 }
                             }
-                            await Navigation.PushModalAsync(new ShopMainPage(tempIndex));
+                            await Navigation.PushAsync(new ShopMainPage(tempIndex));
                         }
                 }));
 
@@ -273,7 +273,7 @@ namespace TicketRoom.Views.MainTab.Basket
             }
             if (BasketTabPage.isOpenPage == false)
             {
-                await Navigation.PushModalAsync(new ShopOrderPage(basketList)); // 주문 페이지로 이동
+                await Navigation.PushAsync(new ShopOrderPage(basketList)); // 주문 페이지로 이동
                 BasketTabPage.isOpenPage = true;
             }
             

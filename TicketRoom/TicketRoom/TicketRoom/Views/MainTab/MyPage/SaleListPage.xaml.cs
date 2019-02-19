@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift.SaleList;
+using TicketRoom.Services;
+using TicketRoom.Views.MainTab.MyPage.SaleList;
 using TicketRoom.Views.MainTab.Popup;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -21,14 +23,24 @@ namespace TicketRoom.Views.MainTab.MyPage
     {
 
         List<G_SaleInfo> salelist = new List<G_SaleInfo>();
+        GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
         SalePW popup_name; // 핸드폰 번호 변경 팝업 객체
         public bool check_salepw = false;
         public SaleListPage()
         {
             InitializeComponent();
+
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid2.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+
             if (Global.b_user_login)
             {
-                PostSearchSaleListToID(Global.ID);// 사용자 아이디로 구매 목록 가져옴
+                PostSearchSaleListToID(Global.ID, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
             }
             else
             {
@@ -40,50 +52,16 @@ namespace TicketRoom.Views.MainTab.MyPage
         }
 
         // 유저 아이디를 통해 상품권 구매리스트 가져오기
-        public void PostSearchSaleListToID(string userid)
+        public void PostSearchSaleListToID(string userid, int year, int mon, int day)
         {
-            string str = @"{";
-            str += "userid : '" + userid;
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchSaleListToID") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-
-            try
-            {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
-
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-
-                        // readdata
-                        var readdata = reader.ReadToEnd();
-                        salelist = JsonConvert.DeserializeObject<List<G_SaleInfo>>(readdata);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
+            salelist.Clear();
+            salelist = giftDBFunc.SearchSaleListToID(userid, year, mon, day);
         }
 
         private void Init()
         {
+            MainGrid.Children.Clear();
+            MainGrid.RowDefinitions.Clear();
             if (salelist.Count == 0)
             {
                 CustomLabel nonpurchase_label = new CustomLabel
@@ -160,7 +138,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                         TextColor = Color.White,
                         Size = 18,
                         Margin = 2,
-                        BindingContext = salelist[i].SL_NUM
+                        BindingContext = i
                     };
                     orderLabelGrid.Children.Add(ordernumLabel, 0, 0);
                     orderLabelGrid.Children.Add(orderBtnLine, 1, 0);
@@ -169,7 +147,14 @@ namespace TicketRoom.Views.MainTab.MyPage
                     // 상세보기 버튼 이벤트
                     orderBtn.Clicked += (object sender, EventArgs e) =>
                     {
-                        PopupNavigation.PushAsync(popup_name = new SalePW(this, orderBtn.BindingContext.ToString()));
+                        if (salelist[int.Parse(orderBtn.BindingContext.ToString())].SL_SALEPRO_TYPE.Equals("2"))
+                        {
+                            PopupNavigation.PushAsync(popup_name = new SalePW(this, salelist[int.Parse(orderBtn.BindingContext.ToString())].SL_NUM));
+                        }
+                        else
+                        {
+                            Navigation.PushAsync(new SaleDetailListGift(salelist[int.Parse(orderBtn.BindingContext.ToString())].SL_NUM));
+                        }
                         
                     };
                     #endregion
@@ -357,6 +342,30 @@ namespace TicketRoom.Views.MainTab.MyPage
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
             this.OnBackButtonPressed();
+        }
+
+        private void allbtn_clicked(object sender, EventArgs e)
+        {
+            PostSearchSaleListToID(Global.ID, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
+            Init();
+        }
+
+        private void weekbtn_clicked(object sender, EventArgs e)
+        {
+            PostSearchSaleListToID(Global.ID, 0, 0, -7);// 사용자 아이디로 구매 목록 가져옴
+            Init();
+        }
+
+        private void monbtn_clicked(object sender, EventArgs e)
+        {
+            PostSearchSaleListToID(Global.ID, 0, -1, 0);// 사용자 아이디로 구매 목록 가져옴
+            Init();
+        }
+
+        private void yearbtn_clicked(object sender, EventArgs e)
+        {
+            PostSearchSaleListToID(Global.ID, -1, 0, 0);// 사용자 아이디로 구매 목록 가져옴
+            Init();
         }
     }
 }

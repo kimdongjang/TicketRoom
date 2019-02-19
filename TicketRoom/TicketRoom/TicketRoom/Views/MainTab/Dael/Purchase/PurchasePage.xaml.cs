@@ -22,6 +22,14 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         public PurchasePage(G_ProductInfo productInfo)
         {
             InitializeComponent();
+
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
             this.productInfo = productInfo;
             Pro_imgae.Source = productInfo.PRODUCTIMAGE;
             Pro_Name.Text = productInfo.PRODUCTTYPE + " " + productInfo.PRODUCTVALUE;
@@ -131,7 +139,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
             }
 
-            Navigation.PushModalAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
+            Navigation.PushAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
         }
 
         private async void AddBasketBtn_Clicked(object sender, EventArgs e)

@@ -217,7 +217,7 @@ namespace TicketRoom.Views.Users.CreateUser
                         case 1:
                             await ShowMessage("회원가입 되었습니다.", "알림", "OK", async () =>
                             {
-                                await Navigation.PushModalAsync(new LoginPage());
+                                await Navigation.PushAsync(new LoginPage());
                             });
                             return;
                         case 2:

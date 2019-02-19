@@ -31,7 +31,7 @@ namespace TicketRoom.Views.Users.FindUser
 
         private void FindIDPWBtn_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new FindIDPage());
+            Navigation.PushAsync(new FindIDPage());
         }
 
         private async void CheckNumSendBtn_Clicked(object sender, EventArgs e)
@@ -265,7 +265,7 @@ namespace TicketRoom.Views.Users.FindUser
                     {
                         await ShowMessage(test + "로 임시비밀번호가 발송 되었습니다.", "알림", "OK", async () =>
                         {
-                            Navigation.PushModalAsync(new LoginPage());
+                            Navigation.PushAsync(new LoginPage());
                         });
                     }
                 }

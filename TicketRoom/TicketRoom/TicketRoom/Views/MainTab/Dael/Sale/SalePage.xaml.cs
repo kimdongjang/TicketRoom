@@ -23,7 +23,7 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
 
         public string Sale_Price = "";
         public string DiscountSale_Price = "";
-        GiftDBFunc giftDBFunc = new GiftDBFunc();
+        GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
         List<G_PinInfo> g_Pinlist = new List<G_PinInfo>();
 
         public SalePage(G_ProductInfo productInfo)

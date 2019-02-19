@@ -18,6 +18,13 @@ namespace TicketRoom.Views.MainTab.Dael
         {
             InitializeComponent();
             this.categorynum = categorynum;
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
             Tab_Changed(PurchaseTab, null);
         }
 
@@ -47,7 +54,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     await ShowMessage("로그인상태에서 이용할수 있습니다.", "알림", "OK", async () =>
                     {
                         //App.Current.MainPage = new MainPage();
-                        Navigation.PushModalAsync(new LoginPage());
+                        Navigation.PushAsync(new LoginPage());
                     });
                 }
             }

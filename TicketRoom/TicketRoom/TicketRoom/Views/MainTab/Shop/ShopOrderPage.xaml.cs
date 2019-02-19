@@ -814,7 +814,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void ChangeAdressBtn_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(adrAPI = new InputAdress(this));
+            Navigation.PushAsync(adrAPI = new InputAdress(this));
         }
 
 

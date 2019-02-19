@@ -253,7 +253,7 @@ namespace TicketRoom.Views.MainTab
         private void EntryAdress_Focused(object sender, FocusEventArgs e)
         {
             EntryAdress.Unfocus();
-            Navigation.PushModalAsync(new InputAdress(this));
+            Navigation.PushAsync(new InputAdress(this));
 
         }
     }

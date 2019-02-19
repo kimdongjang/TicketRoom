@@ -165,7 +165,7 @@ namespace TicketRoom.Views.MainTab
                 tapGestureRecognizer.Tapped += (s, e) =>
                 {
                     Image clickedimage = (Image)s;
-                    Navigation.PushModalAsync(new DealDeatailPage(clickedimage.BindingContext.ToString()));
+                    Navigation.PushAsync(new DealDeatailPage(clickedimage.BindingContext.ToString()));
                 };
                 imgae.GestureRecognizers.Add(tapGestureRecognizer);
             }
@@ -174,7 +174,7 @@ namespace TicketRoom.Views.MainTab
 
         private void Arrow_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new Realtime_Price());
+            Navigation.PushAsync(new Realtime_Price());
         }
     }
 }

@@ -110,7 +110,7 @@ namespace TicketRoom.Views.MainTab.Dael
             label_tap.Tapped += (s, e) =>
             {
                 Grid g = (Grid)s;
-                Navigation.PushModalAsync(new SalePage(salelist[int.Parse(g.BindingContext.ToString())]));
+                Navigation.PushAsync(new SalePage(salelist[int.Parse(g.BindingContext.ToString())]));
             };
 
             if (salelist.Count == 0)

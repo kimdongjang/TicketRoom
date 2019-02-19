@@ -74,7 +74,7 @@ namespace TicketRoom.Views.Users.CreateUser
                                                         DisplayAlert("알림", "아이디가 이미 존재합니다.", "OK");
                                                         return;
                                                     case 1:
-                                                        Navigation.PushModalAsync(new CreateUserPhoneCheckPage(new USERSData(ID_box.Text, PW_box.Text, Email_box.Text,
+                                                        Navigation.PushAsync(new CreateUserPhoneCheckPage(new USERSData(ID_box.Text, PW_box.Text, Email_box.Text,
                                                             adrAPI.roadAddr, adrAPI.jibunAddr, adrAPI.zipNo, termsdata, Recommender_box.Text)));
                                                         return;
                                                     default:
@@ -140,7 +140,7 @@ namespace TicketRoom.Views.Users.CreateUser
         private void InputAdress_Clicked(object sender, EventArgs e)
         {
             EntryAdress.Unfocus();
-            Navigation.PushModalAsync(adrAPI = new InputAdress(this));
+            Navigation.PushAsync(adrAPI = new InputAdress(this));
         }
     }
 }

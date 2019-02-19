@@ -462,7 +462,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
             }
 
-            Navigation.PushModalAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
+            Navigation.PushAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
         }
     }
 }

@@ -26,6 +26,14 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
         {
             InitializeComponent();
 
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+
             pp = PT_DB.PostSearchPointListToID("dnsrl1122"); // 사용자 아이디로 아이디에 해당하는 포인트 테이블 가져옴
 
             pal = new PointAddList(this, pp);

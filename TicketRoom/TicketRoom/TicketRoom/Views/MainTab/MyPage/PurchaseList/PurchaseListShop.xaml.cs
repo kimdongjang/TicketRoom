@@ -108,7 +108,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                         {
                             if (purchaseList[k].SH_PUR_LIST_INDEX.ToString() == ordernumLabel.Text.Replace("주문번호 : ", ""))
                             {
-                                Navigation.PushModalAsync(new PurchaseDetailListShop(purchaseList[k].SH_PUR_LIST_INDEX.ToString()));
+                                Navigation.PushAsync(new PurchaseDetailListShop(purchaseList[k].SH_PUR_LIST_INDEX.ToString()));
                             }
                         }
                     };

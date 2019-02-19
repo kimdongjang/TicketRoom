@@ -26,7 +26,14 @@ namespace TicketRoom.Views
 
             Global.user = USER_DB.PostSelectUserToID(Global.ID);
             Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
-        
+
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
 
             tablist.Add(DealTab);
             tablist.Add(ShopTab);
@@ -102,22 +109,22 @@ namespace TicketRoom.Views
             if (selectedtab.Text.Equals("구매/판매"))
             {
                 TabContent.Content = new DealTabPage();
-                Title = "실시간 시세 표시";
+                //Title = "실시간 시세 표시";
             }
             else if (selectedtab.Text.Equals("쇼핑"))
             {
                 TabContent.Content = new ShopTabPage();
-                Title = "쇼핑 페이지";
+                //Title = "쇼핑 페이지";
             }
             else if (selectedtab.Text.Equals("장바구니"))
             {
                 TabContent.Content = new BasketTabPage();
-                Title = "장바구니";
+                //Title = "장바구니";
             }
             else if (selectedtab.Text.Equals("내정보"))
             {
                 TabContent.Content = new MyPageTabPage(this);
-                Title = "내 정보";
+                //Title = "내 정보";
             }
         }
 

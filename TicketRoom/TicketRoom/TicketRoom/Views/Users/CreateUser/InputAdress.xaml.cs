@@ -180,7 +180,7 @@ namespace TicketRoom.Views.Users.CreateUser
         {
             // loading start
             Loading loadingScreen = new Loading(true);
-            await Navigation.PushModalAsync(loadingScreen);
+            await Navigation.PushAsync(loadingScreen);
 
 
 

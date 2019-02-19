@@ -4,15 +4,16 @@
              xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.Dael.Purchase.PurchaseDetailPage">
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
-    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <!--#region 0행 커스텀 액션바 -->
-        <Grid Grid.Row="0" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <!--#region 1행 커스텀 액션바 -->
+        <Grid Grid.Row="1" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -48,7 +49,7 @@
         <!--#endregion-->
 
         <!--#region 2행 메인 페이지 뷰-->
-        <ScrollView Grid.Row="1">
+        <ScrollView Grid.Row="2">
             <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -343,7 +344,7 @@
         </ScrollView>
         <!--#endregion-->
 
-        <local1:CustomButton Size="26" Clicked="PurchaseBtn_Clicked" FontFamily="{StaticResource FontStyle}" Grid.Row="2" Text="주문하기" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand"
+        <local1:CustomButton Size="26" Clicked="PurchaseBtn_Clicked" FontFamily="{StaticResource FontStyle}" Grid.Row="3" Text="주문하기" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
     </Grid>
     <!--#endregion-->

@@ -22,6 +22,13 @@ namespace TicketRoom.Views.Users.Login
         public LoginPage()
         {
             InitializeComponent();
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
         }
         private void Button_Clicked(object sender, EventArgs e)
         {
@@ -103,17 +110,17 @@ namespace TicketRoom.Views.Users.Login
 
         private void FindIDPWBtn_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new FindIDPage());
+            Navigation.PushAsync(new FindIDPage());
         }
 
         private void CreateUserBtn_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new AcceptTermsPage());
+            Navigation.PushAsync(new AcceptTermsPage());
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new MainPage());
+            Navigation.PushAsync(new MainPage());
         }
 
         private void GoogleLogin_Clicked(object sender, EventArgs e)
@@ -122,7 +129,7 @@ namespace TicketRoom.Views.Users.Login
         }
         private void LoginWithFacebook_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new FacebookProfileCsPage());
+            Navigation.PushAsync(new FacebookProfileCsPage());
             //App.Current.MainPage = new FacebookProfileCsPage();
         }
     }

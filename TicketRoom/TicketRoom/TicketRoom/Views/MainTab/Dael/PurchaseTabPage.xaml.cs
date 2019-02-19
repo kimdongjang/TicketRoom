@@ -110,7 +110,7 @@ namespace TicketRoom.Views.MainTab.Dael
             label_tap.Tapped += (s, e) =>
             {
                 Grid g = (Grid)s;
-                Navigation.PushModalAsync(new PurchasePage(productlist[int.Parse(g.BindingContext.ToString())]));
+                Navigation.PushAsync(new PurchasePage(productlist[int.Parse(g.BindingContext.ToString())]));
             };
 
             #region 상품이 준비중

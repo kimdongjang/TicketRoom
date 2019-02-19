@@ -125,7 +125,7 @@ namespace TicketRoom.Views.MainTab
                         data.Add(((Label)labelgrid[0]).Text, ((Label)countgrid[1]).Text);
                     }
                 }
-                await Navigation.PushModalAsync(new PurchaseDetailPage());
+                await Navigation.PushAsync(new PurchaseDetailPage());
             }
         }
     }
