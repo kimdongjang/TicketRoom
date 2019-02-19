@@ -38,19 +38,38 @@ namespace TicketRoom.Views.MainTab.Shop
         private void Init()
         {
             #region 쇼핑 메인 설명
-            CustomLabel editor = new CustomLabel
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                Text = home.SH_HOME_DETAIL,
-                Size = 14,
-                TextColor = Color.Gray,
-                Margin = 10,
-                IsEnabled = false,
-            };
+                CustomLabel editor = new CustomLabel
+                {
+                    Text = home.SH_HOME_DETAIL,
+                    Size = 14,
+                    TextColor = Color.Gray,
+                    Margin = 10,
+                    IsEnabled = false,
+                };
+                DetailStack.Children.Add(editor);
+                ///Code to update view here
+            });
+            ///Code to update view here
+            ///
             #endregion
 
             #region 쇼핑 메인 홈 중 베스트 리스트
             Grid bestGrid = new Grid();
-
+            if (productList.Count == 0) // 등록된 상품이 없을 경우
+            {
+                bestGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+                CustomLabel best_error = new CustomLabel
+                {
+                    Text = "등록된 상품이 없습니다.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
+                };
+                bestGrid.Children.Add(best_error, 0, 0);
+            }
             for (int i = 0; i < productList.Count; i++)
             {
                 // 베스트 이미지로 분류가 되었을 경우
@@ -118,8 +137,6 @@ namespace TicketRoom.Views.MainTab.Shop
                     #endregion
 
                     #region 그리드 자식으로 추가
-                    DetailStack.Children.Add(editor);
-
                     best_columnGrid.Children.Add(bestHome, 0, 1);
                     best_columnGrid.Children.Add(bestValue, 0, 2);
                     best_columnGrid.Children.Add(bestAddDetail, 0, 3);
@@ -154,14 +171,26 @@ namespace TicketRoom.Views.MainTab.Shop
                     #endregion
 
                 }
-                // xaml 메인 그리드 1행 --> 베스트 쇼핑몰 리스트 그리드 첨부
-                BestMainGrid.Children.Add(bestGrid, 0, 1);
             }
+            // xaml 메인 그리드 1행 --> 베스트 쇼핑몰 리스트 그리드 첨부
+            BestMainGrid.Children.Add(bestGrid, 0, 1);
             #endregion
 
             #region 쇼핑 메인 홈 중 일반 리스트
             Grid naturalGrid = new Grid();
-
+            if (productList.Count == 0) // 등록된 상품이 없을 경우
+            {
+                naturalGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+                CustomLabel natural_error = new CustomLabel
+                {
+                    Text = "등록된 상품이 없습니다.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
+                };
+                naturalGrid.Children.Add(natural_error, 0, 0);
+            }
             for (int i = 0; i < productList.Count; i++)
             {
                 naturalGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });

@@ -43,9 +43,8 @@ namespace TicketRoom
         public static bool isOpen_ShopOtherPage = false; // ShopDetailPage -> ShopOtherPage
         public static bool isOpen_PictureList = false; // ShopDetailPage -> PictureList
 
-
-        public static USERS user;
-        public static ADRESS adress;
+        public static USERS user = new USERS();
+        public static ADRESS adress = new ADRESS();
 
         /// <summary>
         /// 다른 고객이 본 상품으로 연결하는 인덱스 업데이트 ( main페이지1 -> other페이지3 , main페이지3 -> other페이지2 )

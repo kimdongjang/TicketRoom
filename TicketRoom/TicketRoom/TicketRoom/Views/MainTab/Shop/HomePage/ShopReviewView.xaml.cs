@@ -33,9 +33,10 @@ namespace TicketRoom.Views.MainTab.Shop
                 CustomLabel errorLabel = new CustomLabel
                 {
                     Text = "작성된 리뷰가 없습니다.",
-                    Size = 14,
+                    Size = 18,
                     TextColor = Color.Gray,
-                    VerticalOptions = LayoutOptions.Center
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center,
                 };
                 ReviewGrid.Children.Add(errorLabel);
                 return;
@@ -56,7 +57,7 @@ namespace TicketRoom.Views.MainTab.Shop
                         new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = GridLength.Auto }
                     },
-                    Margin = 5,
+                    Margin = 3,
                     BackgroundColor = Color.White,
                     RowSpacing = 2,
                 };
@@ -78,14 +79,17 @@ namespace TicketRoom.Views.MainTab.Shop
                     Margin = new Thickness(15, 15, 5, 5),
                     ColumnSpacing = 5,
                 };
-                CustomButton id_btn = new CustomButton
+                CustomLabel id_btn = new CustomLabel
                 {
                     Text = "작성자 ID",
                     Size = 16,
                     BackgroundColor = Color.LightBlue,
                     TextColor = Color.White,
                     HeightRequest = 30,
-                    VerticalOptions = LayoutOptions.Center
+                    WidthRequest = 80,
+                    VerticalOptions = LayoutOptions.Center,
+                    VerticalTextAlignment = TextAlignment.Center,
+                    HorizontalTextAlignment = TextAlignment.Center,
                 };
                 CustomLabel id_label = new CustomLabel
                 {
@@ -140,7 +144,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 #region 리뷰 에디터 테두리 생성
                 Grid border_Grid = new Grid
                 {
-                    Margin = 3,
+                    Margin = 5,
                     RowDefinitions = {
                         new RowDefinition { Height = GridLength.Auto }
                     }
@@ -153,7 +157,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 StackLayout border_Stack = new StackLayout
                 {
                     BackgroundColor = Color.White,
-                    Margin = 5,
+                    Margin = 1,
                     Padding = 10,
                 };
                 border_Grid.Children.Add(boxview);

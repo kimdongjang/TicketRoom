@@ -22,7 +22,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
         {
             InitializeComponent();
             this.plp = plp;
-            purchaseList = SH_DB.PostSearchPurchaseListToID("dnsrl1122"); // 사용자 아이디로 구매 목록 가져옴
+            purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID); // 사용자 아이디로 구매 목록 가져옴
             Init();
         }
 

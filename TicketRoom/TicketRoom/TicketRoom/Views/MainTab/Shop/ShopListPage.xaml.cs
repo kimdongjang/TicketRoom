@@ -68,14 +68,15 @@ namespace TicketRoom.Views.MainTab.Shop
 
                 Grid inGrid = new Grid
                 {
-                    BackgroundColor = Color.White,
+                    BackgroundColor = Color.LightBlue,
                 };
                 CustomLabel label = new CustomLabel
                 {
                     Text = ShopTabPage.mclist[i].SH_MAINCATE_NAME,
                     Size = 18,
                     HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center
+                    VerticalOptions = LayoutOptions.Center,
+                    TextColor = Color.White,
                 };
 
                 inGrid.Children.Add(label, 0, 0);
@@ -84,8 +85,8 @@ namespace TicketRoom.Views.MainTab.Shop
                 // 처음으로 선택한 탭 이름 초기화
                 if (label.Text == TitleName.Text)
                 {
-                    label.TextColor = Color.White;
-                    inGrid.BackgroundColor = Color.LightPink;
+                    label.TextColor = Color.LightBlue;
+                    inGrid.BackgroundColor = Color.White;
                     titleList_Queue.Enqueue((Grid)SubCateTapGrid.Children.ElementAt(i));
                 }
 
@@ -101,13 +102,13 @@ namespace TicketRoom.Views.MainTab.Shop
                                 // 이전 탭 색상 초기화
                                 Grid temp_grid = titleList_Queue.Dequeue();
                                 CustomLabel temp_label = (CustomLabel)temp_grid.Children.ElementAt(0);
-                                temp_label.TextColor = Color.Black;
-                                temp_grid.BackgroundColor = Color.White;
+                                temp_label.TextColor = Color.White;
+                                temp_grid.BackgroundColor = Color.LightBlue;
                                 TitleName.Text = temp_label.Text;
                             }
                             // 탭 클릭시 색상 변경
-                            label.TextColor = Color.White;
-                            inGrid.BackgroundColor = Color.LightPink;
+                            label.TextColor = Color.LightBlue;
+                            inGrid.BackgroundColor = Color.White;
                             titleList_Queue.Enqueue(inGrid);
                             TitleName.Text = label.Text;
                         }
@@ -140,7 +141,7 @@ namespace TicketRoom.Views.MainTab.Shop
             // 베스트 라벨
             Grid bestlabel_grid = new Grid
             {
-                BackgroundColor = Color.Orange,
+                BackgroundColor = Color.LightBlue,
                 Opacity = 0.5,
             };
             CustomLabel bestlabel = new CustomLabel
@@ -270,7 +271,7 @@ namespace TicketRoom.Views.MainTab.Shop
                                 {
                                     Grid temp = SelectList_Queue.Dequeue();
                                     temp.BackgroundColor = Color.White;
-                                    best_rowGrid.Opacity = 1;
+                                    temp.Opacity = 1;
                                 }
                                 best_rowGrid.BackgroundColor = Color.LightBlue;
                                 best_rowGrid.Opacity = 0.5;
@@ -431,7 +432,7 @@ namespace TicketRoom.Views.MainTab.Shop
                             {
                                 Grid temp = SelectList_Queue.Dequeue();
                                 temp.BackgroundColor = Color.White;
-                                natural_rowGrid.Opacity = 1;
+                                temp.Opacity = 1;
                             }
                             natural_rowGrid.BackgroundColor = Color.LightBlue;
                             natural_rowGrid.Opacity = 0.5;
@@ -447,6 +448,8 @@ namespace TicketRoom.Views.MainTab.Shop
                                 tempIndex = sclist[j].SH_HOME_INDEX;
                             }
                         }
+                        Global.OtherIndexUpdate(tempIndex); // 다른 고객이 함께본 상품 초기화를 위한 처리
+                        SH_DB.PostUpdateViewsOtherViewToIndex(Global.g_main_index, Global.g_other_index); // main인덱스와 other인덱스 서버로 전달
                         Navigation.PushAsync(new ShopMainPage(tempIndex));
                     })
                 });

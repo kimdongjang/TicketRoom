@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="1" BackgroundColor="LightBlue" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
@@ -31,7 +31,7 @@
                     Grid.Column="0"
                     Text="내 정보"
                     Size="18"
-                    TextColor="Black"
+                                        TextColor="White"
                      XAlign="End" YAlign="Center"/>
             </Grid>
             <!--#endregion-->

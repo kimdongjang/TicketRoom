@@ -77,7 +77,7 @@ namespace TicketRoom.Views.MainTab
             {
                 Command = new Command(async () =>
                 {
-                    Navigation.PushAsync(new PurchaseListPage());
+                    await Navigation.PushAsync(new PurchaseListPage());
                 })
             });
 

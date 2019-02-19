@@ -127,7 +127,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     wrv.reviewList = SH_DB.PostSearchReviewToHome(home.SH_HOME_INDEX);
                     wrv.Init();
                     ShopReviewView.isOpenPage = false;
-                    await Navigation.PopModalAsync();
+                    await Navigation.PopAsync();
                 }
                 else
                 {
@@ -139,7 +139,7 @@ namespace TicketRoom.Views.MainTab.Shop
         private void BackButton_Clicked(object sender, EventArgs e)
         {
             ShopReviewView.isOpenPage = false;
-            Navigation.PopModalAsync();
+            Navigation.PopAsync();
         }
         protected override bool OnBackButtonPressed()
         {

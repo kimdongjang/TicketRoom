@@ -119,10 +119,9 @@ namespace TicketRoom.Views.MainTab.Shop
                             var basket_answer = await DisplayAlert("주문 완료", "장바구니로 이동하시겠습니까?", "확인", "취소");
                             if (basket_answer)
                             {
-                                MainPage mp = new MainPage();
+                                Navigation.PopToRootAsync();
+                                MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                                 BasketTabPage btp = new BasketTabPage();
-
-                                App.Current.MainPage = mp;
                                 mp.TabContent.Content = btp; // 메인 페이지의 컨텐츠를 장바구니 페이지로 변경,
                                 btp.init(new BasketShopView(btp)); // 장바구니 페이지의 컨텐츠를 쇼핑몰로 변경
                                 //Navigation.PushModalAsync();
@@ -155,14 +154,17 @@ namespace TicketRoom.Views.MainTab.Shop
 
             if (imageList.Count != 0)
             {
-                MainImage.Source = ImageSource.FromUri(new Uri(imageList[0].SH_IMAGELIST_SOURCE)); // 이미지 리스트의 첫번째 사진 노출
+                MainImage.Source = ImageSource.FromUri(new Uri(product.SH_PRODUCT_MAINIMAGE)); // 이미지 리스트의 첫번째 사진 노출
             }
 
             ImageListInit();
 
             // 상품설명
-            DetailEditor.Text = product.SH_PRODUCT_DETAIL;
-            
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                DetailEditor.Text = product.SH_PRODUCT_DETAIL;
+            });
+
 
             #region 다른 고객이 함께 본 상품 목록
             Grid other_grid = new Grid
@@ -408,7 +410,7 @@ namespace TicketRoom.Views.MainTab.Shop
         private void BackButton_Clicked(object sender, EventArgs e)
         {
             Global.isOpen_ShopDetailPage = false;
-            Navigation.PopModalAsync();
+            Navigation.PopAsync();
         }
 
         protected override bool OnBackButtonPressed()

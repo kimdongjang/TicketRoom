@@ -33,8 +33,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 MainGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
-
-            pp = PT_DB.PostSearchPointListToID("dnsrl1122"); // 사용자 아이디로 아이디에 해당하는 포인트 테이블 가져옴
+            pp = PT_DB.PostSearchPointListToID(Global.ID); // 사용자 아이디로 아이디에 해당하는 포인트 테이블 가져옴
 
             pal = new PointAddList(this, pp);
             pul = new PointUsedList(this, pp);
@@ -93,7 +92,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
             PointCheckPage.isOpenPage = false;
-            Navigation.PopModalAsync();
+            Navigation.PopAsync();
         }
 
         protected override bool OnBackButtonPressed()

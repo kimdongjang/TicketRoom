@@ -16,7 +16,7 @@
             </Grid.RowDefinitions>
 
             <!--#region 1행 커스텀 액션바 -->
-            <Grid Grid.Row="1" BackgroundColor="White">
+            <Grid Grid.Row="1" BackgroundColor="LightBlue">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
@@ -32,8 +32,7 @@
 
                 <!--#region 1열 액션바 타이틀-->
                 <local1:CustomLabel Grid.Column="1"
-                    x:Name="TitleName"
-                    TextColor="Black"
+                    x:Name="TitleName" TextColor="White"
                     Size="18"
                     HorizontalOptions="Center" VerticalOptions="Center" />
                 <!--#endregion-->
@@ -45,7 +44,7 @@
             <!--#endregion-->
 
             <!--#region 2행 구분선  -->
-            <BoxView Grid.Row="2" BackgroundColor="Black"/>
+            <BoxView Grid.Row="2" BackgroundColor="White"/>
             <!--#endregion-->
 
             <!--#region 3행 쇼핑몰 리스트 탭 -->
@@ -57,7 +56,7 @@
             </Grid>
             <!--#endregion-->
             <!--#region 4행 구분선  -->
-            <BoxView Grid.Row="4" BackgroundColor="Black"/>
+            <BoxView Grid.Row="4" BackgroundColor="White"/>
             <!--#endregion-->
 
 
