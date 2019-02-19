@@ -73,7 +73,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             }
             
             await App.Current.MainPage.DisplayAlert("알림", "포인트 출금에 성공했습니다.", "확인");
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         private void WidhdrawPointEntry_TextChanged(object sender, TextChangedEventArgs e)

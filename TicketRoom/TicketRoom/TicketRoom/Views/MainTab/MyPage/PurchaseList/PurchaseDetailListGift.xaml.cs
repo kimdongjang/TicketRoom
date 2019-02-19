@@ -486,14 +486,14 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
         {
 
             PurchaseListPage.isOpenPage = false;
-            Navigation.PopModalAsync();
+            Navigation.PopAsync();
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e) // 백버튼 이미지
         {
 
             PurchaseListPage.isOpenPage = false;
-            Navigation.PopModalAsync();
+            Navigation.PopAsync();
         }
         protected override bool OnBackButtonPressed()
         {

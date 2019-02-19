@@ -85,11 +85,11 @@ namespace TicketRoom.Views.MainTab.Shop
                 if (SelectTap_Queue.Count != 0)
                 {
                     CustomButton temp = SelectTap_Queue.Dequeue();
-                    temp.TextColor = Color.Black;
-                    temp.BackgroundColor = Color.White;
+                    temp.TextColor = Color.White;
+                    temp.BackgroundColor = Color.LightBlue;
                 }
-                selectedtab.TextColor = Color.White;
-                selectedtab.BackgroundColor = Color.Black;
+                selectedtab.TextColor = Color.LightBlue;
+                selectedtab.BackgroundColor = Color.White;
                 SelectTap_Queue.Enqueue(selectedtab);
             }
 

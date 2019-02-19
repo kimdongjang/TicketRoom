@@ -789,7 +789,8 @@ namespace TicketRoom.Views.MainTab.Shop
                             await DisplayAlert("알림", "결제 성공", "확인");
 
                             BasketTabPage.isOpenPage = false;
-                            App.Current.MainPage = new MainPage();
+                            await Navigation.PopToRootAsync();
+                            MainPage mp = (MainPage)Xamarin.Forms.Application.Current.MainPage.Navigation.NavigationStack[0];
 
                             // 구매 성공시 상품 수량 마이너스 할 것.
                         }
@@ -821,7 +822,7 @@ namespace TicketRoom.Views.MainTab.Shop
         private void BackButton_Clicked(object sender, EventArgs e)
         {
             BasketTabPage.isOpenPage = false;
-            Navigation.PopModalAsync();
+            Navigation.PopAsync();
         }
         protected override bool OnBackButtonPressed()
         {

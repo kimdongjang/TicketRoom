@@ -24,17 +24,20 @@ namespace TicketRoom.Views.MainTab.Shop
         }
         private void Init()
         {
+            Device.BeginInvokeOnMainThread(async () =>
+            { 
             #region 쇼핑 메인 정보
-            CustomLabel editor = new CustomLabel
-            {
-                Text = home.SH_HOME_INFO,
-                Size = 14,
-                TextColor = Color.Gray,
-                IsEnabled = false,
-                Margin = 10,
-            };
+                CustomLabel editor = new CustomLabel
+                {
+                    Text = home.SH_HOME_INFO,
+                    Size = 14,
+                    TextColor = Color.Gray,
+                    IsEnabled = false,
+                    Margin = 10,
+                };
             InfoStack.Children.Add(editor);
             #endregion
+            });
         }
     }
 }

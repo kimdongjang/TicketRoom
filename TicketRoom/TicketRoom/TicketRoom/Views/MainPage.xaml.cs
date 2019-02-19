@@ -102,6 +102,16 @@ namespace TicketRoom.Views
 
         private void Tab_Changed(object sender, EventArgs e)
         {
+            DealTab.BackgroundColor = Color.LightBlue;
+            DealTab.TextColor = Color.White;
+            ShopTab.BackgroundColor = Color.LightBlue;
+            ShopTab.TextColor = Color.White;
+            BasketTab.BackgroundColor = Color.LightBlue;
+            BasketTab.TextColor = Color.White;
+            MyPageTab.BackgroundColor = Color.LightBlue;
+            MyPageTab.TextColor = Color.White;
+
+
             Button selectedtab = (Button)sender;
             selectedtab.FontSize = 15;
             selectedtab.BackgroundColor = Color.White;

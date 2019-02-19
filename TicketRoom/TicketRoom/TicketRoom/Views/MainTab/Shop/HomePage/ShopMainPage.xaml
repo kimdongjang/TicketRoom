@@ -15,7 +15,7 @@
             </Grid.RowDefinitions>
 
             <!--#region 1행 커스텀 액션바 -->
-            <Grid Grid.Row="1" BackgroundColor="White">
+            <Grid Grid.Row="1" BackgroundColor="LightBlue">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
@@ -32,7 +32,7 @@
                 <!--#region 1열 액션바 타이틀-->
                 <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
                     x:Name="TitleName"
-                    TextColor="Black"
+                    TextColor="White"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
                 <!--#endregion-->
 
@@ -43,7 +43,7 @@
             <!--#endregion-->
 
             <!--#region 2행 구분선  -->
-            <BoxView Grid.Row="2" BackgroundColor="Black"/>
+            <BoxView Grid.Row="2" BackgroundColor="LightGray"/>
             <!--#endregion-->
 
             <!--#region 3행 쇼핑몰 뷰-->
@@ -100,11 +100,11 @@
 
                             <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Text="Instagram"  
                                                  HorizontalOptions="Center" VerticalOptions="Center" x:Name="Insta_btn"
-                                                TextColor="White" Padding="20,0,20,0" BackgroundColor="Black" Clicked="Insta_btn_Clicked"/>
+                                                 TextColor="White" Padding="20,0,20,0" BackgroundColor="LightBlue" Clicked="Insta_btn_Clicked"/>
 
                             <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1" Text="쇼핑몰 이동하기" 
                                                  HorizontalOptions="Center" VerticalOptions="Center" x:Name="MoveShop_btn"
-                                                   TextColor="White" Padding="20,0,20,0" BackgroundColor="Black" Clicked="MoveShop_btn_Clicked"/>
+                                                 TextColor="White" Padding="20,0,20,0" BackgroundColor="LightBlue" Clicked="MoveShop_btn_Clicked"/>
                         </Grid>
                         <!--#endregion-->
                     </Grid>
@@ -117,24 +117,24 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-
-                        <BoxView Grid.Column="0" BackgroundColor="DarkGray"/>
+                        
+                        <BoxView Grid.Column="0" BackgroundColor="LightGray"/>
                         <Grid Grid.Column="0" BackgroundColor="White" Margin="0.5">
-                            <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Text="판매품" 
-                                                 HeightRequest="50" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
-                                                 Clicked="Content_Changed" x:Name="Content_Sale" BackgroundColor="White"/>
+                            <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Text="판매품"  TextColor="White"
+                                                 HeightRequest="50" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"                                                  
+                                                 Clicked="Content_Changed" x:Name="Content_Sale" BackgroundColor="LightBlue"/>
                         </Grid>
-                        <BoxView Grid.Column="1" BackgroundColor="DarkGray"/>
+                        <BoxView Grid.Column="1" BackgroundColor="LightGray"/>
                         <Grid  Grid.Column="1" BackgroundColor="White" Margin="0.5" >
-                            <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}"  Text="정보" 
-                                                 HeightRequest="50" HorizontalOptions="FillAndExpand"
-                                                 VerticalOptions="FillAndExpand" Clicked="Content_Changed" x:Name="Content_Info" BackgroundColor="White"/>
+                            <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}"  Text="정보" TextColor="White"
+                                                 HeightRequest="50" HorizontalOptions="FillAndExpand"                                                
+                                                 VerticalOptions="FillAndExpand" Clicked="Content_Changed" x:Name="Content_Info" BackgroundColor="LightBlue"/>
                         </Grid>
-                        <BoxView Grid.Column="2" BackgroundColor="DarkGray"/>
+                        <BoxView Grid.Column="2" BackgroundColor="LightGray"/>
                         <Grid Grid.Column="2" BackgroundColor="White" Margin="0.5">
-                            <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}"  Text="리뷰"  
-                                                 HeightRequest="50" HorizontalOptions="FillAndExpand" 
-                                                 VerticalOptions="FillAndExpand" Clicked="Content_Changed" x:Name="Content_Review" BackgroundColor="White"/>
+                            <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}"  Text="리뷰"  TextColor="White"
+                                                 HeightRequest="50" HorizontalOptions="FillAndExpand"                                                  
+                                                 VerticalOptions="FillAndExpand" Clicked="Content_Changed" x:Name="Content_Review" BackgroundColor="LightBlue"/>
                         </Grid>
                     </Grid>
                     <!--#endregion-->
@@ -148,7 +148,7 @@
 
 
             <!--#region 4행 구분선  -->
-            <BoxView Grid.Row="4" BackgroundColor="Black"/>
+            <BoxView Grid.Row="4" BackgroundColor="White"/>
             <!--#endregion-->
 
             <!--#region 5행 전화문의 및 장바구니 탭바 -->
@@ -159,7 +159,7 @@
                 <!--#region 0열 전화문의-->
                 <local1:CustomButton Size="26" FontFamily="{StaticResource FontStyle}"  Grid.Column="0" Text="전화문의"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                    BackgroundColor="DarkGray" TextColor="White"
+                                     BackgroundColor="LightBlue" TextColor="White"
                      x:Name="CallBtn" Clicked="CallBtn_Clicked"/>
                 <!--#endregion-->
             </Grid>

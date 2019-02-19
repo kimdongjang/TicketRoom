@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                          xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.DealTabPage">
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="TabGrid">
@@ -11,7 +12,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="1" BackgroundColor="LightBlue" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
@@ -27,20 +28,13 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
-                <Label 
+                <custom:CustomLabel 
                     Grid.Column="0"
                     Text="실시간 시세 표시"
-                    FontSize="18"
-                    TextColor="Black"
+                    Size="18"
+                    TextColor="White"
                      XAlign="End" YAlign="Center"
-                    >
-                    <Label.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf"/>
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf"/>
-                        </OnPlatform>
-                    </Label.FontFamily>
-                </Label>
+                    />
                 <Image Grid.Column="1" Source="arrow_bottom.png" VerticalOptions="Center" Aspect="AspectFit"/>
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Tapped="Arrow_Clicked"/>

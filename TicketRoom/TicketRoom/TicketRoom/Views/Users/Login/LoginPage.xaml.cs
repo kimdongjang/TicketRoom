@@ -77,6 +77,7 @@ namespace TicketRoom.Views.Users.Login
 
                                     Global.user = USER_DB.PostSelectUserToID(Global.ID);
                                     Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                                    DisplayAlert("알림", "로그인에 성공했습니다.", "확인");
 
                                     if (SH_DB.PostUpdateBasketUserToID(Global.ID, Global.non_user_id) == false) // 비회원 -> 회원 로그인시 장바구니 목록 이동
                                     {

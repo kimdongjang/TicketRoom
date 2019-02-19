@@ -147,8 +147,8 @@
             <!--#region 3행 전화문의 및 장바구니 탭바 -->
             <Grid Grid.Row="3">
                 <local1:CustomButton Size="26" FontFamily="{StaticResource FontStyle}"  Grid.Column="0" Text="장바구니 담기"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                    BackgroundColor="Black" TextColor="White" 
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
+                                     BackgroundColor="LightBlue" TextColor="White" 
                      x:Name="BasketBtn" Clicked="BasketBtn_ClickedAsync"/>
             </Grid>
             <!--#endregion-->

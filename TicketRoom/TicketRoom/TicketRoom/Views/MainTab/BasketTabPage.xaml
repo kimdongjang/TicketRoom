@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 0행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="1" BackgroundColor="LightBlue" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
@@ -32,7 +32,7 @@
                     Grid.Column="0"
                     Text="장바구니"
                     Size="18"
-                    TextColor="Black"
+                    TextColor="White"
                      XAlign="End" YAlign="Center"
                     />
             </Grid>
@@ -49,11 +49,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <BoxView Grid.Column="0" BackgroundColor="Gray"/>
+            <BoxView Grid.Column="0" BackgroundColor="LightGray"/>
             <Grid Grid.Column="0" BackgroundColor="White" Margin="0.5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="GiftSelectGrid">
                 <models:CustomLabel Text="상품권" Size="18" x:Name="GiftSelect" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
             </Grid>
-            <BoxView Grid.Column="1" BackgroundColor="Gray"/>
+            <BoxView Grid.Column="1" BackgroundColor="LightGray"/>
             <Grid Grid.Column="1" BackgroundColor="White" Margin="0.5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="ShopSelectGrid">
                 <models:CustomLabel Text="쇼핑몰" Size="18" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ShopSelect" TextColor="Black"/>
             </Grid>
