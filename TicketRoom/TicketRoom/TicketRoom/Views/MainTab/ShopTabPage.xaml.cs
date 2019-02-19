@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -161,14 +162,17 @@ namespace TicketRoom.Views.MainTab
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
                 };
-                Image image = new Image();
+                CachedImage image = new CachedImage();
+
                 CustomLabel label = new CustomLabel();
 
                 #region 의류 카테고리 이미지 생성
                 if (mclist[i].SH_MAINCATE_NAME == "남성의류")
                 {
-                    image = new Image
+                    image = new CachedImage
                     {
+                        LoadingPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.LoadingImagePath,
                         Source = "uniform_icon",
                         WidthRequest = 100,
                         HeightRequest = 100,
@@ -176,7 +180,7 @@ namespace TicketRoom.Views.MainTab
                 }
                 else if (mclist[i].SH_MAINCATE_NAME == "여성의류")
                 {
-                    image = new Image
+                    image = new CachedImage
                     {
                         Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/women_icon.png")),
                         WidthRequest = 100,
@@ -185,7 +189,7 @@ namespace TicketRoom.Views.MainTab
                 }
                 else
                 {
-                    image = new Image
+                    image = new CachedImage
                     {
                         Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/ready.png")),
                         WidthRequest = 100,

@@ -96,10 +96,17 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderer\CustomEditorRenderer.cs" />
     <Compile Include="Renderer\CustomEntryRenderer.cs" />
+    <Compile Include="Renderer\CustomLabelRenderer.cs" />
     <Compile Include="Renderer\CustomPickerRenderer.cs" />
     <None Include="Entitlements.plist" />
-    <None Include="Info.plist" />
+    <None Include="Info.plist">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <BundleResource Include="Resources\BMHANNAProOTF.otf" />
+    <BundleResource Include="Resources\BMHANNAAir.otf" />
+    <BundleResource Include="Resources\BMHANNAAir_otf.otf" />
+    <BundleResource Include="Resources\BMHANNAAir_ttf.ttf" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\Images.imageset\Contents.json">
@@ -173,5 +180,8 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\uniform_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\load.gif" />
   </ItemGroup>
 </Project>

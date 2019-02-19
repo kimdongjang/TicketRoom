@@ -16,7 +16,7 @@
 
 
         <!--#region 0행 커스텀 탭바 -->
-        <Grid Grid.Row="1" >
+        <Grid Grid.Row="1" RowSpacing="0" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -26,7 +26,8 @@
             <!--#region 0열 구매/판매-->
             <Button Grid.Column="0" Text="구매/판매"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                    BackgroundColor="White"
+                    BackgroundColor="LightBlue"
+                    TextColor="White"
                     Clicked="Tab_Changed"
                     x:Name="DealTab"
                     >
@@ -41,7 +42,8 @@
             <!--#region 1열 쇼핑-->
             <Button Grid.Column="1" Text="쇼핑" 
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                    BackgroundColor="White"
+                    BackgroundColor="LightBlue"
+                    TextColor="White"
                     Clicked="Tab_Changed"
                     x:Name="ShopTab"
                     >
@@ -56,7 +58,8 @@
             <!--#region 2열 장바구니-->
             <Button Grid.Column="2" Text="장바구니" 
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
-                    BackgroundColor="White"
+                    BackgroundColor="LightBlue"
+                    TextColor="White"
                     Clicked="Tab_Changed"
                     x:Name="BasketTab"
                     >
@@ -71,7 +74,8 @@
             <!--#region 3열 내정보-->
             <Button Grid.Column="3" Text="내정보" 
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
-                    BackgroundColor="White"
+                    BackgroundColor="LightBlue"
+                    TextColor="White"
                     Clicked="Tab_Changed"
                     x:Name="MyPageTab"
                     >

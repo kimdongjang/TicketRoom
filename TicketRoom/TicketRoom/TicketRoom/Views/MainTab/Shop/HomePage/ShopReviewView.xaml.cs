@@ -28,47 +28,88 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             ReviewGrid.Children.Clear();
 
+            if(reviewList.Count == 0)
+            {
+                CustomLabel errorLabel = new CustomLabel
+                {
+                    Text = "작성된 리뷰가 없습니다.",
+                    Size = 14,
+                    TextColor = Color.Gray,
+                    VerticalOptions = LayoutOptions.Center
+                };
+                ReviewGrid.Children.Add(errorLabel);
+                return;
+            }
+
             for (int i = 0; i < reviewList.Count; i++)
             {
                 ReviewGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
+                #region 리뷰 메인 그리드
+                BoxView borderLine = new BoxView { BackgroundColor = Color.LightGray, };
                 // 리뷰 그리드에 내부 그리드 추가
                 Grid grid = new Grid
                 {
                     RowDefinitions =
                     {
-                        new RowDefinition { Height = 1 }, // 구분선
                         new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = GridLength.Auto }
                     },
-                    Margin = 1,
-                    BackgroundColor = Color.White
+                    Margin = 5,
+                    BackgroundColor = Color.White,
+                    RowSpacing = 2,
                 };
+                ReviewGrid.Children.Add(borderLine, 0, i);
                 ReviewGrid.Children.Add(grid, 0, i);
-
-
-
-                #region 리뷰 에디터 구분선 생성
-                BoxView gridbox = new BoxView
-                {
-                    BackgroundColor = Color.Gray,
-                    Opacity = 0.5,
-                };
-                grid.Children.Add(gridbox, 0, 0);
                 #endregion
 
+                #region 작성자 ID 그리드
 
-                Label id_label = new Label
+                Grid id_Grid = new Grid
                 {
-                    Text = "작성자 ID : " + reviewList[i].SH_REVIEW_ID,
-                    FontSize = 18,
-                    TextColor = Color.Black,
-                    Margin = new Thickness(15, 0, 0, 0),
+                    ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = GridLength.Auto },
+                        new ColumnDefinition { Width = GridLength.Auto },
+                        new ColumnDefinition { Width = GridLength.Star },
+                        new ColumnDefinition { Width = GridLength.Auto },
+                    },
+                    Margin = new Thickness(15, 15, 5, 5),
+                    ColumnSpacing = 5,
+                };
+                CustomButton id_btn = new CustomButton
+                {
+                    Text = "작성자 ID",
+                    Size = 16,
+                    BackgroundColor = Color.LightBlue,
+                    TextColor = Color.White,
+                    HeightRequest = 30,
                     VerticalOptions = LayoutOptions.Center
                 };
-                grid.Children.Add(id_label, 0, 1);
+                CustomLabel id_label = new CustomLabel
+                {
+                    Text = reviewList[i].SH_REVIEW_ID,
+                    Size = 14,
+                    TextColor = Color.Gray,
+                    VerticalOptions = LayoutOptions.Center
+                };
 
+                CustomLabel date_label = new CustomLabel
+                {
+                    Text = reviewList[i].SH_REVIEW_DATE,
+                    Size = 14,
+                    TextColor = Color.Gray,
+                    VerticalOptions = LayoutOptions.Center
+                };
+                id_Grid.Children.Add(id_btn, 0, 0);
+                id_Grid.Children.Add(id_label, 1, 0);
+                id_Grid.Children.Add(date_label, 3, 0);
+                grid.Children.Add(id_Grid, 0, 0);
+
+                #endregion
+
+                #region 평점 그리드 
                 Grid grade_Grid = new Grid
                 {
                     ColumnDefinitions =
@@ -85,20 +126,21 @@ namespace TicketRoom.Views.MainTab.Shop
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.FillAndExpand
                 };
-                Label grade_label = new Label
+                CustomLabel grade_label = new CustomLabel
                 {
-                    Text = "평점 : " + reviewList[i].SH_REVIEW_GRADE,
-                    FontSize = 18,
+                    Text = "평점 : " + reviewList[i].SH_REVIEW_GRADE.ToString("#.#"),
+                    Size = 14,
                     TextColor = Color.Black,
                 };
                 grade_Grid.Children.Add(grade_image, 0, 0);
                 grade_Grid.Children.Add(grade_label, 1, 0);
-                grid.Children.Add(grade_Grid, 0, 2);
+                grid.Children.Add(grade_Grid, 0, 1);
+                #endregion
 
                 #region 리뷰 에디터 테두리 생성
                 Grid border_Grid = new Grid
                 {
-                    Margin = 5,
+                    Margin = 3,
                     RowDefinitions = {
                         new RowDefinition { Height = GridLength.Auto }
                     }
@@ -106,24 +148,25 @@ namespace TicketRoom.Views.MainTab.Shop
 
                 BoxView boxview = new BoxView
                 {
-                    BackgroundColor = Color.Black,
+                    BackgroundColor = Color.LightGray,
                 };
                 StackLayout border_Stack = new StackLayout
                 {
                     BackgroundColor = Color.White,
-                    Margin = 1
+                    Margin = 5,
+                    Padding = 10,
                 };
                 border_Grid.Children.Add(boxview);
                 border_Grid.Children.Add(border_Stack);
 
-                grid.Children.Add(border_Grid, 0, 3);
+                grid.Children.Add(border_Grid, 0, 2);
                 #endregion
 
                 CustomLabel review_editor = new CustomLabel
                 {
                     Text = reviewList[i].SH_REVIEW_CONTENT,
-                    Size = 18,
-                    TextColor = Color.Black,
+                    Size = 14,
+                    TextColor = Color.Gray,
                     IsEnabled = false,
                 };
 
@@ -131,14 +174,19 @@ namespace TicketRoom.Views.MainTab.Shop
             }
         }
 
-        private void WriteReview_btn_Clicked(object sender, EventArgs e)
+        private async void WriteReview_btn_Clicked(object sender, EventArgs e)
         {
+            if(Global.b_user_login == false)
+            {
+               await App.Current.MainPage.DisplayAlert("알림", "비회원은 리뷰 작성을 할 수 없습니다!", "확인");
+                return;
+            }
             if (ShopReviewView.isOpenPage == true)
             {
                 return;
             }
             ShopReviewView.isOpenPage = true;
-            Navigation.PushModalAsync(new WriteReviewPage(home, this));
+            await Navigation.PushAsync(new WriteReviewPage(home, this));
         }
     }
 }

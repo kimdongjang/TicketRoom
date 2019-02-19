@@ -5,6 +5,7 @@ using System.Text;
 
 using Foundation;
 using TicketRoom.iOS.Renderer;
+using TicketRoom.Models.Custom;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -12,7 +13,7 @@ using Xamarin.Forms.Platform.iOS;
 [assembly: ExportRenderer(typeof(Entry), typeof(CustomEntryRenderer))]
 namespace TicketRoom.iOS.Renderer
 {
-    class CustomEntryRenderer : EntryRenderer
+    public class CustomEntryRenderer : EntryRenderer
     {
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {

@@ -12,5 +12,12 @@ namespace TicketRoom.Models.Custom
             get { return (bool)GetValue(IsUnderlinedProperty); }
             set { SetValue(IsUnderlinedProperty, value); }
         }
+        public static readonly BindableProperty MyStyleIdProperty =
+                BindableProperty.Create("MyStyleId", typeof(string), typeof(CustomLabel), "Body");
+
+        public string MyStyleId
+        {
+            get { return (string)GetValue(MyStyleIdProperty); }
+        }
     }
 }

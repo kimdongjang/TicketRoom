@@ -41,9 +41,8 @@ namespace TicketRoom.Views.MainTab.Shop
             CustomLabel editor = new CustomLabel
             {
                 Text = home.SH_HOME_DETAIL,
-                Size = 18,
-                TextColor = Color.Black,
-                HeightRequest = 300,
+                Size = 14,
+                TextColor = Color.Gray,
                 Margin = 10,
                 IsEnabled = false,
             };

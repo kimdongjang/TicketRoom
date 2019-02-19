@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using TicketRoom.Models.PointData;
 using TicketRoom.Views.MainTab.MyPage;
 using TicketRoom.Views.MainTab.MyPage.Point;
 using TicketRoom.Views.Users.Login;
@@ -30,52 +31,70 @@ namespace TicketRoom.Views.MainTab
 
 
         private void Init()
-        { 
+        {
             if (Global.b_user_login == true)
             {
-                UserIDLabel.Text =  Global.ID;
+                UserIDLabel.Text = Global.ID;
+                UserPhoneLabel.Text = Global.user.PHONENUM;
+                UserPointLabel.Text = PointDBFunc.Instance().PostSearchPointListToID(Global.ID).PT_POINT_HAVEPOINT.ToString();
                 IsLoginBtn.Text = "로그아웃";
             }
             else if (Global.b_user_login == false)
             {
                 UserIDLabel.Text = "티켓룸아이디#" + Global.non_user_id;
+                UserPhoneLabel.Text = "";
+                UserPointLabel.Text = "";
                 IsLoginBtn.Text = "로그인";
             }
-        }
-        private async void MyInfoUpdate_Clicked(object sender, EventArgs e)
-        {
-            if (Global.b_user_login == false)
+
+            MyInfoGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
-                return;
-            }
-            await Navigation.PushAsync(new MyInfoUpdatePage());
+                Command = new Command(async () =>
+                {
+
+                    if (Global.b_user_login == false)
+                    {
+                        await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
+                        return;
+                    }
+                    await Navigation.PushAsync(new MyInfoUpdatePage());
+                })
+            });
+
+            SaleListGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    if (Global.b_user_login == false)
+                    {
+                        await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
+                        return;
+                    }
+                    await Navigation.PushAsync(new SaleListPage());
+                })
+            });
+            PurchaseListGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    Navigation.PushAsync(new PurchaseListPage());
+                })
+            });
+
+            PointGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    if (Global.b_user_login == false)
+                    {
+                        await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
+                        return;
+                    }
+                    await Navigation.PushAsync(new PointCheckPage());
+                })
+            });
         }
 
-        private async void SaleList_Clicked(object sender, EventArgs e)
-        {
-            if (Global.b_user_login == false)
-            {
-                await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
-                return;
-            }
-            await Navigation.PushAsync(new SaleListPage());
-        }
-
-        private void PurchaseList_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new PurchaseListPage());
-        }
-
-        private async void PointCheck_Clicked(object sender, EventArgs e)
-        {
-            if (Global.b_user_login == false)
-            {
-                await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
-                return;
-            }
-            await Navigation.PushAsync(new PointCheckPage());
-        }
 
         private async void IsLoginBtn_ClickedAsync(object sender, EventArgs e)
         {

@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using FFImageLoading.Svg.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -172,11 +174,14 @@ namespace TicketRoom.Views.MainTab.Shop
                         new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star)  }
                         },
                     };
+
                     // 쇼핑몰 이미지
-                    Image bestimage = new Image
-                    {                     
+
+                    CachedImage bestimage = new CachedImage
+                    {
+                        LoadingPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.LoadingImagePath,
                         Source = ImageSource.FromUri(new Uri(sclist[i].SH_SUBCATE_IMAGE)),
-                        BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Center,
                         Margin = new Thickness(20, 10, 0, 10),
@@ -332,14 +337,14 @@ namespace TicketRoom.Views.MainTab.Shop
                 };
 
                 // 쇼핑몰 이미지
-                Image naturalimage = new Image
+                CachedImage naturalimage = new CachedImage
                 {
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
                     Source = ImageSource.FromUri(new Uri(sclist[i].SH_SUBCATE_IMAGE)),
-                    BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
                     Margin = new Thickness(20, 10, 0, 10),
-
                 };
 
                 // 쇼핑 페이지 타이틀, 평점, 세부내용 출력을 위한 내부 그리드

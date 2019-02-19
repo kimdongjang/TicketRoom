@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using TicketRoom.Models.Users;
 using TicketRoom.Views.MainTab;
 using TicketRoom.Views.MainTab.MyPage;
@@ -94,19 +95,10 @@ namespace TicketRoom.Views
 
         private void Tab_Changed(object sender, EventArgs e)
         {
-            DealTab.TextColor = Color.Black;
-            ShopTab.TextColor = Color.Black;
-            BasketTab.TextColor = Color.Black;
-            MyPageTab.TextColor = Color.Black;
-
-            DealTab.FontSize = 14;
-            ShopTab.FontSize = 14;
-            BasketTab.FontSize = 14;
-            MyPageTab.FontSize = 14;
-
             Button selectedtab = (Button)sender;
             selectedtab.FontSize = 15;
-            selectedtab.TextColor = Color.Blue;
+            selectedtab.BackgroundColor = Color.White;
+            selectedtab.TextColor = Color.LightBlue;
             if (selectedtab.Text.Equals("구매/판매"))
             {
                 TabContent.Content = new DealTabPage();
@@ -132,6 +124,12 @@ namespace TicketRoom.Views
         public void SetTabContent(Xamarin.Forms.View page)
         {
             TabContent.Content = page;
+        }
+        protected override bool OnBackButtonPressed()
+        {
+            DisplayAlert("알림", "어플리케이션을 종료하시겠습니까?", "확인", "취소");
+
+            return base.OnBackButtonPressed();
         }
     }
 }
