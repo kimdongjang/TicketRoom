@@ -76,7 +76,7 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            this.OnBackButtonPressed();
+            Navigation.PopAsync(); 
         }
 
         private void PlusBtn_Clicked(object sender, EventArgs e)
@@ -260,7 +260,8 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                                 {
                                     await ShowMessage("판매내역에서 확인해주세요.", "알림", "OK", async () =>
                                     {
-                                        App.Current.MainPage = new MainPage();
+                                        Navigation.PopToRootAsync();
+                                        MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                                     });
                                 }
                                 else if (result == 2)
@@ -329,7 +330,8 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                                             {
                                                 await ShowMessage("판매내역에서 확인해주세요.", "알림", "OK", async () =>
                                                 {
-                                                    App.Current.MainPage = new MainPage();
+                                                    Navigation.PopToRootAsync();
+                                                    MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                                                 });
                                             }
                                             else if (result == 2)

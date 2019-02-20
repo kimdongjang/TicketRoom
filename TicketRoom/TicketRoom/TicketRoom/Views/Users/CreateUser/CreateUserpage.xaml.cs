@@ -22,6 +22,15 @@ namespace TicketRoom.Views.Users.CreateUser
         {
             Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
             InitializeComponent();
+
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+
             this.termsdata = termsdata;
         }
 
@@ -124,7 +133,7 @@ namespace TicketRoom.Views.Users.CreateUser
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            this.OnBackButtonPressed();
+            Navigation.PopAsync();
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

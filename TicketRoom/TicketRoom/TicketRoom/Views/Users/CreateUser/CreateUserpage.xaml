@@ -3,15 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TicketRoom.Views.Users.CreateUser.CreateUserpage">
     <!--#region 전체 화면 그리드(행) - 0 액션바 1 스크롤뷰-->
-    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <!--#region 0행 커스텀 액션바 -->
-        <Grid Grid.Row="0" BackgroundColor="White">
+        <!--#region 1행 커스텀 액션바 -->
+        <Grid Grid.Row="1" BackgroundColor="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -45,8 +46,8 @@
         </Grid>
         <!--#endregion-->
 
-        <!--#region 1행 스크롤뷰-->
-        <ScrollView Grid.Row="1" BackgroundColor="White">
+        <!--#region 2행 스크롤뷰-->
+        <ScrollView Grid.Row="2" BackgroundColor="White">
             <!--#region 스크롤뷰 안에 내용 고정높이 할당-->
             <Grid  RowSpacing="0" ColumnSpacing="0">
                 <Grid.RowDefinitions>
@@ -330,8 +331,8 @@
         </ScrollView>
         <!--#endregion-->
         
-        <!--#region 2열 주소 결과 확인-->
-        <Grid Grid.Row="2" BackgroundColor="#f4f2f2">
+        <!--#region 3행 확인-->
+        <Grid Grid.Row="3" BackgroundColor="#f4f2f2">
             <Button x:Name="NextBtn" Text="확인" BackgroundColor="#f4f2f2" Clicked="NextBtn_Clicked"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <Button.FontFamily>

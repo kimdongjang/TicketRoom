@@ -26,7 +26,7 @@ namespace TicketRoom.Views.Users.FindUser
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            this.OnBackButtonPressed();
+            Navigation.PopAsync();
         }
 
         private void FindIDPWBtn_Clicked(object sender, EventArgs e)

@@ -90,7 +90,8 @@ namespace TicketRoom.Views.Users.Login
 
                                     }
 
-                                    App.Current.MainPage = new MainPage(); // 기본 페이지를 메인 페이지로 변경
+                                    Navigation.PopToRootAsync();
+                                    MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                                     return;
                             }
                         }

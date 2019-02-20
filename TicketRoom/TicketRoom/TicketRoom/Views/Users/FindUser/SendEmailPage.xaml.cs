@@ -32,7 +32,7 @@ namespace TicketRoom.Views.Users.FindUser
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            this.OnBackButtonPressed();
+            Navigation.PopAsync();
         }
     }
 }

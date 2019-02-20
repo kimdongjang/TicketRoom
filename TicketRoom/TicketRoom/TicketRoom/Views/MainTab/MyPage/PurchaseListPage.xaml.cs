@@ -86,7 +86,7 @@ namespace TicketRoom.Views.MainTab.MyPage
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            this.OnBackButtonPressed();
+            Navigation.PopAsync();
         }
 
         private void allbtn_clicked(object sender, EventArgs e)

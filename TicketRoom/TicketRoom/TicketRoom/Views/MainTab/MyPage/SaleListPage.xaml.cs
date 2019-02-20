@@ -45,7 +45,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             else
             {
                 DisplayAlert("알림", "로그인이후에 이용해주세요", "OK");
-                this.OnBackButtonPressed();
+                Navigation.PopAsync();
             }
 
             Init();
@@ -341,7 +341,7 @@ namespace TicketRoom.Views.MainTab.MyPage
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            this.OnBackButtonPressed();
+            Navigation.PopAsync();
         }
 
         private void allbtn_clicked(object sender, EventArgs e)

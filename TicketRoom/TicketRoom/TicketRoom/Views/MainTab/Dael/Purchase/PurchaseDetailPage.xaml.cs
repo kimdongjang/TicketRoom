@@ -299,7 +299,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            this.OnBackButtonPressed();
+            Navigation.PopAsync();
         }
 
         private void Picker_SelectedIndexChanged(object sender, EventArgs e)
@@ -507,7 +507,8 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                             {
                                 await ShowMessage("구매내역에서 확인해주세요.", "알림", "OK", async () =>
                                 {
-                                    App.Current.MainPage = new MainPage();
+                                    Navigation.PopToRootAsync();
+                                    MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                                 });
                             }
                             else if (int.Parse(test2[0].ToString()) == 2)
@@ -583,7 +584,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             {
                 if (accountlist[0].Error == null || accountlist[0].Error == "")
                 {
-                    this.OnBackButtonPressed();
+                    Navigation.PopAsync();
                     return;
                 }
             }

@@ -76,7 +76,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            this.OnBackButtonPressed();
+            Navigation.PopAsync();
         }
 
         private void PlusBtn_Clicked(object sender, EventArgs e)
@@ -207,7 +207,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                         {
                             await ShowMessage("장바구니에 추가되었습니다.", "알림", "OK", async () =>
                             {
-                                this.OnBackButtonPressed();
+                                Navigation.PopAsync();
                             });
                         }
                         else
