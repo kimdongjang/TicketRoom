@@ -69,7 +69,7 @@ namespace TicketRoom.Views.MainTab.Dael
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            this.OnBackButtonPressed();
+            Navigation.PopAsync();
         }
     }
 }

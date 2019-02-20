@@ -133,7 +133,7 @@ namespace TicketRoom.Views.Users.CreateUser
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            this.OnBackButtonPressed();
+            Navigation.PopAsync();
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

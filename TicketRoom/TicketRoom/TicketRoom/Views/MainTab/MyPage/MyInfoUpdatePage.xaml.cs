@@ -40,7 +40,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             {
                 timer.Stop();
             }
-            this.OnBackButtonPressed();
+            Navigation.PopAsync();
         }
 
         private async void CheckNumSendBtn_Clicked(object sender, EventArgs e)
@@ -238,7 +238,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                             timer.Stop();
                             CheckNumSendBtn.Text = "인증";
                             CheckNumGrid.IsVisible = false;
-                            this.OnBackButtonPressed(); //--------수정가능성 많음 ... 로그아웃 시킬지
+                            Navigation.PopAsync(); //--------수정가능성 많음 ... 로그아웃 시킬지
                         }
                     }
                 }
