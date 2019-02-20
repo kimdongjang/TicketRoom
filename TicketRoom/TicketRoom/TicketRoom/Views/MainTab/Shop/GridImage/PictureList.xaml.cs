@@ -1,4 +1,5 @@
-﻿using Rg.Plugins.Popup.Services;
+﻿using FFImageLoading.Forms;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using TicketRoom.Models.ShopData;
@@ -53,9 +54,11 @@ namespace TicketRoom.Views.MainTab.Shop.GridImage
                     row++;
 
                 }
-                
-                Image image = new Image
+
+                CachedImage image = new CachedImage
                 {
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
                     Source = ImageSource.FromUri(new Uri(imageList[i].SH_IMAGELIST_SOURCE)),
                     Aspect = Aspect.AspectFill,
                 };

@@ -4,6 +4,7 @@
              xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:models="clr-namespace:TicketRoom.Models.Custom"
                  xmlns:local="clr-namespace:TicketRoom.Models.Zoom"
+                 xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
                  x:Class="TicketRoom.Views.MainTab.Shop.GridImage.PopupImage">
     <Grid Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
         <Grid.RowDefinitions>
@@ -12,7 +13,7 @@
         </Grid.RowDefinitions>
         <local:PinchToZoomContainer Grid.Row="0">
             <local:PinchToZoomContainer.Content>
-                <Image x:Name="SeenImage" Aspect="AspectFit" HeightRequest="600" WidthRequest="300"/>
+                <forms:CachedImage x:Name="SeenImage" Aspect="AspectFit" HeightRequest="600" WidthRequest="300" LoadingPlaceholder = "Global.LoadingImagePath" ErrorPlaceholder = "Global.LoadingImagePath"/>
             </local:PinchToZoomContainer.Content>
         </local:PinchToZoomContainer>
         <models:CustomLabel Grid.Row="1" Text="" Size="18" x:Name="ProductContentLabel"/>

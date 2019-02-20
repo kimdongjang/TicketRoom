@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="TicketRoom.Views.MainTab.Shop.ShopMainPage">
     <ContentPage.Content>
         <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
@@ -67,7 +68,8 @@
                         <!--#region 0행 쇼핑몰 이미지-->
                         <Grid Grid.Row="0">
                             <StackLayout HorizontalOptions="Center">
-                                <Image x:Name="MainShopImage" HeightRequest="300" WidthRequest="300" Aspect="AspectFill"/>
+                                <forms:CachedImage x:Name="MainShopImage" HeightRequest="300" WidthRequest="300" Aspect="AspectFill"
+                                                   LoadingPlaceholder="Global.LoadingImagePath" ErrorPlaceholder="Global.LoadingImagePath"/>
                             </StackLayout>
                         </Grid>
                         <!--#endregion-->

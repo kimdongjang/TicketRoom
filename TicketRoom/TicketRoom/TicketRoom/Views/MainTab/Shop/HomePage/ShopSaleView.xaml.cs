@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -87,8 +88,10 @@ namespace TicketRoom.Views.MainTab.Shop
                     };
 
                     // 쇼핑몰 이미지
-                    Image bestimage = new Image
+                    CachedImage bestimage = new CachedImage
                     {
+                        LoadingPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.LoadingImagePath,
                         Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
                         Aspect = Aspect.Fill,
                         VerticalOptions = LayoutOptions.Center,
@@ -205,8 +208,10 @@ namespace TicketRoom.Views.MainTab.Shop
                 };
 
                 // 쇼핑몰 이미지
-                Image natrueimage = new Image
+                CachedImage natrueimage = new CachedImage
                 {
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
                     Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
                     Aspect = Aspect.Fill,
                     VerticalOptions = LayoutOptions.Center,

@@ -220,8 +220,10 @@ namespace TicketRoom.Views.MainTab.Shop
                         },
                         VerticalOptions = LayoutOptions.Center
                     };
-                    Image grade_image = new Image
+                    CachedImage grade_image = new CachedImage
                     {
+                        LoadingPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.LoadingImagePath,
                         Source = "star.png",
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Center,

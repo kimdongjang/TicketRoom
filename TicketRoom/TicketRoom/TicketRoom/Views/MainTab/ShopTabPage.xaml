@@ -23,7 +23,7 @@
                 <BoxView BackgroundColor="Black"/>
                 <Grid BackgroundColor="White" Margin="2">
                     <local1:CustomEntry Grid.Column="0" x:Name="EntryAdress" x:FieldModifier="Public"
-                 Placeholder="지번 혹은 도로명 주소 입력" Size="14" TextColor="DarkGray"
+                 Placeholder="지번 혹은 도로명 주소 입력" Size="12" TextColor="DarkGray"
                  Keyboard="Text"
                  Style="null"
                  Focused="EntryAdress_Focused" HorizontalTextAlignment="Center"/>

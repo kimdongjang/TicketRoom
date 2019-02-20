@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FFImageLoading.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -151,8 +152,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                         coverGrid.Children.Add(productLine, 0, product_row);
                         product_row++;
 
-                        Image product_image = new Image // 상품 이미지
+                        CachedImage product_image = new CachedImage  // 상품 이미지
                         {
+                            LoadingPlaceholder = Global.LoadingImagePath,
+                            ErrorPlaceholder = Global.LoadingImagePath,
                             Source = productList[j].SH_PUR_PRODUCT_IMAGE,
                             BackgroundColor = Color.White,
                             VerticalOptions = LayoutOptions.CenterAndExpand,

@@ -1,4 +1,5 @@
-﻿using Rg.Plugins.Popup.Services;
+﻿using FFImageLoading.Forms;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -139,8 +140,10 @@ namespace TicketRoom.Views.MainTab.Shop
                 };
 
                 #region 장바구니 상품 이미지
-                Image product_image = new Image
+                CachedImage product_image = new CachedImage
                 {
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
                     Source = basketList[i].SH_BASKET_IMAGE,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -435,8 +438,10 @@ namespace TicketRoom.Views.MainTab.Shop
                 RowSpacing = 0,
                 ColumnSpacing = 0,
             };
-            Image perImage = new Image
+            CachedImage perImage = new CachedImage
             {
+                LoadingPlaceholder = Global.LoadingImagePath,
+                ErrorPlaceholder = Global.LoadingImagePath,
                 Source = "radio_checked_icon.png",
                 VerticalOptions= LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.Center,
@@ -467,8 +472,10 @@ namespace TicketRoom.Views.MainTab.Shop
                 RowSpacing = 0,
                 ColumnSpacing = 0,
             };
-            Image busImage = new Image
+            CachedImage busImage = new CachedImage
             {
+                LoadingPlaceholder = Global.LoadingImagePath,
+                ErrorPlaceholder = Global.LoadingImagePath,
                 Source = "radio_unchecked_icon.png",
                 VerticalOptions = LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.Center,
