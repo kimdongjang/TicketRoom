@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Effect\AndroidLongPressedEffect.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Renderer\CloseApplication.cs" />
     <Compile Include="Renderer\CustomButtonRenderer.cs" />
     <Compile Include="Renderer\CustomEditorEnderer.cs" />
     <Compile Include="Renderer\CustomEntryRenderer.cs" />

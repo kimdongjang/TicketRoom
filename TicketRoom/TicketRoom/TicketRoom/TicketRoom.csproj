@@ -162,6 +162,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\MainTab\Popup\AppExit_Pop.xaml.cs">
+      <DependentUpon>AppExit_Pop.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MainTab\Popup\SalePW.xaml.cs">
       <DependentUpon>SalePW.xaml</DependentUpon>
     </Compile>
