@@ -86,7 +86,7 @@ namespace TicketRoom.Views.MainTab.Popup
                 {
                     Text = "도로명",
                     Size = 14,
-                    BackgroundColor = Color.LightBlue,
+                    BackgroundColor = Color.CornflowerBlue,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
                     HeightRequest = 25,
@@ -117,7 +117,7 @@ namespace TicketRoom.Views.MainTab.Popup
                 {
                     Text = "지번",
                     Size = 14,
-                    BackgroundColor = Color.LightBlue,
+                    BackgroundColor = Color.CornflowerBlue,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
                     HeightRequest = 30,
@@ -159,13 +159,13 @@ namespace TicketRoom.Views.MainTab.Popup
                                     Grid tempGrid = adl_queue.Dequeue();
                                     if (tempGrid.Children.Count != 3) // 첫줄 구분선 제어
                                     {
-                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(0)).Children.ElementAt(0)).BackgroundColor = Color.LightBlue;
-                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(1)).Children.ElementAt(0)).BackgroundColor = Color.LightBlue;
+                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(0)).Children.ElementAt(0)).BackgroundColor = Color.CornflowerBlue;
+                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(1)).Children.ElementAt(0)).BackgroundColor = Color.CornflowerBlue;
                                     }
                                     else
                                     {
-                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(1)).Children.ElementAt(0)).BackgroundColor = Color.LightBlue;
-                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(2)).Children.ElementAt(0)).BackgroundColor = Color.LightBlue;
+                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(1)).Children.ElementAt(0)).BackgroundColor = Color.CornflowerBlue;
+                                        ((CustomButton)((Grid)tempGrid.Children.ElementAt(2)).Children.ElementAt(0)).BackgroundColor = Color.CornflowerBlue;
                                     }
                                 }
                                 if (int.Parse(s.ToString()) != 0) // 첫줄 구분선 제어

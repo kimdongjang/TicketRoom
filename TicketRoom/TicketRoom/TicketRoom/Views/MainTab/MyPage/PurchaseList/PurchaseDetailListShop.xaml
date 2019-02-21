@@ -5,16 +5,17 @@
              x:Class="TicketRoom.Views.MainTab.MyPage.PurchaseList.PurchaseDetailListShop">
     <ContentPage.Content>
 
-        <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0">
+        <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" x:Name="TabGrid">
             <Grid.RowDefinitions>
+                <RowDefinition Height="0"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <!--#region 0행 커스텀 액션바 -->
-            <Grid Grid.Row="0" BackgroundColor="White">
+            <!--#region 1행 커스텀 액션바 -->
+            <Grid Grid.Row="1" BackgroundColor="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
@@ -37,11 +38,11 @@
             </Grid>
             <!--#endregion-->
 
-            <!--#region 1행 구분선  -->
-            <BoxView Grid.Row="1" BackgroundColor="Black"/>
+            <!--#region 2행 구분선  -->
+            <BoxView Grid.Row="2" BackgroundColor="Black"/>
             <!--#endregion-->
 
-            <ScrollView Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="MainScroll">
+            <ScrollView Grid.Row="3" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="MainScroll">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -52,8 +53,8 @@
                 </Grid>
             </ScrollView>
 
-            <!--#region 3행 결제하기 -->
-            <Grid Grid.Row="3">
+            <!--#region 4행 결제하기 -->
+            <Grid Grid.Row="4">
                 <local1:CustomButton Size="26" FontFamily="{StaticResource FontStyle}" Text="확인"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                     BackgroundColor="Black" TextColor="White" 

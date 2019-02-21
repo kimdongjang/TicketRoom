@@ -182,7 +182,7 @@
                             </Grid.ColumnDefinitions>
                             <local1:CustomLabel Grid.Column="0" Text="포인트 사용" Size="18"  VerticalOptions="Center" TextColor="Black" x:Name="UsedPointLabel"/>
                             <local1:CustomButton Grid.Column="2" Text="포인트 적용" Size="18" BackgroundColor="Black" TextColor="White"
-                                             x:Name="PointUseBtn" Clicked="PointUseBtn_ClickedAsync"/>
+                                             x:Name="PointUseBtn" Clicked="PointUseBtn_ClickedAsync" HeightRequest="30" WidthRequest="120" />
                         </Grid>
                         <!--#endregion-->
                         
@@ -193,6 +193,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="20"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
@@ -206,21 +207,37 @@
                                             TextColor="Black" VerticalOptions="Center"/>
                             <local1:CustomLabel Grid.Row="3" Text="" Size="18" TextColor="Orange" x:Name="PriceLabel"/>
 
-                            <!--#region 4행 배송 요청사항-->
-                            <Grid Grid.Row="4" BackgroundColor="White" x:Name="DeliveryGrid">
+                            <!--#region 4행 여백-->
+                            <!--#endregion-->
+
+                            <!--#region 5행 배송 요청사항-->
+                            <Grid Grid.Row="5" BackgroundColor="White" x:Name="DeliveryGrid" ColumnSpacing="0">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="3"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="3"/>
                                 </Grid.RowDefinitions>
-                                <local1:CustomPicker Grid.Row="0" Title="배송시 요청사항(선택사항)"  FontFamily="{StaticResource FontStyle}"
-                                            x:Name="DeliveryContentPicker" Focused="DeliveryContent_Focused" Margin="0,15,0,0"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <BoxView  Grid.Row="0" Grid.Column="0"  BackgroundColor="Gray"/>
+                                <BoxView  Grid.Row="0" Grid.Column="1"  BackgroundColor="Gray"/>
+                                <local1:CustomLabel Grid.Row="1" Size="22" Text="배송 요청사항" TextColor="Black" Margin="15,15,15,10"/>
+                                <local1:CustomLabel Grid.Row="2" Grid.Column="0" Size="18" Text="배송시 요청사항(클릭)" TextColor="Black" Margin="15,10,0,10" x:Name="MyDeliveryLabel" x:FieldModifier="Public"/>
+                                <local1:CustomButton Grid.Row="2" Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="요청사항 변경" HorizontalOptions="Center" VerticalOptions="Center"
+                                                    BackgroundColor="Black" TextColor="White" x:Name="ChangeDeliveryBtn" Clicked="ChangeDeliveryBtn_Clicked" HeightRequest="30" WidthRequest="120" />
+                                <BoxView  Grid.Row="3" Grid.Column="0"  BackgroundColor="Gray"/>
+                                <BoxView  Grid.Row="3" Grid.Column="1"  BackgroundColor="Gray"/>
                             </Grid>
-                            <local1:CustomLabel Grid.Row="5" Text="결제 방식" Size="18" TextColor="Black" Margin="0,15,0,0"/>
+                            <local1:CustomLabel Grid.Row="6" Text="결제 방식" Size="18" TextColor="Black" Margin="0,15,0,0"/>
                             <!--#endregion-->
                         </Grid>
                         <!--#endregion-->
                         
-                        <!--#region 5행 결제방식 라디오-->
-                        <Grid Grid.Row="5" Margin="15,0,0,0">
+                        <!--#region 7행 결제방식 라디오-->
+                        <Grid Grid.Row="7" Margin="15,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -259,8 +276,8 @@
                         </Grid>
                         <!--#endregion-->
 
-                        <!--#region 6행 통신사 선택-->
-                        <Grid Grid.Row="6" Margin="15,15,0,0" x:Name="PhoneOptionGrid"/>
+                        <!--#region 8행 통신사 선택-->
+                        <Grid Grid.Row="8" Margin="15,15,0,0" x:Name="PhoneOptionGrid"/>
                         <!--#endregion-->
                     </Grid>
                 </Grid>

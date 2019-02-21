@@ -17,18 +17,35 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
         PurchaseListPage plp;
 
-        List<SH_Pur_List> purchaseList = new List<SH_Pur_List>();
+        public List<SH_Pur_List> purchaseList = new List<SH_Pur_List>();
 
         public PurchaseListShop(PurchaseListPage plp)
         {
             InitializeComponent();
             this.plp = plp;
-            purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID); // 사용자 아이디로 구매 목록 가져옴
+            purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, -99, 0, 0); // 사용자 아이디로 구매 목록 가져옴
             Init();
         }
 
-        private void Init()
+        public void Init()
         {
+            MainGrid.Children.Clear();
+            if(purchaseList.Count == 0)
+            {
+                MainLine.BackgroundColor = Color.White;
+                CustomLabel errorLabel = new CustomLabel
+                {
+                    Text = "구매내역이 없습니다.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.CenterAndExpand,
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    VerticalTextAlignment = TextAlignment.Center,
+                    HorizontalTextAlignment = TextAlignment.Center
+                };
+                MainGrid.Children.Add(errorLabel, 0, 0);
+                return;
+            }
             if (purchaseList != null)
             {
                 for (int i = 0; i < purchaseList.Count; i++)
@@ -38,7 +55,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                     #region 전체 그리드
                     MainGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                    BoxView row_boxview = new BoxView { BackgroundColor = Color.Red, Opacity = 0.2, Margin = new Thickness(10), };
+                    BoxView row_boxview = new BoxView { BackgroundColor = Color.Blue, Opacity = 0.2, Margin = new Thickness(10), };
 
 
                     Grid row_Grid = new Grid
@@ -70,7 +87,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                             new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
                             new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
                         },
-                        BackgroundColor = Color.IndianRed,
+                        BackgroundColor = Color.CornflowerBlue,
                     };
 
                     CustomLabel ordernumLabel = new CustomLabel
@@ -81,11 +98,11 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         Margin = new Thickness(15, 0, 0, 0),
                     };
-                    BoxView orderBtnLine = new BoxView { BackgroundColor = Color.Black };
+                    BoxView orderBtnLine = new BoxView { BackgroundColor = Color.LightGray };
                     CustomButton orderBtn = new CustomButton
                     {
                         Text = "상세보기",
-                        BackgroundColor = Color.DarkRed,
+                        BackgroundColor = Color.DarkBlue,
                         TextColor = Color.White,
                         Size = 18,
                         Margin = 2,
@@ -115,7 +132,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     };
                     #endregion
 
-                    BoxView orderLine = new BoxView { BackgroundColor = Color.Gray };
+                    BoxView orderLine = new BoxView { BackgroundColor = Color.LightGray };
 
                     Grid coverGrid = new Grid { };
                     row_Grid.Children.Add(orderLabelGrid, 0, 0);
@@ -211,7 +228,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     }
                     #endregion
 
-                    BoxView dateLine = new BoxView { BackgroundColor = Color.Gray };
+                    BoxView dateLine = new BoxView { BackgroundColor = Color.LightGray };
 
                     Grid dateGrid = new Grid
                     {

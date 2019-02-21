@@ -98,7 +98,7 @@
 
                         <!--#region 1열 검색 버튼-->
                         <local1:CustomButton Grid.Column="1" x:Name="SearchBtn" Clicked="SearchBtn_Clicked"
-                                Text="검색" BackgroundColor="LightBlue" Size="18" HeightRequest="20"
+                                Text="검색" BackgroundColor="CornflowerBlue" Size="18" HeightRequest="20"
                                 TextColor="White" Margin="0,0,15,0"/>
 
                         <!--#endregion-->
@@ -140,7 +140,7 @@
 
                             <local1:CustomLabel Grid.Column="0" Text="검색결과" Size="18" TextColor="Black" Margin="15,0,0,0" HorizontalOptions="Start" VerticalOptions="Center"/>
                             <local1:CustomButton Grid.Column="2" Text="최근주소" Size="18" TextColor="White" Margin="0,0,15,0" HorizontalOptions="End" VerticalOptions="Center"
-                                                 BackgroundColor="LightBlue" x:Name="RecentAdressButton" Clicked="RecentAdressButton_Clicked" WidthRequest="100" HeightRequest="30"/>
+                                                 BackgroundColor="CornflowerBlue" x:Name="RecentAdressButton" Clicked="RecentAdressButton_Clicked" WidthRequest="100" HeightRequest="30"/>
                         </Grid>
 
                         <!--#endregion-->

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:models="clr-namespace:TicketRoom.Models.Custom"
+             x:Class="TicketRoom.Views.MainTab.Popup.PopupDelivery">
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <StackLayout Orientation="Vertical" HeightRequest="400" WidthRequest="300" BackgroundColor="White">
+            <models:CustomLabel Margin="10,10,0,0" Text="배송 요청사항" Size="22" TextColor="Black"/>
+            <Grid Margin="20,20,20,10" x:Name="DeliveryGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <models:CustomLabel Grid.Row="0" Margin="10" Text="부재시 경비실에 맡겨주세요." Size="14" TextColor="Gray"/>
+                <models:CustomLabel Grid.Row="1" Margin="10" Text="현관 앞에 놓아주세요." Size="14"  TextColor="Gray"/>
+                <models:CustomLabel Grid.Row="2" Margin="10" Text="배송 전 연락 부탁드립니다." Size="14"  TextColor="Gray"/>
+                <models:CustomLabel Grid.Row="3" Margin="10" Text="(배송 선택 사항)직접 입력" Size="14"  TextColor="Gray"/>
+                <Entry Grid.Row="4" Margin="10" Placeholder="배송 선택 사항 입력" x:Name="MyDeliveryEntry" IsVisible="False" FontSize="16"></Entry>
+            </Grid>
+            <Button Margin="20" Text="확인" x:Name="ConfirmBtn" Clicked="ConfirmBtn_Clicked"></Button>
+        </StackLayout>
+    </StackLayout>
+</pages:PopupPage>

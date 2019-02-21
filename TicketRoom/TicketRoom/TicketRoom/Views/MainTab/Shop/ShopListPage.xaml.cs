@@ -68,7 +68,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
                 Grid inGrid = new Grid
                 {
-                    BackgroundColor = Color.LightBlue,
+                    BackgroundColor = Color.CornflowerBlue,
                 };
                 CustomLabel label = new CustomLabel
                 {
@@ -85,7 +85,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 // 처음으로 선택한 탭 이름 초기화
                 if (label.Text == TitleName.Text)
                 {
-                    label.TextColor = Color.LightBlue;
+                    label.TextColor = Color.CornflowerBlue;
                     inGrid.BackgroundColor = Color.White;
                     titleList_Queue.Enqueue((Grid)SubCateTapGrid.Children.ElementAt(i));
                 }
@@ -103,11 +103,11 @@ namespace TicketRoom.Views.MainTab.Shop
                                 Grid temp_grid = titleList_Queue.Dequeue();
                                 CustomLabel temp_label = (CustomLabel)temp_grid.Children.ElementAt(0);
                                 temp_label.TextColor = Color.White;
-                                temp_grid.BackgroundColor = Color.LightBlue;
+                                temp_grid.BackgroundColor = Color.CornflowerBlue;
                                 TitleName.Text = temp_label.Text;
                             }
                             // 탭 클릭시 색상 변경
-                            label.TextColor = Color.LightBlue;
+                            label.TextColor = Color.CornflowerBlue;
                             inGrid.BackgroundColor = Color.White;
                             titleList_Queue.Enqueue(inGrid);
                             TitleName.Text = label.Text;
@@ -141,7 +141,7 @@ namespace TicketRoom.Views.MainTab.Shop
             // 베스트 라벨
             Grid bestlabel_grid = new Grid
             {
-                BackgroundColor = Color.LightBlue,
+                BackgroundColor = Color.CornflowerBlue,
                 Opacity = 0.5,
             };
             CustomLabel bestlabel = new CustomLabel
@@ -275,7 +275,7 @@ namespace TicketRoom.Views.MainTab.Shop
                                     temp.BackgroundColor = Color.White;
                                     temp.Opacity = 1;
                                 }
-                                best_rowGrid.BackgroundColor = Color.LightBlue;
+                                best_rowGrid.BackgroundColor = Color.CornflowerBlue;
                                 best_rowGrid.Opacity = 0.5;
                                 SelectList_Queue.Enqueue(best_rowGrid);
 
@@ -436,7 +436,7 @@ namespace TicketRoom.Views.MainTab.Shop
                                 temp.BackgroundColor = Color.White;
                                 temp.Opacity = 1;
                             }
-                            natural_rowGrid.BackgroundColor = Color.LightBlue;
+                            natural_rowGrid.BackgroundColor = Color.CornflowerBlue;
                             natural_rowGrid.Opacity = 0.5;
                             SelectList_Queue.Enqueue(natural_rowGrid);
 

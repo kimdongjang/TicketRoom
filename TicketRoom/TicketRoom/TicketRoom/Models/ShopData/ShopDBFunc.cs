@@ -642,7 +642,7 @@ namespace TicketRoom.Models.ShopData
         // 구매시 구매 리스트 정보 생성(return 값은 주문 번호)
         public int PostInsertPurchaseListToID(string p_d_pay, string p_d_option, string p_d_detail, string p_d_adress, string p_d_jibun, string p_d_zipno, string p_d_phone, string p_d_state, // 딜리버리 인풋값
                                                 string p_p_option, string p_p_value, string p_p_point, string p_p_state, // 결제 수단 및 결제금액 인풋값
-                                                string p_id, string p_date, string p_isuser) // 유저 아이디 및 구매 날짜, 비회원 회원 상태 확인
+                                                string p_id, string p_isuser) // 유저 아이디 , 비회원 회원 상태 확인
         {
             int result = -1;
             string str = @"{";
@@ -659,7 +659,6 @@ namespace TicketRoom.Models.ShopData
             str += "',p_p_point:'" + p_p_point;
             str += "',p_p_state:'" + p_p_state;
             str += "',p_id:'" + p_id;
-            str += "',p_date:'" + p_date;
             str += "',p_isuser:'" + p_isuser;
             str += "'}";
 
@@ -951,11 +950,14 @@ namespace TicketRoom.Models.ShopData
 
 
         // 유저 아이디를 통해 구매리스트 가져오기
-        public List<SH_Pur_List> PostSearchPurchaseListToID(string userid)
+        public List<SH_Pur_List> PostSearchPurchaseListToID(string userid, int year, int month, int day)
         {
             List<SH_Pur_List> purList = new List<SH_Pur_List>();
             string str = @"{";
             str += "userid : '" + userid;
+            str += "',year:'" + year;
+            str += "',month:'" + month;
+            str += "',day:'" + day;
             str += "'}";
 
             //// JSON 문자열을 파싱하여 JObject를 리턴

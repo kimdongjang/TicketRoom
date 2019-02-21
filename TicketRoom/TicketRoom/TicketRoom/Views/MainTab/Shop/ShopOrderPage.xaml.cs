@@ -57,7 +57,6 @@ namespace TicketRoom.Views.MainTab.Shop
 
         Xamarin.Forms.Entry phoneEntry = new Xamarin.Forms.Entry();
         Xamarin.Forms.Entry nameEntry = new Xamarin.Forms.Entry();
-        Xamarin.Forms.Entry deliveryEntry = new Xamarin.Forms.Entry();
 
         int MyPoint = 100; // 잔여 포인트
         int MyUsePoint = 0; // 사용 포인트
@@ -68,6 +67,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
         PopupPhoneEntry popup_phone; // 핸드폰 번호 변경 팝업 객체
         PopupNameEntry popup_name; // 핸드폰 번호 변경 팝업 객체
+        PopupDelivery popup_delivery;
 
         // 결제할 금액을 생성자로 받아와야함
         #region 생성자
@@ -234,12 +234,12 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 Command = new Command(() =>
                 {
-                    PayRadioImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_checked_icon.png"));
-                    ArriveRadioImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
+                    PayRadioImage.Source = "radio_checked_icon.png";
+                    ArriveRadioImage.Source = "radio_unchecked_icon.png";
                     DeliveryOption = "선불";
-                    deliveryPayLabel.Text = "배송비: " + DeliveryPrice;
                     DeliveryPayUpdate();
                     AmountOfPayUpdate();
+                    deliveryPayLabel.Text = "배송비: " + DeliveryPrice.ToString("N0") + "원";
                 })
             });
             ArriveRadioGrid.GestureRecognizers.Add(new TapGestureRecognizer()
@@ -249,7 +249,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     ArriveRadioImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_checked_icon.png"));
                     PayRadioImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
                     DeliveryOption = "착불";
-                    deliveryPayLabel.Text = "";
+                    deliveryPayLabel.Text = "배송비: 0원";
                     DeliveryPrice = 0;
                     AmountOfPayUpdate();
                 })
@@ -295,55 +295,16 @@ namespace TicketRoom.Views.MainTab.Shop
             });
             #endregion
 
-            #region 배송 선택사항 피커 초기화
-            DeliveryPicker.Add("부재시 경비실에 맡겨주세요.");
-            DeliveryPicker.Add("현관 앞에 놓아주세요.");
-            DeliveryPicker.Add("배송 전 연락 부탁드립니다.");
-            DeliveryPicker.Add("(배송 선택 사항)직접 입력");
-
-            foreach (string name in DeliveryPicker)
-            {
-                DeliveryContentPicker.Items.Add(name);
-            }
-
-            // 직접입력 피커가 선택되었을 경우
-            DeliveryContentPicker.Focused += (object sender, FocusEventArgs e) =>
-            {
-                if (b_deliveryPicker == false)
-                {
-                    b_deliveryPicker = true;
-                }
-            };
-            DeliveryContentPicker.Unfocused += (object sender, FocusEventArgs e) =>
-            {
-                b_deliveryPicker = false;
-                DeliveryContentPicker.IsEnabled = true;
-            };
-            DeliveryContentPicker.SelectedIndexChanged += (object sender, EventArgs e) =>
-            {
-                if (DeliveryContentPicker.SelectedIndex == 3 && b_deliveryEntry == false) // 직접 입력이 선택되었을 경우
-                {
-                    deliveryEntry = new Xamarin.Forms.Entry
-                    {
-
-                    };
-                    DeliveryGrid.Children.Add(deliveryEntry, 0, 1); // 피커 바로 아래에 입력사항 엔트리 추가
-                    b_deliveryEntry = true;
-                    deliveryEntry.Focus();
-                }
-                else if (b_deliveryEntry == true) // 직접 입력을 선택하지 않을 경우 엔트리 삭제
-                {
-                    b_deliveryEntry = false;
-                    DeliveryGrid.Children.RemoveAt(1);
-                }
-            };
-            #endregion
 
             DeliveryPayUpdate();
             PointUpdate();
             AmountOfPayUpdate();
         }
 
+        private void DeliveryEntry_Focused(object sender, FocusEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         private void CardOptionEnable()
         {
@@ -697,15 +658,15 @@ namespace TicketRoom.Views.MainTab.Shop
                 var answer = await DisplayAlert("결제금액 : " + PriceLabel.Text, "결제 정보가 맞습니까?", "확인", "취소");
                 if (answer)
                 {
-                    if (DeliveryContentPicker.SelectedIndex != -1) // 배송 선택사항이 선택되지 않았을 경우
+                    if (MyDeliveryLabel.Text != "배송시 요청사항(클릭)") // 배송 선택사항이 선택되지 않았을 경우
                     {
                         int userCheck = 0;
                         if (Global.b_user_login == true) userCheck = 1; else userCheck = 2; // 회원상태 ( 1: 회원 2: 비회원)
 
-                        int OrderIndex = SH_DB.PostInsertPurchaseListToID(DeliveryPrice.ToString()/*배송비*/, DeliveryOption/*선불착불*/, ""/*배송선택사항*/,
+                        int OrderIndex = SH_DB.PostInsertPurchaseListToID(DeliveryPrice.ToString()/*배송비*/, DeliveryOption/*선불착불*/, MyDeliveryLabel.Text/*배송선택사항*/,
                             AdressLabel.Text/*배송지*/, myAdress.JIBUNADDR/*지번주소*/, myAdress.ZIPNO.ToString()/*우편번호*/, MyPhoneLabel.Text/*휴대폰번호*/, "상품준비중"/*배송상태*/, payOption/*결제수단*/,
                             AmountOfPay.ToString()/*결제금액*/, MyUsePoint.ToString()/*사용포인트*/, "결제대기중"/*결제상태*/,
-                            ShopOrderPage_ID/*아이디*/, System.DateTime.Now.ToString()/*날짜*/, userCheck.ToString()/*비회원상태확인*/);
+                            ShopOrderPage_ID/*아이디*/, userCheck.ToString()/*비회원상태확인*/);
                         if (OrderIndex == -1)
                         {
                             await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
@@ -813,12 +774,6 @@ namespace TicketRoom.Views.MainTab.Shop
         {
         }
 
-        // 엔트리 텍스트 내용 초기화
-        private void DeliveryContent_Focused(object sender, FocusEventArgs e)
-        {
-
-        }
-
 
         private void ChangeAdressBtn_Clicked(object sender, EventArgs e)
         {
@@ -844,11 +799,13 @@ namespace TicketRoom.Views.MainTab.Shop
             try
             {
                 InputPointEntry.Text = Regex.Replace(InputPointEntry.Text, @"\D", "");
+                int temp = 0; // 05550원 -> 5500원 변경용 변수
                 if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
                 {
                     if (e.OldTextValue != null)
                     {
                         InputPointEntry.Text = e.OldTextValue;
+
                     }
                     else
                     {
@@ -870,6 +827,8 @@ namespace TicketRoom.Views.MainTab.Shop
                         }
                     }
                 }
+                temp = int.Parse(InputPointEntry.Text);
+                InputPointEntry.Text = temp.ToString();
             }
             catch
             {
@@ -885,6 +844,11 @@ namespace TicketRoom.Views.MainTab.Shop
         private void ChangNameBtn_Clicked(object sender, EventArgs e)
         {
             PopupNavigation.PushAsync(popup_name = new PopupNameEntry(this));
+        }
+
+        private void ChangeDeliveryBtn_Clicked(object sender, EventArgs e)
+        {
+            PopupNavigation.PushAsync(popup_delivery = new PopupDelivery(this));
         }
     }
 }

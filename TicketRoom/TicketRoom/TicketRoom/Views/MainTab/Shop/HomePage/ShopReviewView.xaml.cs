@@ -83,7 +83,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     Text = "작성자 ID",
                     Size = 16,
-                    BackgroundColor = Color.LightBlue,
+                    BackgroundColor = Color.CornflowerBlue,
                     TextColor = Color.White,
                     HeightRequest = 30,
                     WidthRequest = 80,
