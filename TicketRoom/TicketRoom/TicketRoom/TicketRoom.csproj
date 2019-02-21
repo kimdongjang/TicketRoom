@@ -165,6 +165,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\MainTab\Popup\AppExit_Pop.xaml.cs">
+      <DependentUpon>AppExit_Pop.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MainTab\Popup\PopupDelivery.xaml.cs">
       <DependentUpon>PopupDelivery.xaml</DependentUpon>
     </Compile>

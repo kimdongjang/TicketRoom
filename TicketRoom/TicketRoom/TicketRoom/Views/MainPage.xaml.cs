@@ -1,12 +1,16 @@
-﻿using System;
+﻿using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using TicketRoom.Models.Users;
 using TicketRoom.Views.MainTab;
 using TicketRoom.Views.MainTab.MyPage;
+using TicketRoom.Views.MainTab.Popup;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Threading;
+using TicketRoom.Models.Custom;
 
 namespace TicketRoom.Views
 {
@@ -16,6 +20,7 @@ namespace TicketRoom.Views
         List<Button> tablist = new List<Button>();
         UserDBFunc USER_DB = UserDBFunc.Instance();
 
+        AppExit_Pop appexit;
 
         public MainPage()
         {
@@ -142,11 +147,30 @@ namespace TicketRoom.Views
         {
             TabContent.Content = page;
         }
+        
+        public bool isexit_check_result = true;
+        Task<bool> action;
+
         protected override bool OnBackButtonPressed()
         {
-            DisplayAlert("알림", "어플리케이션을 종료하시겠습니까?", "확인", "취소");
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var result = await this.DisplayAlert("Alert", "Do yo really wnt to exit?", "Yes", "Now");
+                if (result)
+                {
+                    var closer = DependencyService.Get<ICloseApplication>();
+                    if (closer != null)
+                        closer.closeApplication();
+                }
+            });
+            return true;
+        }
 
-            return base.OnBackButtonPressed();
+        public async Task ShowMessage(string message, string title, string buttonText, Action afterHideCallback)
+        {
+            await DisplayAlert(title, message, buttonText);
+
+            afterHideCallback?.Invoke();
         }
     }
 }

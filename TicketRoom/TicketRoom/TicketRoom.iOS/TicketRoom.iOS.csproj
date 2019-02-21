@@ -94,6 +94,7 @@
     <Compile Include="Effect\iOSLongPressedEffect.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderer\CloseApplication.cs" />
     <Compile Include="Renderer\CustomEditorRenderer.cs" />
     <Compile Include="Renderer\CustomEntryRenderer.cs" />
     <Compile Include="Renderer\CustomLabelRenderer.cs" />
