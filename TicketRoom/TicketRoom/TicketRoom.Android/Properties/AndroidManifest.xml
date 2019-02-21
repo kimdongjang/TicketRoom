@@ -2,4 +2,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.TicketRoom">
     <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="27" />
     <application android:label="TicketRoom.Android"></application>
+  <uses-permission android:name="android.permission.INTERNET" />
+
+  <application>
+    <!-- 2 -->
+    <activity android:name=".SampleLoginActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <!-- 3 -->
+    <meta-data
+        android:name="com.kakao.sdk.AppKey"
+        android:value="@string/kakao_app_key" />
+    <!-- 4 -->
+    <activity
+        android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
+        android:launchMode="singleTop"
+        android:windowSoftInputMode="adjustResize">
+
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+      </intent-filter>
+    </activity>
+  </application>
+  <resources>
+    <string name="kakao_app_key">AAAAAAAAAAAAAAAAAAAAAA</string>
+  </resources>
 </manifest>
