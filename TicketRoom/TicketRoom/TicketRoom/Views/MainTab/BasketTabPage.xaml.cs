@@ -38,16 +38,16 @@ namespace TicketRoom.Views.MainTab
             if (cv == bgv) // 상품권이 선택되었을 경우
             {
                 ShopSelect.TextColor = Color.White;
-                ((Grid)ShopSelect.Parent).BackgroundColor = Color.LightBlue;
-                GiftSelect.TextColor = Color.LightBlue;
+                ((Grid)ShopSelect.Parent).BackgroundColor = Color.CornflowerBlue;
+                GiftSelect.TextColor = Color.CornflowerBlue;
                 ((Grid)GiftSelect.Parent).BackgroundColor = Color.White;
             }
             else // 쇼핑몰이 선택 되었을 경우
             {
-                ShopSelect.TextColor = Color.LightBlue;
+                ShopSelect.TextColor = Color.CornflowerBlue;
                 ((Grid)ShopSelect.Parent).BackgroundColor = Color.White;
                 GiftSelect.TextColor = Color.White;
-                ((Grid)GiftSelect.Parent).BackgroundColor = Color.LightBlue;
+                ((Grid)GiftSelect.Parent).BackgroundColor = Color.CornflowerBlue;
             }
         }
 

@@ -8,7 +8,7 @@
         <StackLayout Orientation="Vertical" WidthRequest="300" BackgroundColor="White">
             <models:CustomLabel Margin="20,20,20,10" Text="최근 입력한 주소" Size="18"/>
             <Grid x:Name="RecentAdressGrid" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="White" Margin="5" RowSpacing="0"/>
-            <models:CustomButton Margin="20" Text="확인" TextColor="White" x:Name="ConfirmBtn" Clicked="ConfirmBtn_Clicked" Size="14" BackgroundColor="LightBlue"/>
+            <models:CustomButton Margin="20" Text="확인" TextColor="White" x:Name="ConfirmBtn" Clicked="ConfirmBtn_Clicked" Size="14" BackgroundColor="CornflowerBlue"/>
         </StackLayout>
     </StackLayout>
 </pages:PopupPage>

@@ -46,6 +46,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
         public void init(ContentView cv)
         {
             PointContentView.Content = cv;
+            TabColorChanged(0);
 
             // 적립 내역 이벤트
             AddImage.GestureRecognizers.Add(new TapGestureRecognizer()
@@ -54,7 +55,11 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 {
                     pal = new PointAddList(this, pp);
                     PointContentView.Content = pal;
-
+                    TabColorChanged(0);
+                    AddImage.Source = "point_addlist_h.png";
+                    UsedImage.Source = "point_uselist_non.png";
+                    ChargeImage.Source = "point_charge_non.png";
+                    WidhdrawImage.Source = "point_withdraw_non.png";
                 })
             });
             // 사용 내역 이벤트
@@ -64,6 +69,11 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 {
                     pul = new PointUsedList(this, pp);
                     PointContentView.Content = pul;
+                    TabColorChanged(1);
+                    AddImage.Source = "point_addlist_non.png";
+                    UsedImage.Source = "point_uselist_h.png";
+                    ChargeImage.Source = "point_charge_non.png";
+                    WidhdrawImage.Source = "point_withdraw_non.png";
 
                 })
             });
@@ -74,6 +84,11 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 {
                     pcv = new PointChargeView(this, pp);
                     PointContentView.Content = pcv;
+                    TabColorChanged(2);
+                    AddImage.Source = "point_addlist_non.png";
+                    UsedImage.Source = "point_uselist_non.png";
+                    ChargeImage.Source = "point_charge_h.png";
+                    WidhdrawImage.Source = "point_withdraw_non.png";
 
                 })
             });
@@ -84,9 +99,29 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 {
                     pwv = new PointWidhdrawView(this, pp);
                     PointContentView.Content = pwv;
+                    TabColorChanged(3);
+                    AddImage.Source = "point_addlist_non.png";
+                    UsedImage.Source = "point_uselist_non.png";
+                    ChargeImage.Source = "point_charge_non.png";
+                    WidhdrawImage.Source = "point_withdraw_h.png";
 
                 })
             });
+        }
+
+        private void TabColorChanged(int n)
+        {
+            for (int i = 0; i < ImageGrid.Children.Count; i++)
+            {
+                if (i == n)
+                {
+                    ImageGrid.Children[i].BackgroundColor = Color.White;
+                }
+                else
+                {
+                    ImageGrid.Children[i].BackgroundColor = Color.CornflowerBlue;
+                }
+            }
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)

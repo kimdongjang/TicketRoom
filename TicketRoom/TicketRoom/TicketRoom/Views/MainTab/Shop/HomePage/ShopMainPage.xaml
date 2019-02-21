@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="TicketRoom.Views.MainTab.Shop.ShopMainPage">
     <ContentPage.Content>
         <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
@@ -15,7 +16,7 @@
             </Grid.RowDefinitions>
 
             <!--#region 1행 커스텀 액션바 -->
-            <Grid Grid.Row="1" BackgroundColor="LightBlue">
+            <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
@@ -67,7 +68,8 @@
                         <!--#region 0행 쇼핑몰 이미지-->
                         <Grid Grid.Row="0">
                             <StackLayout HorizontalOptions="Center">
-                                <Image x:Name="MainShopImage" HeightRequest="300" WidthRequest="300" Aspect="AspectFill"/>
+                                <forms:CachedImage x:Name="MainShopImage" HeightRequest="300" WidthRequest="300" Aspect="AspectFill"
+                                                   LoadingPlaceholder="Global.LoadingImagePath" ErrorPlaceholder="Global.LoadingImagePath"/>
                             </StackLayout>
                         </Grid>
                         <!--#endregion-->
@@ -100,11 +102,11 @@
 
                             <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Text="Instagram"  
                                                  HorizontalOptions="Center" VerticalOptions="Center" x:Name="Insta_btn"
-                                                 TextColor="White" Padding="20,0,20,0" BackgroundColor="LightBlue" Clicked="Insta_btn_Clicked"/>
+                                                 TextColor="White" Padding="20,0,20,0" BackgroundColor="CornflowerBlue" Clicked="Insta_btn_Clicked"/>
 
                             <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1" Text="쇼핑몰 이동하기" 
                                                  HorizontalOptions="Center" VerticalOptions="Center" x:Name="MoveShop_btn"
-                                                 TextColor="White" Padding="20,0,20,0" BackgroundColor="LightBlue" Clicked="MoveShop_btn_Clicked"/>
+                                                 TextColor="White" Padding="20,0,20,0" BackgroundColor="CornflowerBlue" Clicked="MoveShop_btn_Clicked"/>
                         </Grid>
                         <!--#endregion-->
                     </Grid>
@@ -122,19 +124,19 @@
                         <Grid Grid.Column="0" BackgroundColor="White" Margin="0.5">
                             <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Text="판매품"  TextColor="White"
                                                  HeightRequest="50" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"                                                  
-                                                 Clicked="Content_Changed" x:Name="Content_Sale" BackgroundColor="LightBlue"/>
+                                                 Clicked="Content_Changed" x:Name="Content_Sale" BackgroundColor="CornflowerBlue"/>
                         </Grid>
                         <BoxView Grid.Column="1" BackgroundColor="LightGray"/>
                         <Grid  Grid.Column="1" BackgroundColor="White" Margin="0.5" >
                             <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}"  Text="정보" TextColor="White"
                                                  HeightRequest="50" HorizontalOptions="FillAndExpand"                                                
-                                                 VerticalOptions="FillAndExpand" Clicked="Content_Changed" x:Name="Content_Info" BackgroundColor="LightBlue"/>
+                                                 VerticalOptions="FillAndExpand" Clicked="Content_Changed" x:Name="Content_Info" BackgroundColor="CornflowerBlue"/>
                         </Grid>
                         <BoxView Grid.Column="2" BackgroundColor="LightGray"/>
                         <Grid Grid.Column="2" BackgroundColor="White" Margin="0.5">
                             <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}"  Text="리뷰"  TextColor="White"
                                                  HeightRequest="50" HorizontalOptions="FillAndExpand"                                                  
-                                                 VerticalOptions="FillAndExpand" Clicked="Content_Changed" x:Name="Content_Review" BackgroundColor="LightBlue"/>
+                                                 VerticalOptions="FillAndExpand" Clicked="Content_Changed" x:Name="Content_Review" BackgroundColor="CornflowerBlue"/>
                         </Grid>
                     </Grid>
                     <!--#endregion-->
@@ -159,7 +161,7 @@
                 <!--#region 0열 전화문의-->
                 <local1:CustomButton Size="26" FontFamily="{StaticResource FontStyle}"  Grid.Column="0" Text="전화문의"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                                     BackgroundColor="LightBlue" TextColor="White"
+                                     BackgroundColor="CornflowerBlue" TextColor="White"
                      x:Name="CallBtn" Clicked="CallBtn_Clicked"/>
                 <!--#endregion-->
             </Grid>

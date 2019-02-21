@@ -107,20 +107,20 @@ namespace TicketRoom.Views
 
         private void Tab_Changed(object sender, EventArgs e)
         {
-            DealTab.BackgroundColor = Color.LightBlue;
+            DealTab.BackgroundColor = Color.CornflowerBlue;
             DealTab.TextColor = Color.White;
-            ShopTab.BackgroundColor = Color.LightBlue;
+            ShopTab.BackgroundColor = Color.CornflowerBlue;
             ShopTab.TextColor = Color.White;
-            BasketTab.BackgroundColor = Color.LightBlue;
+            BasketTab.BackgroundColor = Color.CornflowerBlue;
             BasketTab.TextColor = Color.White;
-            MyPageTab.BackgroundColor = Color.LightBlue;
+            MyPageTab.BackgroundColor = Color.CornflowerBlue;
             MyPageTab.TextColor = Color.White;
 
 
             Button selectedtab = (Button)sender;
             selectedtab.FontSize = 15;
             selectedtab.BackgroundColor = Color.White;
-            selectedtab.TextColor = Color.LightBlue;
+            selectedtab.TextColor = Color.CornflowerBlue;
             if (selectedtab.Text.Equals("구매/판매"))
             {
                 TabContent.Content = new DealTabPage();
@@ -138,11 +138,8 @@ namespace TicketRoom.Views
             }
             else if (selectedtab.Text.Equals("내정보"))
             {
-                //TabContent.Content = new MyPageTabPage(this);
+                TabContent.Content = new MyPageTabPage(this);
                 //Title = "내 정보";
-                this.IsVisible = false;
-                Navigation.PopToRootAsync();
-                Navigation.RemovePage(this);
             }
         }
 

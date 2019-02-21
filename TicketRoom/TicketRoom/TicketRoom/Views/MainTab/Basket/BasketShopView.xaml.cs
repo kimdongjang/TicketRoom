@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FFImageLoading.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TicketRoom.Models.Custom;
@@ -96,8 +97,10 @@ namespace TicketRoom.Views.MainTab.Basket
                 BasketGridList.Add(inGrid); // 장바구니에 추가되는 리스트를 관리하기 위한 그리드 리스트(x버튼으로 삭제 관리를 위함)
 
                 #region 장바구니 상품 이미지
-                Image product_image = new Image
+                CachedImage product_image = new CachedImage
                 {
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
                     Source = basketList[i].SH_BASKET_IMAGE,
                     BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.CenterAndExpand,

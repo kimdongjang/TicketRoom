@@ -41,7 +41,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 MainGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
 
                 // 박스의 구분선 생성
-                BoxView BorderLine1 = new BoxView { BackgroundColor =  Color.IndianRed, };
+                BoxView BorderLine1 = new BoxView { BackgroundColor =  Color.CornflowerBlue, };
                 StackLayout BorderStack1 = new StackLayout { BackgroundColor = Color.LightGray, Margin = 3, };
                 StackLayout BorderStack2 = new StackLayout { BackgroundColor = Color.White, Margin = 6, };
                 MainGrid.Children.Add(BorderLine1, 0, i);

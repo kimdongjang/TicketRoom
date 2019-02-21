@@ -9,7 +9,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <!-- 스크롤뷰 전체 구분선 -->
-                <BoxView Grid.Row="0" BackgroundColor="LightGray"/>
+                <BoxView Grid.Row="0" BackgroundColor="LightGray" x:Name="MainLine"/>
                 <Grid Grid.Row="0" x:Name="MainGrid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White" Margin="3"/>
             </Grid>
         </ScrollView>

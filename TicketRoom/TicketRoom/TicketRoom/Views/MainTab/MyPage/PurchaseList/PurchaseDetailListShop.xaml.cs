@@ -23,6 +23,15 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
         public PurchaseDetailListShop (string pl_index)
 		{
 			InitializeComponent ();
+
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                TabGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+
             // 구매 목록 인덱스를 통해 배송 관련 리스트 가져오기
             pdList = SH_DB.PostSearchPurchaseDeliveryListToIndex(pl_index);
             // 구매 목록 인덱스를 통해 결제 관련 리스트 가져오기

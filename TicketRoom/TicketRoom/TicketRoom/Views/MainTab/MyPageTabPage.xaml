@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="LightBlue" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
@@ -30,8 +30,7 @@
                 <custom:CustomLabel 
                     Grid.Column="0"
                     Text="내 정보"
-                    Size="18"
-                                        TextColor="White"
+                    Size="18" TextColor="White"
                      XAlign="End" YAlign="Center"/>
             </Grid>
             <!--#endregion-->
@@ -80,7 +79,7 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-                                <custom:CustomLabel Grid.Column="0" Size="16" BackgroundColor="LightBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
+                                <custom:CustomLabel Grid.Column="0" Size="16" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
                                                  HeightRequest="25" WidthRequest="50" Text="ID" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                                 <custom:CustomLabel Grid.Column="1" x:Name="UserIDLabel" Size="16" VerticalOptions="Center" TextColor="Black"/>
                         </Grid>
@@ -91,7 +90,7 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-                                <custom:CustomLabel Grid.Column="0" Size="16" BackgroundColor="LightBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
+                                <custom:CustomLabel Grid.Column="0" Size="16" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
                                                  HeightRequest="25" WidthRequest="50" Text="연락처" IsEnabled="False" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                                 <custom:CustomLabel Grid.Column="1" x:Name="UserPhoneLabel" Size="16"  VerticalOptions="Center" TextColor="Black"/>
                         </Grid>
@@ -102,12 +101,12 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-                                <custom:CustomLabel Grid.Column="0" Size="16" BackgroundColor="LightBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
+                                <custom:CustomLabel Grid.Column="0" Size="16" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
                                                  HeightRequest="25" WidthRequest="50" Text="포인트" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                                 <custom:CustomLabel Grid.Column="1" x:Name="UserPointLabel" Size="16" VerticalOptions="Center" TextColor="Black"/>
                         </Grid>
                         <!--#endregion-->
-                        <custom:CustomButton Grid.Row="3" x:Name="IsLoginBtn" Clicked="IsLoginBtn_ClickedAsync" Size="16" BackgroundColor="LightBlue" TextColor="White"
+                        <custom:CustomButton Grid.Row="3" x:Name="IsLoginBtn" Clicked="IsLoginBtn_ClickedAsync" Size="16" BackgroundColor="CornflowerBlue" TextColor="White"
                                              HorizontalOptions="Center" VerticalOptions="Center"  HeightRequest="30" WidthRequest="250" Margin="15,0,15,0"/>
                     </Grid>
                 </Grid>
@@ -118,13 +117,13 @@
 
 
                 <!--#region  2행 내정보 수정버튼 -->
-                <BoxView Grid.Row="2" BackgroundColor="LightBlue"/>
+                <BoxView Grid.Row="2" BackgroundColor="CornflowerBlue"/>
                 <Grid Grid.Row="2" BackgroundColor="White" Margin="2" x:Name="MyInfoGrid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="내정보 수정" TextColor="LightBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
+                    <custom:CustomLabel  Grid.Column="0" Text="내정보 수정" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
                     <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="60"/>
                 </Grid>
 
@@ -134,13 +133,13 @@
                 <!--#endregion-->
 
                 <!--#region  4행 판매내역 확인 버튼 -->
-                <BoxView Grid.Row="4" BackgroundColor="LightBlue"/>
+                <BoxView Grid.Row="4" BackgroundColor="CornflowerBlue"/>
                 <Grid Grid.Row="4" BackgroundColor="White" Margin="2" x:Name="SaleListGrid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="판매내역 확인" TextColor="LightBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
+                    <custom:CustomLabel  Grid.Column="0" Text="판매내역 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
                     <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="60"/>
                 </Grid>
                 <!--#endregion-->
@@ -150,13 +149,13 @@
 
                 <!--#region  5행 구매내역 확인 버튼 -->
 
-                <BoxView Grid.Row="6" BackgroundColor="LightBlue"/>
+                <BoxView Grid.Row="6" BackgroundColor="CornflowerBlue"/>
                 <Grid Grid.Row="6" BackgroundColor="White" Margin="2" x:Name="PurchaseListGrid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="구매내역 확인" TextColor="LightBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
+                    <custom:CustomLabel  Grid.Column="0" Text="구매내역 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
                     <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="60"/>
                 </Grid>
                 <!--#endregion-->
@@ -165,13 +164,13 @@
                 <!--#endregion-->
 
                 <!--#region  8행 포인트 확인 -->
-                <BoxView Grid.Row="8" BackgroundColor="LightBlue"/>
+                <BoxView Grid.Row="8" BackgroundColor="CornflowerBlue"/>
                 <Grid Grid.Row="8" BackgroundColor="White" Margin="2" x:Name="PointGrid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="포인트 확인" TextColor="LightBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
+                    <custom:CustomLabel  Grid.Column="0" Text="포인트 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
                     <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="60"/>
                 </Grid>
                 <!--#endregion-->
