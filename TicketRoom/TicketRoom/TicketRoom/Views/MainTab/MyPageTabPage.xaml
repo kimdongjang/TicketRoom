@@ -124,7 +124,7 @@
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
                     <custom:CustomLabel  Grid.Column="0" Text="내정보 수정" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
-                    <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="60"/>
+                    <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30"/>
                 </Grid>
 
                 <!--#endregion-->
@@ -140,7 +140,7 @@
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
                     <custom:CustomLabel  Grid.Column="0" Text="판매내역 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
-                    <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="60"/>
+                    <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30"/>
                 </Grid>
                 <!--#endregion-->
 
@@ -156,7 +156,7 @@
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
                     <custom:CustomLabel  Grid.Column="0" Text="구매내역 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
-                    <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="60"/>
+                    <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30"/>
                 </Grid>
                 <!--#endregion-->
 
@@ -171,7 +171,7 @@
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
                     <custom:CustomLabel  Grid.Column="0" Text="포인트 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
-                    <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="60"/>
+                    <Image  Grid.Column="1" Source="move_vector.jpg" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30"/>
                 </Grid>
                 <!--#endregion-->
 
