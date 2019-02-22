@@ -48,6 +48,7 @@ namespace TicketRoom.Views.MainTab.Shop
         bool b_deliveryEntry = false;
 
         string ShopOrderPage_ID = "";
+
         InputAdress adrAPI; // 배송지 확인용
         public ADRESS myAdress = new ADRESS(); // 입력한 배송지 정보 저장
 
@@ -73,7 +74,7 @@ namespace TicketRoom.Views.MainTab.Shop
         #region 생성자
         public ShopOrderPage(List<SH_BasketList> basketList)
         {
-            Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+            //Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
             InitializeComponent();
 
             #region IOS의 경우 초기화
@@ -83,7 +84,6 @@ namespace TicketRoom.Views.MainTab.Shop
                 MainGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
-            BackButtonImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/backbutton_icon.png"));
 
             this.basketList = basketList;
 
@@ -266,6 +266,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     PhoneRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
                     payOption = "Card";
                     PhoneOptionGrid.Children.Clear();
+                    PhoneOptionGrid.RowDefinitions.Clear();
                     CardOptionEnable();
                 })
             });
@@ -278,6 +279,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     PhoneRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_unchecked_icon.png"));
                     payOption = "Personal";
                     PhoneOptionGrid.Children.Clear();
+                    PhoneOptionGrid.RowDefinitions.Clear();
                     CashOptionEnable();
                 })
             });
@@ -290,6 +292,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     PhoneRadio.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/radio_checked_icon.png"));
                     payOption = "Phone";
                     PhoneOptionGrid.Children.Clear();
+                    PhoneOptionGrid.RowDefinitions.Clear();
                     PhoneOptionEnable();
                 })
             });
@@ -337,7 +340,6 @@ namespace TicketRoom.Views.MainTab.Shop
         }
         private void CashOptionEnable()
         {
-            PhoneOptionGrid.Children.Clear();
             PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             CustomLabel label = new CustomLabel
@@ -492,11 +494,14 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 Size = 18,
             };
+
             PhoneOptionGrid.Children.Add(phoneLabel, 0, 4);
             phoneEntry = new Xamarin.Forms.Entry
             {
                 FontSize = 18,
             };
+            phoneEntry.TextChanged += InputPhoneNumber_TextChanged;
+
             PhoneOptionGrid.Children.Add(phoneEntry, 0, 5);
             CustomLabel nameLabel = new CustomLabel
             {
@@ -524,6 +529,12 @@ namespace TicketRoom.Views.MainTab.Shop
             }
             #endregion
         }
+
+        private void PhoneEntry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void PhoneOptionEnable()
         {
             PhoneOptionGrid.Children.Clear();
@@ -777,7 +788,7 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void ChangeAdressBtn_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(adrAPI = new InputAdress(this));
+            Navigation.PushModalAsync(adrAPI = new InputAdress(this));
         }
 
 
@@ -791,6 +802,11 @@ namespace TicketRoom.Views.MainTab.Shop
             BasketTabPage.isOpenPage = false;
             return base.OnBackButtonPressed();
 
+        }
+        // 포인트를 입력했을시 포인트 변경 이벤트
+        private void InputPhoneNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            InputPointEntry.Text = Regex.Replace(InputPointEntry.Text, @"\D", "");
         }
 
         // 포인트를 입력했을시 포인트 변경 이벤트

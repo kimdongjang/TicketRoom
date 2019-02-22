@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using FFImageLoading.Svg.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -47,7 +49,6 @@ namespace TicketRoom.Views.MainTab.Shop
                 MainGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
-            BackButtonImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/backbutton_icon.png"));
 
             myShopName = titleName;
             this.productIndex = productIndex;
@@ -99,7 +100,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     var answer = await DisplayAlert("사이즈 : " + optionList[selectedIndex].SH_PRO_OPTION_SIZE + 
                         " , 색상 : " + optionList[selectedIndex].SH_PRO_OPTION_COLOR +
                         " , 수량 : " + ClothesCountLabel.Text +
-                        " , 가격 : " + ClothesPriceLabel.Text + "원",
+                        " , 가격 : " + ClothesPriceLabel.Text + "",
                         "주문 정보가 맞습니까?", "확인", "취소");
                     if (answer)
                     {
@@ -120,11 +121,9 @@ namespace TicketRoom.Views.MainTab.Shop
                             if (basket_answer)
                             {
                                 Navigation.PopToRootAsync();
+                                Global.InitOnAppearingBool("basket");
+                                Global.InitBasketOnAppearingBool("shop");
                                 MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
-                                BasketTabPage btp = new BasketTabPage();
-                                mp.TabContent.Content = btp; // 메인 페이지의 컨텐츠를 장바구니 페이지로 변경,
-                                btp.init(new BasketShopView(btp)); // 장바구니 페이지의 컨텐츠를 쇼핑몰로 변경
-                                //Navigation.PushModalAsync();
                             }
                         }
                         else
@@ -152,10 +151,9 @@ namespace TicketRoom.Views.MainTab.Shop
             CountEvent();
             ColorSizeInit();
 
-            if (imageList.Count != 0)
-            {
-                MainImage.Source = ImageSource.FromUri(new Uri(product.SH_PRODUCT_MAINIMAGE)); // 이미지 리스트의 첫번째 사진 노출
-            }
+            MainImage.LoadingPlaceholder = Global.LoadingImagePath;
+            MainImage.ErrorPlaceholder = Global.LoadingImagePath;
+            MainImage.Source = ImageSource.FromUri(new Uri(product.SH_PRODUCT_MAINIMAGE)); // 이미지 리스트의 첫번째 사진 노출
 
             ImageListInit();
 
@@ -189,8 +187,10 @@ namespace TicketRoom.Views.MainTab.Shop
                     },
                     Margin = new Thickness(10, 0, 10, 0),
                 };
-                Image image = new Image
+                CachedImage image = new CachedImage
                 {
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
                     Aspect = Aspect.AspectFill,
@@ -273,7 +273,12 @@ namespace TicketRoom.Views.MainTab.Shop
                 for (int i = 0; i < 3; i++)
                 {
                     column = i;
-                    Image image = new Image { Aspect = Aspect.AspectFill };
+                    CachedImage image = new CachedImage
+                    {
+                        LoadingPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.LoadingImagePath,
+                        Aspect = Aspect.AspectFill,
+                    };
                     if (imageList.Count <= i)
                     {
                         image.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/no_image.png"));

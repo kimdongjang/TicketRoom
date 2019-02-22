@@ -149,7 +149,7 @@ namespace TicketRoom.Views.Users.CreateUser
         private void InputAdress_Clicked(object sender, EventArgs e)
         {
             EntryAdress.Unfocus();
-            Navigation.PushAsync(adrAPI = new InputAdress(this));
+            Navigation.PushModalAsync(adrAPI = new InputAdress(this));
         }
     }
 }

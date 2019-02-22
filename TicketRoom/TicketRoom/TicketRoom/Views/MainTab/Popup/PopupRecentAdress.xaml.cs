@@ -209,11 +209,6 @@ namespace TicketRoom.Views.MainTab.Popup
                 {
                     returnInputAdress.pdp.EntryAdress.Text = Global.adress.ROADADDR;
                 }
-                // 쇼핑몰 탭 페이지 주소 확인시
-                else if (returnInputAdress.stp != null)
-                {
-                    returnInputAdress.stp.EntryAdress.Text = Global.adress.ROADADDR;
-                }
                 // 쇼핑몰 주문 페이지 주소 변경시
                 else if (returnInputAdress.sop != null)
                 {

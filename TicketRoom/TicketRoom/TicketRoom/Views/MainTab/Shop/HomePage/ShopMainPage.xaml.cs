@@ -25,17 +25,24 @@ namespace TicketRoom.Views.MainTab.Shop
         ShopInfoView siv;
         ShopReviewView srv;
 
-        List<Button> tablist = new List<Button>();
+        List<CustomButton> tablist = new List<CustomButton>();
         Queue<CustomButton> SelectTap_Queue = new Queue<CustomButton>();
         CustomButton selectedtab;
+
+        int home_index = 0;
 
         public ShopMainPage(int home_index)
         {
             InitializeComponent();
             Global.isOpen_ShopOtherPage = false; // 다른 고객이 본 상품을 클릭했을 경우 false처리를 더해야 연속해서 창을 볼 수 있다.
             Global.isOpen_ShopDetailPage = false;
+            this.home_index = home_index;
+        }
+        protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
+        {
             home = SH_DB.PostSearchHomeToHome(home_index);
             Init();
+            base.OnAppearing();
         }
 
         // DB에서 가져온 홈 페이지 정보로 초기화 진행
@@ -48,7 +55,6 @@ namespace TicketRoom.Views.MainTab.Shop
                 MainGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
-            BackButtonImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/backbutton_icon.png"));
 
             // 타이틀 탭 초기화
             TitleName.Text = home.SH_HOME_NAME;
@@ -67,6 +73,8 @@ namespace TicketRoom.Views.MainTab.Shop
 
 
             Content_Changed(tablist[0], null); // Default로 보여질 콘텐츠 뷰
+
+
         }
 
 
@@ -145,19 +153,15 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             if (ShopContentView.Content != ssv) // 컨텐츠뷰가 메인으로 활성화 되어있지 않으면 메인으로 활성화 시킴
             {
-                // 선택 탭 컬러 변경
-                if (SelectTap_Queue.Count < 2)
-                {
-                    if (SelectTap_Queue.Count != 0)
-                    {
-                        CustomButton temp = SelectTap_Queue.Dequeue();
-                        temp.TextColor = Color.Black;
-                        temp.BackgroundColor = Color.White;
-                    }
-                    Content_Sale.TextColor = Color.White;
-                    Content_Sale.BackgroundColor = Color.Black;
-                    SelectTap_Queue.Enqueue(Content_Sale);
-                }
+                Content_Sale.BackgroundColor = Color.White;
+                Content_Sale.TextColor = Color.CornflowerBlue;
+                Content_Info.BackgroundColor = Color.CornflowerBlue;
+                Content_Info.TextColor = Color.White;
+                Content_Review.BackgroundColor = Color.CornflowerBlue;
+                Content_Review.TextColor = Color.White;
+                SelectTap_Queue.Clear();
+                SelectTap_Queue.Enqueue(tablist[0]); // Default로 보여질 콘텐츠 뷰)
+
                 ShopContentView.Content = ssv = new ShopSaleView(TitleName.Text, home);
                 return true;
             }

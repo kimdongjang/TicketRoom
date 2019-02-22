@@ -49,11 +49,6 @@ namespace TicketRoom.Views.MainTab
             mclist = SH_DB.GetCategoryListAsync();
 
             // 쇼핑 탭 주소 엔트리 초기화
-            EntryAdress.Text = Global.adress.ROADADDR;
-            if(Global.adress.ROADADDR == null)
-            {
-                EntryAdress.Text = "지번 또는 도로명 주소를 입력해주십시오.";
-            }
 
             #region 검색 결과 찾을 수 없을 경우
             if (mclist != null)
@@ -248,13 +243,6 @@ namespace TicketRoom.Views.MainTab
 
         private void Slider_Focused(object sender, FocusEventArgs e)
         {
-        }
-
-        private void EntryAdress_Focused(object sender, FocusEventArgs e)
-        {
-            EntryAdress.Unfocus();
-            Navigation.PushAsync(new InputAdress(this));
-
         }
     }
 }

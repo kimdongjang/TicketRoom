@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="TicketRoom.Views.MainTab.Shop.ShopDetailPage">
     <ContentPage.Content>
 
@@ -21,7 +22,7 @@
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
                 <!--#region 0열 백버튼 등 이미지-->
-                <Image Grid.Column="0" Margin="10,0,0,0" x:Name="BackButtonImage" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                <Image Grid.Column="0" Margin="10,0,0,0"  Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="BackButton_Clicked"/>
                     </Image.GestureRecognizers>
@@ -55,7 +56,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <!--#region 0행 옷 이미지-->
-                    <Image Grid.Row="0" Source="" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" HeightRequest="300" WidthRequest="300" x:Name="MainImage"/>
+                    <forms:CachedImage Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill" HeightRequest="300" WidthRequest="300" x:Name="MainImage"/>
                     <!--#endregion-->
                     <!--#region 1행 옵션-->
                     <Grid Grid.Row="1">
