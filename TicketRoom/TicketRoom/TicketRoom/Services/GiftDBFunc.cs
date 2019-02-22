@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using TicketRoom.Models.Gift;
 using TicketRoom.Models.Gift.PurchaseList;
 using TicketRoom.Models.Gift.SaleList;
 
@@ -132,6 +133,51 @@ namespace TicketRoom.Services
                 System.Diagnostics.Debug.WriteLine(ex);
             }
             return salelist;
+        }
+
+        internal List<G_DealInfo> SelectDealList()
+        {
+            List<G_DealInfo> purchaselist = new List<G_DealInfo>();
+            string str = @"{}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectDealList") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        if (readdata != null && readdata != "")
+                        {
+                            purchaselist = JsonConvert.DeserializeObject<List<G_DealInfo>>(readdata);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            return purchaselist;
         }
 
         public List<G_PLInfo> SearchPurchaseListToID(string userid, int year, int mon, int day)

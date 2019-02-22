@@ -2,10 +2,12 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
 using TicketRoom.Models.Gift;
+using TicketRoom.Services;
 using TicketRoom.Views.MainTab.Dael;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,10 +17,8 @@ namespace TicketRoom.Views.MainTab
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DealTabPage : ContentView
     {
-        List<string> deallist = new List<string> { "박*우 백화점상품권 30만원 구매 [10:35]", "박*우 백화점상품권 30만원 구매 [10:35]",
-                                                   "이*현 백화점상품권 30만원 구매 [10:35]", "이*현 백화점상품권 30만원 구매 [10:35]",
-                                                   "백*우 백화점상품권 30만원 구매 [10:35]", "백*우 백화점상품권 30만원 구매 [10:35]",
-                                                   "최*영 백화점상품권 30만원 구매 [10:35]", "테스트 백화점상품권 30만원 구매 [10:35]"};
+        GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
+        List<G_DealInfo> g_DealInfolist = new List<G_DealInfo>();
         public DealTabPage()
         {
             InitializeComponent();
@@ -29,8 +29,7 @@ namespace TicketRoom.Views.MainTab
                 TabGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
-
-
+            
             Showdeal();
             ShowPoint();
             SelectAllCategory();
@@ -88,12 +87,47 @@ namespace TicketRoom.Views.MainTab
 
         private void Showdeal()
         {
-            for (int i = 0; i < 7; i++)
+            g_DealInfolist = giftDBFunc.SelectDealList();
+            for (int i = 0; i < g_DealInfolist.Count; i++)
             {
-                deallist_Grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                //deallist_Grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                string name = "";
+                string title = g_DealInfolist[i].TITLE;
+                if(g_DealInfolist[i].NAME!=null&& g_DealInfolist[i].NAME != "")
+                {
+                    if (g_DealInfolist[i].NAME.Length == 2)
+                    {
+                        name = g_DealInfolist[i].NAME.Remove(1) + "*";
+                    }
+                    else if (g_DealInfolist[i].NAME.Length == 3)
+                    {
+                        name = g_DealInfolist[i].NAME.Remove(1) + "*" + g_DealInfolist[i].NAME.Remove(0, 2);
+                    }
+                    else if (g_DealInfolist[i].NAME.Length == 4)
+                    {
+                        name = g_DealInfolist[i].NAME.Remove(1) + "**" + g_DealInfolist[i].NAME.Remove(0, 3);
+                    }
+                }
+
+                if (g_DealInfolist[i].ISCHECK.Equals("1"))
+                {
+                    title += " 구매";
+                }
+                else
+                {
+                    title += " 판매";
+                }
+
+                DateTime date = DateTime.ParseExact(g_DealInfolist[i].TOTALDATE, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+
+                string time = date.TimeOfDay.ToString();
+                string s4 = date.Day.ToString();
+                string hour = date.Hour.ToString();
+                string minute = date.Minute.ToString();
+
                 Label label = new Label
                 {
-                    Text = deallist[i],
+                    Text = name + " " + title + "["+ hour+":"+minute+"]",
                     FontSize = 10,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.FillAndExpand,
@@ -102,6 +136,9 @@ namespace TicketRoom.Views.MainTab
                 deallist_Grid.Children.Add(label, 0, i + 1);         //실시간거래 그리드에 라벨추가
             }
         }
+
+
+        
 
         private void SelectAllCategory()
         {
