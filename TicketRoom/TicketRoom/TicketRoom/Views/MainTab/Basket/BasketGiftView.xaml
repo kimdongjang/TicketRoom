@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.Basket.BasketGiftView">
     <ContentView.Content>
         <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
@@ -14,52 +15,15 @@
             </ScrollView>
             <Grid Grid.Row="1" x:Name="Bottom_Grid" BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="50"/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
 
-                <!--#region 1행 1열 할인전 가격 Label-->
-                <Label Grid.Row="0" HorizontalOptions="CenterAndExpand" FontSize="20" VerticalOptions="CenterAndExpand">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="합계 :  " FontSize="20" TextColor="Black">
-                                <Span.FontFamily>
-                                    <OnPlatform x:TypeArguments="x:String">
-                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                    </OnPlatform>
-                                </Span.FontFamily>
-                            </Span>
-                            <Span x:Name="ResultPrice_label" Text="0" TextColor="Black" FontSize="20">
-                                <Span.FontFamily>
-                                    <OnPlatform x:TypeArguments="x:String">
-                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                    </OnPlatform>
-                                </Span.FontFamily>
-                            </Span>
-                            <Span Text=" 원" TextColor="Black" FontSize="20">
-                                <Span.FontFamily>
-                                    <OnPlatform x:TypeArguments="x:String">
-                                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                    </OnPlatform>
-                                </Span.FontFamily>
-                            </Span>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <!--#endregion-->
-
-                <Button Grid.Row="2" Text="주문하기" Clicked="OrderBtn_Clicked" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                    <Button.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                        </OnPlatform>
-                    </Button.FontFamily>
-                </Button>
+                <BoxView Grid.Row="0" BackgroundColor="LightGray"/>
+                <custom:CustomLabel Grid.Row="1" HorizontalOptions="CenterAndExpand" Size="20" VerticalOptions="CenterAndExpand" TextColor="Black" x:Name="ResultPrice_label"/>
+                <custom:CustomButton Grid.Row="2" Text="주문하기" Clicked="OrderBtn_Clicked" Size="26" FontFamily="{StaticResource FontStyle}" 
+                                                         BackgroundColor="CornflowerBlue" TextColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
             </Grid>
         </Grid>
     </ContentView.Content>

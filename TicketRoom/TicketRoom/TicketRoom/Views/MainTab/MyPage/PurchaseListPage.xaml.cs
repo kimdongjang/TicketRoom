@@ -53,7 +53,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                 }
                 else
                 {
-                    plg.PostSearchPurchaseListToID(Global.ID, -99, 0, 0);
+                    plg.PostSearchPurchaseListToID(Global.non_user_id, -99, 0, 0);
                     plg.Init();
                 }
             }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Views.MainTab.Dael.Purchase;
@@ -87,10 +89,10 @@ namespace TicketRoom.Views.MainTab.Basket
             {
                 Basketlist_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
-                Label nullproduct = new Label
+                CustomLabel nullproduct = new CustomLabel
                 {
                     Text = "장바구니에 상품이 없습니다",
-                    FontSize = 25,
+                    Size = 25,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
                     YAlign = TextAlignment.Center,
@@ -126,8 +128,10 @@ namespace TicketRoom.Views.MainTab.Basket
                 productgridlist.Add(product_grid);
 
                 #region 장바구니 상품 이미지
-                Image product_image = new Image
+                CachedImage product_image = new CachedImage
                 {
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
                     Source = BasketList[i].BK_PRODUCT_IMAGE,
                     BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -154,13 +158,13 @@ namespace TicketRoom.Views.MainTab.Basket
                 };
 
                 #region 상품 제목 Label
-                Label pro_label = null;
+                CustomLabel pro_label = null;
                 if (BasketList[i].BK_TYPE.Equals("1"))
                 {
-                    pro_label = new Label
+                    pro_label = new CustomLabel
                     {
                         Text = BasketList[i].BK_PRODUCT_TYPE + " (지류)",
-                        FontSize = 16,
+                        Size = 16,
                         TextColor = Color.Black,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         XAlign = TextAlignment.Start,
@@ -170,10 +174,10 @@ namespace TicketRoom.Views.MainTab.Basket
                 }
                 else
                 {
-                    pro_label = new Label
+                    pro_label = new CustomLabel
                     {
                         Text = BasketList[i].BK_PRODUCT_TYPE + " (핀번호)",
-                        FontSize = 16,
+                        Size = 16,
                         TextColor = Color.Black,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         XAlign = TextAlignment.Start,
@@ -184,10 +188,10 @@ namespace TicketRoom.Views.MainTab.Basket
                 #endregion
 
                 #region 상품 종류 Label
-                Label type_label = new Label
+                CustomLabel type_label = new CustomLabel
                 {
                     Text = BasketList[i].BK_PRODUCT_VALUE,
-                    FontSize = 14,
+                    Size = 14,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     XAlign = TextAlignment.Start,
@@ -197,10 +201,10 @@ namespace TicketRoom.Views.MainTab.Basket
                 #endregion
 
                 #region 가격 내용 Label
-                Label price_label = new Label
+                CustomLabel price_label = new CustomLabel
                 {
                     Text = BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE + "원",
-                    FontSize = 14,
+                    Size = 14,
                     TextColor = Color.Gray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     XAlign = TextAlignment.Start,
@@ -242,12 +246,12 @@ namespace TicketRoom.Views.MainTab.Basket
                 #endregion
 
                 #region 상품 수량 label
-                Label Count_label = new Label
+                CustomLabel Count_label = new CustomLabel
                 {
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.FillAndExpand,
                     Text = BasketList[i].BK_PROCOUNT,
-                    FontSize = 14,
+                    Size = 14,
                     TextColor = Color.Black,
                     XAlign = TextAlignment.Center,
                     YAlign = TextAlignment.Center
@@ -397,7 +401,8 @@ namespace TicketRoom.Views.MainTab.Basket
 
                 result_price += int.Parse(BasketList[i].BK_PROCOUNT) * int.Parse(BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE);
             }
-            ResultPrice_label.Text = result_price.ToString("N0");
+
+            ResultPrice_label.Text = "합계 : " + result_price.ToString("N0") + "원";
         }
 
         private void plusBtn_Clicked(object s, EventArgs e)
@@ -414,7 +419,7 @@ namespace TicketRoom.Views.MainTab.Basket
             Grid g3 = (Grid)b2[1];
             List<Xamarin.Forms.View> b3 = g3.Children.ToList();
             Label price = (Label)b3[2];
-            ResultPrice_label.Text = (int.Parse(ResultPrice_label.Text.Replace(",", "")) + int.Parse(price.Text.Replace("원", ""))).ToString("N0");
+            ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace(",", "")) + int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
         }
 
         private void minusBtn_Clicked(object s, EventArgs e)
@@ -434,7 +439,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 Grid g3 = (Grid)b2[1];
                 List<Xamarin.Forms.View> b3 = g3.Children.ToList();
                 Label price = (Label)b3[2];
-                ResultPrice_label.Text = (int.Parse(ResultPrice_label.Text.Replace(",", "")) - int.Parse(price.Text.Replace("원", ""))).ToString("N0");
+                ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace(",", "")) - int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
             }
         }
 

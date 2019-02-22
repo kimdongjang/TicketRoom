@@ -155,7 +155,7 @@ namespace TicketRoom.Views
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                var result = await this.DisplayAlert("Alert", "Do yo really wnt to exit?", "Yes", "Now");
+                var result = await this.DisplayAlert("알림", "정말로 앱을 종료하시겠습니까?", "확인", "취소");
                 if (result)
                 {
                     var closer = DependencyService.Get<ICloseApplication>();

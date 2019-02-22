@@ -19,6 +19,14 @@ namespace TicketRoom.Views.Users.CreateUser
         {
             InitializeComponent();
 
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+
             #region 라벨 클릭 이벤트
             // Your label tap event
             var label_tap = new TapGestureRecognizer();

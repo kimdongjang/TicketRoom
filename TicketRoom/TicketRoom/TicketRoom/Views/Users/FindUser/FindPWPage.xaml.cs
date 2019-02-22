@@ -22,6 +22,14 @@ namespace TicketRoom.Views.Users.FindUser
         public FindPWPage()
         {
             InitializeComponent();
+
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)

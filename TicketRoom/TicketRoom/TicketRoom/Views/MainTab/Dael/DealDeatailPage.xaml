@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.Dael.DealDeatailPage">
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
@@ -15,7 +16,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
             <!--#region 0열 백버튼 등 이미지-->
@@ -27,26 +28,10 @@
             <!--#endregion-->
 
             <!--#region 1열 액션바 타이틀-->
-            <Grid Grid.Column="1" HorizontalOptions="CenterAndExpand" RowSpacing="0" ColumnSpacing="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Label 
-                    Grid.Column="0"
+            <local1:CustomLabel Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
                     Text="구매/판매"
-                    FontSize="18"
                     TextColor="Black"
-                     XAlign="End" YAlign="Center"
-                    >
-                    <Label.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                        </OnPlatform>
-                    </Label.FontFamily>
-                </Label>
-            </Grid>
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 
             <!--#region 2열 옵션등 이미지-->
@@ -71,19 +56,12 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <!--#region 0열 구매-->
-                <Button Grid.Column="0" Text="상품권 구매"
+                <local1:CustomButton Grid.Column="0" Text="상품권 구매" Size="22" FontFamily="{StaticResource FontStyle}"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                     BackgroundColor="White"
                     Clicked="Tab_Changed"
                     x:Name="PurchaseTab"
-                    >
-                    <Button.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                        </OnPlatform>
-                    </Button.FontFamily>
-                </Button>
+                    />
                 <!--#endregion-->
 
                 <!--#region 1열 Grid라인-->
@@ -91,19 +69,12 @@
                 <!--#endregion-->
 
                 <!--#region 2열 판매-->
-                <Button Grid.Column="2" Text="상품권 판매"
+                <local1:CustomButton Grid.Column="2" Text="상품권 판매" Size="22" FontFamily="{StaticResource FontStyle}"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                     BackgroundColor="White"
                     Clicked="Tab_Changed"
                     x:Name="SaleTab"
-                    >
-                    <Button.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                        </OnPlatform>
-                    </Button.FontFamily>
-                </Button>
+                    />
                 <!--#endregion-->
             </Grid>
             <!--#endregion-->
