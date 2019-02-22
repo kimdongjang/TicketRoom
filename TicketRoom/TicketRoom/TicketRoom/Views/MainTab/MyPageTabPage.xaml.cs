@@ -30,6 +30,7 @@ namespace TicketRoom.Views.MainTab
         }
 
 
+
         private void Init()
         {
             if (Global.b_user_login == true)

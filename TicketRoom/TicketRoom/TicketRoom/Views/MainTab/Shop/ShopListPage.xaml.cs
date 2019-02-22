@@ -33,6 +33,17 @@ namespace TicketRoom.Views.MainTab.Shop
         public ShopListPage(int main_index)
         {
             InitializeComponent();
+            this.main_index = main_index;
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            {
+                MainGrid.RowDefinitions[0].Height = 50;
+            }
+            #endregion
+        }
+        protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
+        {
             // 최상위 탭 카테고리 이름 초기화
             for (int i = 0; i < ShopTabPage.mclist.Count; i++)
             {
@@ -45,17 +56,9 @@ namespace TicketRoom.Views.MainTab.Shop
 
             sclist = SH_DB.PostSubCategoryListAsync(main_index);
 
-            #region IOS의 경우 초기화
-            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
-            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
-            {
-                MainGrid.RowDefinitions[0].Height = 50;
-            }
-            #endregion
-            BackButtonImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/backbutton_icon.png"));
-
             TitleTapInit();
             UpdateList();
+            base.OnAppearing();
         }
 
         // 타이틀 탭 이름 초기화 및 이벤트 등록 초기화 함수

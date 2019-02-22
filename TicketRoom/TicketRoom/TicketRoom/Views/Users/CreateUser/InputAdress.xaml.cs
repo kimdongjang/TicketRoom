@@ -124,16 +124,12 @@ namespace TicketRoom.Views.Users.CreateUser
             {
                 pdp.EntryAdress.Text = Global.adress.ROADADDR;
             }
-            // 쇼핑몰 탭 페이지 주소 확인시
-            else if (stp != null)
-            {
-                stp.EntryAdress.Text = Global.adress.ROADADDR;
-            }
             // 쇼핑몰 주문 페이지 주소 변경시
             else if (sop != null)
             {
                 sop.AdressLabel.Text = Global.adress.ROADADDR;
             }
+            Navigation.PopModalAsync();
         }
         #endregion
 
@@ -180,7 +176,7 @@ namespace TicketRoom.Views.Users.CreateUser
         {
             // loading start
             Loading loadingScreen = new Loading(true);
-            await Navigation.PushAsync(loadingScreen);
+            await Navigation.PushModalAsync(loadingScreen);
 
 
 

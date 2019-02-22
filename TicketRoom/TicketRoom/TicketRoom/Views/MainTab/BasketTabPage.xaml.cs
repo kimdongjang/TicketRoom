@@ -31,7 +31,15 @@ namespace TicketRoom.Views.MainTab
             }
             #endregion
 
-            init(bgv);
+            if(Global.isBasketDeal == true)
+            {
+                init(bgv);
+            }
+            else if(Global.isBasketShop == true)
+            {
+                init(bsv);
+            }
+            
         }
         private void TapColorChange(ContentView cv)
         {

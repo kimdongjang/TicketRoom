@@ -20,9 +20,12 @@ namespace TicketRoom.Views.MainTab.Shop
         public ShopReviewView(string titleName, SH_Home home)
         {
             InitializeComponent();
-            this.home = home;
-            reviewList = SH_DB.PostSearchReviewToHome(home.SH_HOME_INDEX);
-            Init();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                this.home = home;
+                reviewList = SH_DB.PostSearchReviewToHome(home.SH_HOME_INDEX);
+                Init();
+            });
         }
         public void Init()
         {

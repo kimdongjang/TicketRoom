@@ -93,7 +93,7 @@ namespace TicketRoom.Views.MainTab.Shop
                         LoadingPlaceholder = Global.LoadingImagePath,
                         ErrorPlaceholder = Global.LoadingImagePath,
                         Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
-                        Aspect = Aspect.Fill,
+                        Aspect = Aspect.AspectFit,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Center,
                         Margin = 5
@@ -159,7 +159,6 @@ namespace TicketRoom.Views.MainTab.Shop
                             {
                                 return;
                             }
-                            Global.isOpen_ShopDetailPage = true;
 
                             string tempString = bestHome.Text.Replace("상품 이름 : ", "");
                             for(int j = 0; j < productList.Count; j++)
@@ -167,6 +166,7 @@ namespace TicketRoom.Views.MainTab.Shop
                                 if(tempString == productList[j].SH_PRODUCT_NAME)
                                 {
                                     Navigation.PushAsync(new ShopDetailPage(productList[j].SH_PRODUCT_NAME, productList[j].SH_PRODUCT_INDEX, home));
+                                    Global.isOpen_ShopDetailPage = true;
                                 }
                             }
                         })
@@ -213,7 +213,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.LoadingImagePath,
                     Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
-                    Aspect = Aspect.Fill,
+                    Aspect = Aspect.AspectFit,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
                     Margin = 5
@@ -237,7 +237,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 // 상품 이름
                 CustomLabel naturalHome = new CustomLabel
                 {
-                    Text = "상품이름 " + productList[i].SH_PRODUCT_NAME,
+                    Text = "상품 이름 : " + productList[i].SH_PRODUCT_NAME,
                     Size = 14,
                     TextColor = Color.Black,
                     MaxLines = 1,
@@ -278,7 +278,6 @@ namespace TicketRoom.Views.MainTab.Shop
                         {
                             return;
                         }
-                        Global.isOpen_ShopDetailPage = true;
 
                         string tempString = naturalHome.Text.Replace("상품 이름 : ", "");
                         for (int j = 0; j < productList.Count; j++)
@@ -286,6 +285,7 @@ namespace TicketRoom.Views.MainTab.Shop
                             if (tempString == productList[j].SH_PRODUCT_NAME)
                             {
                                 Navigation.PushAsync(new ShopDetailPage(productList[j].SH_PRODUCT_NAME, productList[j].SH_PRODUCT_INDEX, home));
+                                Global.isOpen_ShopDetailPage = true;
                             }
                         }
                     })

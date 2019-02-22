@@ -46,6 +46,61 @@ namespace TicketRoom
         public static USERS user = new USERS();
         public static ADRESS adress = new ADRESS();
 
+
+        // 메인 페이지 OnAppearing시 열려 있는 탭 확인용 전역 변수
+        public static bool isMainDeal = true;
+        public static bool isMainShop = false;
+        public static bool isMainBasket = false;
+        public static bool isMainMyinfo = false;
+
+        public static void InitOnAppearingBool(string name)
+        {
+            if(name == "deal")
+            {
+                isMainDeal = true;
+                isMainShop = false;
+                isMainBasket = false;
+                isMainMyinfo = false;
+            }
+            else if (name == "shop")
+            {
+                isMainDeal = false;
+                isMainShop = true;
+                isMainBasket = false;
+                isMainMyinfo = false;
+            }
+            else if (name == "basket")
+            {
+                isMainDeal = false;
+                isMainShop = false;
+                isMainBasket = true;
+                isMainMyinfo = false;
+            }
+            else if (name == "myinfo")
+            {
+                isMainDeal = false;
+                isMainShop = false;
+                isMainBasket = false;
+                isMainMyinfo = true;
+            }
+        }
+        // 장바구니 페이지 OnAppearing시 열려 있는 탭 확인용 전역 변수
+        public static bool isBasketDeal = true;
+        public static bool isBasketShop = false;
+
+        public static void InitBasketOnAppearingBool(string name)
+        {
+            if (name == "deal")
+            {
+                isBasketDeal = true;
+                isBasketShop = false;
+            }
+            else if (name == "shop")
+            {
+                isBasketDeal = false;
+                isBasketShop = true;
+            }
+        }
         /// <summary>
         /// 다른 고객이 본 상품으로 연결하는 인덱스 업데이트 ( main페이지1 -> other페이지3 , main페이지3 -> other페이지2 )
         /// other이 된 페이지는 main이 된다.

@@ -26,7 +26,6 @@ namespace TicketRoom.Views.MainTab.Shop
             this.home = home;
             this.wrv = wrv;
             Init();
-
         }
 
         private void Init()
@@ -78,9 +77,9 @@ namespace TicketRoom.Views.MainTab.Shop
                             if (ColorChange_Queue.Count != 0)
                             {
                                 Grid temp = ColorChange_Queue.Dequeue();
-                                temp.BackgroundColor = Color.Gray;
+                                temp.BackgroundColor = Color.LightBlue;
                             }
-                            tempGrid.BackgroundColor = Color.Black;
+                            tempGrid.BackgroundColor = Color.CornflowerBlue;
                             ColorChange_Queue.Enqueue(tempGrid);
                         }
                     })
@@ -127,7 +126,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     wrv.reviewList = SH_DB.PostSearchReviewToHome(home.SH_HOME_INDEX);
                     wrv.Init();
                     ShopReviewView.isOpenPage = false;
-                    await Navigation.PopAsync();
+                    Navigation.PopAsync();
                 }
                 else
                 {

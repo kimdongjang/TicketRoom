@@ -403,7 +403,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         {
             EntryAdress.Unfocus();
 
-            Navigation.PushAsync(adrAPI = new InputAdress(this));
+            Navigation.PushModalAsync(adrAPI = new InputAdress(this));
         }
 
         private async void PurchaseBtn_Clicked(object sender, EventArgs e)
