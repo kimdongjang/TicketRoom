@@ -217,8 +217,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
         private async void ConfirmBtn_ClickedAsync(object sender, EventArgs e)
         {
-
-
             if (payOption == "Card")
             {
                 if (card_picker.SelectedIndex == -1)
@@ -268,7 +266,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 }
             }
             await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 성공했습니다.", "확인");
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
     }

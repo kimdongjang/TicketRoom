@@ -80,7 +80,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
         {
             try
             {
-                WidhdrawPointEntry.Text = Regex.Replace(WidhdrawPointEntry.Text, @"\D", "");
+                WidhdrawPointEntry.Text = int.Parse(Regex.Replace(WidhdrawPointEntry.Text, @"\D", "")).ToString();
                 if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
                 {
                     if (e.OldTextValue != null)

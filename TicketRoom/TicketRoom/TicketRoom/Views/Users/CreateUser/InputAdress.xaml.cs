@@ -129,6 +129,7 @@ namespace TicketRoom.Views.Users.CreateUser
             {
                 sop.AdressLabel.Text = Global.adress.ROADADDR;
             }
+            Global.isOpen_AdressModal = false;
             Navigation.PopModalAsync();
         }
         #endregion

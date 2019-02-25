@@ -43,6 +43,10 @@ namespace TicketRoom
         public static bool isOpen_ShopOtherPage = false; // ShopDetailPage -> ShopOtherPage
         public static bool isOpen_PictureList = false; // ShopDetailPage -> PictureList
 
+
+        // 페이지 두번 클릭 제한 bool 변수(주소창)
+        public static bool isOpen_AdressModal = false; // ShopTabPage -> ShopListPage
+
         public static USERS user = new USERS();
         public static ADRESS adress = new ADRESS();
 
