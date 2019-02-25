@@ -15,10 +15,10 @@ namespace TicketRoom.Views.MainTab.Dael
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PurchaseTabPage : ContentView
     {
-        DealDeatailPage ddp;
+        MainPage ddp;
         string categorynum = "";
 
-        public PurchaseTabPage(DealDeatailPage ddp, string categorynum)
+        public PurchaseTabPage(MainPage ddp, string categorynum)
         {
             InitializeComponent();
             this.categorynum = categorynum;
@@ -112,7 +112,7 @@ namespace TicketRoom.Views.MainTab.Dael
             label_tap.Tapped += (s, e) =>
             {
                 Grid g = (Grid)s;
-                Navigation.PushAsync(new PurchasePage(productlist[int.Parse(g.BindingContext.ToString())]));
+                Navigation.PushAsync(new PurchasePage(ddp,productlist[int.Parse(g.BindingContext.ToString())], categorynum));
             };
             var label_tap2 = new TapGestureRecognizer();
             label_tap2.Tapped += (s, e) =>

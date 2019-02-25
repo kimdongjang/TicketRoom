@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
+             x:Class="TicketRoom.Views.MainTab.Dael.DealDeatailView">
+    <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="TabGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--#region 1행 커스텀 액션바 -->
+        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+
+            <!--#region 0열 백버튼 등 이미지-->
+            <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="ImageButton_Clicked"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <!--#endregion-->
+
+            <!--#region 1열 액션바 타이틀-->
+            <custom:CustomLabel Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
+                    Text="구매/판매"
+                    TextColor="White"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
+            <!--#endregion-->
+
+            <!--#region 2열 옵션등 이미지-->
+            <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center" Aspect="AspectFit"></Image>
+            <!--#endregion-->
+        </Grid>
+        <!--#endregion-->
+
+        <ScrollView Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
+            <Grid BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--#region 0행 커스텀 탭바 -->
+                <Grid Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!--#region 0열 구매-->
+                    <custom:CustomButton Grid.Column="0" Text="상품권 구매" Size="22" FontFamily="{StaticResource FontStyle}"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                    BackgroundColor="White"
+                    Clicked="Tab_Changed"
+                    x:Name="PurchaseTab"
+                    />
+                    <!--#endregion-->
+
+                    <!--#region 1열 Grid라인-->
+                    <BoxView Grid.Column="1" BackgroundColor="#f4f2f2" WidthRequest="1" VerticalOptions="FillAndExpand" HorizontalOptions="Start"/>
+                    <!--#endregion-->
+
+                    <!--#region 2열 판매-->
+                    <custom:CustomButton Grid.Column="2" Text="상품권 판매" Size="22" FontFamily="{StaticResource FontStyle}"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                    BackgroundColor="White"
+                    Clicked="Tab_Changed"
+                    x:Name="SaleTab"
+                    />
+                    <!--#endregion-->
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region 1행 Grid라인-->
+                <BoxView Grid.Row="1" BackgroundColor="#f4f2f2" HeightRequest="1" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+                <!--#endregion-->
+
+                <ContentView Grid.Row="2" x:Name="TabContent"/>
+            </Grid>
+            <!--#endregion-->
+        </ScrollView>
+    </Grid>
+    <!--#endregion-->
+</ContentView>

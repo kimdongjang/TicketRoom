@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
+using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Services;
 using TicketRoom.Views.MainTab.Dael;
@@ -17,12 +18,13 @@ namespace TicketRoom.Views.MainTab
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DealTabPage : ContentView
     {
+        MainPage mainPage;
         GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
         List<G_DealInfo> g_DealInfolist = new List<G_DealInfo>();
-        public DealTabPage()
+        public DealTabPage(MainPage mainPage)
         {
             InitializeComponent();
-
+            this.mainPage = mainPage;
             #region IOS의 경우 초기화
             if (Device.OS == TargetPlatform.iOS)
             {
@@ -88,6 +90,19 @@ namespace TicketRoom.Views.MainTab
         private void Showdeal()
         {
             g_DealInfolist = giftDBFunc.SelectDealList();
+            if (g_DealInfolist.Count == 0)
+            {
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "거래내역이 없습니다",
+                    Size = 10,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                deallist_Grid.Children.Add(label, 0, 1);         //실시간거래 그리드에 라벨추가
+            }
+
             for (int i = 0; i < g_DealInfolist.Count; i++)
             {
                 //deallist_Grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -125,10 +140,10 @@ namespace TicketRoom.Views.MainTab
                 string hour = date.Hour.ToString();
                 string minute = date.Minute.ToString();
 
-                Label label = new Label
+                CustomLabel label = new CustomLabel
                 {
                     Text = name + " " + title + "["+ hour+":"+minute+"]",
-                    FontSize = 10,
+                    Size = 10,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.Start
@@ -202,7 +217,8 @@ namespace TicketRoom.Views.MainTab
                 tapGestureRecognizer.Tapped += (s, e) =>
                 {
                     Image clickedimage = (Image)s;
-                    Navigation.PushAsync(new DealDeatailPage(clickedimage.BindingContext.ToString()));
+                    mainPage.ShowDealDetail(clickedimage.BindingContext.ToString());
+                    //Navigation.PushAsync(new DealDeatailPage(clickedimage.BindingContext.ToString()));
                 };
                 imgae.GestureRecognizers.Add(tapGestureRecognizer);
             }

@@ -228,7 +228,7 @@ namespace TicketRoom.Views.Users.CreateUser
                             });
                             return;
                         case 2:
-                            DisplayAlert("알림", "추천인 아이디가 존재하지않습니다", "OK");
+                            DisplayAlert("알림", "추천인이 탈퇴하셨습니다", "OK");
                             return;
                         default:
                             DisplayAlert("알림", "서버 점검중입니다.", "OK");

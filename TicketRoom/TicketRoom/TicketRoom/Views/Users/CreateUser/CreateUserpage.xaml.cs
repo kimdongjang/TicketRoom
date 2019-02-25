@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,91 +39,106 @@ namespace TicketRoom.Views.Users.CreateUser
         {
             if (ID_box.Text != "" && ID_box.Text != null)
             {
-                if (PW_box.Text != "" && PW_box.Text != null)
+                if (ID_box.Text.Length >= 6)
                 {
-                    if (PWCheck_box.Text != "" && PWCheck_box.Text != null)
+                    if (PW_box.Text != "" && PW_box.Text != null)
                     {
-                        if (PW_box.Text.Equals(PWCheck_box.Text))
+                        if (PWCheck_box.Text != "" && PWCheck_box.Text != null)
                         {
-                            if (Email_box.Text != "" && Email_box.Text != null)
+                            if (PW_box.Text.Equals(PWCheck_box.Text))
                             {
-                                if (Regex.Match(Email_box.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success)
+                                if (Email_box.Text != "" && Email_box.Text != null)
                                 {
-                                    if (EntryAdress.Text != "" && EntryAdress.Text != null)
+                                    if (Regex.Match(Email_box.Text, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$").Success)
                                     {
-                                        string str = @"{";
-                                        str += "ID:'" + ID_box.Text + "'}";
-
-                                        //// JSON 문자열을 파싱하여 JObject를 리턴
-                                        JObject jo = JObject.Parse(str);
-
-                                        UTF8Encoding encoder = new UTF8Encoding();
-                                        byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-                                        //request.Method = "POST";
-                                        HttpWebRequest request = WebRequest.Create(Global.WCFURL + "IdCheck") as HttpWebRequest;
-                                        request.Method = "POST";
-                                        request.ContentType = "application/json";
-                                        request.ContentLength = data.Length;
-
-                                        //request.Expect = "application/json";
-
-                                        request.GetRequestStream().Write(data, 0, data.Length);
-
-                                        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                                        if (EntryAdress.Text != "" && EntryAdress.Text != null)
                                         {
-                                            if (response.StatusCode != HttpStatusCode.OK)
-                                                Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                                            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                                            string str = @"{";
+                                            str += "ID:'" + ID_box.Text;
+                                            str += "',RECOMMENDER:'" + Recommender_box.Text;
+                                            str += "'}";
+
+                                            //// JSON 문자열을 파싱하여 JObject를 리턴
+                                            JObject jo = JObject.Parse(str);
+
+                                            UTF8Encoding encoder = new UTF8Encoding();
+                                            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                                            //request.Method = "POST";
+                                            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "IdCheck") as HttpWebRequest;
+                                            request.Method = "POST";
+                                            request.ContentType = "application/json";
+                                            request.ContentLength = data.Length;
+
+                                            //request.Expect = "application/json";
+
+                                            request.GetRequestStream().Write(data, 0, data.Length);
+
+                                            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                                             {
-                                                var readdata = reader.ReadToEnd();
-                                                //Stuinfo test = JsonConvert.DeserializeObject<Stuinfo>(readdata);
-                                                switch (int.Parse(readdata))
+                                                if (response.StatusCode != HttpStatusCode.OK)
+                                                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                                                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                                                 {
-                                                    case -1:
-                                                        DisplayAlert("알림", "아이디가 이미 존재합니다.", "OK");
-                                                        return;
-                                                    case 1:
-                                                        Navigation.PushAsync(new CreateUserPhoneCheckPage(new USERSData(ID_box.Text, PW_box.Text, Email_box.Text,
-                                                            adrAPI.roadAddr, adrAPI.jibunAddr, adrAPI.zipNo, termsdata, Recommender_box.Text)));
-                                                        return;
-                                                    default:
-                                                        DisplayAlert("알림", "서버 점검중입니다.", "OK");
-                                                        return;
+                                                    var readdata = reader.ReadToEnd();
+                                                    string test = JsonConvert.DeserializeObject<string>(readdata);
+                                                    if (test != null && test != "")
+                                                    {
+                                                        switch (int.Parse(test))
+                                                        {
+                                                            case -1:
+                                                                DisplayAlert("알림", "아이디가 이미 존재합니다.", "OK");
+                                                                return;
+                                                            case 1:
+                                                                Navigation.PushAsync(new CreateUserPhoneCheckPage(new USERSData(ID_box.Text, PW_box.Text, Email_box.Text,
+                                                                    adrAPI.roadAddr, adrAPI.jibunAddr, adrAPI.zipNo, termsdata, Recommender_box.Text)));
+                                                                return;
+                                                            case 2:
+                                                                DisplayAlert("알림", "추천인 아이디가 존재하지않습니다", "OK");
+                                                                return;
+                                                            default:
+                                                                DisplayAlert("알림", "서버 점검중입니다.", "OK");
+                                                                return;
+                                                        }
+                                                    }
                                                 }
                                             }
+                                        }
+                                        else
+                                        {
+                                            DisplayAlert("알림", "주소를 입력해세요", "OK");
                                         }
                                     }
                                     else
                                     {
-                                        DisplayAlert("알림", "주소를 입력해세요", "OK");
+                                        DisplayAlert("알림", "이메일형식이 아닙니다", "OK");
                                     }
                                 }
                                 else
                                 {
-                                    DisplayAlert("알림", "이메일형식이 아닙니다", "OK");
+                                    DisplayAlert("알림", "이메일을 입력하세요", "OK");
                                 }
                             }
                             else
                             {
-                                DisplayAlert("알림", "이메일을 입력하세요", "OK");
+                                DisplayAlert("알림", "비밀번호가 일치하지 않습니다.", "OK");
+                                PW_box.Text = "";
+                                PWCheck_box.Text = "";
                             }
                         }
                         else
                         {
-                            DisplayAlert("알림", "비밀번호가 일치하지 않습니다.", "OK");
-                            PW_box.Text = "";
-                            PWCheck_box.Text = "";
+                            DisplayAlert("알림", "비밀번호 확인을 입력하세요", "OK");
                         }
                     }
                     else
                     {
-                        DisplayAlert("알림", "비밀번호 확인을 입력하세요", "OK");
+                        DisplayAlert("알림", "비밀번호를 입력하세요", "OK");
                     }
                 }
                 else
                 {
-                    DisplayAlert("알림", "비밀번호를 입력하세요", "OK");
+                    DisplayAlert("알림", "아이디를 6글자이상으로 해주세요", "OK");
                 }
             }
             else

@@ -56,6 +56,7 @@ namespace TicketRoom
         public static bool isMainShop = false;
         public static bool isMainBasket = false;
         public static bool isMainMyinfo = false;
+        public static bool isMainDealDeatil = false;
 
         public static void InitOnAppearingBool(string name)
         {
@@ -65,6 +66,7 @@ namespace TicketRoom
                 isMainShop = false;
                 isMainBasket = false;
                 isMainMyinfo = false;
+                isMainDealDeatil = false;
             }
             else if (name == "shop")
             {
@@ -72,6 +74,7 @@ namespace TicketRoom
                 isMainShop = true;
                 isMainBasket = false;
                 isMainMyinfo = false;
+                isMainDealDeatil = false;
             }
             else if (name == "basket")
             {
@@ -79,6 +82,7 @@ namespace TicketRoom
                 isMainShop = false;
                 isMainBasket = true;
                 isMainMyinfo = false;
+                isMainDealDeatil = false;
             }
             else if (name == "myinfo")
             {
@@ -86,6 +90,15 @@ namespace TicketRoom
                 isMainShop = false;
                 isMainBasket = false;
                 isMainMyinfo = true;
+                isMainDealDeatil = true;
+            }
+            else if (name == "dealdetail")
+            {
+                isMainDeal = false;
+                isMainShop = false;
+                isMainBasket = false;
+                isMainMyinfo = false;
+                isMainDealDeatil = true;
             }
         }
         // 장바구니 페이지 OnAppearing시 열려 있는 탭 확인용 전역 변수

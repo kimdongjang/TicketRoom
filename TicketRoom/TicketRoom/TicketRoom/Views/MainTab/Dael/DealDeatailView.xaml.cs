@@ -9,20 +9,21 @@ using Xamarin.Forms.Xaml;
 
 namespace TicketRoom.Views.MainTab.Dael
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DealDeatailPage : ContentPage
-    {
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class DealDeatailView : ContentView
+	{
+        MainPage mainpage;
         string categorynum;
-
-        public DealDeatailPage(string categorynum)
+        public DealDeatailView(MainPage mainpage, string categorynum)
         {
             InitializeComponent();
+            this.mainpage = mainpage;
             this.categorynum = categorynum;
             #region IOS의 경우 초기화
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
             if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
             {
-                MainGrid.RowDefinitions[0].Height = 50;
+                TabGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
             Tab_Changed(PurchaseTab, null);
@@ -41,7 +42,7 @@ namespace TicketRoom.Views.MainTab.Dael
             selectedtab.TextColor = Color.Blue;
             if (selectedtab.Text.Equals("상품권 구매"))
             {
-                //TabContent.Content = new PurchaseTabPage(this,categorynum);
+                TabContent.Content = new PurchaseTabPage(mainpage, categorynum);
             }
             else if (selectedtab.Text.Equals("상품권 판매"))
             {
@@ -51,7 +52,8 @@ namespace TicketRoom.Views.MainTab.Dael
                 }
                 else
                 {
-                    await ShowMessage("로그인상태에서 이용할수 있습니다.", "알림", "OK", async () =>
+
+                    await mainpage.ShowMessage("로그인상태에서 이용할수 있습니다.", "알림", "OK", async () =>
                     {
                         //App.Current.MainPage = new MainPage();
                         Navigation.PushAsync(new LoginPage());
@@ -60,16 +62,9 @@ namespace TicketRoom.Views.MainTab.Dael
             }
         }
 
-        public async Task ShowMessage(string message, string title, string buttonText, Action afterHideCallback)
-        {
-            await DisplayAlert(title, message, buttonText);
-
-            afterHideCallback?.Invoke();
-        }
-
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PopAsync();
+            mainpage.ShowDeal();
         }
     }
 }

@@ -16,13 +16,17 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PurchasePage : ContentPage
     {
+        MainPage mainpage;
+        public string categorynum;
         G_ProductInfo productInfo = null;
         public string Purchase_Price = "";
         public string DiscountPurchase_Price = "";
-        public PurchasePage(G_ProductInfo productInfo)
+        public PurchasePage(MainPage mainpage,G_ProductInfo productInfo, string categorynum)
         {
             InitializeComponent();
 
+            this.mainpage = mainpage;
+            this.categorynum = categorynum;
             #region IOS의 경우 초기화
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
             if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)

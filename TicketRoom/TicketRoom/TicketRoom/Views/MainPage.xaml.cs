@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Threading;
 using TicketRoom.Models.Custom;
+using TicketRoom.Views.MainTab.Dael;
 
 namespace TicketRoom.Views
 {
@@ -19,8 +20,7 @@ namespace TicketRoom.Views
     {
         List<Button> tablist = new List<Button>();
         UserDBFunc USER_DB = UserDBFunc.Instance();
-
-        AppExit_Pop appexit;
+        string categorynum = "";
 
         public MainPage()
         {
@@ -34,14 +34,20 @@ namespace TicketRoom.Views
             }
             #endregion
 
-        }
-
-        protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
-        {
             tablist.Add(DealTab);
             tablist.Add(ShopTab);
             tablist.Add(BasketTab);
             tablist.Add(MyPageTab);
+
+            Init();
+        }
+
+        protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
+        {
+            //tablist.Add(DealTab);
+            //tablist.Add(ShopTab);
+            //tablist.Add(BasketTab);
+            //tablist.Add(MyPageTab);
             #region OnAppearing을 사용해 사용중인 탭으로 되돌리기
             if (Global.isMainDeal == true)
             {
@@ -63,8 +69,12 @@ namespace TicketRoom.Views
                 Tab_Changed(tablist[3], null);
                 Global.InitOnAppearingBool("myinfo");
             }
+            else if (Global.isMainDealDeatil == true)
+            {
+                ShowDealDetail(this.categorynum);
+            }
             #endregion
-            Init();
+            //Init();
             base.OnAppearing();
         }
 
@@ -113,6 +123,7 @@ namespace TicketRoom.Views
             Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
 
         }
+
         private bool IsBoolCheckFunc(string s)
         {
             if(s == "True") return true;
@@ -127,8 +138,7 @@ namespace TicketRoom.Views
                 "AutoLogin=" + Global.b_auto_login.ToString() + "\n" + // 자동 로그인 false
                 "UserID=" + Global.ID + "\n"); // 회원 아이디(지금은 잠시 아이디로 대체함)
         }
-
-
+        
         private void Tab_Changed(object sender, EventArgs e)
         {
             DealTab.BackgroundColor = Color.CornflowerBlue;
@@ -147,7 +157,7 @@ namespace TicketRoom.Views
             selectedtab.TextColor = Color.CornflowerBlue;
             if (selectedtab.Text.Equals("구매/판매"))
             {
-                TabContent.Content = new DealTabPage();
+                TabContent.Content = new DealTabPage(this);
                 Global.InitOnAppearingBool("deal");
                 //Title = "실시간 시세 표시";
             }
@@ -171,16 +181,31 @@ namespace TicketRoom.Views
             }
         }
 
+        public void ShowDealDetail(string categorynum)
+        {
+            this.categorynum = categorynum;
+            TabContent.Content = new DealDeatailView(this,categorynum);
+            Global.InitOnAppearingBool("dealdetail");
+        }
+
+        public void ShowDeal()
+        {
+            TabContent.Content = new DealTabPage(this);
+            Global.InitOnAppearingBool("deal");
+        }
+
         public void SetTabContent(Xamarin.Forms.View page)
         {
             TabContent.Content = page;
         }
-        
-        public bool isexit_check_result = true;
-        Task<bool> action;
 
         protected override bool OnBackButtonPressed()
         {
+            if (Global.isMainDealDeatil == true)
+            {
+                ShowDeal();
+                return true;
+            }
             Device.BeginInvokeOnMainThread(async () =>
             {
                 var result = await this.DisplayAlert("알림", "정말로 앱을 종료하시겠습니까?", "확인", "취소");

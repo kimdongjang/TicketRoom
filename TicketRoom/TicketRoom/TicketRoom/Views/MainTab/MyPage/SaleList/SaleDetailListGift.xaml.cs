@@ -38,7 +38,7 @@ namespace TicketRoom.Views.MainTab.MyPage.SaleList
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PopAsync();
         }
 
         private void ConfirmBtn_Clicked(object sender, EventArgs e)

@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -36,7 +36,7 @@
                 <!--#region 1열 액션바 타이틀-->
                 <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
                     x:Name="TitleName" Text="판내내역(전체)"
-                    TextColor="Black"
+                    TextColor="White"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
                 <!--#endregion-->
             </Grid>
@@ -49,35 +49,35 @@
         <!--#endregion-->
 
         <!--#region 2행 탭매뉴-->
-        <Grid Grid.Row="2" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="2" BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <!--#region 0행 주기 탭 이미지 라벨-->
-            <Grid Grid.Row="0" Margin="20,0,20,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+            <!--#region 1행 주기 탭 이미지 라벨-->
+            <Grid Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="ImageGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="all_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Image Grid.Column="0" Source="list_all_h.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="allbtn_clicked"/>
                     </Image.GestureRecognizers>
                 </Image>
-                <Image Grid.Column="1" Source="week_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Image Grid.Column="1" Source="list_week_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="weekbtn_clicked"/>
                     </Image.GestureRecognizers>
                 </Image>
-                <Image Grid.Column="2" Source="Month_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Image Grid.Column="2" Source="list_month_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                     <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="monbtn_clicked"/>
+                        <TapGestureRecognizer Tapped="monthbtn_clicked"/>
                     </Image.GestureRecognizers>
                 </Image>
-                <Image Grid.Column="3" Source="year_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Image Grid.Column="3" Source="list_year_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="yearbtn_clicked"/>
                     </Image.GestureRecognizers>
@@ -86,7 +86,7 @@
             <!--#endregion-->
 
             <!--#region 1행 중앙 꾸미기 이미지-->
-            <Grid Grid.Row="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+            <Grid Grid.Row="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10"/>
                     <RowDefinition Height="10"/>

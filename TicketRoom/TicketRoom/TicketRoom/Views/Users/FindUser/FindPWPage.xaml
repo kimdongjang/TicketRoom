@@ -239,15 +239,15 @@
                     <!--#region 2행 비밀번호 초기화-->
                     <Grid Grid.Row="2" VerticalOptions="Center" HorizontalOptions="Start" Margin="30,0,0,0" RowSpacing="0" ColumnSpacing="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="15"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Tapped="EmailRadioBtn_Clicked"/>
                         </Grid.GestureRecognizers>
                         <Image Grid.Column="0" Source="radio_checked_icon.png" BackgroundColor="White" VerticalOptions="Center" HorizontalOptions="Center"></Image>
-                        <custom:CustomLabel  Grid.Column="1" Text="이메일로 전송하기" VerticalOptions="Center" Size="12"
-                                HorizontalOptions="Start" TextColor="Black" Margin="0"/>
+                        <custom:CustomLabel Margin="10,0,0,0" Grid.Column="1" Text="이메일로 전송하기" VerticalOptions="Center" Size="12"
+                                HorizontalOptions="Start" TextColor="Black" />
                     </Grid>
                     <!--#endregion-->
 

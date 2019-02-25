@@ -29,7 +29,7 @@ namespace TicketRoom.Views.MainTab.MyPage
         public SaleListPage()
         {
             InitializeComponent();
-
+            TabListColorChange(0);
             #region IOS의 경우 초기화
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
             if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
@@ -346,26 +346,62 @@ namespace TicketRoom.Views.MainTab.MyPage
 
         private void allbtn_clicked(object sender, EventArgs e)
         {
+            TabListColorChange(0);
+            ((Image)ImageGrid.Children[0]).Source = "list_all_h.png";
+            ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
+            ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
+            ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
             PostSearchSaleListToID(Global.ID, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
             Init();
         }
 
         private void weekbtn_clicked(object sender, EventArgs e)
         {
+            TabListColorChange(1);
+            ((Image)ImageGrid.Children[0]).Source = "list_all_non.png";
+            ((Image)ImageGrid.Children[1]).Source = "list_week_h.png";
+            ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
+            ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
             PostSearchSaleListToID(Global.ID, 0, 0, -7);// 사용자 아이디로 구매 목록 가져옴
             Init();
         }
 
-        private void monbtn_clicked(object sender, EventArgs e)
+        private void monthbtn_clicked(object sender, EventArgs e)
         {
+            TabListColorChange(2);
+            ((Image)ImageGrid.Children[0]).Source = "list_all_non.png";
+            ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
+            ((Image)ImageGrid.Children[2]).Source = "list_month_h.png";
+            ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
             PostSearchSaleListToID(Global.ID, 0, -1, 0);// 사용자 아이디로 구매 목록 가져옴
             Init();
         }
 
         private void yearbtn_clicked(object sender, EventArgs e)
         {
+            TabListColorChange(3);
+            ((Image)ImageGrid.Children[0]).Source = "list_all_non.png";
+            ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
+            ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
+            ((Image)ImageGrid.Children[3]).Source = "list_year_h.png";
             PostSearchSaleListToID(Global.ID, -1, 0, 0);// 사용자 아이디로 구매 목록 가져옴
             Init();
+        }
+
+        // 이미지 클릭시 색상 변경
+        private void TabListColorChange(int n)
+        {
+            for (int i = 0; i < ImageGrid.Children.Count; i++)
+            {
+                if (i == n)
+                {
+                    ImageGrid.Children[i].BackgroundColor = Color.White;
+                }
+                else
+                {
+                    ImageGrid.Children[i].BackgroundColor = Color.CornflowerBlue;
+                }
+            }
         }
     }
 }
