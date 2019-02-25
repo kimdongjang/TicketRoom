@@ -190,6 +190,7 @@ namespace TicketRoom.Views.Users.CreateUser
             str += "',Terms3:'" + users.Termsdata.Values.ToList()[2];
             str += "',Terms4:'" + users.Termsdata.Values.ToList()[3];
             str += "',CKey:'" + CheckNum_box.Text;
+            str += "',Age:'" + users.Age;
             str += "'}";
 
             //// JSON 문자열을 파싱하여 JObject를 리턴
@@ -224,7 +225,12 @@ namespace TicketRoom.Views.Users.CreateUser
                         case 1:
                             await ShowMessage("회원가입 되었습니다.", "알림", "OK", async () =>
                             {
-                                await Navigation.PushAsync(new LoginPage());
+                                if (timer != null)
+                                {
+                                    timer.Stop();
+                                }
+                                
+                                MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                             });
                             return;
                         case 2:
@@ -247,7 +253,20 @@ namespace TicketRoom.Views.Users.CreateUser
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
+            if (timer != null)
+            {
+                timer.Stop();
+            }
             Navigation.PopAsync();
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (timer != null)
+            {
+                timer.Stop();
+            }
+            return base.OnBackButtonPressed();
         }
     }
 }

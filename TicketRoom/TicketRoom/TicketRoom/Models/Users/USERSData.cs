@@ -14,8 +14,9 @@ namespace TicketRoom.Models.USERS
         public string jibunAddr { get; set; }
         public string zipNo { get; set; }
         public string RecommenderID { get; set; }
+        public string Age { get; set; }
 
-        public USERSData(string id, string pw, string email, string roadAddr, string jibunAddr, string zipNo, Dictionary<string, bool> termsdata, string recommenderid)
+        public USERSData(string id, string pw, string email, string roadAddr, string jibunAddr, string zipNo, Dictionary<string, bool> termsdata, string recommenderid, string age)
         {
             this.ID = id;
             this.PW = pw;
@@ -25,11 +26,7 @@ namespace TicketRoom.Models.USERS
             this.jibunAddr = jibunAddr;
             this.zipNo = zipNo;
             this.RecommenderID = recommenderid;
-        }
-
-        public override string ToString()
-        {
-            return "ID: " + ID + " PW: " + PW + " EMail: " + Email + "Name: " + Name + "Phone: " + Phone + "Adress: " + Termsdata.ToString();
+            this.Age = age;
         }
     }
 }

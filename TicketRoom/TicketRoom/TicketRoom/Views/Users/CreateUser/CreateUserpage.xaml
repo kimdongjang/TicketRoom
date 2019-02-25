@@ -50,6 +50,9 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
 
                 <!--#region 0행 페이지 제목-->
@@ -175,7 +178,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <local1:CustomLabel TextDecorations="Underline" Text="*아이디 비밀번호를 찾기 위해 이메일을 입력해야 됩니다." XAlign="Start" Size="18" TextColor="Black"/>
+                        <local1:CustomLabel TextDecorations="Underline" Text="*아이디 비밀번호를 찾기 위해 이메일을 입력해야 됩니다." XAlign="Start" Size="12" TextColor="Black"/>
                     </Grid>
                     <!--#endregion-->
                 </Grid>
@@ -214,8 +217,42 @@
                 </Grid>
                 <!--#endregion-->
 
-                <!--#region 5행 추천인 아이디-->
+                <!--#region 6행 연령-->
                 <Grid Grid.Row="6" RowSpacing="0" ColumnSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10.5"/>
+                        <RowDefinition Height="39.5"/>
+                        <RowDefinition Height="58"/>
+                    </Grid.RowDefinitions>
+                    <!--#region 0행 여백의 미-->
+                    <!--#endregion-->
+
+                    <!--#region 1행 연령 Label-->
+                    <local1:CustomLabel Grid.Row="1"
+                        Text="연령"
+                        Size="18"
+                        TextColor="Black"
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
+                    <!--#endregion-->
+                    <!--#region 1행 연령 피커-->
+                    <Picker Grid.Row="2" Margin="15,0,15,0" x:Name="Age_picker" Title="연령 선택" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Picker.Items>
+                            <x:String>10대</x:String>
+                            <x:String>20대</x:String>
+                            <x:String>30대</x:String>
+                            <x:String>40대</x:String>
+                            <x:String>50대</x:String>
+                            <x:String>60대</x:String>
+                            <x:String>70대</x:String>
+                            <x:String>80대 이상</x:String>
+                        </Picker.Items>
+                    </Picker>
+                    <!--#endregion-->
+                </Grid>
+                <!--#endregion-->
+                
+                <!--#region 7행 추천인 아이디-->
+                <Grid Grid.Row="7" RowSpacing="0" ColumnSpacing="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10.5"/>
                         <RowDefinition Height="39.5"/>
@@ -252,17 +289,6 @@
                 </Grid>
                 <!--#endregion-->
 
-                <!--#region 6행 인증버튼 그리드-->
-                <Grid Grid.Row="7" RowSpacing="0" ColumnSpacing="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="88"/>
-                        <RowDefinition Height="22"/>
-                    </Grid.RowDefinitions>
-
-                    <!--#region 1행 여백의미-->
-                    <!--#endregion-->
-                </Grid>
-                <!--#endregion-->
             </Grid>
             <!--#endregion-->
         </ScrollView>

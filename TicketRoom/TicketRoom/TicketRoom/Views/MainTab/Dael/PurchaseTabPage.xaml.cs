@@ -25,6 +25,15 @@ namespace TicketRoom.Views.MainTab.Dael
             this.ddp = ddp;
             ShowPoint();
             SelectPurchaseCategory(categorynum);
+
+            IReadOnlyList<Page> pagelist = Navigation.NavigationStack;
+            foreach (var item in pagelist)
+            {
+                if (item.ToString() == "LoginPage")
+                {
+
+                }
+            }
         }
 
         private void ShowPoint()

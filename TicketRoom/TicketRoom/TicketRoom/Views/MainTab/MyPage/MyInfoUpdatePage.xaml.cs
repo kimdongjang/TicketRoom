@@ -106,7 +106,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                                             CheckNumSendBtn.Text = "인증번호 재전송";
                                             CheckNumGrid.IsVisible = true;
                                             #region 남은시간 타이머 
-                                            ShowMessage(String.Format("{0:D8}", random) + "인증번호가 발송 되었습니다.", "알림", "OK", async () =>
+                                            await ShowMessage(String.Format("{0:D8}", random) + "인증번호가 발송 되었습니다.", "알림", "OK", async () =>
                                             {
                                                 // 타이머 생성 및 시작
                                                 test = 300;
@@ -254,6 +254,15 @@ namespace TicketRoom.Views.MainTab.MyPage
             await DisplayAlert(title, message, buttonText);
 
             afterHideCallback?.Invoke();
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (timer != null)
+            {
+                timer.Stop();
+            }
+            return base.OnBackButtonPressed();
         }
     }
 }
