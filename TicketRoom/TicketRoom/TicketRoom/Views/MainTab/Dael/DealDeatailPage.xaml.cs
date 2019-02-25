@@ -41,7 +41,7 @@ namespace TicketRoom.Views.MainTab.Dael
             selectedtab.TextColor = Color.Blue;
             if (selectedtab.Text.Equals("상품권 구매"))
             {
-                TabContent.Content = new PurchaseTabPage(categorynum);
+                TabContent.Content = new PurchaseTabPage(this,categorynum);
             }
             else if (selectedtab.Text.Equals("상품권 판매"))
             {

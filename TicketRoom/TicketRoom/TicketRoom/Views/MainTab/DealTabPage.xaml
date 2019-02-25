@@ -14,9 +14,9 @@
         <!--#region 1행 커스텀 액션바 -->
         <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
             <!--#region 0열 백버튼 등 이미지-->
@@ -79,14 +79,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Text="* 실시간 거래">
-                            <Label.FontFamily>
-                                <OnPlatform x:TypeArguments="x:String">
-                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                </OnPlatform>
-                            </Label.FontFamily>
-                        </Label>
+                        <custom:CustomLabel Grid.Row="0" Text="* 실시간 거래" Size="18"/>
                     </Grid>
                 </Grid>
 
@@ -100,34 +93,16 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <!--#region 0행 잔여 포인트 Label-->
-                    <Label Grid.Row="0" x:Name="NowPoint_Label" TextColor="Black" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
+                    <custom:CustomLabel Grid.Row="0" x:Name="NowPoint_Label" TextColor="Black" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="잔여 포인트: ">
-                                    <Span.FontFamily>
-                                        <OnPlatform x:TypeArguments="x:String">
-                                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                        </OnPlatform>
-                                    </Span.FontFamily>
                                 </Span>
                                 <Span x:Name="Point_label">
-                                    <Span.FontFamily>
-                                        <OnPlatform x:TypeArguments="x:String">
-                                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                        </OnPlatform>
-                                    </Span.FontFamily>
                                 </Span>
                             </FormattedString>
                         </Label.FormattedText>
-                    </Label>
+                    </custom:CustomLabel>
                     <!--#endregion-->
 
                     <Grid Grid.Row="1" x:Name="Imagelist_Grid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
@@ -153,54 +128,12 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="10"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="1" Text="사업자 팀" FontSize="10">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
-                    <Label Grid.Row="2" Text="대표: 방민호" FontSize="10">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
-                    <Label Grid.Row="3" Text="사업자등록번호: 000-00-00000 | 통신판매업:대전동구-0515" FontSize="10">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
-                    <Label Grid.Row="4" Text="메일: abc@abc.com" FontSize="10">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
-                    <Label Grid.Row="5" Text="고객센터:1234-1234(월금, 오전 9~ 오후 9시)" FontSize="10">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
-                    <Label Grid.Row="6" Text="주소: 대전광역시 주소 입력" FontSize="10">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                    <custom:CustomLabel Grid.Row="1" Text="사업자 팀" Size="10"/>
+                    <custom:CustomLabel Grid.Row="2" Text="대표: 방민호" Size="10"/>
+                    <custom:CustomLabel Grid.Row="3" Text="사업자등록번호: 000-00-00000 | 통신판매업:대전동구-0515" Size="10"/>
+                    <custom:CustomLabel Grid.Row="4" Text="메일: abc@abc.com" Size="10"/>
+                    <custom:CustomLabel Grid.Row="5" Text="고객센터:1234-1234(월금, 오전 9~ 오후 9시)" Size="10"/>
+                    <custom:CustomLabel Grid.Row="6" Text="주소: 대전광역시 주소 입력" Size="10"/>
                 </Grid>
             </Grid>
         </ScrollView>

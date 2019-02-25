@@ -18,7 +18,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
             <!--#region 0열 백버튼 등 이미지-->
@@ -125,18 +125,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label TextDecorations="Underline" Text="아이디/비밀번호 찾기" HorizontalOptions="FillAndExpand" 
+                <custom:CustomLabel TextDecorations="Underline" Text="아이디/비밀번호 찾기" HorizontalOptions="FillAndExpand" Size="12"
                    VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
-                    <Label.GestureRecognizers>
+                    <custom:CustomLabel.GestureRecognizers>
                         <TapGestureRecognizer Tapped="FindIDPWBtn_Clicked"/>
-                    </Label.GestureRecognizers>
-                    <Label.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                        </OnPlatform>
-                    </Label.FontFamily>
-                </Label>
+                    </custom:CustomLabel.GestureRecognizers>
+                </custom:CustomLabel>
             </Grid>
             <!--#endregion-->
 
@@ -146,20 +140,14 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <custom:CustomLabel Grid.Column="0" Text="회원이 아니신가요?" XAlign="End" YAlign="Center" Size="18"/>
+                <custom:CustomLabel Grid.Column="0" Text="회원이 아니신가요?" XAlign="End" YAlign="Center" Size="12"/>
 
                 <!--#region 회원가입 label 클릭이벤트-->
-                <Label Grid.Column="1" Text="회원가입" TextDecorations="Underline" XAlign="Start" YAlign="Center">
-                    <Label.GestureRecognizers>
+                <custom:CustomLabel Grid.Column="1" Text="회원가입" TextDecorations="Underline" XAlign="Start" YAlign="Center" Size="12">
+                    <custom:CustomLabel.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CreateUserBtn_Clicked"/>
-                    </Label.GestureRecognizers>
-                    <Label.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                        </OnPlatform>
-                    </Label.FontFamily>
-                </Label>
+                    </custom:CustomLabel.GestureRecognizers>
+                </custom:CustomLabel>
                 <!--#endregion-->
             </Grid>
             <!--#endregion-->
