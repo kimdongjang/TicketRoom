@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.Users.CreateUser.CreateUserpage">
     <!--#region 전체 화면 그리드(행) - 0 액션바 1 스크롤뷰-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
@@ -16,7 +17,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
             <!--#region 0열 백버튼 등 이미지-->
             <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
@@ -27,18 +28,10 @@
             <!--#endregion-->
 
             <!--#region 1열 액션바 타이틀-->
-            <Label Grid.Column="1"
-                    Text="회원가입"
-                    FontSize="18"
+            <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
+                    x:Name="TitleName" Text="회원가입"
                     TextColor="Black"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
-                <Label.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Label.FontFamily>
-            </Label>
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 
             <!--#region 2열 옵션등 이미지-->
@@ -60,9 +53,9 @@
                 </Grid.RowDefinitions>
 
                 <!--#region 0행 페이지 제목-->
-                <Label Grid.Row="0"
+                <local1:CustomLabel Grid.Row="0"
                     Text="회원가입"
-                    FontSize="18"
+                    Size="18"
                     TextColor="Black"
                     Margin="0,26,0,0"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
@@ -76,18 +69,11 @@
                     </Grid.RowDefinitions>
 
                     <!--#region 0행 아이디 Label-->
-                    <Label Grid.Row="0"
+                    <local1:CustomLabel Grid.Row="0"
                         Text="아이디"
-                        FontSize="18"
+                        Size="18"
                         TextColor="Black"
-                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
 
                     <!--#region 1행 아이디 Entry(Input)-->
@@ -111,18 +97,11 @@
                     <!--#endregion-->
 
                     <!--#region 1행 비밀번호 Label-->
-                    <Label Grid.Row="1"
+                    <local1:CustomLabel Grid.Row="1"
                         Text="비밀번호"
-                        FontSize="18"
+                        Size="18"
                         TextColor="Black"
-                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
 
                     <!--#region 2행 비밀번호 Entry(Input)-->
@@ -147,18 +126,11 @@
                     <!--#endregion-->
 
                     <!--#region 1행 비밀번호 확인 Label-->
-                    <Label Grid.Row="1"
+                    <local1:CustomLabel Grid.Row="1"
                         Text="비밀번호 확인"
-                        FontSize="18"
+                        Size="18"
                         TextColor="Black"
-                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
 
                     <!--#region 2행 비밀번호 확인 Entry(Input)-->
@@ -183,18 +155,11 @@
                     <!--#endregion-->
 
                     <!--#region 1행 이메일 Label-->
-                    <Label Grid.Row="1"
+                    <local1:CustomLabel Grid.Row="1"
                         Text="이메일"
-                        FontSize="18"
+                        Size="18"
                         TextColor="Black"
-                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
 
                     <!--#region 2행 이메일 Entry(Input)-->
@@ -210,14 +175,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label TextDecorations="Underline" Text="*아이디 비밀번호를 찾기 위해 이메일을 입력해야 됩니다." XAlign="Start" FontSize="18" TextColor="Black">
-                            <Label.FontFamily>
-                                <OnPlatform x:TypeArguments="x:String">
-                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                </OnPlatform>
-                            </Label.FontFamily>
-                        </Label>
+                        <local1:CustomLabel TextDecorations="Underline" Text="*아이디 비밀번호를 찾기 위해 이메일을 입력해야 됩니다." XAlign="Start" Size="18" TextColor="Black"/>
                     </Grid>
                     <!--#endregion-->
                 </Grid>
@@ -234,18 +192,11 @@
                     <!--#endregion-->
 
                     <!--#region 1행 주소 Label-->
-                    <Label Grid.Row="1"
+                    <local1:CustomLabel Grid.Row="1"
                         Text="주소"
-                        FontSize="18"
+                        Size="18"
                         TextColor="Black"
-                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
 
                     <!--#region 2행 주소 Entry(Input)-->
@@ -275,18 +226,11 @@
                     <!--#endregion-->
 
                     <!--#region 1행 추천인 아이디 Label-->
-                    <Label Grid.Row="1"
+                    <local1:CustomLabel Grid.Row="1"
                         Text="추천인 아이디"
-                        FontSize="18"
+                        Size="18"
                         TextColor="Black"
-                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
 
                     <!--#region 2행 추천인 아이디 Entry(Input)-->
@@ -302,14 +246,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label TextDecorations="Underline" Text="*추천인 아이디를 입력해 주세요(선택)" XAlign="Start" FontSize="18" TextColor="Black">
-                            <Label.FontFamily>
-                                <OnPlatform x:TypeArguments="x:String">
-                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                </OnPlatform>
-                            </Label.FontFamily>
-                        </Label>
+                        <local1:CustomLabel TextDecorations="Underline" Text="*추천인 아이디를 입력해 주세요(선택)" XAlign="Start" FontSize="18" TextColor="Black"/>
                     </Grid>
                     <!--#endregion-->
                 </Grid>
@@ -333,15 +270,8 @@
         
         <!--#region 3행 확인-->
         <Grid Grid.Row="3" BackgroundColor="#f4f2f2">
-            <Button x:Name="NextBtn" Text="확인" BackgroundColor="#f4f2f2" Clicked="NextBtn_Clicked"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <Button.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Button.FontFamily>
-            </Button>
+            <local1:CustomButton x:Name="NextBtn" Text="확인" BackgroundColor="#f4f2f2" Clicked="NextBtn_Clicked" Size="18"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
         </Grid>
         <!--#endregion-->
     </Grid>

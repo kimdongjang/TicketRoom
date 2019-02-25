@@ -15,12 +15,14 @@ namespace TicketRoom.Views.MainTab.Dael
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PurchaseTabPage : ContentView
     {
+        DealDeatailPage ddp;
         string categorynum = "";
 
-        public PurchaseTabPage(string categorynum)
+        public PurchaseTabPage(DealDeatailPage ddp, string categorynum)
         {
             InitializeComponent();
             this.categorynum = categorynum;
+            this.ddp = ddp;
             ShowPoint();
             SelectPurchaseCategory(categorynum);
         }
@@ -111,6 +113,11 @@ namespace TicketRoom.Views.MainTab.Dael
             {
                 Grid g = (Grid)s;
                 Navigation.PushAsync(new PurchasePage(productlist[int.Parse(g.BindingContext.ToString())]));
+            };
+            var label_tap2 = new TapGestureRecognizer();
+            label_tap2.Tapped += (s, e) =>
+            {
+                ddp.DisplayAlert("알림", "품절상품입니다.", "확인");
             };
 
             #region 상품이 준비중
@@ -325,6 +332,10 @@ namespace TicketRoom.Views.MainTab.Dael
                 if (int.Parse(test.PAPER_GC_COUNT) != 0 || int.Parse(test.PIN_GC_COUNT) != 0)
                 {
                     listgrid.GestureRecognizers.Add(label_tap); //라벨 클릭 이벤트 등록
+                }
+                else
+                {
+                    listgrid.GestureRecognizers.Add(label_tap2); //라벨 클릭 이벤트 등록
                 }
                 #endregion
 

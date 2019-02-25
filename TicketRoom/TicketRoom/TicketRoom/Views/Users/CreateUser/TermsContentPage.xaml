@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.Users.CreateUser.TermsContentPage">
     <!--#region 전체 화면 그리드(행) - 0 액션바 1 페이지 내용-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
@@ -15,7 +16,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
             <!--#region 0열 백버튼 등 이미지-->
             <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
@@ -26,18 +27,10 @@
             <!--#endregion-->
 
             <!--#region 1열 액션바 타이틀-->
-            <Label Grid.Column="1"
-                    Text="약관 내용"
-                    FontSize="18"
+            <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
+                    x:Name="TitleName" Text="약관 내용"
                     TextColor="Black"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
-                <Label.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Label.FontFamily>
-            </Label>
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 
             <!--#region 2열 옵션등 이미지-->
@@ -56,34 +49,20 @@
             </Grid.RowDefinitions>
 
             <!--#region 0행 페이지 제목-->
-            <Label Grid.Row="0"
+            <local1:CustomLabel Grid.Row="0"
                 Text="{Binding PageTitle}"
-                FontSize="18"
+                Size="18"
                 TextColor="Black"
                 Margin="0,26,0,0"
-                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
-                <Label.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Label.FontFamily>
-            </Label>
+                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 
             <!--#region 1행 약관종류 Label-->
-            <Label Grid.Row="1"
+            <local1:CustomLabel Grid.Row="1"
                     Text="{Binding SubTitle}"
-                    FontSize="18"
+                    Size="18"
                     TextColor="Black"
-                    Margin="15,0,15,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                <Label.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Label.FontFamily>
-            </Label>
+                    Margin="15,0,15,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
             <!--#endregion-->
 
             <!--#region 2행 Grid라인-->
@@ -92,30 +71,18 @@
 
             <!--#region 3행 약관내용 Label-->
             <ScrollView Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <Label
+                <local1:CustomLabel
                         Text="{Binding TermsContent}"
-                        FontSize="14"
+                        Size="14"
                         TextColor="Black"
-                        Margin="15,15,15,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <Label.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                        </OnPlatform>
-                    </Label.FontFamily>
-                </Label>
+                        Margin="15,15,15,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
             </ScrollView>
             <!--#endregion-->
 
             <!--#region 4행 확인 버튼-->
-            <Button Grid.Row="4" Margin="15,15.5,15,15.5" Clicked="ImageButton_Clicked" Text="확인" BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" TextColor="White">
-                <Button.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Button.FontFamily>
-            </Button>
+            <local1:CustomButton Grid.Row="4" Margin="15,15.5,15,15.5" Clicked="ImageButton_Clicked" Size="18" FontFamily="{StaticResource FontStyle}"
+                                 Text="확인" BackgroundColor="Black" HorizontalOptions="FillAndExpand" 
+                                 VerticalOptions="FillAndExpand" TextColor="White"/>
             <!--#endregion-->
         </Grid>
         <!--#endregion-->

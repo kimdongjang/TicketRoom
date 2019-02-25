@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.Users.FindUser.FindPWPage">
     <!--#region 전체 화면 그리드(행) - 0 액션바 1 스크롤뷰-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
@@ -15,7 +16,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
             <!--#region 0열 백버튼 등 이미지-->
             <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
@@ -26,18 +27,10 @@
             <!--#endregion-->
 
             <!--#region 1열 액션바 타이틀-->
-            <Label Grid.Column="1"
-                    Text="아이디/비밀번호 찾기"
-                    FontSize="18"
+            <custom:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
+                    x:Name="TitleName" Text="아이디/비밀번호 찾기"
                     TextColor="Black"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
-                <Label.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                        <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Label.FontFamily>
-            </Label>
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 
             <!--#region 2열 옵션등 이미지-->
@@ -58,19 +51,12 @@
                 </Grid.RowDefinitions>
 
                 <!--#region 0행 페이지 제목-->
-                <Label Grid.Row="0"
+                <custom:CustomLabel Grid.Row="0"
                     Text="비밀번호 찾기"
-                    FontSize="18"
+                    Size="18"
                     TextColor="Black"
                     Margin="0,26,0,0"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
-                    <Label.FontFamily>
-                        <OnPlatform x:TypeArguments="x:String">
-                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                        </OnPlatform>
-                    </Label.FontFamily>
-                </Label>
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
                 <!--#endregion-->
 
                 <!--#region 1행 아이디-->
@@ -80,18 +66,11 @@
                         <RowDefinition Height="58"/>
                     </Grid.RowDefinitions>
                     <!--#region 0행 아이디 Label-->
-                    <Label Grid.Row="0"
+                    <custom:CustomLabel Grid.Row="0"
                         Text="아이디"
-                        FontSize="18"
+                        Size="18"
                         TextColor="Black"
-                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
 
                     <!--#region 1행 아이디 Entry(Input)-->
@@ -117,28 +96,16 @@
                     <!--#endregion-->
 
                     <!--#region 1행 휴대폰인증 Label-->
-                    <Label Grid.Row="1" Margin="15,0,0,0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-                        <Label.FormattedText>
+                    <custom:CustomLabel Grid.Row="1" Margin="15,0,0,0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
+                        <custom:CustomLabel.FormattedText>
                             <FormattedString>
                                 <Span Text="휴대폰 인증" FontSize="18" TextColor="Black">
-                                    <Span.FontFamily>
-                                        <OnPlatform x:TypeArguments="x:String">
-                                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                        </OnPlatform>
-                                    </Span.FontFamily>
                                 </Span>
                                 <Span Text="(-제외하고 입력해 주세요.)" TextColor="Gray" FontSize="10">
-                                    <Span.FontFamily>
-                                        <OnPlatform x:TypeArguments="x:String">
-                                            <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                            <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                        </OnPlatform>
-                                    </Span.FontFamily>
                                 </Span>
                             </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                        </custom:CustomLabel.FormattedText>
+                    </custom:CustomLabel>
                     <!--#endregion-->
 
                     <!--#region 2행 휴대폰인증 Entry(Input)-->
@@ -150,17 +117,10 @@
                     <!--#endregion-->
 
                     <!--#region 3행 휴대폰인증 이유 설명-->
-                    <Label Grid.Row="3"
+                    <custom:CustomLabel Grid.Row="3"
                         Text="*PW 조회를 위해 전화번호 인증이 필요 합니다."
-                        FontSize="10"
-                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                        Size="10"
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
                 </Grid>
                 <!--#endregion-->
@@ -174,14 +134,9 @@
                     </Grid.RowDefinitions>
 
                     <!--#region 0행 인증 버튼-->
-                    <Button Grid.Row="0" x:Name="CheckNumSendBtn" Clicked="CheckNumSendBtn_Clicked" Margin="15,15.5,15,15.5" Text="인증" BackgroundColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" TextColor="White">
-                        <Button.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Button.FontFamily>
-                    </Button>
+                    <custom:CustomButton Grid.Row="0" x:Name="CheckNumSendBtn" Clicked="CheckNumSendBtn_Clicked" Size="18" FontFamily="{StaticResource FontStyle}"
+                                         Margin="15,15.5,15,15.5" Text="인증" BackgroundColor="Black" HorizontalOptions="FillAndExpand"
+                                         VerticalOptions="FillAndExpand" TextColor="White"/>
                     <!--#endregion-->
 
                     <!--#region 1행 아이디찾기 label-->
@@ -189,19 +144,12 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label TextDecorations="Underline" Text="아이디 찾기" HorizontalOptions="FillAndExpand" 
+                        <custom:CustomLabel TextDecorations="Underline" Text="아이디 찾기" HorizontalOptions="FillAndExpand"  Size="12"
                              VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
-                            <Label.GestureRecognizers>
+                            <custom:CustomLabel.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="FindIDPWBtn_Clicked"/>
-
-                            </Label.GestureRecognizers>
-                            <Label.FontFamily>
-                                <OnPlatform x:TypeArguments="x:String">
-                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                </OnPlatform>
-                            </Label.FontFamily>
-                        </Label>
+                            </custom:CustomLabel.GestureRecognizers>
+                        </custom:CustomLabel>
                     </Grid>
 
                     <!--#endregion-->
@@ -228,18 +176,11 @@
                     <!--#endregion-->
 
                     <!--#region 1행 인증번호 Label-->
-                    <Label Grid.Row="1"
+                    <custom:CustomLabel Grid.Row="1"
                         Text="인증번호"
-                        FontSize="18"
+                        Size="18"
                         TextColor="Black"
-                        Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                        Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
 
                     <!--#region 2행 인증번호 Entry(Input)-->
@@ -250,35 +191,21 @@
                     <!--#endregion-->
 
                     <!--#region 3행 남은시간 label-->
-                    <Label Grid.Row="3"
+                    <custom:CustomLabel Grid.Row="3"
                         x:Name="TimerLabel"
                         Text="*남은 시간 05:00"
-                        FontSize="10"
-                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                        Size="10"
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
 
                     <!--#region 4행 여백의미-->
                     <!--#endregion-->
 
                     <!--#region 5행 인증(최종확인) 버튼-->
-                    <Button Grid.Row="5" x:Name="CheckNumCheckBtn" Clicked="CheckNumCheckBtn_Clicked" 
-                            Margin="15,0,15,0" Text="인증" BackgroundColor="Black" 
+                    <custom:CustomButton Grid.Row="5" x:Name="CheckNumCheckBtn" Clicked="CheckNumCheckBtn_Clicked" Size="18"
+                            Margin="15,0,15,0" Text="인증" BackgroundColor="Black" FontFamily="{StaticResource FontStyle}"
                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
-                            TextColor="White">
-                        <Button.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Button.FontFamily>
-                    </Button>
+                            TextColor="White"/>
                     <!--#endregion-->
 
                     <!--#region 6행 여백의미-->
@@ -302,18 +229,11 @@
                     <!--#endregion-->
 
                     <!--#region 1행 비밀번호 초기화 Label-->
-                    <Label Grid.Row="1"
+                    <custom:CustomLabel Grid.Row="1"
                         Text="비밀번호 초기화"
-                        FontSize="18"
+                        Size="18"
                         TextColor="Black"
-                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center">
-                        <Label.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Label.FontFamily>
-                    </Label>
+                        Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
 
                     <!--#region 2행 비밀번호 초기화-->
@@ -326,15 +246,8 @@
                             <TapGestureRecognizer Tapped="EmailRadioBtn_Clicked"/>
                         </Grid.GestureRecognizers>
                         <Image Grid.Column="0" Source="radio_checked_icon.png" BackgroundColor="White" VerticalOptions="Center" HorizontalOptions="Center"></Image>
-                        <Label  Grid.Column="1" Text="이메일로 전송하기" VerticalOptions="Center" 
-                                HorizontalOptions="Start" TextColor="Black" Margin="0">
-                            <Label.FontFamily>
-                                <OnPlatform x:TypeArguments="x:String">
-                                    <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                    <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                                </OnPlatform>
-                            </Label.FontFamily>
-                        </Label>
+                        <custom:CustomLabel  Grid.Column="1" Text="이메일로 전송하기" VerticalOptions="Center" Size="12"
+                                HorizontalOptions="Start" TextColor="Black" Margin="0"/>
                     </Grid>
                     <!--#endregion-->
 
@@ -342,16 +255,9 @@
                     <!--#endregion-->
 
                     <!--#region 4행 인증(최종확인) 버튼-->
-                    <Button Grid.Row="4" x:Name="SendEmailPW_Btn" Clicked="SendEmailPW_Btn_Clicked"
+                    <custom:CustomButton Grid.Row="4" x:Name="SendEmailPW_Btn" Clicked="SendEmailPW_Btn_Clicked" Size="18" FontFamily="{StaticResource FontStyle}"
                             Margin="15,0,15,0" Text="임시 비밀번호 전송" BackgroundColor="Black"
-                            HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" TextColor="White">
-                        <Button.FontFamily>
-                            <OnPlatform x:TypeArguments="x:String">
-                                <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
-                            </OnPlatform>
-                        </Button.FontFamily>
-                    </Button>
+                            HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" TextColor="White"/>
                     <!--#endregion-->
 
                     <!--#region 5행 여백의미-->
