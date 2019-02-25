@@ -38,16 +38,10 @@ namespace TicketRoom.Views
             tablist.Add(ShopTab);
             tablist.Add(BasketTab);
             tablist.Add(MyPageTab);
-
-            Init();
         }
 
         protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
         {
-            //tablist.Add(DealTab);
-            //tablist.Add(ShopTab);
-            //tablist.Add(BasketTab);
-            //tablist.Add(MyPageTab);
             #region OnAppearing을 사용해 사용중인 탭으로 되돌리기
             if (Global.isMainDeal == true)
             {
@@ -74,7 +68,8 @@ namespace TicketRoom.Views
                 ShowDealDetail(this.categorynum);
             }
             #endregion
-            //Init();
+
+            Init();
             base.OnAppearing();
         }
 
@@ -193,7 +188,6 @@ namespace TicketRoom.Views
             TabContent.Content = new DealTabPage(this);
             Global.InitOnAppearingBool("deal");
         }
-
         public void SetTabContent(Xamarin.Forms.View page)
         {
             TabContent.Content = page;

@@ -103,6 +103,10 @@ namespace TicketRoom.Views.Users.CreateUser
         #region Back버튼 처리
         protected override bool OnBackButtonPressed()
         {
+            if(Global.isloading_block == true)
+            {
+                return true;
+            }
             BackButtonFunc();
             return base.OnBackButtonPressed();
         }
@@ -173,12 +177,15 @@ namespace TicketRoom.Views.Users.CreateUser
             this.OnBackButtonPressed();
         }
 
+        
         private async Task Find_AdressAsync(string word)
         {
             // loading start
             Loading loadingScreen = new Loading(true);
-            await Navigation.PushModalAsync(loadingScreen);
 
+            await PopupNavigation.PushAsync(loadingScreen);
+            //await Navigation.PushModalAsync(loadingScreen);
+            Global.isloading_block = true;
 
 
             adl = new List<AdressAPI>();
@@ -236,7 +243,9 @@ namespace TicketRoom.Views.Users.CreateUser
             }
 
             // loading end
-            await Navigation.PopModalAsync();
+            await PopupNavigation.PopAsync();
+            Global.isloading_block = false;
+            //await Navigation.PopModalAsync();
         }
 
         // 주소 리스트 갱신
