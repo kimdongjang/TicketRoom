@@ -170,7 +170,7 @@ namespace TicketRoom.Views
                 //Title = "내 정보";
             }
         }
-
+        
         public void SetTabContent(Xamarin.Forms.View page)
         {
             TabContent.Content = page;

@@ -1,5 +1,6 @@
 ﻿using FFImageLoading.Forms;
 using Newtonsoft.Json;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,6 +36,8 @@ namespace TicketRoom.Views.MainTab
 
         public ShopTabPage()
         {
+            Global.LoadingStart();
+
             InitializeComponent();
 
             #region IOS의 경우 초기화
@@ -47,6 +50,7 @@ namespace TicketRoom.Views.MainTab
             ImageSlideAsync();
 
             mclist = SH_DB.GetCategoryListAsync();
+
 
             // 쇼핑 탭 주소 엔트리 초기화
 
@@ -69,7 +73,9 @@ namespace TicketRoom.Views.MainTab
                 MainGrid.Children.Add(label, 0, 0);
             }
             #endregion
+            Global.LoadingEnd();
         }
+
 
         [System.ComponentModel.TypeConverter(typeof(System.UriTypeConverter))]
         private async void ImageSlideAsync()
