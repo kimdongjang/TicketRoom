@@ -29,6 +29,9 @@ namespace TicketRoom
 
         public static bool ISLOGIN = true;
 
+        // loading창 back button blocking하는 bool 변수
+        public static bool isloading_block = false;
+
         // 다른 고객이 본 상품 인덱스 초기화 전역 변수        
         public static int g_main_index = -1;
         public static int g_other_index = -1;
