@@ -70,5 +70,6 @@ namespace TicketRoom.Views.MainTab.Popup
 
             }
         }
+
     }
 }

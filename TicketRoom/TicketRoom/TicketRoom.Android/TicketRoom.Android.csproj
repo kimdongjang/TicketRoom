@@ -68,7 +68,6 @@
   <ItemGroup>
     <Compile Include="CustomURLScheme.cs" />
     <Compile Include="Effect\AndroidLongPressedEffect.cs" />
-    <Compile Include="LodingPageServiceDroid.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderer\CloseApplication.cs" />
     <Compile Include="Renderer\CustomButtonRenderer.cs" />

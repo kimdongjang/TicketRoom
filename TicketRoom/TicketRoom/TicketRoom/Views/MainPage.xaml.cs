@@ -38,9 +38,6 @@ namespace TicketRoom.Views
 
         protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
         {
-            Global.user = USER_DB.PostSelectUserToID(Global.ID);
-            Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
-
             tablist.Add(DealTab);
             tablist.Add(ShopTab);
             tablist.Add(BasketTab);
@@ -112,6 +109,8 @@ namespace TicketRoom.Views
             {
 
             }
+            Global.user = USER_DB.PostSelectUserToID(Global.ID);
+            Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
 
         }
         private bool IsBoolCheckFunc(string s)

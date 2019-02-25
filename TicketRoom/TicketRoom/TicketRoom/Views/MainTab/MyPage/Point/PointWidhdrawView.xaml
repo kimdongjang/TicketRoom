@@ -39,7 +39,7 @@
                 <custom:CustomLabel Grid.Row="4" Text="은행명" Size="18" TextColor="Black" Margin="15,10,0,0"/>
                 <custom:CustomPicker Grid.Row="5" x:Name="BankPicker" Title="은행을 선택해주세요."/>
                 <custom:CustomLabel Grid.Row="6" Text="계좌번호" Size="18" TextColor="Black"  Margin="15,10,0,0"/>
-                <Entry Grid.Row="7" x:Name="AccountEntry" Placeholder="-뺴고 입력해주세요." HorizontalTextAlignment="Center"/>
+                <Entry Grid.Row="7" x:Name="AccountEntry" Placeholder="-뺴고 입력해주세요." HorizontalTextAlignment="Center" Keyboard="Numeric"/>
                 <custom:CustomLabel Grid.Row="8" Text="예금주" Size="18" TextColor="Black"  Margin="15,10,0,0"/>
                 <Entry Grid.Row="9" x:Name="NameEntry" Placeholder="ex) 홍길동" HorizontalTextAlignment="Center"/>
                 <custom:CustomLabel Grid.Row="10" Text="출금 포인트" Size="18" TextColor="Black"  Margin="15,10,0,0"/>

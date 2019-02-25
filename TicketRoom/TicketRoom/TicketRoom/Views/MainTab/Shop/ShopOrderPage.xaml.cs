@@ -500,7 +500,7 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 FontSize = 18,
             };
-            phoneEntry.TextChanged += InputPhoneNumber_TextChanged;
+            phoneEntry.Keyboard = Keyboard.Numeric;
 
             PhoneOptionGrid.Children.Add(phoneEntry, 0, 5);
             CustomLabel nameLabel = new CustomLabel
@@ -669,7 +669,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 var answer = await DisplayAlert("결제금액 : " + PriceLabel.Text, "결제 정보가 맞습니까?", "확인", "취소");
                 if (answer)
                 {
-                    if (MyDeliveryLabel.Text != "배송시 요청사항(클릭)") // 배송 선택사항이 선택되지 않았을 경우
+                    if (MyDeliveryLabel.Text != "배송시 요청사항") // 배송 선택사항이 선택되지 않았을 경우
                     {
                         int userCheck = 0;
                         if (Global.b_user_login == true) userCheck = 1; else userCheck = 2; // 회원상태 ( 1: 회원 2: 비회원)
@@ -780,15 +780,16 @@ namespace TicketRoom.Views.MainTab.Shop
                 }
             }
         }
-
-        private void ImageButton_Clicked(object sender, EventArgs e)
-        {
-        }
-
-
+        
+        // 배송지 변경
         private void ChangeAdressBtn_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(adrAPI = new InputAdress(this));
+            if(Global.isOpen_AdressModal == false)
+            {
+                Navigation.PushModalAsync(adrAPI = new InputAdress(this));
+                Global.isOpen_AdressModal = true;
+            }
+            
         }
 
 
@@ -799,14 +800,36 @@ namespace TicketRoom.Views.MainTab.Shop
         }
         protected override bool OnBackButtonPressed()
         {
-            BasketTabPage.isOpenPage = false;
-            return base.OnBackButtonPressed();
+            try
+            {
+                if (PopupNavigation.PopupStack[0] == popup_phone)
+                {
+                    PopupNavigation.RemovePageAsync(popup_phone, true);
+                    return true;
+                }
+                else if (PopupNavigation.PopupStack[0] == popup_name)
+                {
+                    PopupNavigation.RemovePageAsync(popup_name, true);
+                    return true;
+                }
+                else if (PopupNavigation.PopupStack[0] == popup_delivery)
+                {
+                    PopupNavigation.RemovePageAsync(popup_delivery, true);
+                    return true;
+                }
+                else
+                {
+                    Global.isOpen_AdressModal = false;
+                    BasketTabPage.isOpenPage = false;
+                    return base.OnBackButtonPressed();
+                }
+            }
+            catch
+            {
+                BasketTabPage.isOpenPage = false;
+                return false;
+            }
 
-        }
-        // 포인트를 입력했을시 포인트 변경 이벤트
-        private void InputPhoneNumber_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            InputPointEntry.Text = Regex.Replace(InputPointEntry.Text, @"\D", "");
         }
 
         // 포인트를 입력했을시 포인트 변경 이벤트
@@ -814,8 +837,7 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             try
             {
-                InputPointEntry.Text = Regex.Replace(InputPointEntry.Text, @"\D", "");
-                int temp = 0; // 05550원 -> 5500원 변경용 변수
+                InputPointEntry.Text = int.Parse(Regex.Replace(InputPointEntry.Text, @"\D", "")).ToString();
                 if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
                 {
                     if (e.OldTextValue != null)
@@ -843,8 +865,6 @@ namespace TicketRoom.Views.MainTab.Shop
                         }
                     }
                 }
-                temp = int.Parse(InputPointEntry.Text);
-                InputPointEntry.Text = temp.ToString();
             }
             catch
             {
