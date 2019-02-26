@@ -22,10 +22,10 @@ namespace TicketRoom.Views.MainTab.Shop
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
 
         int main_index = 0;
+        int mainTapListCount = 0;
         List<SubCate> sclist = new List<SubCate>();
 
         Queue<Grid> titleList_Queue = new Queue<Grid>();
-        List<string> subCateTapList = new List<string>();
         List<Grid> ShopTapEventList = new List<Grid>();
         Queue<Grid> SelectList_Queue = new Queue<Grid>();
 
@@ -43,32 +43,52 @@ namespace TicketRoom.Views.MainTab.Shop
             #endregion
         }
         protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
-        {
-            // 최상위 탭 카테고리 이름 초기화
-            for (int i = 0; i < ShopTabPage.mclist.Count; i++)
-            {
-                if (ShopTabPage.mclist[i].SH_MAINCATE_INDEX == main_index)
-                {
-                    TitleName.Text = ShopTabPage.mclist[i].SH_MAINCATE_NAME;
-                    Title = ShopTabPage.mclist[i].SH_MAINCATE_NAME;
-                }
-            }
-
-            sclist = SH_DB.PostSubCategoryListAsync(main_index);
-
-            TitleTapInit();
-            UpdateList();
+        {            
+            LoadingInit();
             base.OnAppearing();
         }
 
-        // 타이틀 탭 이름 초기화 및 이벤트 등록 초기화 함수
+        private async Task LoadingInit()
+        {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
+            mainTapListCount = ShopTabPage.mclist.Count; // 메인 카테고리 리스트 카운트 초기화
+            TitleTapInit();
+            UpdateList();
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
+        }
+
+        // 선택한 번호로 탭 컬러 체인지
+        private void TabListColorChange(int n)
+        {
+            for (int i = 0; i < mainTapListCount; i++)
+            {
+                if (i == n)
+                {
+                    CustomLabel tempLabel = (CustomLabel)((Grid)MainCateTapGrid.Children[i]).Children[0];
+                    tempLabel.TextColor = Color.CornflowerBlue;
+                    ((Grid)(MainCateTapGrid.Children[i])).BackgroundColor = Color.White;
+                }
+                else
+                {
+                    CustomLabel tempLabel = (CustomLabel)((Grid)MainCateTapGrid.Children[i]).Children[0];
+                    ((Grid)(MainCateTapGrid.Children[i])).BackgroundColor = Color.CornflowerBlue;
+                    tempLabel.TextColor = Color.White;
+                }
+            }
+        }
+
+            // 타이틀 탭 이름 초기화 및 이벤트 등록 초기화 함수
         private void TitleTapInit()
         {
-            #region 타이틀 탭 바로 밑에 탭 리스트 초기화
-            for (int i = 0; i < ShopTabPage.mclist.Count; i++)
+            MainCateTapGrid.Children.Clear();
+            
+            #region 타이틀 탭 바로 밑에 메인 카테고리 리스트 초기화
+            for (int i = 0; i < mainTapListCount; i++)
             {
-                subCateTapList.Add(ShopTabPage.mclist[i].SH_MAINCATE_NAME);
-
                 Grid inGrid = new Grid
                 {
                     BackgroundColor = Color.CornflowerBlue,
@@ -83,53 +103,51 @@ namespace TicketRoom.Views.MainTab.Shop
                 };
 
                 inGrid.Children.Add(label, 0, 0);
-                SubCateTapGrid.Children.Add(inGrid, i, 0);
+                MainCateTapGrid.Children.Add(inGrid, i, 0);
 
-                // 처음으로 선택한 탭 이름 초기화
-                if (label.Text == TitleName.Text)
-                {
-                    label.TextColor = Color.CornflowerBlue;
-                    inGrid.BackgroundColor = Color.White;
-                    titleList_Queue.Enqueue((Grid)SubCateTapGrid.Children.ElementAt(i));
-                }
 
-                #region 탭 클릭시 색상 변경 및 밑줄 생성 이벤트
+                #region 탭 클릭시 리스트 초기화 이벤트
                 inGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
-                    Command = new Command(() =>
+                    Command = new Command(async () =>
                     {
-                        if (titleList_Queue.Count < 2)
+                        for (int j = 0; j < mainTapListCount; j++)
                         {
-                            if (titleList_Queue.Count != 0)
+                            CustomLabel tempLabel = (CustomLabel)((Grid)MainCateTapGrid.Children[j]).Children[0];
+                            if ((CustomLabel)inGrid.Children[0] == tempLabel) // 선택한 레이블의 내용(메인 카테고리)를 확인
                             {
-                                // 이전 탭 색상 초기화
-                                Grid temp_grid = titleList_Queue.Dequeue();
-                                CustomLabel temp_label = (CustomLabel)temp_grid.Children.ElementAt(0);
-                                temp_label.TextColor = Color.White;
-                                temp_grid.BackgroundColor = Color.CornflowerBlue;
-                                TitleName.Text = temp_label.Text;
-                            }
-                            // 탭 클릭시 색상 변경
-                            label.TextColor = Color.CornflowerBlue;
-                            inGrid.BackgroundColor = Color.White;
-                            titleList_Queue.Enqueue(inGrid);
-                            TitleName.Text = label.Text;
-                        }
-                        for (int j = 0; j < ShopTabPage.mclist.Count; j++)
-                        {
-                            if(ShopTabPage.mclist[j].SH_MAINCATE_NAME == TitleName.Text)
-                            {
-                                sclist = SH_DB.PostSubCategoryListAsync(ShopTabPage.mclist[j].SH_MAINCATE_INDEX); // 서브 카테고리 리스트 초기화
-                                
+                                TabListColorChange(j);
+                                Global.OnShopListTapIndex = j;
+
+                                sclist = SH_DB.PostSubCategoryListToIndex(ShopTabPage.mclist[Global.OnShopListTapIndex].SH_MAINCATE_INDEX); // 서브 카테고리 리스트 초기화
+                                TitleName.Text = tempLabel.Text; // 타이틀 이름 초기화
+
+                                // 로딩 시작
+                                await Global.LoadingStartAsync();
                                 UpdateList();
+                                // 로딩 완료
+                                await Global.LoadingEndAsync();
                             }
                         }
-                        
                     })
                 });
                 #endregion
             }
             #endregion
+
+
+            // 처음으로 선택한 탭 이름 초기화
+            CustomLabel initLabel = (CustomLabel)((Grid)MainCateTapGrid.Children[Global.OnShopListTapIndex]).Children[0];
+            
+            for (int i = 0; i < mainTapListCount; i++)
+            {
+                if (initLabel.Text == ShopTabPage.mclist[i].SH_MAINCATE_NAME)
+                {
+                    TabListColorChange(i);
+                    TitleName.Text = ShopTabPage.mclist[i].SH_MAINCATE_NAME;
+                    sclist = SH_DB.PostSubCategoryListToIndex(ShopTabPage.mclist[i].SH_MAINCATE_INDEX);
+                }
+            }
         }
 
         // 메인 리스트 초기화 함수
@@ -464,20 +482,6 @@ namespace TicketRoom.Views.MainTab.Shop
                 normal_row++;
             }
             #endregion
-        }
-
-        private void ChangeTitle(string name)
-        {
-        }
-
-        private void ImageButton_Clicked(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Tab_Changed(object sender, EventArgs e)
-        {
-
         }
 
         private void BackButton_Clicked(object sender, EventArgs e)

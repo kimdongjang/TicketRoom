@@ -26,7 +26,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!--#region 0열 구매/판매-->
-            <custom:CustomButton Grid.Column="0" Text="구매/판매" Size="18"
+            <custom:CustomButton Grid.Column="0" Text="구매/판매" Size="14"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                     BackgroundColor="CornflowerBlue"
                     TextColor="White"
@@ -37,7 +37,7 @@
             <!--#endregion-->
 
             <!--#region 1열 쇼핑-->
-            <custom:CustomButton Grid.Column="1" Text="쇼핑"  Size="18"
+            <custom:CustomButton Grid.Column="1" Text="쇼핑"  Size="14"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                     BackgroundColor="CornflowerBlue"
                     TextColor="White"
@@ -47,7 +47,7 @@
             <!--#endregion-->
 
             <!--#region 2열 장바구니-->
-            <custom:CustomButton Grid.Column="2" Text="장바구니" Size="18"
+            <custom:CustomButton Grid.Column="2" Text="장바구니" Size="14"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                     BackgroundColor="CornflowerBlue"
                     TextColor="White"
@@ -58,7 +58,7 @@
             <!--#endregion-->
 
             <!--#region 3열 내정보-->
-            <custom:CustomButton Grid.Column="3" Text="내정보" Size="18"
+            <custom:CustomButton Grid.Column="3" Text="내정보" Size="14"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                     BackgroundColor="CornflowerBlue"
                     TextColor="White"

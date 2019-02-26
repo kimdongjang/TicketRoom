@@ -27,9 +27,9 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
         public async Task Init()
         {
-
             MainGrid.Children.Clear();
-            if(purchaseList.Count == 0)
+            
+            if (purchaseList.Count == 0)
             {
                 MainLine.BackgroundColor = Color.White;
                 CustomLabel errorLabel = new CustomLabel
@@ -47,6 +47,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             }
             if (purchaseList != null)
             {
+                MainLine.BackgroundColor = Color.LightGray;
                 for (int i = 0; i < purchaseList.Count; i++)
                 {
                     List<SH_Pur_Product> productList = SH_DB.PostSearchPurchaseProductListToIndex(purchaseList[i].SH_PUR_LIST_INDEX.ToString()); // 주문 번호로 구매 내역 조회

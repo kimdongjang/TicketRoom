@@ -33,6 +33,17 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 MainGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
+
+            LoadingInit();
+        }
+
+        private async Task LoadingInit()
+        {
+            TabColorChanged(0);
+
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
             pp = PT_DB.PostSearchPointListToID(Global.ID); // 사용자 아이디로 아이디에 해당하는 포인트 테이블 가져옴
 
             pal = new PointAddList(this, pp);
@@ -41,18 +52,23 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             pwv = new PointWidhdrawView(this, pp);
 
             init(pal);
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
         public void init(ContentView cv)
         {
             PointContentView.Content = cv;
-            TabColorChanged(0);
 
             // 적립 내역 이벤트
             AddImage.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = new Command(() =>
+                Command = new Command(async () =>
                 {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
                     pal = new PointAddList(this, pp);
                     PointContentView.Content = pal;
                     TabColorChanged(0);
@@ -60,13 +76,19 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                     UsedImage.Source = "point_uselist_non.png";
                     ChargeImage.Source = "point_charge_non.png";
                     WidhdrawImage.Source = "point_withdraw_non.png";
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
                 })
             });
             // 사용 내역 이벤트
             UsedImage.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = new Command(() =>
+                Command = new Command(async () =>
                 {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
                     pul = new PointUsedList(this, pp);
                     PointContentView.Content = pul;
                     TabColorChanged(1);
@@ -74,6 +96,9 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                     UsedImage.Source = "point_uselist_h.png";
                     ChargeImage.Source = "point_charge_non.png";
                     WidhdrawImage.Source = "point_withdraw_non.png";
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
 
                 })
             });

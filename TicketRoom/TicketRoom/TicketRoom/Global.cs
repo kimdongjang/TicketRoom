@@ -12,12 +12,8 @@ namespace TicketRoom
 {
     public class Global
     {
-        public static string WCFURL = @"http://221.141.58.49:8088/Service1.svc/";
-        //public static string WCFURL = @"http://52.231.66.251/Service1.svc/";
-        
-        //public static string WCFURL = @"http://52.231.66.251/Service1.svc/";
-        //public static string WCFURL = @"http://220.90.190.218/Service1.svc/";
-        //public static string WCFURL = @"http://localhost:65192/Service1.svc/";
+        public static string WCFURL = @"http://175.115.110.17:8088/Service1.svc/";
+
         //운기 로컬 Services
         //public static string WCFURL = @"http://220.90.190.218:8081/Service1.svc/";
 
@@ -32,10 +28,11 @@ namespace TicketRoom
 
         public static bool ISLOGIN = true;
 
+
+        #region Loading
         // loading창 back button blocking하는 bool 변수
         public static bool isloading_block = false;
 
-        #region Loading
         public static Loading loadingScreen;
         public static async Task LoadingStartAsync()
         {
@@ -79,6 +76,9 @@ namespace TicketRoom
         public static bool isMainBasket = false;
         public static bool isMainMyinfo = false;
         public static bool isMainDealDeatil = false;
+
+        // 쇼핑 리스트 페이지 OnAppearing시 열려 있는 탭 확인용 전역 변수
+        public static int OnShopListTapIndex = 0;
 
         public static void InitOnAppearingBool(string name)
         {

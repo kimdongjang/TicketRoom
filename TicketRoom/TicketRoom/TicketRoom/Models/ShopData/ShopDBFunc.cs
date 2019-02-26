@@ -72,7 +72,7 @@ namespace TicketRoom.Models.ShopData
         }
 
         // DB에서 메인 인덱스로 서브 카테고리 목록을 가져오기
-        public List<SubCate> PostSubCategoryListAsync(int main_index)
+        public List<SubCate> PostSubCategoryListToIndex(int main_index)
         {
             #region POST형식으로 서브 카테고리 리스트를 받아옴
             List<SubCate> sclist = new List<SubCate>();

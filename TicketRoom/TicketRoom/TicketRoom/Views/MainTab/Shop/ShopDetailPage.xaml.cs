@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
 using TicketRoom.Views.MainTab.Basket;
@@ -49,41 +50,52 @@ namespace TicketRoom.Views.MainTab.Shop
                 MainGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
-
             myShopName = titleName;
             this.productIndex = productIndex;
             this.home = home;
+
+            LoadingInit();
+
+
+        }
+
+
+        private async Task LoadingInit()
+        {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
 
             imageList = SH_DB.PostSearchImageListToProductAsync(productIndex);
             otherList = SH_DB.PostSearchOtherViewToHome(home.SH_HOME_INDEX);
             optionList = SH_DB.PostSearchProOptionToProductAsync(productIndex);
             product = SH_DB.PostSearchProductToProduct(productIndex);
 
-            if(otherList.Count != 0)
+            if (otherList.Count != 0)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     if (otherList.Count <= i)
                     {
                         break;
-                    }                    
+                    }
                     otherHomeList.Add(SH_DB.PostSearchHomeToHome(otherList[i].SH_OTHERHOME_INDEX)); // 다른 고객이 본 상품 목록을 리스트에 추가
                 }
             }
-            plusCount.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/plus.png"));
-            minusCount.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/minus.png"));
 
             // 아이디 초기화
             if (Global.b_user_login == false)
             {
                 shopDetailPage_ID = Global.non_user_id;
             }
-            else if(Global.b_user_login == true)
+            else if (Global.b_user_login == true)
             {
                 shopDetailPage_ID = Global.ID;
             }
 
             Init();
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
 
