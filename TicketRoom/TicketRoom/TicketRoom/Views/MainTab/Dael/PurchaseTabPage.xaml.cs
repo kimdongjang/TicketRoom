@@ -109,15 +109,34 @@ namespace TicketRoom.Views.MainTab.Dael
             int row = 1;
 
             var label_tap = new TapGestureRecognizer();
-            label_tap.Tapped += (s, e) =>
+            label_tap.Tapped += async (s, e) =>
             {
-                Grid g = (Grid)s;
-                Navigation.PushAsync(new PurchasePage(ddp,productlist[int.Parse(g.BindingContext.ToString())], categorynum));
+                if (Global.isgiftlistcliecked)
+                {
+                    Global.isgiftlistcliecked = false;
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    // 초기화 코드 작성
+                    Grid g = (Grid)s;
+                    await Navigation.PushAsync(new PurchasePage(ddp, productlist[int.Parse(g.BindingContext.ToString())], categorynum));
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+                }
             };
+
             var label_tap2 = new TapGestureRecognizer();
-            label_tap2.Tapped += (s, e) =>
+            label_tap2.Tapped += async (s, e) =>
             {
-                ddp.DisplayAlert("알림", "품절상품입니다.", "확인");
+                if (Global.isgiftlistcliecked)
+                {
+                    Global.isgiftlistcliecked = false;
+                    await ddp.ShowMessage("품절상품입니다", "알림", "확인", async () =>
+                    {
+                        Global.isgiftlistcliecked = true;
+                    });
+                }
             };
 
             #region 상품이 준비중

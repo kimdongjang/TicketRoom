@@ -25,6 +25,8 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         {
             InitializeComponent();
 
+
+            Global.isgiftlistcliecked = true;
             this.mainpage = mainpage;
             this.categorynum = categorynum;
             #region IOS의 경우 초기화

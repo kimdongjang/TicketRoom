@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace TicketRoom
 {
-    class MyTimer
+    public class MyTimer
     {
         private readonly TimeSpan timespan;
         private readonly Action callback;
