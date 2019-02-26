@@ -33,9 +33,10 @@ namespace TicketRoom
 
         public static bool ISLOGIN = true;
 
+        
         // loading창 back button blocking하는 bool 변수
         public static bool isloading_block = false;
-
+        
         //구매판매 상세 리스트 더블클릭 막는 bool변수
         public static bool isgiftlistcliecked = true;
 
@@ -64,7 +65,7 @@ namespace TicketRoom
         {
             if (timer == null)
             {
-                timer = new MyTimer(TimeSpan.FromSeconds(0.5), TimerCallback_event);
+                timer = new MyTimer(TimeSpan.FromSeconds(0.2), TimerCallback_event);
                 timer.Start();
             }
             else
@@ -72,6 +73,7 @@ namespace TicketRoom
                 timer.Stop(); timer.Start();
             }
         }
+
         public static async Task LoadingEndAsync()
         {
             if (timer != null)
@@ -128,6 +130,9 @@ namespace TicketRoom
         public static bool isMainBasket = false;
         public static bool isMainMyinfo = false;
         public static bool isMainDealDeatil = false;
+
+        // 쇼핑 리스트 페이지 OnAppearing시 열려 있는 탭 확인용 전역 변수
+        public static int OnShopListTapIndex = 0;
 
         public static void InitOnAppearingBool(string name)
         {

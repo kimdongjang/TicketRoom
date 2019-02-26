@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
 using Xamarin.Forms;
@@ -40,14 +41,6 @@ namespace TicketRoom.Views.MainTab.Shop
         }
         protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
         {
-            home = SH_DB.PostSearchHomeToHome(home_index);
-            Init();
-            base.OnAppearing();
-        }
-
-        // DB에서 가져온 홈 페이지 정보로 초기화 진행
-        private void Init()
-        {
             #region IOS의 경우 초기화
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
             if (Device.OS == TargetPlatform.iOS)
@@ -56,6 +49,23 @@ namespace TicketRoom.Views.MainTab.Shop
             }
             #endregion
 
+            LoadingInit();
+            base.OnAppearing();
+        }
+
+        private async Task LoadingInit()
+        {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
+            home = SH_DB.PostSearchHomeToHome(home_index);
+            Init();
+            // 로딩 완료
+            await Global.LoadingEndAsync();
+        }
+        // DB에서 가져온 홈 페이지 정보로 초기화 진행
+        private void Init()
+        {
             // 타이틀 탭 초기화
             TitleName.Text = home.SH_HOME_NAME;
 

@@ -36,8 +36,6 @@ namespace TicketRoom.Views.MainTab
 
         public ShopTabPage()
         {
-            Global.LoadingStartAsync();
-
             InitializeComponent();
 
             #region IOS의 경우 초기화
@@ -51,6 +49,7 @@ namespace TicketRoom.Views.MainTab
 
             mclist = SH_DB.GetCategoryListAsync();
 
+            //Navigation.PushAsync(new IMPHybridWebView());
 
             // 쇼핑 탭 주소 엔트리 초기화
 
@@ -73,7 +72,6 @@ namespace TicketRoom.Views.MainTab
                 MainGrid.Children.Add(label, 0, 0);
             }
             #endregion
-            Global.LoadingEndAsync();
         }
 
 
@@ -236,6 +234,7 @@ namespace TicketRoom.Views.MainTab
                             if (tempLabel.Text == mclist[i].SH_MAINCATE_NAME)
                             {
                                 tempIndex = mclist[i].SH_MAINCATE_INDEX; // 메인 카테고리 인덱스를 찾음
+                                Global.OnShopListTapIndex = i;
                             }
                         }
                         Navigation.PushAsync(new ShopListPage(tempIndex)); // 메인 카테고리 인덱스 기반으로 서브 카테고리(리스트 페이지)를 오픈

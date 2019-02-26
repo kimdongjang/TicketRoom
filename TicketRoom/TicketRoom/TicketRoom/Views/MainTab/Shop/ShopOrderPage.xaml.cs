@@ -87,6 +87,18 @@ namespace TicketRoom.Views.MainTab.Shop
 
             this.basketList = basketList;
 
+            LoadingInit();
+        }
+        #endregion
+
+
+        private async Task LoadingInit()
+        {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
+
+
             if (Global.b_user_login == false) // 로그인이 안되있을 경우
             {
                 ShopOrderPage_ID = Global.non_user_id;
@@ -112,9 +124,10 @@ namespace TicketRoom.Views.MainTab.Shop
             payOption = "Card";
             PhoneOptionGrid.Children.Clear();
             CardOptionEnable();
-        }
-        #endregion
 
+            // 로딩 완료
+            await Global.LoadingEndAsync();
+        }
 
 
         private void PurchaseListInit() // 구매할 목록 초기화
@@ -669,10 +682,12 @@ namespace TicketRoom.Views.MainTab.Shop
                 var answer = await DisplayAlert("결제금액 : " + PriceLabel.Text, "결제 정보가 맞습니까?", "확인", "취소");
                 if (answer)
                 {
-                    if (MyDeliveryLabel.Text != "배송시 요청사항") // 배송 선택사항이 선택되지 않았을 경우
+                    if (MyDeliveryLabel.Text == "배송시 요청사항") // 배송 선택사항이 선택되지 않았을 경우
                     {
                         int userCheck = 0;
                         if (Global.b_user_login == true) userCheck = 1; else userCheck = 2; // 회원상태 ( 1: 회원 2: 비회원)
+
+                        await Navigation.PushAsync(new IMPHybridWebView());
 
                         int OrderIndex = SH_DB.PostInsertPurchaseListToID(DeliveryPrice.ToString()/*배송비*/, DeliveryOption/*선불착불*/, MyDeliveryLabel.Text/*배송선택사항*/,
                             AdressLabel.Text/*배송지*/, myAdress.JIBUNADDR/*지번주소*/, myAdress.ZIPNO.ToString()/*우편번호*/, MyPhoneLabel.Text/*휴대폰번호*/, "상품준비중"/*배송상태*/, payOption/*결제수단*/,

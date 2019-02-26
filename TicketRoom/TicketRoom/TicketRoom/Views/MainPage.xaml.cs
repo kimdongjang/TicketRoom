@@ -146,8 +146,8 @@ namespace TicketRoom.Views
             MyPageTab.TextColor = Color.White;
 
 
-            Button selectedtab = (Button)sender;
-            selectedtab.FontSize = 15;
+            CustomButton selectedtab = (CustomButton)sender;
+            selectedtab.Size = 14;
             selectedtab.BackgroundColor = Color.White;
             selectedtab.TextColor = Color.CornflowerBlue;
             if (selectedtab.Text.Equals("구매/판매"))
