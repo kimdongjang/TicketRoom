@@ -34,11 +34,22 @@ namespace TicketRoom.Views.Users.FindUser
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
+            if (timer != null)
+            {
+                timer.Stop();
+            }
             Navigation.PopAsync();
         }
 
         private void FindIDPWBtn_Clicked(object sender, EventArgs e)
         {
+            if (timer != null)
+            {
+                timer.Stop();
+            }
+            var nav = Navigation.NavigationStack;
+            int idx = nav.Count;
+            this.Navigation.RemovePage(nav[idx - 1]);
             Navigation.PushAsync(new FindIDPage());
         }
 
@@ -97,7 +108,7 @@ namespace TicketRoom.Views.Users.FindUser
                             CheckNumGrid.IsVisible = true;
                             SendEmailPW_Grid.IsVisible = false;
                             #region 남은시간 타이머 
-                            ShowMessage(String.Format("{0:D8}", random) + "인증번호가 발송 되었습니다.", "알림", "OK", async () =>
+                            await ShowMessage(String.Format("{0:D8}", random) + "인증번호가 발송 되었습니다.", "알림", "OK", async () =>
                             {
                                 // 타이머 생성 및 시작
                                 test = 300;
@@ -283,6 +294,15 @@ namespace TicketRoom.Views.Users.FindUser
         private void EmailRadioBtn_Clicked(object sender, EventArgs e)
         {
             //DisplayAlert("라디오 버튼", "클릭", "ok");
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (timer != null)
+            {
+                timer.Stop();
+            }
+            return base.OnBackButtonPressed();
         }
     }
 }

@@ -42,6 +42,10 @@ namespace TicketRoom.Views.Users.FindUser
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
+            if (timer != null)
+            {
+                timer.Stop();
+            }
             Navigation.PopAsync();
         }
 
@@ -297,7 +301,23 @@ namespace TicketRoom.Views.Users.FindUser
 
         private void FindPWBtn_Clicked(object sender, EventArgs e)
         {
+            if (timer != null)
+            {
+                timer.Stop();
+            }
+            var nav = Navigation.NavigationStack;
+            int idx = nav.Count;
+            this.Navigation.RemovePage(nav[idx - 1]);
             Navigation.PushAsync(new FindPWPage());
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (timer != null)
+            {
+                timer.Stop();
+            }
+            return base.OnBackButtonPressed();
         }
     }
 }

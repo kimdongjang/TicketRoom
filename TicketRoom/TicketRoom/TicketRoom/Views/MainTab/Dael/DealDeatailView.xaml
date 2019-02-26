@@ -58,8 +58,8 @@
                     </Grid.ColumnDefinitions>
                     <!--#region 0열 구매-->
                     <custom:CustomButton Grid.Column="0" Text="상품권 구매" Size="22" FontFamily="{StaticResource FontStyle}"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                    BackgroundColor="White"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" TextColor="White"
+                    BackgroundColor="CornflowerBlue" BorderRadius="0"
                     Clicked="Tab_Changed"
                     x:Name="PurchaseTab"
                     />
@@ -70,9 +70,9 @@
                     <!--#endregion-->
 
                     <!--#region 2열 판매-->
-                    <custom:CustomButton Grid.Column="2" Text="상품권 판매" Size="22" FontFamily="{StaticResource FontStyle}"
+                    <custom:CustomButton Grid.Column="2" Text="상품권 판매" Size="22" FontFamily="{StaticResource FontStyle}" TextColor="White"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                    BackgroundColor="White"
+                    BackgroundColor="CornflowerBlue" BorderRadius="0"
                     Clicked="Tab_Changed"
                     x:Name="SaleTab"
                     />

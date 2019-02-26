@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="White">
+        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -29,7 +29,7 @@
             <!--#region 1열 액션바 타이틀-->
             <custom:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
                     x:Name="TitleName" Text="아이디/비밀번호 찾기"
-                    TextColor="Black"
+                    TextColor="White"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 
@@ -135,7 +135,7 @@
 
                     <!--#region 0행 인증 버튼-->
                     <custom:CustomButton Grid.Row="0" x:Name="CheckNumSendBtn" Clicked="CheckNumSendBtn_Clicked" Size="18" FontFamily="{StaticResource FontStyle}"
-                                         Margin="15,15.5,15,15.5" Text="인증" BackgroundColor="Black" HorizontalOptions="FillAndExpand"
+                                         Margin="15,15.5,15,15.5" Text="인증" BackgroundColor="CornflowerBlue" HorizontalOptions="FillAndExpand"
                                          VerticalOptions="FillAndExpand" TextColor="White"/>
                     <!--#endregion-->
 
@@ -203,7 +203,7 @@
 
                     <!--#region 5행 인증(최종확인) 버튼-->
                     <custom:CustomButton Grid.Row="5" x:Name="CheckNumCheckBtn" Clicked="CheckNumCheckBtn_Clicked" Size="18"
-                            Margin="15,0,15,0" Text="인증" BackgroundColor="Black" FontFamily="{StaticResource FontStyle}"
+                            Margin="15,0,15,0" Text="인증" BackgroundColor="CornflowerBlue" FontFamily="{StaticResource FontStyle}"
                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                             TextColor="White"/>
                     <!--#endregion-->
@@ -256,7 +256,7 @@
 
                     <!--#region 4행 인증(최종확인) 버튼-->
                     <custom:CustomButton Grid.Row="4" x:Name="SendEmailPW_Btn" Clicked="SendEmailPW_Btn_Clicked" Size="18" FontFamily="{StaticResource FontStyle}"
-                            Margin="15,0,15,0" Text="임시 비밀번호 전송" BackgroundColor="Black"
+                            Margin="15,0,15,0" Text="임시 비밀번호 전송" BackgroundColor="CornflowerBlue"
                             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" TextColor="White"/>
                     <!--#endregion-->
 

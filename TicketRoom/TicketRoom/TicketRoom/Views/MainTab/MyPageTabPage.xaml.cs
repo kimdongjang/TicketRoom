@@ -120,7 +120,7 @@ namespace TicketRoom.Views.MainTab
             }
             else if (Global.b_user_login == false)
             {
-                await Navigation.PushAsync(new LoginPage()); // 로그인 페이지로 이동
+                Navigation.PushAsync(new LoginPage()); // 로그인 페이지로 이동
             }
             
         }
