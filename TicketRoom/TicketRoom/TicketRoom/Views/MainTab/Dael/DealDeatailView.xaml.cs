@@ -43,23 +43,37 @@ namespace TicketRoom.Views.MainTab.Dael
             
             if (selectedtab.Text.Equals("상품권 구매"))
             {
+                // 로딩 시작
+                await Global.LoadingStartAsync();
+
+                // 초기화 코드 작성
                 TabContent.Content = new PurchaseTabPage(mainpage, categorynum);
+
+                // 로딩 완료
+                await Global.LoadingEndAsync();
             }
             else if (selectedtab.Text.Equals("상품권 판매"))
             {
+                // 로딩 시작
+                await Global.LoadingStartAsync();
+
+                // 초기화 코드 작성
                 if (Global.b_user_login)
                 {
                     TabContent.Content = new SaleTabPage(categorynum);
                 }
                 else
                 {
-
                     await mainpage.ShowMessage("로그인상태에서 이용할수 있습니다.", "알림", "OK", async () =>
                     {
                         //App.Current.MainPage = new MainPage();
                         Navigation.PushAsync(new LoginPage());
                     });
                 }
+
+                // 로딩 완료
+                await Global.LoadingEndAsync();
+                
             }
         }
 

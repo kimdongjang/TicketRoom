@@ -134,7 +134,7 @@ namespace TicketRoom.Views
                 "UserID=" + Global.ID + "\n"); // 회원 아이디(지금은 잠시 아이디로 대체함)
         }
         
-        private void Tab_Changed(object sender, EventArgs e)
+        private async void Tab_Changed(object sender, EventArgs e)
         {
             DealTab.BackgroundColor = Color.CornflowerBlue;
             DealTab.TextColor = Color.White;
@@ -152,26 +152,46 @@ namespace TicketRoom.Views
             selectedtab.TextColor = Color.CornflowerBlue;
             if (selectedtab.Text.Equals("구매/판매"))
             {
+                // 로딩 시작
+                await Global.LoadingStartAsync();
+
+                // 초기화 코드 작성
                 TabContent.Content = new DealTabPage(this);
                 Global.InitOnAppearingBool("deal");
+
+                // 로딩 완료
+                await Global.LoadingEndAsync();
+                
                 //Title = "실시간 시세 표시";
             }
             else if (selectedtab.Text.Equals("쇼핑"))
             {
                 TabContent.Content = new ShopTabPage();
                 Global.InitOnAppearingBool("shop");
-                //Title = "쇼핑 페이지";
+
+                // 로딩 완료
+                await Global.LoadingEndAsync();
             }
             else if (selectedtab.Text.Equals("장바구니"))
             {
+                // 로딩 시작
+                await Global.LoadingStartAsync();
+
+                // 초기화 코드 작성
                 TabContent.Content = new BasketTabPage();
                 Global.InitOnAppearingBool("basket");
+
+                // 로딩 완료
+                await Global.LoadingEndAsync();
+
+               
                 //Title = "장바구니";
             }
             else if (selectedtab.Text.Equals("내정보"))
             {
                 TabContent.Content = new MyPageTabPage(this);
                 Global.InitOnAppearingBool("myinfo");
+                
                 //Title = "내 정보";
             }
         }
@@ -179,14 +199,21 @@ namespace TicketRoom.Views
         public void ShowDealDetail(string categorynum)
         {
             this.categorynum = categorynum;
-            TabContent.Content = new DealDeatailView(this,categorynum);
+            TabContent.Content = new DealDeatailView(this, categorynum);
             Global.InitOnAppearingBool("dealdetail");
         }
 
-        public void ShowDeal()
+        public async void ShowDeal()
         {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
+            // 초기화 코드 작성
             TabContent.Content = new DealTabPage(this);
             Global.InitOnAppearingBool("deal");
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
         public void SetTabContent(Xamarin.Forms.View page)
         {
