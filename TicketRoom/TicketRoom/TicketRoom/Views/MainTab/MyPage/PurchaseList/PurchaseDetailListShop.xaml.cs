@@ -32,6 +32,9 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             }
             #endregion
 
+
+            Global.LoadingStartAsync();
+
             // 구매 목록 인덱스를 통해 배송 관련 리스트 가져오기
             pdList = SH_DB.PostSearchPurchaseDeliveryListToIndex(pl_index);
             // 구매 목록 인덱스를 통해 결제 관련 리스트 가져오기
@@ -39,6 +42,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             proList = SH_DB.PostSearchPurchaseProductListToIndex(pl_index);
             this.pl_index = pl_index;
             Init();
+
+            Global.LoadingEndAsync();
         }
 
         private void Init()

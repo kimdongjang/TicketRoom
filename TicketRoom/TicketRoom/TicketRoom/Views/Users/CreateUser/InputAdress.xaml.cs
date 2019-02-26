@@ -181,7 +181,7 @@ namespace TicketRoom.Views.Users.CreateUser
         private async Task Find_AdressAsync(string word)
         {
             // loading start
-            Loading loadingScreen = new Loading(true);
+            Loading loadingScreen = new Loading();
 
             await PopupNavigation.PushAsync(loadingScreen);
             //await Navigation.PushModalAsync(loadingScreen);

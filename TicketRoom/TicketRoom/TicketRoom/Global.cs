@@ -1,6 +1,7 @@
 ﻿using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TicketRoom.Models.Gift;
 using TicketRoom.Models.Users;
 using TicketRoom.Views;
@@ -35,13 +36,14 @@ namespace TicketRoom
         public static bool isloading_block = false;
 
         #region Loading
-        public static async void LoadingStart()
+        public static Loading loadingScreen;
+        public static async Task LoadingStartAsync()
         {
-            Loading loadingScreen = new Loading(true);
+            loadingScreen = new Loading();
             await PopupNavigation.PushAsync(loadingScreen);
             Global.isloading_block = true;
         }
-        public static async void LoadingEnd()
+        public static async Task LoadingEndAsync()
         {
             await PopupNavigation.PopAsync();
             Global.isloading_block = false;

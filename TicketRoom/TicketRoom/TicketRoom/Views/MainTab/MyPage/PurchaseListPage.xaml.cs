@@ -31,12 +31,13 @@ namespace TicketRoom.Views.MainTab.MyPage
             #endregion
 
             plg = new PurchaseListGift(this);
-            pls = new PurchaseListShop(this);
             Init(plg);
         }
 
-        private void TapColorChange(ContentView cv)
+        private async Task TapColorChangeAsync(ContentView cv)
         {
+            await Global.LoadingStartAsync();
+
             if (cv == plg) // 상품권이 선택되었을 경우
             {
                 TapShopingGridLabel.TextColor = Color.White;
@@ -49,16 +50,17 @@ namespace TicketRoom.Views.MainTab.MyPage
                 if (Global.b_user_login)
                 {
                     plg.PostSearchPurchaseListToID(Global.ID, -99, 0, 0);
-                    plg.Init();
+                    await plg.Init();
                 }
                 else
                 {
                     plg.PostSearchPurchaseListToID(Global.non_user_id, -99, 0, 0);
-                    plg.Init();
+                    await plg.Init();
                 }
             }
             else // 쇼핑몰이 선택 되었을 경우
             {
+
                 TapShopingGridLabel.TextColor = Color.CornflowerBlue;
                 TapShopingGrid.BackgroundColor = Color.White;
 
@@ -69,25 +71,26 @@ namespace TicketRoom.Views.MainTab.MyPage
                 if (Global.b_user_login) // 로그인 상태인 경우
                 {
                     pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, -99, 0, 0); // 사용자 아이디로 구매 목록 가져옴
-                    pls.Init();
+                    await pls.Init();
                 }
                 else
                 {
                     pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, -99, 0, 0); // 사용자 아이디로 구매 목록 가져옴
-                    pls.Init();
+                    await pls.Init();
                 }
             }
             ((Image)ImageGrid.Children[0]).Source = "list_all_h.png";
             ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
             ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
             ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
+
         }
 
         public void Init(ContentView cv)
         {
             PurchaseListContentView.Content = cv;
 
-            TapColorChange(cv);
+            TapColorChangeAsync(cv);
 
             // 상품권 탭을 선택할 경우 상품권 컨텐츠 뷰를 보여줌
             TapGiftGrid.GestureRecognizers.Add(new TapGestureRecognizer()
@@ -97,7 +100,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                     plg = new PurchaseListGift(this);
                     PurchaseListContentView.Content = plg;
 
-                    TapColorChange(plg);
+                    TapColorChangeAsync(plg);
 
                 })
             });
@@ -106,10 +109,10 @@ namespace TicketRoom.Views.MainTab.MyPage
             {
                 Command = new Command(() =>
                 {
+
                     pls = new PurchaseListShop(this);
                     PurchaseListContentView.Content = pls;
-
-                    TapColorChange(pls);
+                    TapColorChangeAsync(pls);
                 })
             });
         }

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainPage"
              Title=""
              >
@@ -25,67 +26,45 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!--#region 0열 구매/판매-->
-            <Button Grid.Column="0" Text="구매/판매"
+            <custom:CustomButton Grid.Column="0" Text="구매/판매" Size="18"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                     BackgroundColor="CornflowerBlue"
                     TextColor="White"
                     Clicked="Tab_Changed"
                     x:Name="DealTab"
-                    >
-                <Button.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Button.FontFamily>
-            </Button>
+                    />
+
             <!--#endregion-->
 
             <!--#region 1열 쇼핑-->
-            <Button Grid.Column="1" Text="쇼핑" 
+            <custom:CustomButton Grid.Column="1" Text="쇼핑"  Size="18"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                     BackgroundColor="CornflowerBlue"
                     TextColor="White"
                     Clicked="Tab_Changed"
                     x:Name="ShopTab"
-                    >
-                <Button.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Button.FontFamily>
-            </Button>
+                    />
             <!--#endregion-->
 
             <!--#region 2열 장바구니-->
-            <Button Grid.Column="2" Text="장바구니" 
+            <custom:CustomButton Grid.Column="2" Text="장바구니" Size="18"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                     BackgroundColor="CornflowerBlue"
                     TextColor="White"
                     Clicked="Tab_Changed"
                     x:Name="BasketTab"
-                    >
-                <Button.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Button.FontFamily>
-            </Button>
+                    />
+
             <!--#endregion-->
 
             <!--#region 3열 내정보-->
-            <Button Grid.Column="3" Text="내정보" 
+            <custom:CustomButton Grid.Column="3" Text="내정보" Size="18"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                     BackgroundColor="CornflowerBlue"
                     TextColor="White"
                     Clicked="Tab_Changed"
                     x:Name="MyPageTab"
-                    >
-                <Button.FontFamily>
-                    <OnPlatform x:TypeArguments="x:String">
-                        <On Platform="iOS" Value="BMHANNAAir_ttf" />
-                    </OnPlatform>
-                </Button.FontFamily>
-            </Button>
+                    />
             <!--#endregion-->
         </Grid>
         <!--#endregion-->

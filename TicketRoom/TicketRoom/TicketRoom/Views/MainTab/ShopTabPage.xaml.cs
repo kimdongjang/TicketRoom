@@ -36,7 +36,7 @@ namespace TicketRoom.Views.MainTab
 
         public ShopTabPage()
         {
-            Global.LoadingStart();
+            Global.LoadingStartAsync();
 
             InitializeComponent();
 
@@ -73,7 +73,7 @@ namespace TicketRoom.Views.MainTab
                 MainGrid.Children.Add(label, 0, 0);
             }
             #endregion
-            Global.LoadingEnd();
+            Global.LoadingEndAsync();
         }
 
 

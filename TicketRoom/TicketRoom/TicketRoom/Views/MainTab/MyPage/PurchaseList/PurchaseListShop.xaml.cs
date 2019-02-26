@@ -23,12 +23,11 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
         {
             InitializeComponent();
             this.plp = plp;
-            purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, -99, 0, 0); // 사용자 아이디로 구매 목록 가져옴
-            Init();
         }
 
-        public void Init()
+        public async Task Init()
         {
+
             MainGrid.Children.Clear();
             if(purchaseList.Count == 0)
             {
@@ -267,6 +266,9 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 }
 
             }
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
     }
 }

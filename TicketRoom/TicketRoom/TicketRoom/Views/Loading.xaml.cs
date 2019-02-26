@@ -6,7 +6,7 @@ namespace TicketRoom.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Loading
     {
-        public Loading(bool _IsBusy)
+        public Loading()
         {
             InitializeComponent();
 

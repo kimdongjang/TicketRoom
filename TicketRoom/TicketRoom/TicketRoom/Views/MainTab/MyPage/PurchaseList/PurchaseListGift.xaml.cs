@@ -47,7 +47,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             purchaselist = giftDBFunc.SearchPurchaseListToID(userid, year, mon, day);
         }
 
-        public void Init()
+        public async Task Init()
         {
             MainGrid.Children.Clear();
             MainGrid.RowDefinitions.Clear();
@@ -80,7 +80,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     
                     #region 전체 그리드
                     MainGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                    BoxView row_boxview = new BoxView { BackgroundColor = Color.Red, Opacity = 0.2, Margin = new Thickness(10), };
+                    BoxView row_boxview = new BoxView { BackgroundColor = Color.Blue, Opacity = 0.2, Margin = new Thickness(10), };
 
 
                     Grid row_Grid = new Grid
@@ -112,7 +112,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                             new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
                             new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
                         },
-                        BackgroundColor = Color.IndianRed,
+                        BackgroundColor = Color.CornflowerBlue,
                     };
 
                     CustomLabel ordernumLabel = new CustomLabel
@@ -127,7 +127,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     CustomButton orderBtn = new CustomButton
                     {
                         Text = "상세보기",
-                        BackgroundColor = Color.DarkRed,
+                        BackgroundColor = Color.DarkBlue,
                         TextColor = Color.White,
                         Size = 18,
                         Margin = 2,
@@ -152,7 +152,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     };
                     #endregion
 
-                    BoxView orderLine = new BoxView { BackgroundColor = Color.Gray };
+                    BoxView orderLine = new BoxView { BackgroundColor = Color.LightGray };
 
                     Grid coverGrid = new Grid { };
                     row_Grid.Children.Add(orderLabelGrid, 0, 0);
@@ -261,7 +261,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     }
                     #endregion
 
-                    BoxView dateLine = new BoxView { BackgroundColor = Color.Gray };
+                    BoxView dateLine = new BoxView { BackgroundColor = Color.LightGray };
 
                     Grid dateGrid = new Grid
                     {
@@ -330,6 +330,9 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 }
 
             }
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
     }
 }
