@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
       
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="White">
+        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -29,7 +29,7 @@
             <!--#region 1열 액션바 타이틀-->
             <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
                     x:Name="TitleName" Text="약관 내용"
-                    TextColor="Black"
+                    TextColor="White"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 

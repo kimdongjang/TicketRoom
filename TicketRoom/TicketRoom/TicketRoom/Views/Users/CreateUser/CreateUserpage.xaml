@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="White">
+        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -30,7 +30,7 @@
             <!--#region 1열 액션바 타이틀-->
             <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
                     x:Name="TitleName" Text="회원가입"
-                    TextColor="Black"
+                    TextColor="White"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 
@@ -296,7 +296,7 @@
         
         <!--#region 3행 확인-->
         <Grid Grid.Row="3" BackgroundColor="#f4f2f2">
-            <local1:CustomButton x:Name="NextBtn" Text="확인" BackgroundColor="#f4f2f2" Clicked="NextBtn_Clicked" Size="18"
+            <local1:CustomButton x:Name="NextBtn" Text="확인" BackgroundColor="CornflowerBlue" Clicked="NextBtn_Clicked" Size="18"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
         </Grid>
         <!--#endregion-->

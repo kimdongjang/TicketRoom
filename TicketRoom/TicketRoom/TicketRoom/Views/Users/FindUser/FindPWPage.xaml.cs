@@ -47,6 +47,9 @@ namespace TicketRoom.Views.Users.FindUser
             {
                 timer.Stop();
             }
+            var nav = Navigation.NavigationStack;
+            int idx = nav.Count;
+            this.Navigation.RemovePage(nav[idx - 1]);
             Navigation.PushAsync(new FindIDPage());
         }
 

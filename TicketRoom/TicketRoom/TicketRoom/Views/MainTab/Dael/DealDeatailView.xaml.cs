@@ -31,15 +31,16 @@ namespace TicketRoom.Views.MainTab.Dael
 
         private async void Tab_Changed(object sender, EventArgs e)
         {
-            PurchaseTab.TextColor = Color.Black;
-            SaleTab.TextColor = Color.Black;
+            PurchaseTab.BackgroundColor = Color.CornflowerBlue;
+            PurchaseTab.TextColor = Color.White;
+            SaleTab.BackgroundColor = Color.CornflowerBlue;
+            SaleTab.TextColor = Color.White;
 
-            PurchaseTab.FontSize = 14;
-            SaleTab.FontSize = 14;
 
             Button selectedtab = (Button)sender;
-            selectedtab.FontSize = 15;
-            selectedtab.TextColor = Color.Blue;
+            selectedtab.BackgroundColor = Color.White;
+            selectedtab.TextColor = Color.CornflowerBlue;
+            
             if (selectedtab.Text.Equals("상품권 구매"))
             {
                 TabContent.Content = new PurchaseTabPage(mainpage, categorynum);

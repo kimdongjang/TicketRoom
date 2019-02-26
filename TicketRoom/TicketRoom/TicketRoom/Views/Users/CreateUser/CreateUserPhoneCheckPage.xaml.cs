@@ -168,7 +168,7 @@ namespace TicketRoom.Views.Users.CreateUser
             #endregion
         }
 
-        private async void CheckNumCheckBtn_Clicked(object sender, EventArgs e)
+        private void CheckNumCheckBtn_Clicked(object sender, EventArgs e)
         {
             CheckNumSendBtn.Text = "인증번호 재전송";
             CheckNumGrid.IsVisible = true;
@@ -223,15 +223,30 @@ namespace TicketRoom.Views.Users.CreateUser
                             DisplayAlert("알림", "인증번호가 틀렸습니다.", "OK");
                             return;
                         case 1:
-                            await ShowMessage("회원가입 되었습니다.", "알림", "OK", async () =>
-                            {
-                                if (timer != null)
-                                {
-                                    timer.Stop();
-                                }
-                                
-                                MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
-                            });
+                            //await ShowMessage("회원가입 되었습니다.", "알림", "OK", async () =>
+                            //{
+                            //    if (timer != null)
+                            //    {
+                            //        timer.Stop();
+                            //    }
+
+                            //    var nav = Navigation.NavigationStack;
+
+                            //    //MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
+                            //    this.Navigation.RemovePage(nav[nav.Count - 1]);
+                            //    this.Navigation.RemovePage(nav[nav.Count - 2]);
+                            //    this.Navigation.RemovePage(nav[nav.Count - 3]);
+                            //    this.Navigation.RemovePage(nav[nav.Count - 4]);
+                            //    Navigation.PushAsync(new LoginPage());
+                            //});
+                            DisplayAlert("알림", "회원가입 되었습니다.", "확인");
+                            var nav = Navigation.NavigationStack;
+                            int idx = nav.Count;
+                            this.Navigation.RemovePage(nav[idx - 1]);
+                            this.Navigation.RemovePage(nav[idx - 2]);
+                            this.Navigation.RemovePage(nav[idx - 3]);
+                            this.Navigation.RemovePage(nav[idx - 4]);
+                            Navigation.PushAsync(new LoginPage());
                             return;
                         case 2:
                             DisplayAlert("알림", "추천인이 탈퇴하셨습니다", "OK");

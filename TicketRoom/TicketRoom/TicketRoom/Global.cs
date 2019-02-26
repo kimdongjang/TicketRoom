@@ -110,7 +110,7 @@ namespace TicketRoom
                 isMainShop = false;
                 isMainBasket = false;
                 isMainMyinfo = true;
-                isMainDealDeatil = true;
+                isMainDealDeatil = false;
             }
             else if (name == "dealdetail")
             {

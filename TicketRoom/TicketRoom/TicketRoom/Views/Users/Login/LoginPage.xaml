@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="White">
+        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -33,7 +33,7 @@
             <custom:CustomLabel Grid.Column="1"
                     Text="로그인"
                     Size="18"
-                    TextColor="Black"
+                    TextColor="White"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
 
             <!--#endregion-->
