@@ -122,7 +122,7 @@ namespace TicketRoom.Views.Users.Login
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new MainPage());
+            this.OnBackButtonPressed();
         }
 
         private void GoogleLogin_Clicked(object sender, EventArgs e)
