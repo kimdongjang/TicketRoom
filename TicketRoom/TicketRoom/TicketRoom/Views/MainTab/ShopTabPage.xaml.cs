@@ -49,6 +49,7 @@ namespace TicketRoom.Views.MainTab
 
             mclist = SH_DB.GetCategoryListAsync();
 
+            //Navigation.PushAsync(new IMPWebView());
             Navigation.PushAsync(new IMPHybridWebView());
 
             // 쇼핑 탭 주소 엔트리 초기화

@@ -40,66 +40,66 @@ namespace TicketRoom
         //구매판매 상세 리스트 더블클릭 막는 bool변수
         public static bool isgiftlistcliecked = true;
 
-        //#region Loading
-        //public static Loading loadingScreen;
-        //public static async Task LoadingStartAsync()
-        //{
-        //    loadingScreen = new Loading();
-        //    await PopupNavigation.PushAsync(loadingScreen);
-        //    Global.isloading_block = true;
-        //}
-        //public static async Task LoadingEndAsync()
-        //{
-        //    if (PopupNavigation.PopupStack.Count!=0)
-        //    {
-        //        await PopupNavigation.PopAsync();
-        //    }
-        //    Global.isloading_block = false;
-        //}
-        //#endregion
-
         #region Loading
         public static Loading loadingScreen;
-        public static MyTimer timer;
         public static async Task LoadingStartAsync()
         {
-            if (timer == null)
-            {
-                timer = new MyTimer(TimeSpan.FromSeconds(0.2), TimerCallback_event);
-                timer.Start();
-            }
-            else
-            {
-                timer.Stop(); timer.Start();
-            }
+            loadingScreen = new Loading();
+            await PopupNavigation.PushAsync(loadingScreen);
+            Global.isloading_block = true;
         }
-
         public static async Task LoadingEndAsync()
         {
-            if (timer != null)
-            {
-                timer.Stop();
-                timer = null;
-            }
             if (PopupNavigation.PopupStack.Count != 0)
             {
                 await PopupNavigation.PopAsync();
             }
             Global.isloading_block = false;
         }
-
-        public static async void TimerCallback_event()
-        {
-            loadingScreen = new Loading();
-            await PopupNavigation.PushAsync(loadingScreen);
-            Global.isloading_block = true;
-            if (timer != null)
-            {
-                timer.Stop();
-                timer = null;
-            }
-        }
         #endregion
+
+        //#region Loading
+        //public static Loading loadingScreen;
+        //public static MyTimer timer;
+        //public static async Task LoadingStartAsync()
+        //{
+        //    if (timer == null)
+        //    {
+        //        timer = new MyTimer(TimeSpan.FromSeconds(0.2), TimerCallback_event);
+        //        timer.Start();
+        //    }
+        //    else
+        //    {
+        //        timer.Stop(); timer.Start();
+        //    }
+        //}
+
+        //public static async Task LoadingEndAsync()
+        //{
+        //    if (timer != null)
+        //    {
+        //        timer.Stop();
+        //        timer = null;
+        //    }
+        //    if (PopupNavigation.PopupStack.Count != 0)
+        //    {
+        //        await PopupNavigation.PopAsync();
+        //    }
+        //    Global.isloading_block = false;
+        //}
+
+        //public static async void TimerCallback_event()
+        //{
+        //    loadingScreen = new Loading();
+        //    await PopupNavigation.PushAsync(loadingScreen);
+        //    Global.isloading_block = true;
+        //    if (timer != null)
+        //    {
+        //        timer.Stop();
+        //        timer = null;
+        //    }
+        //}
+        //#endregion
 
         // 다른 고객이 본 상품 인덱스 초기화 전역 변수        
 
