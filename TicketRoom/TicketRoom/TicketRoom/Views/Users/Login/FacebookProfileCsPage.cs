@@ -39,7 +39,6 @@ namespace TicketRoom.Views.Users.Login
 
         private async void WebViewOnNavigated(object sender, WebNavigatedEventArgs e)
         {
-
             var accessToken = ExtractAccessTokenFromUrl(e.Url);
 
             if (accessToken != "")

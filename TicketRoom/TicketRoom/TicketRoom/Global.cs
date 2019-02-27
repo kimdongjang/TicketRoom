@@ -51,7 +51,7 @@ namespace TicketRoom
         //판매 페이지 판매버튼 더블클릭 막는 bool변수
         public static bool isSaleBtnclicked = true;
         #endregion
-
+        
         #region 장바구니 관련 버튼 더블클릭 방지 변수 
         //장바구니 주문하기 버튼 더블클릭 막는 bool변수
         public static bool isgiftbastketorderbtn_clicked = true;
@@ -75,7 +75,7 @@ namespace TicketRoom
         public static bool iscreateuserphonenextbtn_clicked = true;
 
         #endregion
-
+        
         #region Loading
         public static Loading loadingScreen;
         public static async Task LoadingStartAsync()
@@ -136,6 +136,49 @@ namespace TicketRoom
         //    }
         //}
         #endregion
+
+        //#region Loading
+        //public static Loading loadingScreen;
+        //public static MyTimer timer;
+        //public static async Task LoadingStartAsync()
+        //{
+        //    if (timer == null)
+        //    {
+        //        timer = new MyTimer(TimeSpan.FromSeconds(0.2), TimerCallback_event);
+        //        timer.Start();
+        //    }
+        //    else
+        //    {
+        //        timer.Stop(); timer.Start();
+        //    }
+        //}
+
+        //public static async Task LoadingEndAsync()
+        //{
+        //    if (timer != null)
+        //    {
+        //        timer.Stop();
+        //        timer = null;
+        //    }
+        //    if (PopupNavigation.PopupStack.Count != 0)
+        //    {
+        //        await PopupNavigation.PopAsync();
+        //    }
+        //    Global.isloading_block = false;
+        //}
+
+        //public static async void TimerCallback_event()
+        //{
+        //    loadingScreen = new Loading();
+        //    await PopupNavigation.PushAsync(loadingScreen);
+        //    Global.isloading_block = true;
+        //    if (timer != null)
+        //    {
+        //        timer.Stop();
+        //        timer = null;
+        //    }
+        //}
+        //#endregion
 
         // 다른 고객이 본 상품 인덱스 초기화 전역 변수        
 
