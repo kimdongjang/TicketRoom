@@ -114,15 +114,9 @@ namespace TicketRoom.Views.MainTab.Dael
                 if (Global.isgiftlistcliecked)
                 {
                     Global.isgiftlistcliecked = false;
-                    // 로딩 시작
-                    await Global.LoadingStartAsync();
 
-                    // 초기화 코드 작성
                     Grid g = (Grid)s;
                     await Navigation.PushAsync(new PurchasePage(ddp, productlist[int.Parse(g.BindingContext.ToString())], categorynum));
-
-                    // 로딩 완료
-                    await Global.LoadingEndAsync();
                 }
             };
 

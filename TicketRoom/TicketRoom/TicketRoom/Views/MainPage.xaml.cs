@@ -42,6 +42,7 @@ namespace TicketRoom.Views
 
         protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
         {
+            Init();
             #region OnAppearing을 사용해 사용중인 탭으로 되돌리기
             if (Global.isMainDeal == true)
             {
@@ -60,6 +61,8 @@ namespace TicketRoom.Views
             }
             else if (Global.isMainMyinfo == true)
             {
+                //마이페이지 버튼들 더블클릭 방지
+                Global.ismypagebtns_clicked = true;
                 Tab_Changed(tablist[3], null);
                 Global.InitOnAppearingBool("myinfo");
             }
@@ -68,8 +71,7 @@ namespace TicketRoom.Views
                 ShowDealDetail(this.categorynum);
             }
             #endregion
-
-            Init();
+            
             base.OnAppearing();
         }
 
@@ -152,15 +154,8 @@ namespace TicketRoom.Views
             selectedtab.TextColor = Color.CornflowerBlue;
             if (selectedtab.Text.Equals("구매/판매"))
             {
-                // 로딩 시작
-                await Global.LoadingStartAsync();
-
-                // 초기화 코드 작성
                 TabContent.Content = new DealTabPage(this);
                 Global.InitOnAppearingBool("deal");
-
-                // 로딩 완료
-                await Global.LoadingEndAsync();
                 
                 //Title = "실시간 시세 표시";
             }
@@ -168,30 +163,18 @@ namespace TicketRoom.Views
             {
                 TabContent.Content = new ShopTabPage();
                 Global.InitOnAppearingBool("shop");
-
-                // 로딩 완료
-                await Global.LoadingEndAsync();
+                //Title = "쇼핑";
             }
             else if (selectedtab.Text.Equals("장바구니"))
             {
-                // 로딩 시작
-                await Global.LoadingStartAsync();
-
-                // 초기화 코드 작성
                 TabContent.Content = new BasketTabPage();
                 Global.InitOnAppearingBool("basket");
-
-                // 로딩 완료
-                await Global.LoadingEndAsync();
-
-               
                 //Title = "장바구니";
             }
             else if (selectedtab.Text.Equals("내정보"))
             {
                 TabContent.Content = new MyPageTabPage(this);
                 Global.InitOnAppearingBool("myinfo");
-                
                 //Title = "내 정보";
             }
         }
@@ -203,17 +186,10 @@ namespace TicketRoom.Views
             Global.InitOnAppearingBool("dealdetail");
         }
 
-        public async void ShowDeal()
+        public void ShowDeal()
         {
-            // 로딩 시작
-            await Global.LoadingStartAsync();
-
-            // 초기화 코드 작성
             TabContent.Content = new DealTabPage(this);
             Global.InitOnAppearingBool("deal");
-
-            // 로딩 완료
-            await Global.LoadingEndAsync();
         }
         public void SetTabContent(Xamarin.Forms.View page)
         {

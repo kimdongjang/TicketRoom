@@ -240,7 +240,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 {
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/plus.png")),
+                    Source = ImageSource.FromUri(new Uri("http://175.115.110.17:8088/img/default/plus.png")),
                     Aspect = Aspect.AspectFit
                 };
                 #endregion
@@ -263,7 +263,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 {
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/minus.png")),
+                    Source = ImageSource.FromUri(new Uri("http://175.115.110.17:8088/img/default/minus.png")),
                     Aspect = Aspect.AspectFit
                 };
                 #endregion
@@ -297,7 +297,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 Image deleteImage = new Image
                 {
                     BindingContext = i,
-                    Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/x.png")),
+                    Source = ImageSource.FromUri(new Uri("http://175.115.110.17:8088/img/default/x.png")),
                     HeightRequest = 40,
                     WidthRequest = 40,
                 };
@@ -419,7 +419,7 @@ namespace TicketRoom.Views.MainTab.Basket
             Grid g3 = (Grid)b2[1];
             List<Xamarin.Forms.View> b3 = g3.Children.ToList();
             Label price = (Label)b3[2];
-            ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace(",", "")) + int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
+            ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace("합계 : ", "").Replace(",", "").Replace("원", "")) + int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
         }
 
         private void minusBtn_Clicked(object s, EventArgs e)
@@ -439,35 +439,42 @@ namespace TicketRoom.Views.MainTab.Basket
                 Grid g3 = (Grid)b2[1];
                 List<Xamarin.Forms.View> b3 = g3.Children.ToList();
                 Label price = (Label)b3[2];
-                ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace(",", "")) - int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
+                ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace("합계 : ", "").Replace(",", "").Replace("원", "")) - int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
             }
         }
 
         private void OrderBtn_Clicked(object sender, EventArgs e)
         {
-            List<G_PurchasedetailInfo> g_PurchasedetailInfos = new List<G_PurchasedetailInfo>();
-            for (int i = 0; i < BasketList.Count; i++)
+            if (Global.isgiftbastketorderbtn_clicked)
             {
-                Grid g = productgridlist[i];
-                List<Xamarin.Forms.View> b = g.Children.ToList();
-                Grid g2 = (Grid)b[2];
-                List<Xamarin.Forms.View> b2 = g2.Children.ToList();
-                Label g3 = (Label)b2[1];
-
-                G_PurchasedetailInfo g_PurchasedetailInfo = new G_PurchasedetailInfo
+                Global.isgiftbastketorderbtn_clicked = false;
+                List<G_PurchasedetailInfo> g_PurchasedetailInfos = new List<G_PurchasedetailInfo>();
+                for (int i = 0; i < BasketList.Count; i++)
                 {
-                    PDL_PRONUM = BasketList[i].BK_PRONUM,
-                    PDL_PROCOUNT = g3.Text,
-                    PDL_PROTYPE = BasketList[i].BK_TYPE,
-                    PDL_ALLPRICE = (int.Parse(BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE) * int.Parse(g3.Text)).ToString(),
-                    PRODUCT_IMAGE = BasketList[i].BK_PRODUCT_IMAGE,
-                    PRODUCT_TYPE = BasketList[i].BK_PRODUCT_TYPE,
-                    PRODUCT_VALUE = BasketList[i].BK_PRODUCT_VALUE
-                };
-                g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
-            }
+                    Grid g = productgridlist[i];
+                    List<Xamarin.Forms.View> b = g.Children.ToList();
+                    Grid g2 = (Grid)b[2];
+                    List<Xamarin.Forms.View> b2 = g2.Children.ToList();
+                    Label g3 = (Label)b2[1];
 
-            Navigation.PushAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
+                    if (int.Parse(g3.Text) != 0)
+                    {
+                        G_PurchasedetailInfo g_PurchasedetailInfo = new G_PurchasedetailInfo
+                        {
+                            PDL_PRONUM = BasketList[i].BK_PRONUM,
+                            PDL_PROCOUNT = g3.Text,
+                            PDL_PROTYPE = BasketList[i].BK_TYPE,
+                            PDL_ALLPRICE = (int.Parse(BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE) * int.Parse(g3.Text)).ToString(),
+                            PRODUCT_IMAGE = BasketList[i].BK_PRODUCT_IMAGE,
+                            PRODUCT_TYPE = BasketList[i].BK_PRODUCT_TYPE,
+                            PRODUCT_VALUE = BasketList[i].BK_PRODUCT_VALUE
+                        };
+                        g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
+                    }
+                }
+
+                Navigation.PushAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
+            }
         }
     }
 }

@@ -99,6 +99,12 @@ namespace TicketRoom.Views.Users.CreateUser
             }
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Global.isaccepttermsnextbtn_clicked = true;
+        }
+
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
             Navigation.PopAsync();
@@ -143,7 +149,11 @@ namespace TicketRoom.Views.Users.CreateUser
 
         private void CheckContent_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new TermsContentPage());
+            if (Global.isaccepttermsnextbtn_clicked)
+            {
+                Global.isaccepttermsnextbtn_clicked = false;
+                Navigation.PushAsync(new TermsContentPage());
+            }
         }
 
 
@@ -204,23 +214,28 @@ namespace TicketRoom.Views.Users.CreateUser
 
         private void NextBtn_Clicked(object sender, EventArgs e)
         {
-            Dictionary<string, bool> sendlist = new Dictionary<string, bool>();//전달할 객체
-
-
-            for (int i = 0; i < RadioGroup.Count; i++)
+            if (Global.isaccepttermsnextbtn_clicked)
             {
-                sendlist.Add(termstitle[i], RadioGroup.Values.ToList()[i]);
-                if (i != 3)
+                Global.isaccepttermsnextbtn_clicked = false;
+                Dictionary<string, bool> sendlist = new Dictionary<string, bool>();//전달할 객체
+
+
+                for (int i = 0; i < RadioGroup.Count; i++)
                 {
-                    if (!RadioGroup.Values.ToList()[i])
+                    sendlist.Add(termstitle[i], RadioGroup.Values.ToList()[i]);
+                    if (i != 3)
                     {
-                        DisplayAlert("알림", "약관을 동의해주세요", "OK");
-                        return;
+                        if (!RadioGroup.Values.ToList()[i])
+                        {
+                            DisplayAlert("알림", "약관을 동의해주세요", "OK");
+                            Global.isaccepttermsnextbtn_clicked = true;
+                            return;
+                        }
                     }
                 }
-            }
 
-            Navigation.PushAsync(new CreateUserpage(sendlist));
+                Navigation.PushAsync(new CreateUserpage(sendlist));
+            }
         }
     }
 }

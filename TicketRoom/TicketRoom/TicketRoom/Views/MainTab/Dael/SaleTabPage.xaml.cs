@@ -109,8 +109,13 @@ namespace TicketRoom.Views.MainTab.Dael
             var label_tap = new TapGestureRecognizer();
             label_tap.Tapped += (s, e) =>
             {
-                Grid g = (Grid)s;
-                Navigation.PushAsync(new SalePage(salelist[int.Parse(g.BindingContext.ToString())]));
+                if (Global.isgiftlistcliecked)
+                {
+                    Global.isgiftlistcliecked = false;
+                    
+                    Grid g = (Grid)s;
+                    Navigation.PushAsync(new SalePage(salelist[int.Parse(g.BindingContext.ToString())]));
+                }
             };
 
             if (salelist.Count == 0)

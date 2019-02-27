@@ -58,8 +58,11 @@ namespace TicketRoom.Views.MainTab.MyPage
             salelist = giftDBFunc.SearchSaleListToID(userid, year, mon, day);
         }
 
-        private void Init()
+        private async void Init()
         {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+            
             MainGrid.Children.Clear();
             MainGrid.RowDefinitions.Clear();
             if (salelist.Count == 0)
@@ -337,6 +340,9 @@ namespace TicketRoom.Views.MainTab.MyPage
                 }
 
             }
+            
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)

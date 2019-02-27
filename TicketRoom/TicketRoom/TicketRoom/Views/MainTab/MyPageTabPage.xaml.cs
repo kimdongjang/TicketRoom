@@ -52,13 +52,18 @@ namespace TicketRoom.Views.MainTab
             {
                 Command = new Command(async () =>
                 {
-
-                    if (Global.b_user_login == false)
+                    if (Global.ismypagebtns_clicked)
                     {
-                        await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
-                        return;
+                        Global.ismypagebtns_clicked = false;
+
+                        if (Global.b_user_login == false)
+                        {
+                            await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
+                            Global.ismypagebtns_clicked = true;
+                            return;
+                        }
+                        await Navigation.PushAsync(new MyInfoUpdatePage());
                     }
-                    await Navigation.PushAsync(new MyInfoUpdatePage());
                 })
             });
 
@@ -66,19 +71,28 @@ namespace TicketRoom.Views.MainTab
             {
                 Command = new Command(async () =>
                 {
-                    if (Global.b_user_login == false)
+                    if (Global.ismypagebtns_clicked)
                     {
-                        await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
-                        return;
+                        Global.ismypagebtns_clicked = false;
+                        if (Global.b_user_login == false)
+                        {
+                            await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
+                            Global.ismypagebtns_clicked = true;
+                            return;
+                        }
+                        await Navigation.PushAsync(new SaleListPage());
                     }
-                    await Navigation.PushAsync(new SaleListPage());
                 })
             });
             PurchaseListGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>
                 {
-                    await Navigation.PushAsync(new PurchaseListPage());
+                    if (Global.ismypagebtns_clicked)
+                    {
+                        Global.ismypagebtns_clicked = false;
+                        await Navigation.PushAsync(new PurchaseListPage());
+                    }
                 })
             });
 
@@ -86,12 +100,17 @@ namespace TicketRoom.Views.MainTab
             {
                 Command = new Command(async () =>
                 {
-                    if (Global.b_user_login == false)
+                    if (Global.ismypagebtns_clicked)
                     {
-                        await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
-                        return;
+                        Global.ismypagebtns_clicked = false;
+                        if (Global.b_user_login == false)
+                        {
+                            await App.Current.MainPage.DisplayAlert("알림", "로그인 후에 이용이 가능합니다.", "확인");
+                            Global.ismypagebtns_clicked = true;
+                            return;
+                        }
+                        await Navigation.PushAsync(new PointCheckPage());
                     }
-                    await Navigation.PushAsync(new PointCheckPage());
                 })
             });
         }
@@ -99,30 +118,34 @@ namespace TicketRoom.Views.MainTab
 
         private async void IsLoginBtn_ClickedAsync(object sender, EventArgs e)
         {
-            if (Global.b_user_login == true) // 로그아웃 버튼
+            if (Global.ismypagebtns_clicked)
             {
-                if(await App.Current.MainPage.DisplayAlert("알림", "로그아웃 하시겠습니까?", "확인", "취소") == true)
+                Global.ismypagebtns_clicked = false;
+                if (Global.b_user_login == true) // 로그아웃 버튼
                 {
-                    Global.b_user_login = false;
-                    Global.b_auto_login = false;
-                    Global.ID = "";
+                    if (await App.Current.MainPage.DisplayAlert("알림", "로그아웃 하시겠습니까?", "확인", "취소") == true)
+                    {
+                        Global.b_user_login = false;
+                        Global.b_auto_login = false;
+                        Global.ID = "";
 
-                    // config파일 재설정
-                    File.WriteAllText(Global.localPath + "app.config",
-                        "NonUserID=" + Global.non_user_id + "\n" +
-                        "IsLogin=" + Global.b_user_login.ToString() + "\n" + // 회원 로그인 false
-                        "AutoLogin=" + Global.b_auto_login.ToString() + "\n" + // 자동 로그인 false
-                        "UserID=" + Global.ID + "\n");
+                        // config파일 재설정
+                        File.WriteAllText(Global.localPath + "app.config",
+                            "NonUserID=" + Global.non_user_id + "\n" +
+                            "IsLogin=" + Global.b_user_login.ToString() + "\n" + // 회원 로그인 false
+                            "AutoLogin=" + Global.b_auto_login.ToString() + "\n" + // 자동 로그인 false
+                            "UserID=" + Global.ID + "\n");
 
-                    await App.Current.MainPage.DisplayAlert("알림", "성공적으로 로그아웃 되었습니다.", "확인");
-                    Init();
-                }                
+                        await App.Current.MainPage.DisplayAlert("알림", "성공적으로 로그아웃 되었습니다.", "확인");
+                        Init();
+                    }
+                    Global.ismypagebtns_clicked = true;
+                }
+                else if (Global.b_user_login == false)
+                {
+                    Navigation.PushAsync(new LoginPage()); // 로그인 페이지로 이동
+                }
             }
-            else if (Global.b_user_login == false)
-            {
-                Navigation.PushAsync(new LoginPage()); // 로그인 페이지로 이동
-            }
-            
         }
 
         private void IsLoginBtn_Clicked(object sender, EventArgs e)

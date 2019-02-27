@@ -36,69 +36,105 @@ namespace TicketRoom
         
         // loading창 back button blocking하는 bool 변수
         public static bool isloading_block = false;
-        
+
+        #region 구매/판매 관련 버튼 더블클릭 방지 변수 
         //구매판매 상세 리스트 더블클릭 막는 bool변수
         public static bool isgiftlistcliecked = true;
+        //구매버튼 더블클릭 막는 bool변수
+        public static bool isgiftPurchasebtn_clieck = true;
+        //장바구니 더블클릭 막는 bool변수
+        public static bool isgiftbastketbtn_clieck = true;
+        //구매 판매 탭 더블클릭 막는 bool변수
+        public static bool isDealTabCliecked = true;
+        //구매 상세 페이지 구매버튼 더블클릭 막는 bool변수
+        public static bool isPurchaseDeatailBtn_clicked = true;
+        //판매 페이지 판매버튼 더블클릭 막는 bool변수
+        public static bool isSaleBtnclicked = true;
+        #endregion
 
-        //#region Loading
-        //public static Loading loadingScreen;
-        //public static async Task LoadingStartAsync()
-        //{
-        //    loadingScreen = new Loading();
-        //    await PopupNavigation.PushAsync(loadingScreen);
-        //    Global.isloading_block = true;
-        //}
-        //public static async Task LoadingEndAsync()
-        //{
-        //    if (PopupNavigation.PopupStack.Count!=0)
-        //    {
-        //        await PopupNavigation.PopAsync();
-        //    }
-        //    Global.isloading_block = false;
-        //}
-        //#endregion
+        #region 장바구니 관련 버튼 더블클릭 방지 변수 
+        //장바구니 주문하기 버튼 더블클릭 막는 bool변수
+        public static bool isgiftbastketorderbtn_clicked = true;
+        #endregion
+
+        #region 마이페이지 관련 버튼 더블클릭 방지 변수 
+        //마이페이지 버튼들 버튼 더블 클릭 막는 변수
+        public static bool ismypagebtns_clicked = true;
+        //내정보 수정 완료 버튼 더블 클릭 막는 변수
+        public static bool ischangemyinfobtn_clicked = true;
+        #endregion
+
+        #region 로그인 및 Users 관련 페이지 더블클릭 방지 변수
+        //로그인 버튼 더블 클릭 막는 변수
+        public static bool isloginbtn_clicked = true;
+        //약관 동의 페이지 다음 버튼 더블 클릭 막는 변수
+        public static bool isaccepttermsnextbtn_clicked = true;
+        //회원가입 정보 페이지 다음 버튼 더블 클릭 막는 변수
+        public static bool iscreateusernextbtn_clicked = true;
+        //회원가입 폰정보 페이지 다음 버튼 더블 클릭 막는 변수
+        public static bool iscreateuserphonenextbtn_clicked = true;
+
+        #endregion
 
         #region Loading
         public static Loading loadingScreen;
-        public static MyTimer timer;
         public static async Task LoadingStartAsync()
         {
-            if (timer == null)
-            {
-                timer = new MyTimer(TimeSpan.FromSeconds(0.2), TimerCallback_event);
-                timer.Start();
-            }
-            else
-            {
-                timer.Stop(); timer.Start();
-            }
+            loadingScreen = new Loading();
+            await PopupNavigation.PushAsync(loadingScreen);
+            Global.isloading_block = true;
         }
-
         public static async Task LoadingEndAsync()
         {
-            if (timer != null)
-            {
-                timer.Stop();
-                timer = null;
-            }
             if (PopupNavigation.PopupStack.Count != 0)
             {
                 await PopupNavigation.PopAsync();
             }
             Global.isloading_block = false;
         }
+        #endregion
 
-        public static async void TimerCallback_event()
-        {
-            loadingScreen = new Loading();
-            await PopupNavigation.PushAsync(loadingScreen);
-            Global.isloading_block = true;
-            if (timer != null)
-            {
-                timer.Stop();
-                timer = null;
-            }
-        }
+        #region Loading 타이머 사용 X 
+        //public static Loading loadingScreen;
+        //public static MyTimer timer;
+        //public static async Task LoadingStartAsync()
+        //{
+        //    if (timer == null)
+        //    {
+        //        timer = new MyTimer(TimeSpan.FromSeconds(0.2), TimerCallback_event);
+        //        timer.Start();
+        //    }
+        //    else
+        //    {
+        //        timer.Stop(); timer.Start();
+        //    }
+        //}
+
+        //public static async Task LoadingEndAsync()
+        //{
+        //    if (timer != null)
+        //    {
+        //        timer.Stop();
+        //        timer = null;
+        //    }
+        //    if (PopupNavigation.PopupStack.Count != 0)
+        //    {
+        //        await PopupNavigation.PopAsync();
+        //    }
+        //    Global.isloading_block = false;
+        //}
+
+        //public static async void TimerCallback_event()
+        //{
+        //    loadingScreen = new Loading();
+        //    await PopupNavigation.PushAsync(loadingScreen);
+        //    Global.isloading_block = true;
+        //    if (timer != null)
+        //    {
+        //        timer.Stop();
+        //        timer = null;
+        //    }
+        //}
         #endregion
 
         // 다른 고객이 본 상품 인덱스 초기화 전역 변수        

@@ -43,6 +43,9 @@ namespace TicketRoom.Views.MainTab
         }
         private void TapColorChange(ContentView cv)
         {
+            //상품권 장바구니 주문 버튼 더블클릭방지
+            Global.isgiftbastketorderbtn_clicked = true;
+
             if (cv == bgv) // 상품권이 선택되었을 경우
             {
                 ShopSelect.TextColor = Color.White;

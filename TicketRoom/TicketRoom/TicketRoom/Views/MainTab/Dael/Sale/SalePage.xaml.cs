@@ -44,6 +44,12 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
             ShowPinAddForm(productInfo);
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Global.isSaleBtnclicked = true;
+        }
+
         public void ShowPinAddForm(G_ProductInfo productInfo)
         {
             if (int.Parse(productInfo.DETAILCATEGORYNUM) == 1) //도서문화상품권
@@ -234,158 +240,165 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
 
         private async void SaleBtn_Cliecked(object sender, EventArgs e)
         {
-            G_SaleInfo g_SaleInfo = null;
-            
-            string date = startDatePicker.Date.ToString("yyyy/MM/dd HH:mm:ss");
-
-            if (Paperradio.Source.ToString().Contains("radio_checked_icon.png"))
+            if (Global.isSaleBtnclicked)
             {
-                if (int.Parse(Count_label.Text) > 0)
-                {
-                    if (BankName_picker.SelectedItem != null)
-                    {
-                        if (UserName_box.Text != null && UserName_box.Text != "")
-                        {
-                            if (AccountNum_box.Text != null && AccountNum_box.Text != "")
-                            {
-                                g_SaleInfo = new G_SaleInfo
-                                {
-                                    SL_USERID = Global.ID,
-                                    SL_PRONUM = productInfo.PRONUM,
-                                    SL_PROCOUNT = Count_label.Text,
-                                    SL_BANK_NAME = BankName_picker.SelectedItem.ToString(),
-                                    SL_ACC_NAME = UserName_box.Text,
-                                    SL_ACC_NUM = AccountNum_box.Text,
-                                    SL_SEND_DATE = date,
-                                    SL_SENDSTRING = SendString_editor.Text,
-                                    SL_TOTAL_PRICE = Sale_DiscountPrice_span.Text.Replace(",", ""),
-                                    SL_SALEPRO_TYPE = "1",
-                                    SL_PIN_LIST = g_Pinlist
-                                };
+                Global.isSaleBtnclicked = false;
 
-                                int result = giftDBFunc.UserAddSale(g_SaleInfo);
-                                if (result == 3)
-                                {
-                                    await ShowMessage("판매내역에서 확인해주세요.", "알림", "OK", async () =>
-                                    {
-                                        Navigation.PopToRootAsync();
-                                        MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
-                                    });
-                                }
-                                else if (result == 2)
-                                {
-                                    DisplayAlert("알림", "판매실패", "OK");
-                                }
-                                else if (result == 4)
-                                {
-                                    DisplayAlert("알림", "서버점검중입니다", "OK");
-                                }
-                            }
-                            else
-                            {
-                                DisplayAlert("알림", "입금계좌번호를 입력하세요", "OK");
-                            }
-                        }
-                        else
-                        {
-                            DisplayAlert("알림", "예금주명을 입력하세요", "OK");
-                        }
-                    }
-                    else
-                    {
-                        DisplayAlert("알림", "은행명을 입력하세요", "OK");
-                    }
-                }
-                else
-                {
-                    DisplayAlert("알림", "수량을 입력해주세요", "OK");
-                }
-            }
-            else
-            {
-                if (g_Pinlist.Count > 0)
-                {
-                    if (BankName_picker2.SelectedItem != null)
-                    {
-                        if (UserName_box2.Text != null && UserName_box2.Text != "")
-                        {
-                            if (AccountNum_box2.Text != null && AccountNum_box.Text != "")
-                            {
-                                if (OrderNum_box.Text != null && OrderNum_box.Text != "")
-                                {
-                                    if (OrderNumCheck_box.Text != null && OrderNumCheck_box.Text != "")
-                                    {
-                                        if (OrderNum_box.Text.Equals(OrderNumCheck_box.Text))
-                                        {
-                                            g_SaleInfo = new G_SaleInfo
-                                            {
-                                                SL_USERID = Global.ID,
-                                                SL_PRONUM = productInfo.PRONUM,
-                                                SL_PROCOUNT = g_Pinlist.Count.ToString(),
-                                                SL_BANK_NAME = BankName_picker2.SelectedItem.ToString(),
-                                                SL_ACC_NAME = UserName_box2.Text,
-                                                SL_ACC_NUM = AccountNum_box2.Text,
-                                                SL_SEND_DATE = date,
-                                                SL_SENDSTRING = "",
-                                                SL_TOTAL_PRICE = Sale_DiscountPrice_span.Text.Replace(",", ""),
-                                                SL_SALEPRO_TYPE = "2",
-                                                SL_PIN_LIST = g_Pinlist,
-                                                SL_SALE_PW = OrderNum_box.Text
-                                            };
+                G_SaleInfo g_SaleInfo = null;
 
-                                            int result = giftDBFunc.UserAddSale(g_SaleInfo);
-                                            if (result == 3)
-                                            {
-                                                await ShowMessage("판매내역에서 확인해주세요.", "알림", "OK", async () =>
-                                                {
-                                                    Navigation.PopToRootAsync();
-                                                    MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
-                                                });
-                                            }
-                                            else if (result == 2)
-                                            {
-                                                DisplayAlert("알림", "판매실패", "OK");
-                                            }
-                                            else if (result == 4)
-                                            {
-                                                DisplayAlert("알림", "서버점검중입니다", "OK");
-                                            }
-                                        }
-                                        else
+                string date = startDatePicker.Date.ToString("yyyy/MM/dd HH:mm:ss");
+
+                if (Paperradio.Source.ToString().Contains("radio_checked_icon.png"))
+                {
+                    if (int.Parse(Count_label.Text) > 0)
+                    {
+                        if (BankName_picker.SelectedItem != null)
+                        {
+                            if (UserName_box.Text != null && UserName_box.Text != "")
+                            {
+                                if (AccountNum_box.Text != null && AccountNum_box.Text != "")
+                                {
+                                    g_SaleInfo = new G_SaleInfo
+                                    {
+                                        SL_USERID = Global.ID,
+                                        SL_PRONUM = productInfo.PRONUM,
+                                        SL_PROCOUNT = Count_label.Text,
+                                        SL_BANK_NAME = BankName_picker.SelectedItem.ToString(),
+                                        SL_ACC_NAME = UserName_box.Text,
+                                        SL_ACC_NUM = AccountNum_box.Text,
+                                        SL_SEND_DATE = date,
+                                        SL_SENDSTRING = SendString_editor.Text,
+                                        SL_TOTAL_PRICE = Sale_DiscountPrice_span.Text.Replace(",", ""),
+                                        SL_SALEPRO_TYPE = "1",
+                                        SL_PIN_LIST = g_Pinlist
+                                    };
+
+                                    int result = giftDBFunc.UserAddSale(g_SaleInfo);
+                                    if (result == 3)
+                                    {
+                                        await ShowMessage("판매내역에서 확인해주세요.", "알림", "OK", async () =>
                                         {
-                                            DisplayAlert("알림", "접수비밀번호가 다릅니다", "OK");
-                                        }
+                                            Navigation.PopToRootAsync();
+                                            MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
+                                        });
                                     }
-                                    else
+                                    else if (result == 2)
                                     {
-                                        DisplayAlert("알림", "접수비밀번호확인를 입력하세요", "OK");
+                                        DisplayAlert("알림", "판매실패", "OK");
+                                    }
+                                    else if (result == 4)
+                                    {
+                                        DisplayAlert("알림", "서버점검중입니다", "OK");
                                     }
                                 }
                                 else
                                 {
-                                    DisplayAlert("알림", "접수비밀번호를 입력하세요", "OK");
+                                    DisplayAlert("알림", "입금계좌번호를 입력하세요", "OK");
                                 }
                             }
                             else
                             {
-                                DisplayAlert("알림", "입금계좌번호를 입력하세요", "OK");
+                                DisplayAlert("알림", "예금주명을 입력하세요", "OK");
                             }
                         }
                         else
                         {
-                            DisplayAlert("알림", "예금주명을 입력하세요", "OK");
+                            DisplayAlert("알림", "은행명을 입력하세요", "OK");
                         }
                     }
                     else
                     {
-                        DisplayAlert("알림", "은행명을 입력하세요", "OK");
+                        DisplayAlert("알림", "수량을 입력해주세요", "OK");
                     }
                 }
                 else
                 {
-                    DisplayAlert("알림", "수량을 입력해주세요", "OK");
+                    if (g_Pinlist.Count > 0)
+                    {
+                        if (BankName_picker2.SelectedItem != null)
+                        {
+                            if (UserName_box2.Text != null && UserName_box2.Text != "")
+                            {
+                                if (AccountNum_box2.Text != null && AccountNum_box.Text != "")
+                                {
+                                    if (OrderNum_box.Text != null && OrderNum_box.Text != "")
+                                    {
+                                        if (OrderNumCheck_box.Text != null && OrderNumCheck_box.Text != "")
+                                        {
+                                            if (OrderNum_box.Text.Equals(OrderNumCheck_box.Text))
+                                            {
+                                                g_SaleInfo = new G_SaleInfo
+                                                {
+                                                    SL_USERID = Global.ID,
+                                                    SL_PRONUM = productInfo.PRONUM,
+                                                    SL_PROCOUNT = g_Pinlist.Count.ToString(),
+                                                    SL_BANK_NAME = BankName_picker2.SelectedItem.ToString(),
+                                                    SL_ACC_NAME = UserName_box2.Text,
+                                                    SL_ACC_NUM = AccountNum_box2.Text,
+                                                    SL_SEND_DATE = date,
+                                                    SL_SENDSTRING = "",
+                                                    SL_TOTAL_PRICE = Sale_DiscountPrice_span.Text.Replace(",", ""),
+                                                    SL_SALEPRO_TYPE = "2",
+                                                    SL_PIN_LIST = g_Pinlist,
+                                                    SL_SALE_PW = OrderNum_box.Text
+                                                };
+
+                                                int result = giftDBFunc.UserAddSale(g_SaleInfo);
+                                                if (result == 3)
+                                                {
+                                                    await ShowMessage("판매내역에서 확인해주세요.", "알림", "OK", async () =>
+                                                    {
+                                                        Navigation.PopToRootAsync();
+                                                        MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
+                                                    });
+                                                }
+                                                else if (result == 2)
+                                                {
+                                                    DisplayAlert("알림", "판매실패", "OK");
+                                                }
+                                                else if (result == 4)
+                                                {
+                                                    DisplayAlert("알림", "서버점검중입니다", "OK");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                DisplayAlert("알림", "접수비밀번호가 다릅니다", "OK");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            DisplayAlert("알림", "접수비밀번호확인를 입력하세요", "OK");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        DisplayAlert("알림", "접수비밀번호를 입력하세요", "OK");
+                                    }
+                                }
+                                else
+                                {
+                                    DisplayAlert("알림", "입금계좌번호를 입력하세요", "OK");
+                                }
+                            }
+                            else
+                            {
+                                DisplayAlert("알림", "예금주명을 입력하세요", "OK");
+                            }
+                        }
+                        else
+                        {
+                            DisplayAlert("알림", "은행명을 입력하세요", "OK");
+                        }
+                    }
+                    else
+                    {
+                        DisplayAlert("알림", "수량을 입력해주세요", "OK");
+                    }
                 }
             }
+            
+            
         }
     }
 }
