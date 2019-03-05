@@ -50,7 +50,7 @@ namespace TicketRoom.Views.MainTab
             mclist = SH_DB.GetCategoryListAsync();
 
             //Navigation.PushAsync(new IMPWebView());
-            Navigation.PushAsync(new IMPHybridWebView());
+            //Navigation.PushAsync(new IMPHybridWebView());
 
             // 쇼핑 탭 주소 엔트리 초기화
 
@@ -91,7 +91,7 @@ namespace TicketRoom.Views.MainTab
                 //System.Diagnostics.Debug.WriteLine("Fade Out");
 
                 // Changes image source.
-                image.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/shophome.jpg"));
+                image.Source = "shophome.jpg";
                 Uri uri = new Uri("http://naver.com/");
                 image.GestureRecognizers.Add(new TapGestureRecognizer
                 {
@@ -113,110 +113,108 @@ namespace TicketRoom.Views.MainTab
         
         private void GridUpdate()
         {
-            int row = -1;
-            int column = 2;
-            Grid RowGrid = new Grid();
+            int columnindex = 3;
+            int rowindex = 0;
+            Grid ColumnGrid = new Grid();
 
-            for (int i = 0; i < mclist.Count; i++)
+            for (int i = 0; i < mclist.Count; )
             {
-                if (column >= 2)
+                if (columnindex > 2) // 열 그리드
                 {
-                    MainGrid.RowDefinitions.Add(new RowDefinition { Height = 200 });
-                    row++;
-
-                    RowGrid = new Grid
+                    columnindex = 0;
+                    MainGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+                    MainGrid.RowDefinitions.Add(new RowDefinition { Height = 3 });
+                    ColumnGrid = new Grid
                     {
                         ColumnDefinitions =
                         {
-                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                        },
-                        RowSpacing = 0,
-                        ColumnSpacing = 0,
-                        BackgroundColor = Color.White,
+                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)},
+                            new ColumnDefinition { Width = 3},
+                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)}
+                        }
                     };
-                    column = 0;
-                    MainGrid.Children.Add(RowGrid, 0, row);
-                }
-                // 구분선
-                //BoxView gridBox = new BoxView{BackgroundColor = Color.Gray};
-                Grid inGrid = new Grid
-                {
-                    RowDefinitions = {
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
-                        new RowDefinition { Height = 30 },
-                    },
-                    BackgroundColor = Color.White,
-                    Margin = 0.5,
-                    VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = LayoutOptions.Center,
-                };
-                //RowGrid.Children.Add(gridBox, column, row);
-                RowGrid.Children.Add(inGrid, column, row);
-                column++;
+                    MainGrid.Children.Add(ColumnGrid, 0, rowindex);
 
-                ClickList.Add(inGrid);
-
-                StackLayout SLayout = new StackLayout
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = LayoutOptions.Center,
-                };
-                CachedImage image = new CachedImage();
-
-                CustomLabel label = new CustomLabel();
-
-                #region 의류 카테고리 이미지 생성
-                if (mclist[i].SH_MAINCATE_NAME == "남성의류")
-                {
-                    image = new CachedImage
+                    BoxView borderR = new BoxView
                     {
-                        LoadingPlaceholder = Global.LoadingImagePath,
-                        ErrorPlaceholder = Global.LoadingImagePath,
-                        Source = "uniform_icon",
-                        WidthRequest = 100,
-                        HeightRequest = 100,
+                        BackgroundColor = Color.LightGray,
+                        Opacity = 0.5,
                     };
+                    MainGrid.Children.Add(borderR, 0, rowindex + 1);
+                    rowindex += 2;
                 }
-                else if (mclist[i].SH_MAINCATE_NAME == "여성의류")
+
+                if (columnindex == 1)
                 {
-                    image = new CachedImage
+                    BoxView borderC = new BoxView
                     {
-                        Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/women_icon.png")),
-                        WidthRequest = 100,
-                        HeightRequest = 100,
+                        BackgroundColor = Color.LightGray,
+                        Opacity = 0.5,
                     };
+                    ColumnGrid.Children.Add(borderC, 1, 0);
                 }
                 else
                 {
-                    image = new CachedImage
+                    Grid inGrid = new Grid
                     {
-                        Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/ready.png")),
-                        WidthRequest = 100,
-                        HeightRequest = 100,
+                        RowDefinitions = {
+                            new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
+                            new RowDefinition { Height = 50 },
+                        },
+                        BackgroundColor = Color.White,
+                        VerticalOptions = LayoutOptions.Center,
                     };
+                    ColumnGrid.Children.Add(inGrid, columnindex, 0);
+                    ClickList.Add(inGrid);
+
+
+                    CustomLabel label = new CustomLabel
+                    {
+                        Size = 18,
+                        Text = mclist[i].SH_MAINCATE_NAME,
+                        TextColor = Color.Black,
+                        HorizontalOptions = LayoutOptions.Start,
+                        VerticalOptions = LayoutOptions.Center,
+                        BindingContext = i,
+                        Margin = new Thickness(10,0,0,0)
+                    };
+
+                    CachedImage image = new CachedImage
+                    {
+                        LoadingPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.LoadingImagePath,
+                        VerticalOptions = LayoutOptions.Center,
+                        HorizontalOptions = LayoutOptions.End,
+                        Aspect = Aspect.AspectFill,
+                        Margin = new Thickness(0, 0, 10, 0)
+                    };
+
+
+                    #region 의류 카테고리 이미지 생성
+                    if (mclist[i].SH_MAINCATE_NAME == "남성의류")
+                    {
+                        image.Source = "men_wear_icon.png";
+                    }
+                    else if (mclist[i].SH_MAINCATE_NAME == "여성의류")
+                    {
+                        image.Source = "women_icon.png";
+                    }
+                    #endregion
+
+                    inGrid.Children.Add(label, 0, 0);
+                    inGrid.Children.Add(image, 0, 1);
+                    i++; // 내부 그리드가 추가 되었기 때문에 index증가
                 }
-                #endregion
-
-                label = new CustomLabel
-                {
-                    Size = 18,
-                    Text = mclist[i].SH_MAINCATE_NAME,
-                    TextColor = Color.Black,
-                    HorizontalOptions = LayoutOptions.Center,
-                    BindingContext = i,
-                };
-
-                inGrid.Children.Add(SLayout, 0, 0);
-                inGrid.Children.Add(image, 0, 0);
-                inGrid.Children.Add(label, 0, 1);
+                columnindex++;
+                // 구분선
+                //BoxView gridBox = new BoxView{BackgroundColor = Color.Gray};
             }
 
             #region 그리드 탭 이벤트
             for (int k = 0; k < ClickList.Count; k++)
             {
                 Grid tempGrid = ClickList[k];
-                CustomLabel tempLabel = (CustomLabel)tempGrid.Children.ElementAt(2);
+                CustomLabel tempLabel = (CustomLabel)tempGrid.Children.ElementAt(0);
 
                 tempGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {

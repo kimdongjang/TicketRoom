@@ -34,34 +34,37 @@ namespace TicketRoom.Views
             }
             #endregion
 
-            tablist.Add(DealTab);
+            /*tablist.Add(DealTab);
             tablist.Add(ShopTab);
             tablist.Add(BasketTab);
-            tablist.Add(MyPageTab);
+            tablist.Add(MyPageTab);*/
         }
 
         protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
         {
             Init();
+            TabInit();
+            TabContent.Content = new DealTabPage(this);
+            
             #region OnAppearing을 사용해 사용중인 탭으로 되돌리기
             if (Global.isMainDeal == true)
             {
-                Tab_Changed(tablist[0], null);
+                //Tab_Changed(tablist[0], null);
                 Global.InitOnAppearingBool("deal");
             }
             else if (Global.isMainShop == true)
             {
-                Tab_Changed(tablist[1], null);
+                //Tab_Changed(tablist[1], null);
                 Global.InitOnAppearingBool("shop");
             }
             else if (Global.isMainBasket == true)
             {
-                Tab_Changed(tablist[2], null);
+                //Tab_Changed(tablist[2], null);
                 Global.InitOnAppearingBool("basket");
             }
             else if (Global.isMainMyinfo == true)
             {
-                Tab_Changed(tablist[3], null);
+                //Tab_Changed(tablist[3], null);
                 Global.InitOnAppearingBool("myinfo");
             }
             else if (Global.isMainDealDeatil == true)
@@ -133,50 +136,123 @@ namespace TicketRoom.Views
                 "AutoLogin=" + Global.b_auto_login.ToString() + "\n" + // 자동 로그인 false
                 "UserID=" + Global.ID + "\n"); // 회원 아이디(지금은 잠시 아이디로 대체함)
         }
-        
-        private async void Tab_Changed(object sender, EventArgs e)
+
+        private void TabColorChanged(string s)
         {
-            DealTab.BackgroundColor = Color.CornflowerBlue;
-            DealTab.TextColor = Color.White;
-            ShopTab.BackgroundColor = Color.CornflowerBlue;
-            ShopTab.TextColor = Color.White;
-            BasketTab.BackgroundColor = Color.CornflowerBlue;
-            BasketTab.TextColor = Color.White;
-            MyPageTab.BackgroundColor = Color.CornflowerBlue;
-            MyPageTab.TextColor = Color.White;
+            if (s == "deal")
+            {
+                ((Image)GiftTab.Children[0]).Source = "main_gift_h.png";
+                ((CustomLabel)GiftTab.Children[1]).TextColor = Color.CornflowerBlue;
 
+                ((Image)ShopTab.Children[0]).Source = "main_shop_non.png";
+                ((CustomLabel)ShopTab.Children[1]).TextColor = Color.Black;
 
-            CustomButton selectedtab = (CustomButton)sender;
-            selectedtab.Size = 14;
-            selectedtab.BackgroundColor = Color.White;
-            selectedtab.TextColor = Color.CornflowerBlue;
-            if (selectedtab.Text.Equals("구매/판매"))
-            {
-                TabContent.Content = new DealTabPage(this);
-                Global.InitOnAppearingBool("deal");
-                
-                //Title = "실시간 시세 표시";
+                ((Image)BasketTab.Children[0]).Source = "main_basket_non.png";
+                ((CustomLabel)BasketTab.Children[1]).TextColor = Color.Black;
+
+                ((Image)UserTab.Children[0]).Source = "main_user_non.png";
+                ((CustomLabel)UserTab.Children[1]).TextColor = Color.Black;
             }
-            else if (selectedtab.Text.Equals("쇼핑"))
+            else if(s == "shop")
             {
-                TabContent.Content = new ShopTabPage();
-                Global.InitOnAppearingBool("shop");
-                //Title = "쇼핑";
+
+                ((Image)GiftTab.Children[0]).Source = "main_gift_non.png";
+                ((CustomLabel)GiftTab.Children[1]).TextColor = Color.Black;
+
+                ((Image)ShopTab.Children[0]).Source = "main_shop_h.png";
+                ((CustomLabel)ShopTab.Children[1]).TextColor = Color.CornflowerBlue;
+
+                ((Image)BasketTab.Children[0]).Source = "main_basket_non.png";
+                ((CustomLabel)BasketTab.Children[1]).TextColor = Color.Black;
+
+                ((Image)UserTab.Children[0]).Source = "main_user_non.png";
+                ((CustomLabel)UserTab.Children[1]).TextColor = Color.Black;
             }
-            else if (selectedtab.Text.Equals("장바구니"))
+            else if (s == "basket")
             {
-                TabContent.Content = new BasketTabPage();
-                Global.InitOnAppearingBool("basket");
-                //Title = "장바구니";
+
+                ((Image)GiftTab.Children[0]).Source = "main_gift_non.png";
+                ((CustomLabel)GiftTab.Children[1]).TextColor = Color.Black;
+
+                ((Image)ShopTab.Children[0]).Source = "main_shop_non.png";
+                ((CustomLabel)ShopTab.Children[1]).TextColor = Color.Black;
+
+                ((Image)BasketTab.Children[0]).Source = "main_basket_h.png";
+                ((CustomLabel)BasketTab.Children[1]).TextColor = Color.CornflowerBlue;
+
+                ((Image)UserTab.Children[0]).Source = "main_user_non.png";
+                ((CustomLabel)UserTab.Children[1]).TextColor = Color.Black;
             }
-            else if (selectedtab.Text.Equals("내정보"))
+            else if (s == "myinfo")
             {
-                Global.ismypagebtns_clicked = true;
-                TabContent.Content = new MyPageTabPage(this);
-                Global.InitOnAppearingBool("myinfo");
-                //Title = "내 정보";
+
+                ((Image)GiftTab.Children[0]).Source = "main_gift_non.png";
+                ((CustomLabel)GiftTab.Children[1]).TextColor = Color.Black;
+
+                ((Image)ShopTab.Children[0]).Source = "main_shop_non.png";
+                ((CustomLabel)ShopTab.Children[1]).TextColor = Color.Black;
+
+                ((Image)BasketTab.Children[0]).Source = "main_basket_non.png";
+                ((CustomLabel)BasketTab.Children[1]).TextColor = Color.Black;
+
+                ((Image)UserTab.Children[0]).Source = "main_user_h.png";
+                ((CustomLabel)UserTab.Children[1]).TextColor = Color.CornflowerBlue;
             }
         }
+
+        private void TabInit()
+        {
+            GiftTab.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    TabContent.Content = new DealTabPage(this);
+                    Global.InitOnAppearingBool("deal");
+
+                    TabColorChanged("deal");
+
+                })
+            });
+
+            ShopTab.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(() =>
+                {
+                    TabContent.Content = new ShopTabPage();
+                    Global.InitOnAppearingBool("shop");
+
+                    TabColorChanged("shop");
+                })
+            });
+
+            BasketTab.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+
+                    TabContent.Content = new BasketTabPage();
+                    Global.InitOnAppearingBool("basket");
+
+                    TabColorChanged("basket");
+
+                })
+            });
+
+
+            UserTab.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    Global.ismypagebtns_clicked = true;
+                    TabContent.Content = new MyPageTabPage(this);
+                    Global.InitOnAppearingBool("myinfo");
+
+                    TabColorChanged("myinfo");
+
+                })
+            });
+        }
+
 
         public void ShowDealDetail(string categorynum)
         {

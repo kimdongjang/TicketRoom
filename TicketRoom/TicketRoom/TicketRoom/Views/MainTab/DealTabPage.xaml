@@ -8,12 +8,18 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="1"/>
             <RowDefinition Height="150"/>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="3"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="White" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="1" BackgroundColor="White" RowSpacing="0" ColumnSpacing="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -36,7 +42,7 @@
                     TextColor="Black"
                      XAlign="End" YAlign="Center"
                     />
-                <Image Grid.Column="1" Source="main_check.png" VerticalOptions="Center" Aspect="AspectFit"/>
+                <Image Grid.Column="1" Source="main_check.png" VerticalOptions="Center" Aspect="AspectFit" Margin="5,0,0,0"/>
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Tapped="Arrow_Clicked"/>
                 </Grid.GestureRecognizers>
@@ -48,112 +54,56 @@
             <!--#endregion-->
         </Grid>
         <!--#endregion-->
-
-        <!--#region 2행 메인 배너-->
-        <Image Grid.Row="2" Source="gift_banner.png" VerticalOptions="Center" Aspect="AspectFit"/>
+        
+        <!--#region 2행 보더라인-->
+        <BoxView Grid.Row="2" BackgroundColor="LightGray"/>
         <!--#endregion -->
 
-        <!--#region 3행 실시간 거래-->
-        <Grid Grid.Row="3" x:Name="RealTimeGrid">
+        <!--#region 3행 메인 배너-->
+        <Image Grid.Row="3" Source="gift_banner.png" VerticalOptions="Center" Aspect="AspectFill"/>
+        <!--#endregion -->
+
+        <!--#region 4행 보더라인-->
+        <BoxView Grid.Row="4" BackgroundColor="LightGray" Opacity="0.5"/>
+        <!--#endregion -->
+
+        <!--#region 5행 실시간 거래-->
+        <Grid Grid.Row="5" x:Name="RealTimeGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <custom:CustomLabel Grid.Row="0" Text="실시간 거래" FontAttributes="Bold" TextColor="Black" Size="16"/>
+            <custom:CustomLabel Grid.Row="0" Text="실시간 거래" FontAttributes="Bold" TextColor="Black" Size="18" Margin="5,0,0,0"/>
         </Grid>
         <!--#endregion -->
-        
-        <ScrollView Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <Grid RowSpacing="0" ColumnSpacing="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="120"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="1"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="Securityimage.png" VerticalOptions="Center" Aspect="Fill"></Image>
-                    <!--#region 3행 Grid라인-->
-                    <BoxView Grid.Column="1" BackgroundColor="#f4f2f2" WidthRequest="1" VerticalOptions="FillAndExpand" HorizontalOptions="Start"/>
-                    <!--#endregion-->
-                    <Grid Grid.Column="2" x:Name="deallist_Grid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <custom:CustomLabel Grid.Row="0" Text="* 실시간 거래" Size="18"/>
-                    </Grid>
-                </Grid>
+        <!--#region 6행 보더라인-->
+        <BoxView Grid.Row="6" BackgroundColor="LightGray" Opacity="0.5"/>
+        <!--#endregion -->
 
-                <!--#region 1행 Grid라인-->
-                <BoxView Grid.Row="1" BackgroundColor="#f4f2f2" HeightRequest="1" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
-                <!--#endregion-->
 
-                <Grid Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <!--#region 0행 잔여 포인트 Label-->
-                    <custom:CustomLabel Grid.Row="0" x:Name="NowPoint_Label" TextColor="Black" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="잔여 포인트: ">
-                                </Span>
-                                <Span x:Name="Point_label">
-                                </Span>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </custom:CustomLabel>
-                    <!--#endregion-->
+        <!--#region 7행 보유 포인트-->
+        <Grid Grid.Row="7" x:Name="MyPointGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <custom:CustomLabel Grid.Row="0" Text="보유 포인트" TextColor="Black" Size="16" HorizontalTextAlignment="Center" x:Name="MyPointLabel" VerticalOptions="Center"/>
+        </Grid>
+        <!--#endregion -->
 
-                    <Grid Grid.Row="1" x:Name="Imagelist_Grid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </Grid>
 
-                <!--#region 3행 Grid라인-->
-                <BoxView Grid.Row="3" BackgroundColor="#f4f2f2" HeightRequest="1" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
-                <!--#endregion-->
+        <!--#region 8행 보더라인-->
+        <BoxView Grid.Row="8" BackgroundColor="LightGray" Opacity="0.5"/>
+        <!--#endregion -->
 
-                <Grid Grid.Row="4" Margin="15,0,15,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="10"/>
-                    </Grid.RowDefinitions>
-                    <custom:CustomLabel Grid.Row="1" Text="사업자 팀" Size="10"/>
-                    <custom:CustomLabel Grid.Row="2" Text="대표: 방민호" Size="10"/>
-                    <custom:CustomLabel Grid.Row="3" Text="사업자등록번호: 000-00-00000 | 통신판매업:대전동구-0515" Size="10"/>
-                    <custom:CustomLabel Grid.Row="4" Text="메일: abc@abc.com" Size="10"/>
-                    <custom:CustomLabel Grid.Row="5" Text="고객센터:1234-1234(월금, 오전 9~ 오후 9시)" Size="10"/>
-                    <custom:CustomLabel Grid.Row="6" Text="주소: 대전광역시 주소 입력" Size="10"/>
-                </Grid>
-            </Grid>
+
+        <!--#region 9행 카테고리 그리드-->
+        <ScrollView Grid.Row="9" >
+            <Grid BackgroundColor="White" x:Name="CategoryGrid" RowSpacing="0"/>
         </ScrollView>
+        
+        <!--#endregion -->
+        
     </Grid>
     <!--#endregion-->
 </ContentView>

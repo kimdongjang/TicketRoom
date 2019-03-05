@@ -41,10 +41,12 @@
 
         <!--#region 1행 메인 페이지-->
         <Grid Grid.Row="2">
-            <Grid>
+            <Grid RowSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="200"/>
+                    <RowDefinition Height="3"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="3"/>
                 </Grid.RowDefinitions>
                 <!--#region 0행 메인 이미지 슬라이드 탭-->
                 <Grid Grid.Row="0" x:Name="ImageSlideGrid"  x:FieldModifier="Public">
@@ -57,13 +59,34 @@
 
                 </Grid>
                 <!--#endregion-->
+                
+                <!--#region 1행 보더라인-->
+                <BoxView Grid.Row="1" BackgroundColor="LightGray" Opacity="0.5"/>
+                <!--#endregion-->
 
-                <!--#region 1행 메인 이미지 리스트 그리드-->
-                <ScrollView Grid.Row="1">
+                <!--#region 2행 메인 이미지 리스트 그리드-->
+                <ScrollView Grid.Row="2">
                     <Grid ColumnSpacing="0" RowSpacing="0" x:Name="MainGrid"/>
-
                 </ScrollView>
                 <!--#endregion-->
+
+                <!--#region 3행 보더라인-->
+                <BoxView Grid.Row="3" BackgroundColor="LightGray" Opacity="0.5"/>
+                <!--#endregion-->
+
+
+                <!--#region 4행 최근 본 상품-->
+                <local1:CustomLabel Grid.Row="4" Text="최근 본 상품" Size="14" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                <!--#endregion-->
+
+                <!--#region 5행 보더라인-->
+                <BoxView Grid.Row="5" BackgroundColor="LightGray" Opacity="0.5"/>
+                <!--#endregion-->
+
+                <!--#region 6행 보더라인-->
+                <Grid Grid.Row="6" x:Name="RecentViewGrid"/>
+                <!--#endregion-->
+
             </Grid>
             <!--#endregion-->
         </Grid>

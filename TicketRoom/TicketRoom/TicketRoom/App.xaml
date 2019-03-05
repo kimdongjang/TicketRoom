@@ -6,7 +6,8 @@
         <ResourceDictionary>
             <OnPlatform x:Key="FontStyle" x:TypeArguments="x:String">
                 <On Platform="iOS" Value="BMHANNAProOTF.otf"/>
-                <On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />
+                <!--<On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />-->
+                <On Platform="Android" Value="HMFMMUEX_1.ttf" />
             </OnPlatform>
         </ResourceDictionary>
     </Application.Resources>
