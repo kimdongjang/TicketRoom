@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -49,6 +50,12 @@ namespace TicketRoom.Views.MainTab.MyPage
             }
 
             Init();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Global.isbackbutton_clicked = true;
         }
 
         // 유저 아이디를 통해 상품권 구매리스트 가져오기
@@ -199,9 +206,11 @@ namespace TicketRoom.Views.MainTab.MyPage
                         coverGrid.Children.Add(productLine, 0, product_row);
                         product_row++;
 
-                        Image product_image = new Image // 상품 이미지
+                        CachedImage product_image = new CachedImage  // 상품 이미지
                         {
-                            Source = salelist[i].PRODUCTIMAGE,
+                            LoadingPlaceholder = Global.LoadingImagePath,
+                            ErrorPlaceholder = Global.LoadingImagePath,
+                            Source = ImageSource.FromUri(new Uri(salelist[i].PRODUCTIMAGE)),
                             BackgroundColor = Color.White,
                             VerticalOptions = LayoutOptions.CenterAndExpand,
                             HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -347,7 +356,11 @@ namespace TicketRoom.Views.MainTab.MyPage
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PopAsync();
+            if (Global.isbackbutton_clicked)
+            {
+                Global.isbackbutton_clicked = false;
+                Navigation.PopAsync();
+            }
         }
 
         private void allbtn_clicked(object sender, EventArgs e)

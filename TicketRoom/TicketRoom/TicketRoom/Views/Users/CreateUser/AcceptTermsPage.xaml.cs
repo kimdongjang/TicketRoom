@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using TicketRoom.Models.Custom;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -65,11 +65,11 @@ namespace TicketRoom.Views.Users.CreateUser
                 #endregion
 
                 #region 약관 내용 Label
-                Label label = new Label
+                CustomLabel label = new CustomLabel
                 {
                     Text = termstitle[i],
                     TextDecorations = TextDecorations.Underline,
-                    FontSize = 18,
+                    Size = 18,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     YAlign = TextAlignment.Center,
@@ -103,11 +103,16 @@ namespace TicketRoom.Views.Users.CreateUser
         {
             base.OnAppearing();
             Global.isaccepttermsnextbtn_clicked = true;
+            Global.isbackbutton_clicked = true;
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PopAsync();
+            if (Global.isbackbutton_clicked)
+            {
+                Global.isbackbutton_clicked = false;
+                Navigation.PopAsync();
+            }
         }
 
         private void CheckAll_Rbtn_Clicked(object sender, EventArgs e)

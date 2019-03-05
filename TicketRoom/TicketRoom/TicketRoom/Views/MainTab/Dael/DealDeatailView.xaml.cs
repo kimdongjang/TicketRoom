@@ -17,6 +17,8 @@ namespace TicketRoom.Views.MainTab.Dael
         public DealDeatailView(MainPage mainpage, string categorynum)
         {
             InitializeComponent();
+            
+            Global.isDealTabCliecked = true;
             this.mainpage = mainpage;
             this.categorynum = categorynum;
             #region IOS의 경우 초기화
@@ -27,69 +29,71 @@ namespace TicketRoom.Views.MainTab.Dael
             }
             #endregion
             Tab_Changed(PurchaseTab, null);
+
         }
 
         private async void Tab_Changed(object sender, EventArgs e)
         {
-            if (Global.isDealTabCliecked)
+            //구매 or 판매 리스트 클릭 가능상태
+            Global.isgiftlistcliecked = true;
+
+            PurchaseTab.BackgroundColor = Color.CornflowerBlue;
+            PurchaseTab.TextColor = Color.White;
+            SaleTab.BackgroundColor = Color.CornflowerBlue;
+            SaleTab.TextColor = Color.White;
+
+
+            Button selectedtab = (Button)sender;
+            selectedtab.BackgroundColor = Color.White;
+            selectedtab.TextColor = Color.CornflowerBlue;
+
+            if (selectedtab.Text.Equals("상품권 구매"))
             {
-                Global.isDealTabCliecked = false;
+                // 로딩 시작
+                await Global.LoadingStartAsync();
 
-                //구매 or 판매 리스트 클릭 가능상태
-                Global.isgiftlistcliecked = true;
+                // 초기화 코드 작성
+                TabContent.Content = new PurchaseTabPage(mainpage, categorynum);
 
-                PurchaseTab.BackgroundColor = Color.CornflowerBlue;
-                PurchaseTab.TextColor = Color.White;
-                SaleTab.BackgroundColor = Color.CornflowerBlue;
-                SaleTab.TextColor = Color.White;
+                // 로딩 완료
+                await Global.LoadingEndAsync();
+            }
+            else if (selectedtab.Text.Equals("상품권 판매"))
+            {
+                // 로딩 시작
+                await Global.LoadingStartAsync();
 
-
-                Button selectedtab = (Button)sender;
-                selectedtab.BackgroundColor = Color.White;
-                selectedtab.TextColor = Color.CornflowerBlue;
-
-                if (selectedtab.Text.Equals("상품권 구매"))
+                // 초기화 코드 작성
+                if (Global.b_user_login)
                 {
-                    // 로딩 시작
-                    await Global.LoadingStartAsync();
-
-                    // 초기화 코드 작성
-                    TabContent.Content = new PurchaseTabPage(mainpage, categorynum);
-
-                    // 로딩 완료
-                    await Global.LoadingEndAsync();
+                    TabContent.Content = new SaleTabPage(categorynum);
                 }
-                else if (selectedtab.Text.Equals("상품권 판매"))
+                else
                 {
-                    // 로딩 시작
-                    await Global.LoadingStartAsync();
-
-                    // 초기화 코드 작성
-                    if (Global.b_user_login)
+                    if (Global.isDealTabCliecked)
                     {
-                        TabContent.Content = new SaleTabPage(categorynum);
-                    }
-                    else
-                    {
+                        Global.isDealTabCliecked = false;
                         await mainpage.ShowMessage("로그인상태에서 이용할수 있습니다.", "알림", "OK", async () =>
                         {
                             //App.Current.MainPage = new MainPage();
                             Navigation.PushAsync(new LoginPage());
                         });
                     }
-
-                    // 로딩 완료
-                    await Global.LoadingEndAsync();
-
                 }
 
-                Global.isDealTabCliecked = true;
+                // 로딩 완료
+                await Global.LoadingEndAsync();
+
             }
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            mainpage.ShowDeal();
+            if (Global.isDealTabCliecked)
+            {
+                Global.isDealTabCliecked = false;
+                mainpage.ShowDeal();
+            }
         }
     }
 }

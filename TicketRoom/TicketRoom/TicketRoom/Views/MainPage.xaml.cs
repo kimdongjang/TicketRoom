@@ -61,8 +61,6 @@ namespace TicketRoom.Views
             }
             else if (Global.isMainMyinfo == true)
             {
-                //마이페이지 버튼들 더블클릭 방지
-                Global.ismypagebtns_clicked = true;
                 Tab_Changed(tablist[3], null);
                 Global.InitOnAppearingBool("myinfo");
             }
@@ -173,6 +171,7 @@ namespace TicketRoom.Views
             }
             else if (selectedtab.Text.Equals("내정보"))
             {
+                Global.ismypagebtns_clicked = true;
                 TabContent.Content = new MyPageTabPage(this);
                 Global.InitOnAppearingBool("myinfo");
                 //Title = "내 정보";

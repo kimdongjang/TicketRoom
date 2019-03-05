@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using TicketRoom.Models.ShopData;
 using TicketRoom.Models.Users;
+using TicketRoom.Services;
 using TicketRoom.Views.Users.CreateUser;
 using TicketRoom.Views.Users.FindUser;
 using Xamarin.Forms;
@@ -18,6 +19,7 @@ namespace TicketRoom.Views.Users.Login
     {
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
         UserDBFunc USER_DB = UserDBFunc.Instance();
+        RSAFunc rSAFunc = RSAFunc.Instance();
 
         public LoginPage()
         {
@@ -35,6 +37,7 @@ namespace TicketRoom.Views.Users.Login
         {
             base.OnAppearing();
             Global.isloginbtn_clicked = true;
+            Global.isbackbutton_clicked = false;
         }
 
         private void Button_Clicked(object sender, EventArgs e)
@@ -46,9 +49,11 @@ namespace TicketRoom.Views.Users.Login
                 {
                     if (pw_box.Text != "" && pw_box.Text != null)
                     {
+                        rSAFunc.SetRSA("Start");
                         string str = @"{";
                         str += "ID:'" + id_box.Text;  //아이디찾기에선 Name으로 
-                        str += "',PW:'" + pw_box.Text;
+                        str += "',PW:'" + rSAFunc.RSAEncrypt(pw_box.Text);
+                        str += "',Rsastring:'" + rSAFunc.privateKeyText;
                         str += "'}";
 
                         //// JSON 문자열을 파싱하여 JObject를 리턴
@@ -142,7 +147,11 @@ namespace TicketRoom.Views.Users.Login
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            this.OnBackButtonPressed();
+            if (Global.isbackbutton_clicked)
+            {
+                Global.isbackbutton_clicked = false;
+                Navigation.PopAsync();
+            }
         }
 
         private void GoogleLogin_Clicked(object sender, EventArgs e)

@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Views.MainTab.Dael.Sale;
 using Xamarin.Forms;
@@ -122,10 +124,10 @@ namespace TicketRoom.Views.MainTab.Dael
             {
                 Salelist_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
                 #region 상품이 준비중
-                Label nullproduct = new Label
+                CustomLabel nullproduct = new CustomLabel
                 {
                     Text = "상품 준비중입니다.",
-                    FontSize = 25,
+                    Size = 25,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
                     YAlign = TextAlignment.Center,
@@ -158,9 +160,11 @@ namespace TicketRoom.Views.MainTab.Dael
                 #endregion
 
                 #region 이미지
-                Image image = new Image
+                CachedImage image = new CachedImage
                 {
-                    Source = salelist[i].PRODUCTIMAGE,
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
+                    Source = ImageSource.FromUri(new Uri(salelist[i].PRODUCTIMAGE)),
                     BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.Center
                 };
@@ -184,10 +188,10 @@ namespace TicketRoom.Views.MainTab.Dael
                 #endregion
 
                 #region 상풍권 이름 Label
-                Label Name_label = new Label
+                CustomLabel Name_label = new CustomLabel
                 {
                     Text = salelist[i].PRODUCTTYPE + " " + salelist[i].PRODUCTVALUE,
-                    FontSize = 18,
+                    Size = 18,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Start,
                     YAlign = TextAlignment.Center,
@@ -211,10 +215,10 @@ namespace TicketRoom.Views.MainTab.Dael
                     TextColor = Color.Blue
                 });
 
-                Label discountrate_label = new Label
+                CustomLabel discountrate_label = new CustomLabel
                 {
                     FormattedText = formattedString,
-                    FontSize = 12,
+                    Size = 12,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Start,
                     YAlign = TextAlignment.Center,

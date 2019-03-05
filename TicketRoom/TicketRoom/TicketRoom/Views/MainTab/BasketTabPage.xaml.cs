@@ -43,9 +43,6 @@ namespace TicketRoom.Views.MainTab
         }
         private void TapColorChange(ContentView cv)
         {
-            //상품권 장바구니 주문 버튼 더블클릭방지
-            Global.isgiftbastketorderbtn_clicked = true;
-
             if (cv == bgv) // 상품권이 선택되었을 경우
             {
                 ShopSelect.TextColor = Color.White;
@@ -131,7 +128,7 @@ namespace TicketRoom.Views.MainTab
                         List<Xamarin.Forms.View> labelgrid = ((Grid)productlist[1]).Children.ToList();
                         List<Xamarin.Forms.View> countgrid = ((Grid)productlist[2]).Children.ToList();
 
-                        data.Add(((Label)labelgrid[0]).Text, ((Label)countgrid[1]).Text);
+                        data.Add(((CustomLabel)labelgrid[0]).Text, ((CustomLabel)countgrid[1]).Text);
                     }
                 }
                 await Navigation.PushAsync(new PurchaseDetailPage());

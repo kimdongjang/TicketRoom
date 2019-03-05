@@ -39,15 +39,20 @@ namespace TicketRoom.Views.MainTab.MyPage
         {
             base.OnAppearing();
             Global.ischangemyinfobtn_clicked = true;
+            Global.isbackbutton_clicked = true;
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            if (timer != null)
+            if (Global.isbackbutton_clicked)
             {
-                timer.Stop();
+                Global.isbackbutton_clicked = false;
+                if (timer != null)
+                {
+                    timer.Stop();
+                }
+                Navigation.PopAsync();
             }
-            Navigation.PopAsync();
         }
 
         private async void CheckNumSendBtn_Clicked(object sender, EventArgs e)

@@ -34,9 +34,19 @@ namespace TicketRoom.Views.Users.CreateUser
             BindingContext = this;
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Global.isbackbutton_clicked = true;
+        }
+
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PopAsync();
+            if (Global.isbackbutton_clicked)
+            {
+                Global.isbackbutton_clicked = false;
+                Navigation.PopAsync();
+            }
         }
     }
 }

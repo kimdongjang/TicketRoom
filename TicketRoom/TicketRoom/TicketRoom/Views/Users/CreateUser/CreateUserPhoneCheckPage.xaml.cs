@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.USERS;
+using TicketRoom.Services;
 using TicketRoom.Views.Users.Login;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,6 +21,8 @@ namespace TicketRoom.Views.Users.CreateUser
         USERSData users;
         MyTimer timer;
         int test;
+        RSAFunc rSAFunc = RSAFunc.Instance();
+
         public CreateUserPhoneCheckPage(USERSData users)
         {
             InitializeComponent();
@@ -38,6 +41,7 @@ namespace TicketRoom.Views.Users.CreateUser
         {
             base.OnAppearing();
             Global.iscreateuserphonenextbtn_clicked = true;
+            Global.isbackbutton_clicked = true;
         }
 
         private async void CheckNumSendBtn_Clicked(object sender, EventArgs e)
@@ -183,10 +187,11 @@ namespace TicketRoom.Views.Users.CreateUser
                 CheckNumGrid.IsVisible = true;
                 users.Name = Name_box.Text;
                 users.Phone = Phone_box.Text;
+                rSAFunc.SetRSA("Start");
 
                 string str = @"{";
                 str += "ID:'" + users.ID;
-                str += "',PW:'" + users.PW;
+                str += "',PW:'" + rSAFunc.RSAEncrypt(users.PW);
                 str += "',Email:'" + users.Email;
                 str += "',Recommender:'" + users.RecommenderID;
                 str += "',Name:'" + users.Name;
@@ -200,8 +205,9 @@ namespace TicketRoom.Views.Users.CreateUser
                 str += "',Terms4:'" + users.Termsdata.Values.ToList()[3];
                 str += "',CKey:'" + CheckNum_box.Text;
                 str += "',Age:'" + users.Age;
+                str += "',Rsastring:'" + rSAFunc.privateKeyText;
                 str += "'}";
-
+                System.Diagnostics.Debug.WriteLine(rSAFunc.privateKeyText);
                 //// JSON 문자열을 파싱하여 JObject를 리턴
                 JObject jo = JObject.Parse(str);
 
@@ -281,11 +287,15 @@ namespace TicketRoom.Views.Users.CreateUser
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            if (timer != null)
+            if (Global.isbackbutton_clicked)
             {
-                timer.Stop();
+                Global.isbackbutton_clicked = false;
+                if (timer != null)
+                {
+                    timer.Stop();
+                }
+                Navigation.PopAsync();
             }
-            Navigation.PopAsync();
         }
 
         protected override bool OnBackButtonPressed()

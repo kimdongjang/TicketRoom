@@ -49,7 +49,7 @@ namespace TicketRoom.Droid.Renderer
             if (e.NewElement != null)
             {
                 Control.AddJavascriptInterface(new JSBridge(this), "jsBridge");
-                Control.LoadUrl($"file:///android_asset/{Element.Uri}");
+                Control.LoadUrl($"{Element.Uri}");
             }
         }
     }

@@ -39,6 +39,7 @@ namespace TicketRoom.Views.Users.CreateUser
         {
             base.OnAppearing();
             Global.iscreateusernextbtn_clicked = true;
+            Global.isbackbutton_clicked = true;
         }
 
         private void NextBtn_Clicked(object sender, EventArgs e)
@@ -178,7 +179,11 @@ namespace TicketRoom.Views.Users.CreateUser
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PopAsync();
+            if (Global.isbackbutton_clicked)
+            {
+                Global.isbackbutton_clicked = false;
+                Navigation.PopAsync();
+            }
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -86,9 +87,11 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 };
 
                 #region 장바구니 상품 이미지
-                Image product_image = new Image
+                CachedImage product_image = new CachedImage
                 {
-                    Source = g_PurchasedetailInfos[i].PRODUCT_IMAGE,
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
+                    Source = ImageSource.FromUri(new Uri(g_PurchasedetailInfos[i].PRODUCT_IMAGE)),
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                     Aspect = Aspect.AspectFill,
@@ -305,7 +308,11 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PopAsync();
+            if (Global.isPurchaseDeatailBtn_clicked)
+            {
+                Global.isPurchaseDeatailBtn_clicked = false;
+                Navigation.PopAsync();
+            }
         }
 
         private void Picker_SelectedIndexChanged(object sender, EventArgs e)

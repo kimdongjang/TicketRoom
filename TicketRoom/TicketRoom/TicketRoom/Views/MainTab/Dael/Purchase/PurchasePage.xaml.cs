@@ -35,7 +35,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             }
             #endregion
             this.productInfo = productInfo;
-            Pro_imgae.Source = productInfo.PRODUCTIMAGE;
+            Pro_imgae.Source = ImageSource.FromUri(new Uri(productInfo.PRODUCTIMAGE));
             Pro_Name.Text = productInfo.PRODUCTTYPE + " " + productInfo.PRODUCTVALUE;
             Pro_price.Text = productInfo.PURCHASEDISCOUNTPRICE + "[" + productInfo.PURCHASEDISCOUNTRATE + "%]";
             Purchase_Price = (int.Parse(productInfo.PROPRICE) * int.Parse(Count_label.Text)).ToString("N0");
@@ -81,13 +81,16 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Global.isgiftbastketbtn_clieck = true;
-            Global.isgiftPurchasebtn_clieck = true;
+            Global.isgiftpurchasepage_clieck = true;
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PopAsync();
+            if (Global.isgiftpurchasepage_clieck)
+            {
+                Global.isgiftpurchasepage_clieck = false;
+                Navigation.PopAsync();
+            }
         }
 
         private void PlusBtn_Clicked(object sender, EventArgs e)
@@ -114,13 +117,13 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         private async void DoPurchase_Clicked(object sender, EventArgs e)
         {
-            if (Global.isgiftPurchasebtn_clieck)
+            if (Global.isgiftpurchasepage_clieck)
             {
-                Global.isgiftPurchasebtn_clieck = false;
+                Global.isgiftpurchasepage_clieck = false;
                 if (int.Parse(Count_label.Text) == 0)
                 {
                     DisplayAlert("알림", "수량을 입력해주세요", "OK");
-                    Global.isgiftPurchasebtn_clieck = true;
+                    Global.isgiftpurchasepage_clieck = true;
                     return;
                 }
 
@@ -216,13 +219,13 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         private async void AddBasketBtn_Clicked(object sender, EventArgs e)
         {
-            if (Global.isgiftbastketbtn_clieck)
+            if (Global.isgiftpurchasepage_clieck)
             {
-                Global.isgiftbastketbtn_clieck = false;
+                Global.isgiftpurchasepage_clieck = false;
                 if (int.Parse(Count_label.Text) == 0)
                 {
                     DisplayAlert("알림", "수량을 정해주세요", "OK");
-                    Global.isgiftbastketbtn_clieck = true;
+                    Global.isgiftpurchasepage_clieck = true;
                     return;
                 }
 
@@ -283,6 +286,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                             {
                                 await ShowMessage("장바구니에 추가되었습니다.", "알림", "OK", async () =>
                                 {
+                                    Global.InitOnAppearingBool("basket");
                                     await Navigation.PopToRootAsync();
                                 });
                             }
@@ -290,7 +294,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                             {
                                 await ShowMessage("서버점검중입니다.", "알림", "OK", async () =>
                                 {
-                                    Global.isgiftbastketbtn_clieck = true;
+                                    Global.isgiftpurchasepage_clieck = true;
                                 });
                             }
                         }

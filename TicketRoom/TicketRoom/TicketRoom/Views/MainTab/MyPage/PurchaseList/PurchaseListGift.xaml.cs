@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -189,9 +190,11 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                         coverGrid.Children.Add(productLine, 0, product_row);
                         product_row++;
 
-                        Image product_image = new Image // 상품 이미지
+                        CachedImage product_image = new CachedImage  // 상품 이미지
                         {
-                            Source = productlist[j].PRODUCTIMAGE,
+                            LoadingPlaceholder = Global.LoadingImagePath,
+                            ErrorPlaceholder = Global.LoadingImagePath,
+                            Source = ImageSource.FromUri(new Uri(productlist[j].PRODUCTIMAGE)),
                             BackgroundColor = Color.White,
                             VerticalOptions = LayoutOptions.CenterAndExpand,
                             HorizontalOptions = LayoutOptions.CenterAndExpand,

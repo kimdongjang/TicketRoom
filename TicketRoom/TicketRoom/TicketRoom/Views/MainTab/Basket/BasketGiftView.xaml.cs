@@ -132,7 +132,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.LoadingImagePath,
-                    Source = BasketList[i].BK_PRODUCT_IMAGE,
+                    Source = ImageSource.FromUri(new Uri(BasketList[i].BK_PRODUCT_IMAGE)),
                     BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -411,14 +411,14 @@ namespace TicketRoom.Views.MainTab.Basket
             //countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text = (int.Parse(countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text)+1).ToString();
             Grid g = (Grid)button.Parent;
             List<Xamarin.Forms.View> b = g.Children.ToList();
-            Label count = (Label)b[1];
+            CustomLabel count = (CustomLabel)b[1];
             count.Text = (int.Parse(count.Text) + 1).ToString();
 
             Grid g2 = (Grid)g.Parent;
             List<Xamarin.Forms.View> b2 = g2.Children.ToList();
             Grid g3 = (Grid)b2[1];
             List<Xamarin.Forms.View> b3 = g3.Children.ToList();
-            Label price = (Label)b3[2];
+            CustomLabel price = (CustomLabel)b3[2];
             ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace("합계 : ", "").Replace(",", "").Replace("원", "")) + int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
         }
 
@@ -429,7 +429,7 @@ namespace TicketRoom.Views.MainTab.Basket
 
             Grid g = (Grid)button.Parent;
             List<Xamarin.Forms.View> b = g.Children.ToList();
-            Label count = (Label)b[1];
+            CustomLabel count = (CustomLabel)b[1];
 
             if (int.Parse(count.Text) > 0)
             {
@@ -438,7 +438,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 List<Xamarin.Forms.View> b2 = g2.Children.ToList();
                 Grid g3 = (Grid)b2[1];
                 List<Xamarin.Forms.View> b3 = g3.Children.ToList();
-                Label price = (Label)b3[2];
+                CustomLabel price = (CustomLabel)b3[2];
                 ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace("합계 : ", "").Replace(",", "").Replace("원", "")) - int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
             }
         }
@@ -455,7 +455,7 @@ namespace TicketRoom.Views.MainTab.Basket
                     List<Xamarin.Forms.View> b = g.Children.ToList();
                     Grid g2 = (Grid)b[2];
                     List<Xamarin.Forms.View> b2 = g2.Children.ToList();
-                    Label g3 = (Label)b2[1];
+                    CustomLabel g3 = (CustomLabel)b2[1];
 
                     if (int.Parse(g3.Text) != 0)
                     {

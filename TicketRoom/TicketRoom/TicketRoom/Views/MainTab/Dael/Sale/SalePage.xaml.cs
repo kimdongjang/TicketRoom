@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Models.Gift.SaleList;
 using TicketRoom.Services;
@@ -38,7 +39,7 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
             }
             #endregion
             this.productInfo = productInfo;
-            Pro_imgae.Source = productInfo.PRODUCTIMAGE;
+            Pro_imgae.Source = ImageSource.FromUri(new Uri(productInfo.PRODUCTIMAGE));
             Pro_Name.Text = productInfo.PRODUCTTYPE + " " + productInfo.PRODUCTVALUE;
             Pro_price.Text = productInfo.SALEDISCOUNTPRICE + "[" + productInfo.SALEDISCOUNTRATE + "%]";
             ShowPinAddForm(productInfo);
@@ -90,7 +91,11 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PopAsync(); 
+            if (Global.isSaleBtnclicked)
+            {
+                Global.isSaleBtnclicked = false;
+                Navigation.PopAsync();
+            }
         }
 
         private void PlusBtn_Clicked(object sender, EventArgs e)
@@ -201,10 +206,10 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
 
             PinNumlist.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             #region 핀번호 라벨
-            Label label = new Label
+            CustomLabel label = new CustomLabel
             {
                 Text = Pin1.Text + " " + Pin2.Text + " " + Pin3.Text + " " + Pin4.Text + " " + PinCertify_Entry.Text,
-                FontSize = 15,
+                Size = 15,
                 TextColor = Color.Black,
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 HorizontalOptions = LayoutOptions.Start
@@ -285,30 +290,36 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                                     else if (result == 2)
                                     {
                                         DisplayAlert("알림", "판매실패", "OK");
+                                        Global.isSaleBtnclicked = true;
                                     }
                                     else if (result == 4)
                                     {
                                         DisplayAlert("알림", "서버점검중입니다", "OK");
+                                        Global.isSaleBtnclicked = true;
                                     }
                                 }
                                 else
                                 {
                                     DisplayAlert("알림", "입금계좌번호를 입력하세요", "OK");
+                                    Global.isSaleBtnclicked = true;
                                 }
                             }
                             else
                             {
                                 DisplayAlert("알림", "예금주명을 입력하세요", "OK");
+                                Global.isSaleBtnclicked = true;
                             }
                         }
                         else
                         {
                             DisplayAlert("알림", "은행명을 입력하세요", "OK");
+                            Global.isSaleBtnclicked = true;
                         }
                     }
                     else
                     {
                         DisplayAlert("알림", "수량을 입력해주세요", "OK");
+                        Global.isSaleBtnclicked = true;
                     }
                 }
                 else
@@ -355,50 +366,57 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                                                 else if (result == 2)
                                                 {
                                                     DisplayAlert("알림", "판매실패", "OK");
+                                                    Global.isSaleBtnclicked = true;
                                                 }
                                                 else if (result == 4)
                                                 {
                                                     DisplayAlert("알림", "서버점검중입니다", "OK");
+                                                    Global.isSaleBtnclicked = true;
                                                 }
                                             }
                                             else
                                             {
                                                 DisplayAlert("알림", "접수비밀번호가 다릅니다", "OK");
+                                                Global.isSaleBtnclicked = true;
                                             }
                                         }
                                         else
                                         {
                                             DisplayAlert("알림", "접수비밀번호확인를 입력하세요", "OK");
+                                            Global.isSaleBtnclicked = true;
                                         }
                                     }
                                     else
                                     {
                                         DisplayAlert("알림", "접수비밀번호를 입력하세요", "OK");
+                                        Global.isSaleBtnclicked = true;
                                     }
                                 }
                                 else
                                 {
                                     DisplayAlert("알림", "입금계좌번호를 입력하세요", "OK");
+                                    Global.isSaleBtnclicked = true;
                                 }
                             }
                             else
                             {
                                 DisplayAlert("알림", "예금주명을 입력하세요", "OK");
+                                Global.isSaleBtnclicked = true;
                             }
                         }
                         else
                         {
                             DisplayAlert("알림", "은행명을 입력하세요", "OK");
+                            Global.isSaleBtnclicked = true;
                         }
                     }
                     else
                     {
                         DisplayAlert("알림", "수량을 입력해주세요", "OK");
+                        Global.isSaleBtnclicked = true;
                     }
                 }
             }
-            
-            
         }
     }
 }

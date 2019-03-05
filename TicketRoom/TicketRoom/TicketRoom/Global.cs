@@ -37,13 +37,15 @@ namespace TicketRoom
         // loading창 back button blocking하는 bool 변수
         public static bool isloading_block = false;
 
+        #region 백버튼 이미지 더블클릭 방지 ????하나만 써도 될듯한데
+        public static bool isbackbutton_clicked = true;
+        #endregion
+
         #region 구매/판매 관련 버튼 더블클릭 방지 변수 
         //구매판매 상세 리스트 더블클릭 막는 bool변수
         public static bool isgiftlistcliecked = true;
-        //구매버튼 더블클릭 막는 bool변수
-        public static bool isgiftPurchasebtn_clieck = true;
-        //장바구니 더블클릭 막는 bool변수
-        public static bool isgiftbastketbtn_clieck = true;
+        //구매 페이지 버튼 더블클릭 막는 bool변수
+        public static bool isgiftpurchasepage_clieck = true;
         //구매 판매 탭 더블클릭 막는 bool변수
         public static bool isDealTabCliecked = true;
         //구매 상세 페이지 구매버튼 더블클릭 막는 bool변수
@@ -67,12 +69,16 @@ namespace TicketRoom
         #region 로그인 및 Users 관련 페이지 더블클릭 방지 변수
         //로그인 버튼 더블 클릭 막는 변수
         public static bool isloginbtn_clicked = true;
-        //약관 동의 페이지 다음 버튼 더블 클릭 막는 변수
+        //약관 동의 페이지 버튼 더블 클릭 막는 변수
         public static bool isaccepttermsnextbtn_clicked = true;
-        //회원가입 정보 페이지 다음 버튼 더블 클릭 막는 변수
+        //회원가입 정보 페이지 버튼 더블 클릭 막는 변수
         public static bool iscreateusernextbtn_clicked = true;
-        //회원가입 폰정보 페이지 다음 버튼 더블 클릭 막는 변수
+        //회원가입 폰정보 페이지 버튼 더블 클릭 막는 변수
         public static bool iscreateuserphonenextbtn_clicked = true;
+        //아이디찾기 페이지 버튼 더블 클릭 막는 변수
+        public static bool isfindidpage_clicked = true;
+        //비번찾기 페이지 버튼 더블 클릭 막는 변수
+        public static bool isfindpwpage_clicked = true;
 
         #endregion
         
