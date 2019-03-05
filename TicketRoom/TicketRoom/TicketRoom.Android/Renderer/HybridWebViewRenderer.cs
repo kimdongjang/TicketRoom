@@ -21,12 +21,13 @@ namespace TicketRoom.Droid.Renderer
 {
     public class HybridWebViewRenderer : ViewRenderer<HybridWebView, Android.Webkit.WebView>
     {
-        const string JavascriptFunction = "function invokeCSharpAction(data){jsBridge.invokeAction(data);}";
+        const string JavascriptFunction = "function func1(data){jsBridge.invokeAction(data);}";
         Context _context;
 
         public HybridWebViewRenderer(Context context) : base(context)
         {
             _context = context;
+            System.Diagnostics.Debug.WriteLine(context);
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<HybridWebView> e)

@@ -261,5 +261,54 @@ namespace TicketRoom.Models.Users
             }
             return false;
         }
+
+
+        // 결제 정보 및 디바이스 아이피 정보 전송
+        public bool PostPurchaseDeviceInfo(string ipadress)
+        {
+            string str = @"{";
+            str += "ipadress:'" + ipadress;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "PostPurchaseDeviceInfo") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            //request.Expect = "application/json";
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var readdata = reader.ReadToEnd();
+                    string test = JsonConvert.DeserializeObject<string>(readdata);
+                    if (test != null && test != "")
+                    {
+                        if (test.Equals("true"))
+                        {
+                            //상품권 장바구니 업데이트 완료 (비회원 -> 회원)
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

@@ -21,8 +21,7 @@ namespace TicketRoom.Views
         private async Task Init()
         {
             browser.Navigated += WebView_Navigated;
-
-            string stemp = "asdasd";
+            
             //string result = await browser.EvaluateJavaScriptAsync($"func1( \"stemp\",\"stemp\",\"stemp\",\"stemp\",\"stemp\",\"stemp\",\"stemp\",\"stemp\",\"stemp\")");
             //await DisplayAlert("", $"Factorial of {stemp} is {result}.", "");
         }
@@ -44,12 +43,12 @@ namespace TicketRoom.Views
                 param.amount = 5000;
                 //retorno = await browser.EvaluateJavaScriptAsync($"func1( \"inicis\",\"card\",\"merchant_\",\"stemp\",\"stemp\",\"stemp\",\"stemp\",\"stemp\",\"stemp\")");
                 String blank = "\"";
-                /*retorno = await browser.EvaluateJavaScriptAsync($"func1(" + blank + param.pg.ToString() + blank + "," +
+                retorno = await browser.EvaluateJavaScriptAsync($"func1(" + blank + param.pg.ToString() + blank + "," +
                                                                                            blank + param.pay_method.ToString() + blank + "," +
                                                                                             blank + param.merchant_uid.ToString() + blank + "," +
                                                                                             blank + param.name.ToString() + blank + "," +
                                                                                             param.amount.ToString() + "," +
-                                                                                            "\"stemp\",\"stemp\",\"stemp\",\"stemp\")");*/
+                                                                                            "\"stemp\",\"stemp\",\"stemp\",\"stemp\")");
             });
         }
     }
