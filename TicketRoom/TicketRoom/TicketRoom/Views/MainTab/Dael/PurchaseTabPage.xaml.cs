@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Views.MainTab.Dael.Purchase;
 using Xamarin.Forms;
@@ -114,15 +116,9 @@ namespace TicketRoom.Views.MainTab.Dael
                 if (Global.isgiftlistcliecked)
                 {
                     Global.isgiftlistcliecked = false;
-                    // 로딩 시작
-                    await Global.LoadingStartAsync();
 
-                    // 초기화 코드 작성
                     Grid g = (Grid)s;
                     await Navigation.PushAsync(new PurchasePage(ddp, productlist[int.Parse(g.BindingContext.ToString())], categorynum));
-
-                    // 로딩 완료
-                    await Global.LoadingEndAsync();
                 }
             };
 
@@ -144,10 +140,10 @@ namespace TicketRoom.Views.MainTab.Dael
             {
                 Purchaselist_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
-                Label nullproduct = new Label
+                CustomLabel nullproduct = new CustomLabel
                 {
                     Text = "상품 준비중입니다.",
-                    FontSize = 25,
+                    Size = 25,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
                     YAlign = TextAlignment.Center,
@@ -211,13 +207,15 @@ namespace TicketRoom.Views.MainTab.Dael
                 };
                 #endregion
 
-                Image image = null;
+                CachedImage image = null;
                 if (int.Parse(test.PAPER_GC_COUNT) == 0 && int.Parse(test.PIN_GC_COUNT) == 0)
                 {
                     #region 이미지
-                    image = new Image
+                    image = new CachedImage
                     {
-                        Source = "S_" + productlist[i].PRODUCTIMAGE,
+                        LoadingPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.LoadingImagePath,
+                        Source = "SClture_pro.png",
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.Center,
                         Aspect = Aspect.AspectFit
@@ -227,9 +225,11 @@ namespace TicketRoom.Views.MainTab.Dael
                 else
                 {
                     #region 이미지
-                    image = new Image
+                    image = new CachedImage
                     {
-                        Source = productlist[i].PRODUCTIMAGE,
+                        LoadingPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.LoadingImagePath,
+                        Source = ImageSource.FromUri(new Uri(productlist[i].PRODUCTIMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.Center,
                         Aspect = Aspect.AspectFit
@@ -255,10 +255,10 @@ namespace TicketRoom.Views.MainTab.Dael
                 #endregion
 
                 #region 상풍권 이름 Label
-                Label Name_label = new Label
+                CustomLabel Name_label = new CustomLabel
                 {
                     Text = productlist[i].PRODUCTTYPE + " " + productlist[i].PRODUCTVALUE,
-                    FontSize = 18,
+                    Size = 18,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
                     YAlign = TextAlignment.Center,
@@ -282,10 +282,10 @@ namespace TicketRoom.Views.MainTab.Dael
                     TextColor = Color.Red
                 });
 
-                Label discountrate_label = new Label
+                CustomLabel discountrate_label = new CustomLabel
                 {
                     FormattedText = formattedString,
-                    FontSize = 12,
+                    Size = 12,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
                     YAlign = TextAlignment.Center,
@@ -321,10 +321,10 @@ namespace TicketRoom.Views.MainTab.Dael
                     LineHeight = 1.8,
                     TextColor = Color.FromHex("#ef7d1a")
                 });
-                Label ProCount_label = new Label
+                CustomLabel ProCount_label = new CustomLabel
                 {
                     FormattedText = CountformattedString,
-                    FontSize = 10,
+                    Size = 10,
                     VerticalOptions = LayoutOptions.Center,
                     YAlign = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.Start

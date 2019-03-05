@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -26,6 +27,12 @@ namespace TicketRoom.Views.MainTab.Dael
                 MainGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Global.isbackbutton_clicked = true;
         }
 
         private void SelectAllCategory()
@@ -51,7 +58,11 @@ namespace TicketRoom.Views.MainTab.Dael
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PopAsync();
+            if (Global.isbackbutton_clicked)
+            {
+                Global.isbackbutton_clicked = false;
+                Navigation.PopAsync();
+            }
         }
 
         private void ShowPrice(List<G_ProductInfo> Pricelist)
@@ -59,10 +70,10 @@ namespace TicketRoom.Views.MainTab.Dael
             Price_Grid.RowDefinitions.Clear();
             Price_Grid.Children.Clear();
             Price_Grid.RowDefinitions.Add(new RowDefinition { Height = 40 });//new GridLength(1, GridUnitType.Star)
-            Label titlename = new Label
+            CustomLabel titlename = new CustomLabel
             {
                 Text = "상품명",
-                FontSize = 14,
+                Size = 14,
                 TextColor = Color.Black,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.Start,
@@ -70,10 +81,10 @@ namespace TicketRoom.Views.MainTab.Dael
                 YAlign = TextAlignment.Center
             };
 
-            Label titleb = new Label
+            CustomLabel titleb = new CustomLabel
             {
                 Text = "고객판매가\n(할인율)",
-                FontSize = 14,
+                Size = 14,
                 TextColor = Color.Black,
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 HorizontalOptions = LayoutOptions.Center,
@@ -81,10 +92,10 @@ namespace TicketRoom.Views.MainTab.Dael
                 YAlign = TextAlignment.Center
             };
 
-            Label titler = new Label
+            CustomLabel titler = new CustomLabel
             {
                 Text = "고객구매가\n(할인율)",
-                FontSize = 14,
+                Size = 14,
                 TextColor = Color.Black,
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 HorizontalOptions = LayoutOptions.Center,
@@ -102,10 +113,10 @@ namespace TicketRoom.Views.MainTab.Dael
             {
                 Price_Grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });//new GridLength(1, GridUnitType.Star)
                 Price_Grid.RowDefinitions.Add(new RowDefinition { Height = 1 });//new GridLength(1, GridUnitType.Star)
-                Label n = new Label
+                CustomLabel n = new CustomLabel
                 {
                     Text = Pricelist[i].PRODUCTTYPE + "\n" + Pricelist[i].PRODUCTVALUE,
-                    FontSize = 14,
+                    Size = 14,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.Start,
@@ -113,10 +124,10 @@ namespace TicketRoom.Views.MainTab.Dael
                     YAlign = TextAlignment.Center
                 };
 
-                Label b = new Label
+                CustomLabel b = new CustomLabel
                 {
                     Text = Pricelist[i].SALEDISCOUNTPRICE + "\n(" + Pricelist[i].SALEDISCOUNTRATE + "%)",
-                    FontSize = 14,
+                    Size = 14,
                     TextColor = Color.Blue,
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.Center,
@@ -124,10 +135,10 @@ namespace TicketRoom.Views.MainTab.Dael
                     YAlign = TextAlignment.Center
                 };
 
-                Label r = new Label
+                CustomLabel r = new CustomLabel
                 {
                     Text = Pricelist[i].PURCHASEDISCOUNTPRICE + "\n(" + Pricelist[i].PURCHASEDISCOUNTRATE + "%)",
-                    FontSize = 14,
+                    Size = 14,
                     TextColor = Color.Red,
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.Center,

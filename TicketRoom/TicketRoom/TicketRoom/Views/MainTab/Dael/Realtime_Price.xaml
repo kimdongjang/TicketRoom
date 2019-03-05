@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -31,7 +31,7 @@
             <!--#region 1열 액션바 타이틀-->
             <local1:CustomLabel Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
                     Text="실시간 시세 표시"
-                    TextColor="Black"
+                    TextColor="White"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 

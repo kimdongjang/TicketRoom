@@ -27,25 +27,36 @@ namespace TicketRoom.Views.MainTab.MyPage
         {
             InitializeComponent();
             #region IOS의 경우 초기화
-            if (Device.OS == TargetPlatform.iOS)
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
             {
                 MainGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Global.ischangemyinfobtn_clicked = true;
+            Global.isbackbutton_clicked = true;
+        }
+
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            if (timer != null)
+            if (Global.isbackbutton_clicked)
             {
-                timer.Stop();
+                Global.isbackbutton_clicked = false;
+                if (timer != null)
+                {
+                    timer.Stop();
+                }
+                Navigation.PopAsync();
             }
-            Navigation.PopAsync();
         }
 
         private async void CheckNumSendBtn_Clicked(object sender, EventArgs e)
         {
-            CheckNumGrid.IsVisible = true;
             if (NewPW_box.Text != "" && NewPW_box.Text != null)
             {
                 if (NewPWCheck_box.Text != "" && NewPWCheck_box.Text != null)
@@ -54,6 +65,8 @@ namespace TicketRoom.Views.MainTab.MyPage
                     {
                         if (Phone_box.Text != "" && Phone_box.Text != null)
                         {
+                            CheckNumGrid.IsVisible = true;
+
                             #region 인증번호 만들기
                             var bytes = new byte[4];
                             var rng = RandomNumberGenerator.Create();
@@ -164,7 +177,10 @@ namespace TicketRoom.Views.MainTab.MyPage
             }
             else
             {
-                timer.Stop();
+                if (timer != null)
+                {
+                    timer.Stop();
+                }
                 CheckNumSendBtn.Text = "인증";
                 CheckNumGrid.IsVisible = false;
                 TimerLabel.Text = "*남은 시간 " + "5" + ":" + "00";
@@ -192,60 +208,83 @@ namespace TicketRoom.Views.MainTab.MyPage
 
         private void CheckNumCheckBtn_Clicked(object sender, EventArgs e)
         {
-            if (CheckNum_box.Text != "" && CheckNum_box.Text != null)
+            if (Global.ischangemyinfobtn_clicked)
             {
-                string str = @"{";
-                str += "ID:'" + ID;
-                str += "',PHONE:'" + Phone;
-                str += "',NEWPW:'" + NEWPW;
-                str += "',KEY:'" + CheckNum_box.Text;
-                str += "'}";
-
-                //// JSON 문자열을 파싱하여 JObject를 리턴
-                JObject jo = JObject.Parse(str);
-
-                UTF8Encoding encoder = new UTF8Encoding();
-                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-                //request.Method = "POST";
-                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Userinfo_Update") as HttpWebRequest;
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                request.ContentLength = data.Length;
-
-                //request.Expect = "application/json";
-
-                request.GetRequestStream().Write(data, 0, data.Length);
-
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                Global.ischangemyinfobtn_clicked = false;
+                if (CheckNum_box.Text != "" && CheckNum_box.Text != null)
                 {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    string str = @"{";
+                    str += "ID:'" + ID;
+                    str += "',PHONE:'" + Phone;
+                    str += "',NEWPW:'" + NEWPW;
+                    str += "',KEY:'" + CheckNum_box.Text;
+                    str += "'}";
+
+                    //// JSON 문자열을 파싱하여 JObject를 리턴
+                    JObject jo = JObject.Parse(str);
+
+                    UTF8Encoding encoder = new UTF8Encoding();
+                    byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                    //request.Method = "POST";
+                    HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Userinfo_Update") as HttpWebRequest;
+                    request.Method = "POST";
+                    request.ContentType = "application/json";
+                    request.ContentLength = data.Length;
+
+                    //request.Expect = "application/json";
+
+                    request.GetRequestStream().Write(data, 0, data.Length);
+
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                     {
-                        var readdata = reader.ReadToEnd();
-                        string test = JsonConvert.DeserializeObject<string>(readdata);
-                        if (test.Equals("false"))
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                         {
-                            DisplayAlert("알림", "인증번호가 틀렸습니다.", "OK");
-                        }
-                        else if (test.Equals("ex"))
-                        {
-                            DisplayAlert("알림", "서버점검중입니다.", "OK");
-                        }
-                        else
-                        {
-                            timer.Stop();
-                            CheckNumSendBtn.Text = "인증";
-                            CheckNumGrid.IsVisible = false;
-                            Navigation.PopAsync(); //--------수정가능성 많음 ... 로그아웃 시킬지
+                            var readdata = reader.ReadToEnd();
+                            string test = JsonConvert.DeserializeObject<string>(readdata);
+                            if (test.Equals("false"))
+                            {
+                                DisplayAlert("알림", "인증번호가 틀렸습니다.", "OK");
+                                Global.ischangemyinfobtn_clicked = true;
+                            }
+                            else if (test.Equals("ex"))
+                            {
+                                DisplayAlert("알림", "서버점검중입니다.", "OK");
+                                Global.ischangemyinfobtn_clicked = true;
+                            }
+                            else
+                            {
+                                if (timer != null)
+                                {
+                                    timer.Stop();
+                                }
+
+                                #region 로그아웃 과정
+                                Global.b_user_login = false;
+                                Global.b_auto_login = false;
+                                Global.ID = "";
+
+                                // config파일 재설정
+                                File.WriteAllText(Global.localPath + "app.config",
+                                    "NonUserID=" + Global.non_user_id + "\n" +
+                                    "IsLogin=" + Global.b_user_login.ToString() + "\n" + // 회원 로그인 false
+                                    "AutoLogin=" + Global.b_auto_login.ToString() + "\n" + // 자동 로그인 false
+                                    "UserID=" + Global.ID + "\n");
+
+                                #endregion
+                                DisplayAlert("알림", "변경되었습니다. 다시 로그인해주세요", "확인");
+                                Navigation.PopToRootAsync(); //--------수정가능성 많음 ... 로그아웃 시킬지
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                DisplayAlert("알림", "인증번호를 입력하세요", "OK");
+                else
+                {
+                    DisplayAlert("알림", "인증번호를 입력하세요", "OK");
+                    Global.ischangemyinfobtn_clicked = true;
+                }
             }
         }
 

@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.USERS;
+using TicketRoom.Services;
 using TicketRoom.Views.Users.Login;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,6 +21,8 @@ namespace TicketRoom.Views.Users.CreateUser
         USERSData users;
         MyTimer timer;
         int test;
+        RSAFunc rSAFunc = RSAFunc.Instance();
+
         public CreateUserPhoneCheckPage(USERSData users)
         {
             InitializeComponent();
@@ -32,6 +35,13 @@ namespace TicketRoom.Views.Users.CreateUser
                 MainGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Global.iscreateuserphonenextbtn_clicked = true;
+            Global.isbackbutton_clicked = true;
         }
 
         private async void CheckNumSendBtn_Clicked(object sender, EventArgs e)
@@ -170,90 +180,99 @@ namespace TicketRoom.Views.Users.CreateUser
 
         private void CheckNumCheckBtn_Clicked(object sender, EventArgs e)
         {
-            CheckNumSendBtn.Text = "인증번호 재전송";
-            CheckNumGrid.IsVisible = true;
-            users.Name = Name_box.Text;
-            users.Phone = Phone_box.Text;
-
-            string str = @"{";
-            str += "ID:'" + users.ID;
-            str += "',PW:'" + users.PW;
-            str += "',Email:'" + users.Email;
-            str += "',Recommender:'" + users.RecommenderID;
-            str += "',Name:'" + users.Name;
-            str += "',Phonenum:'" + users.Phone;
-            str += "',roadAddr:'" + users.roadAddr;
-            str += "',jibunAddr:'" + users.jibunAddr;
-            str += "',zipNo:'" + users.zipNo;
-            str += "',Terms1:'" + users.Termsdata.Values.ToList()[0];
-            str += "',Terms2:'" + users.Termsdata.Values.ToList()[1];
-            str += "',Terms3:'" + users.Termsdata.Values.ToList()[2];
-            str += "',Terms4:'" + users.Termsdata.Values.ToList()[3];
-            str += "',CKey:'" + CheckNum_box.Text;
-            str += "',Age:'" + users.Age;
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            //request.Method = "POST";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Users_Create") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            //request.Expect = "application/json";
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            if (Global.iscreateuserphonenextbtn_clicked)
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                Global.iscreateuserphonenextbtn_clicked = false;
+                CheckNumSendBtn.Text = "인증번호 재전송";
+                CheckNumGrid.IsVisible = true;
+                users.Name = Name_box.Text;
+                users.Phone = Phone_box.Text;
+                rSAFunc.SetRSA("Start");
+
+                string str = @"{";
+                str += "ID:'" + users.ID;
+                str += "',PW:'" + rSAFunc.RSAEncrypt(users.PW);
+                str += "',Email:'" + users.Email;
+                str += "',Recommender:'" + users.RecommenderID;
+                str += "',Name:'" + users.Name;
+                str += "',Phonenum:'" + users.Phone;
+                str += "',roadAddr:'" + users.roadAddr;
+                str += "',jibunAddr:'" + users.jibunAddr;
+                str += "',zipNo:'" + users.zipNo;
+                str += "',Terms1:'" + users.Termsdata.Values.ToList()[0];
+                str += "',Terms2:'" + users.Termsdata.Values.ToList()[1];
+                str += "',Terms3:'" + users.Termsdata.Values.ToList()[2];
+                str += "',Terms4:'" + users.Termsdata.Values.ToList()[3];
+                str += "',CKey:'" + CheckNum_box.Text;
+                str += "',Age:'" + users.Age;
+                str += "',Rsastring:'" + rSAFunc.privateKeyText;
+                str += "'}";
+                System.Diagnostics.Debug.WriteLine(rSAFunc.privateKeyText);
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Users_Create") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                 {
-                    var readdata = reader.ReadToEnd();
-                    //Stuinfo test = JsonConvert.DeserializeObject<Stuinfo>(readdata);
-                    switch (int.Parse(readdata))
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                     {
-                        case 0:
-                            DisplayAlert("알림", "인증번호가 틀렸습니다.", "OK");
-                            return;
-                        case 1:
-                            //await ShowMessage("회원가입 되었습니다.", "알림", "OK", async () =>
-                            //{
-                            //    if (timer != null)
-                            //    {
-                            //        timer.Stop();
-                            //    }
+                        var readdata = reader.ReadToEnd();
+                        //Stuinfo test = JsonConvert.DeserializeObject<Stuinfo>(readdata);
+                        switch (int.Parse(readdata))
+                        {
+                            case 0:
+                                DisplayAlert("알림", "인증번호가 틀렸습니다.", "OK");
+                                Global.iscreateuserphonenextbtn_clicked = true;
+                                return;
+                            case 1:
+                                //await ShowMessage("회원가입 되었습니다.", "알림", "OK", async () =>
+                                //{
+                                //    if (timer != null)
+                                //    {
+                                //        timer.Stop();
+                                //    }
 
-                            //    var nav = Navigation.NavigationStack;
+                                //    var nav = Navigation.NavigationStack;
 
-                            //    //MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
-                            //    this.Navigation.RemovePage(nav[nav.Count - 1]);
-                            //    this.Navigation.RemovePage(nav[nav.Count - 2]);
-                            //    this.Navigation.RemovePage(nav[nav.Count - 3]);
-                            //    this.Navigation.RemovePage(nav[nav.Count - 4]);
-                            //    Navigation.PushAsync(new LoginPage());
-                            //});
-                            DisplayAlert("알림", "회원가입 되었습니다.", "확인");
-                            var nav = Navigation.NavigationStack;
-                            int idx = nav.Count;
-                            this.Navigation.RemovePage(nav[idx - 1]);
-                            this.Navigation.RemovePage(nav[idx - 2]);
-                            this.Navigation.RemovePage(nav[idx - 3]);
-                            this.Navigation.RemovePage(nav[idx - 4]);
-                            Navigation.PushAsync(new LoginPage());
-                            return;
-                        case 2:
-                            DisplayAlert("알림", "추천인이 탈퇴하셨습니다", "OK");
-                            return;
-                        default:
-                            DisplayAlert("알림", "서버 점검중입니다.", "OK");
-                            return;
+                                //    //MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
+                                //    this.Navigation.RemovePage(nav[nav.Count - 1]);
+                                //    this.Navigation.RemovePage(nav[nav.Count - 2]);
+                                //    this.Navigation.RemovePage(nav[nav.Count - 3]);
+                                //    this.Navigation.RemovePage(nav[nav.Count - 4]);
+                                //    Navigation.PushAsync(new LoginPage());
+                                //});
+                                DisplayAlert("알림", "회원가입 되었습니다.", "확인");
+                                var nav = Navigation.NavigationStack;
+                                int idx = nav.Count;
+                                this.Navigation.RemovePage(nav[idx - 1]);
+                                this.Navigation.RemovePage(nav[idx - 2]);
+                                this.Navigation.RemovePage(nav[idx - 3]);
+                                this.Navigation.RemovePage(nav[idx - 4]);
+                                Navigation.PushAsync(new LoginPage());
+                                return;
+                            case 2:
+                                DisplayAlert("알림", "추천인이 탈퇴하셨습니다", "OK");
+                                Global.iscreateuserphonenextbtn_clicked = true;
+                                return;
+                            default:
+                                DisplayAlert("알림", "서버 점검중입니다.", "OK");
+                                Global.iscreateuserphonenextbtn_clicked = true;
+                                return;
+                        }
                     }
                 }
             }
@@ -268,11 +287,15 @@ namespace TicketRoom.Views.Users.CreateUser
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            if (timer != null)
+            if (Global.isbackbutton_clicked)
             {
-                timer.Stop();
+                Global.isbackbutton_clicked = false;
+                if (timer != null)
+                {
+                    timer.Stop();
+                }
+                Navigation.PopAsync();
             }
-            Navigation.PopAsync();
         }
 
         protected override bool OnBackButtonPressed()

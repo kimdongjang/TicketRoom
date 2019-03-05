@@ -128,7 +128,7 @@ namespace TicketRoom.Views.MainTab
                         List<Xamarin.Forms.View> labelgrid = ((Grid)productlist[1]).Children.ToList();
                         List<Xamarin.Forms.View> countgrid = ((Grid)productlist[2]).Children.ToList();
 
-                        data.Add(((Label)labelgrid[0]).Text, ((Label)countgrid[1]).Text);
+                        data.Add(((CustomLabel)labelgrid[0]).Text, ((CustomLabel)countgrid[1]).Text);
                     }
                 }
                 await Navigation.PushAsync(new PurchaseDetailPage());

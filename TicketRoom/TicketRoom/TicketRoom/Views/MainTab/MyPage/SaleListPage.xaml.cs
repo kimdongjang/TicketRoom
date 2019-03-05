@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -51,6 +52,12 @@ namespace TicketRoom.Views.MainTab.MyPage
             Init();
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Global.isbackbutton_clicked = true;
+        }
+
         // 유저 아이디를 통해 상품권 구매리스트 가져오기
         public void PostSearchSaleListToID(string userid, int year, int mon, int day)
         {
@@ -58,8 +65,11 @@ namespace TicketRoom.Views.MainTab.MyPage
             salelist = giftDBFunc.SearchSaleListToID(userid, year, mon, day);
         }
 
-        private void Init()
+        private async void Init()
         {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+            
             MainGrid.Children.Clear();
             MainGrid.RowDefinitions.Clear();
             if (salelist.Count == 0)
@@ -196,9 +206,11 @@ namespace TicketRoom.Views.MainTab.MyPage
                         coverGrid.Children.Add(productLine, 0, product_row);
                         product_row++;
 
-                        Image product_image = new Image // 상품 이미지
+                        CachedImage product_image = new CachedImage  // 상품 이미지
                         {
-                            Source = salelist[i].PRODUCTIMAGE,
+                            LoadingPlaceholder = Global.LoadingImagePath,
+                            ErrorPlaceholder = Global.LoadingImagePath,
+                            Source = ImageSource.FromUri(new Uri(salelist[i].PRODUCTIMAGE)),
                             BackgroundColor = Color.White,
                             VerticalOptions = LayoutOptions.CenterAndExpand,
                             HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -337,11 +349,18 @@ namespace TicketRoom.Views.MainTab.MyPage
                 }
 
             }
+            
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PopAsync();
+            if (Global.isbackbutton_clicked)
+            {
+                Global.isbackbutton_clicked = false;
+                Navigation.PopAsync();
+            }
         }
 
         private void allbtn_clicked(object sender, EventArgs e)

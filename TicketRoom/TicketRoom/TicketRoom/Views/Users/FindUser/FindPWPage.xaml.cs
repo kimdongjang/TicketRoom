@@ -32,25 +32,39 @@ namespace TicketRoom.Views.Users.FindUser
             #endregion
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Global.isfindpwpage_clicked = true;
+        }
+
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            if (timer != null)
+            if(Global.isfindpwpage_clicked)
             {
-                timer.Stop();
+                Global.isfindpwpage_clicked = false;
+                if (timer != null)
+                {
+                    timer.Stop();
+                }
+                Navigation.PopAsync();
             }
-            Navigation.PopAsync();
         }
 
         private void FindIDPWBtn_Clicked(object sender, EventArgs e)
         {
-            if (timer != null)
+            if (Global.isfindpwpage_clicked)
             {
-                timer.Stop();
+                Global.isfindpwpage_clicked = false;
+                if (timer != null)
+                {
+                    timer.Stop();
+                }
+                var nav = Navigation.NavigationStack;
+                int idx = nav.Count;
+                this.Navigation.RemovePage(nav[idx - 1]);
+                Navigation.PushAsync(new FindIDPage());
             }
-            var nav = Navigation.NavigationStack;
-            int idx = nav.Count;
-            this.Navigation.RemovePage(nav[idx - 1]);
-            Navigation.PushAsync(new FindIDPage());
         }
 
         private async void CheckNumSendBtn_Clicked(object sender, EventArgs e)
@@ -236,56 +250,62 @@ namespace TicketRoom.Views.Users.FindUser
 
         private async void SendEmailPW_Btn_Clicked(object sender, EventArgs e)
         {
-            if (timer != null)
+            if (Global.isfindpwpage_clicked)
             {
-                timer.Stop();
-            }
-
-            string str = @"{";
-            str += "Name:'" + ID;
-            str += "',Phone:'" + Phone;
-            str += "',Title:'" + "상품권거래 PW찾기 결과";
-            str += "',Type:'" + "PW";
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            //request.Method = "POST";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "EmailSend") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            //request.Expect = "application/json";
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-            {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                Global.isfindpwpage_clicked = false;
+                if (timer != null)
                 {
-                    var readdata = reader.ReadToEnd();
-                    string test = JsonConvert.DeserializeObject<string>(readdata);
-                    if (test.Equals("false"))
+                    timer.Stop();
+                }
+
+                string str = @"{";
+                str += "Name:'" + ID;
+                str += "',Phone:'" + Phone;
+                str += "',Title:'" + "상품권거래 PW찾기 결과";
+                str += "',Type:'" + "PW";
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "EmailSend") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                     {
-                        DisplayAlert("알림", "다시 시도해주세요", "OK");
-                    }
-                    else if (test.Equals("ex"))
-                    {
-                        DisplayAlert("알림", "서버점검중입니다.", "OK");
-                    }
-                    else
-                    {
-                        await ShowMessage(test + "로 임시비밀번호가 발송 되었습니다.", "알림", "OK", async () =>
+                        var readdata = reader.ReadToEnd();
+                        string test = JsonConvert.DeserializeObject<string>(readdata);
+                        if (test.Equals("false"))
                         {
-                            Navigation.PushAsync(new LoginPage());
-                        });
+                            DisplayAlert("알림", "다시 시도해주세요", "OK");
+                            Global.isfindpwpage_clicked = true;
+                        }
+                        else if (test.Equals("ex"))
+                        {
+                            DisplayAlert("알림", "서버점검중입니다.", "OK");
+                            Global.isfindpwpage_clicked = true;
+                        }
+                        else
+                        {
+                            await ShowMessage(test + "로 임시비밀번호가 발송 되었습니다.", "알림", "OK", async () =>
+                            {
+                                Navigation.PopToRootAsync();
+                            });
+                        }
                     }
                 }
             }

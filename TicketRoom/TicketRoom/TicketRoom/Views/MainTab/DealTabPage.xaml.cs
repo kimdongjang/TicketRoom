@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FFImageLoading.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -191,9 +192,11 @@ namespace TicketRoom.Views.MainTab
 
             for (int i = 0; i < categories.Count; i++)
             {
-                Image imgae = new Image
+                CachedImage imgae = new CachedImage
                 {
-                    Source = categories[i].Image,
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
+                    Source = ImageSource.FromUri(new Uri(categories[i].Image)),
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.FillAndExpand,
                     Aspect = Aspect.AspectFit,
@@ -216,7 +219,7 @@ namespace TicketRoom.Views.MainTab
                 TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
                 tapGestureRecognizer.Tapped += (s, e) =>
                 {
-                    Image clickedimage = (Image)s;
+                    CachedImage clickedimage = (CachedImage)s;
                     mainPage.ShowDealDetail(clickedimage.BindingContext.ToString());
                     //Navigation.PushAsync(new DealDeatailPage(clickedimage.BindingContext.ToString()));
                 };
