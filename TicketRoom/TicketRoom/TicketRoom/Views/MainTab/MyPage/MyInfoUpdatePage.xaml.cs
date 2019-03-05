@@ -8,7 +8,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-
+using TicketRoom.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -22,6 +22,7 @@ namespace TicketRoom.Views.MainTab.MyPage
         string ID = "";
         string Phone = "";
         string NEWPW = "";
+        RSAFunc rSAFunc = RSAFunc.Instance();
 
         public MyInfoUpdatePage()
         {
@@ -213,11 +214,15 @@ namespace TicketRoom.Views.MainTab.MyPage
                 Global.ischangemyinfobtn_clicked = false;
                 if (CheckNum_box.Text != "" && CheckNum_box.Text != null)
                 {
+                    //rsa 암호화키 생성
+                    rSAFunc.SetRSA("Start");
+
                     string str = @"{";
                     str += "ID:'" + ID;
                     str += "',PHONE:'" + Phone;
-                    str += "',NEWPW:'" + NEWPW;
+                    str += "',NEWPW:'" + rSAFunc.RSAEncrypt(NEWPW);
                     str += "',KEY:'" + CheckNum_box.Text;
+                    str += "',Rsastring:'" + rSAFunc.privateKeyText;
                     str += "'}";
 
                     //// JSON 문자열을 파싱하여 JObject를 리턴
