@@ -273,7 +273,7 @@ namespace TicketRoom.Views.MainTab
                         new RowDefinition { Height = new GridLength(1, GridUnitType.Auto)},
                         new RowDefinition { Height = 60 },
                         },
-                        BindingContext = i,
+                        BindingContext = i+1,
                     };
                     ColumnGrid.Children.Add(inGrid, columnindex, 0);
 

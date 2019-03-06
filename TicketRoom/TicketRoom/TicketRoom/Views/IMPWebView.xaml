@@ -4,7 +4,7 @@
              x:Class="TicketRoom.Views.IMPWebView">
     <ContentPage.Content>
         <StackLayout>
-            <WebView Source="file:///android_asset/IMP.html" x:Name="browser"/>
+            <WebView HeightRequest="1000" WidthRequest="1000" Source="file:///android_asset/IMP.html" x:Name="browser"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

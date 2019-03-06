@@ -35,6 +35,7 @@ namespace TicketRoom.Views
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
+                //retorno = await browser.EvaluateJavaScriptAsync("init();");
                 IMPParam param = new IMPParam();
                 param.pg = "inicis";
                 param.pay_method = "card";
@@ -43,7 +44,7 @@ namespace TicketRoom.Views
                 param.amount = 5000;
                 //retorno = await browser.EvaluateJavaScriptAsync($"func1( \"inicis\",\"card\",\"merchant_\",\"stemp\",\"stemp\",\"stemp\",\"stemp\",\"stemp\",\"stemp\")");
                 String blank = "\"";
-                retorno = await browser.EvaluateJavaScriptAsync($"func1(" + blank + param.pg.ToString() + blank + "," +
+                retorno = await browser.EvaluateJavaScriptAsync($"func4(" + blank + param.pg.ToString() + blank + "," +
                                                                                            blank + param.pay_method.ToString() + blank + "," +
                                                                                             blank + param.merchant_uid.ToString() + blank + "," +
                                                                                             blank + param.name.ToString() + blank + "," +
