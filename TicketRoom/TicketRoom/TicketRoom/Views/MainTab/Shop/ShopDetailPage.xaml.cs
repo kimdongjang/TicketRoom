@@ -255,6 +255,7 @@ namespace TicketRoom.Views.MainTab.Shop
                             {
                                 Global.OtherIndexUpdate(otherHomeList[j].SH_HOME_INDEX); // 다른 고객이 함께본 상품 초기화를 위한 처리
                                 SH_DB.PostUpdateViewsOtherViewToIndex(Global.g_main_index, Global.g_other_index); // main인덱스와 other인덱스 서버로 전달
+                                SH_DB.PostUpdateRecentViewToID(Global.ID, otherHomeList[j].SH_HOME_INDEX.ToString()); // 최근 본 상품 목록 갱신
 
                                 var nav = Navigation.NavigationStack;
                                 this.Navigation.RemovePage(nav[nav.Count-1]);

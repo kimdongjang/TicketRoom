@@ -47,6 +47,9 @@
                     <RowDefinition Height="3"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="3"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="3"/>
+                    <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
                 <!--#region 0행 메인 이미지 슬라이드 탭-->
                 <Grid Grid.Row="0" x:Name="ImageSlideGrid"  x:FieldModifier="Public">
@@ -70,9 +73,6 @@
                 </ScrollView>
                 <!--#endregion-->
 
-                <!--#region 3행 보더라인-->
-                <BoxView Grid.Row="3" BackgroundColor="LightGray" Opacity="0.5"/>
-                <!--#endregion-->
 
 
                 <!--#region 4행 최근 본 상품-->

@@ -12,6 +12,7 @@ using Xamarin.Forms.Xaml;
 using System.Threading;
 using TicketRoom.Models.Custom;
 using TicketRoom.Views.MainTab.Dael;
+using TicketRoom.Models.ShopData;
 
 namespace TicketRoom.Views
 {
@@ -20,6 +21,7 @@ namespace TicketRoom.Views
     {
         List<Button> tablist = new List<Button>();
         UserDBFunc USER_DB = UserDBFunc.Instance();
+        ShopDBFunc SH_DB = ShopDBFunc.Instance();
         string categorynum = "";
 
         public MainPage()
@@ -45,26 +47,39 @@ namespace TicketRoom.Views
             Init();
             TabInit();
             TabContent.Content = new DealTabPage(this);
-            
+            DealTabPage dtp;
+            ShopTabPage stp;
+            BasketTabPage btp;
+            MyPageTabPage mtp;
+
+
             #region OnAppearing을 사용해 사용중인 탭으로 되돌리기
             if (Global.isMainDeal == true)
             {
                 //Tab_Changed(tablist[0], null);
+                dtp = new DealTabPage(this);
+                TabColorChanged("deal");
                 Global.InitOnAppearingBool("deal");
             }
             else if (Global.isMainShop == true)
             {
                 //Tab_Changed(tablist[1], null);
+                stp = new ShopTabPage();
+                TabColorChanged("shop");
                 Global.InitOnAppearingBool("shop");
             }
             else if (Global.isMainBasket == true)
             {
                 //Tab_Changed(tablist[2], null);
+                btp = new BasketTabPage();
+                TabColorChanged("basket");
                 Global.InitOnAppearingBool("basket");
             }
             else if (Global.isMainMyinfo == true)
             {
                 //Tab_Changed(tablist[3], null);
+                mtp = new MyPageTabPage(this);
+                TabColorChanged("myinfo");
                 Global.InitOnAppearingBool("myinfo");
             }
             else if (Global.isMainDealDeatil == true)
@@ -72,7 +87,15 @@ namespace TicketRoom.Views
                 ShowDealDetail(this.categorynum);
             }
             #endregion
-            
+
+            if (Global.b_user_login == true) // 회원인 상태로 로그인이 되어있다면
+            {
+                SH_DB.PostInsertRecentViewToID(Global.ID); // 최근 본 상품 로우 생성
+            }
+            else // 비회원 상태
+            {
+                SH_DB.PostInsertRecentViewToID(Global.non_user_id);
+            }
             base.OnAppearing();
         }
 
@@ -210,7 +233,6 @@ namespace TicketRoom.Views
                     Global.InitOnAppearingBool("deal");
 
                     TabColorChanged("deal");
-
                 })
             });
 

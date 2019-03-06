@@ -1465,5 +1465,143 @@ namespace TicketRoom.Models.ShopData
             }
         }
 
+        // 최근 본 상품 목록 앱 실행시 초기화
+        public bool PostInsertRecentViewToID(string p_id)
+        {
+            bool isResult = false;
+            string str = @"{";
+            str += "p_id:'" + p_id;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_InsertRecentViewToID") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        isResult = JsonConvert.DeserializeObject<bool>(readdata);
+                    }
+                }
+                return isResult;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return isResult;
+            }
+        }
+
+
+        // 최근 본 상품 목록 홈 페이지 이동시 갱신
+        public bool PostUpdateRecentViewToID(string p_id, string p_home_index)
+        {
+            bool isResult = false;
+            string str = @"{";
+            str += "p_id:'" + p_id;
+            str += "',p_home_index:'" + p_home_index;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_UpdateRecentViewToID") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        isResult = JsonConvert.DeserializeObject<bool>(readdata);
+                    }
+                }
+                return isResult;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return isResult;
+            }
+        }
+
+        // 결제 인덱스를 통해 카드 결제 방법 리스트 가져오기
+        public SH_RecentView PostSelectRecentViewToID(string p_id)
+        {
+            SH_RecentView recentList = new SH_RecentView();
+            string str = @"{";
+            str += "p_id : '" + p_id;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_SelectRecentViewToID") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        recentList = JsonConvert.DeserializeObject<SH_RecentView>(readdata);
+                    }
+                }
+                return recentList;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
     }
 }

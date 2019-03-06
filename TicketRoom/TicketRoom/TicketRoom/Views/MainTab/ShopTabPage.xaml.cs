@@ -58,6 +58,7 @@ namespace TicketRoom.Views.MainTab
             if (mclist != null)
             {
                 GridUpdate();
+                RecentViewUpdate();
             }
             else
             {
@@ -108,6 +109,98 @@ namespace TicketRoom.Views.MainTab
                 System.Diagnostics.Debug.WriteLine("Fade In");
                 await Task.Delay(5000);
 
+            }
+        }
+
+        // 최근 본 상품 목록 업데이트
+        private void RecentViewUpdate()
+        {
+            SH_RecentView RecentView;
+            if (Global.b_user_login == true) // 회원인 상태로 로그인이 되어있다면
+            {
+                RecentView = SH_DB.PostSelectRecentViewToID(Global.ID);
+            }
+            else // 비회원 상태
+            {
+                RecentView = SH_DB.PostSelectRecentViewToID(Global.non_user_id);
+            }
+
+            List<SH_Home> HomeList = new List<SH_Home>();
+
+            if (RecentView.SH_HOME_INDEX1 != 0)
+            {
+                SH_Home sh = SH_DB.PostSearchHomeToHome(RecentView.SH_HOME_INDEX1);
+                HomeList.Add(sh);
+            }
+            if (RecentView.SH_HOME_INDEX2 != 0)
+            {
+                SH_Home sh = SH_DB.PostSearchHomeToHome(RecentView.SH_HOME_INDEX2);
+                HomeList.Add(sh);
+            }
+            if (RecentView.SH_HOME_INDEX3 != 0)
+            {
+                SH_Home sh = SH_DB.PostSearchHomeToHome(RecentView.SH_HOME_INDEX3);
+                HomeList.Add(sh);
+            }
+
+            Grid ColumnGrid = new Grid
+            {
+                ColumnDefinitions =
+                {
+                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)  },
+                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)  },
+                    new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)  }
+                },
+                Margin = new Thickness(15, 0, 15, 0),
+            };
+            RecentViewGrid.Children.Add(ColumnGrid);
+
+            if (HomeList.Count == 0) // 최근 본 상품에 이미지가 없을 경우
+            {
+                CustomLabel errorLabel = new CustomLabel
+                {
+                    Size = 18,
+                    TextColor = Color.Black,
+                    HorizontalOptions = LayoutOptions.Center,
+                    Text = "최근 본 상품이 없습니다!",
+                };
+                RecentViewGrid.Children.Add(errorLabel);
+                return;
+            }
+
+            for (int i = 0; i < HomeList.Count; i++)
+            {
+                Grid inGrid = new Grid
+                {
+                    RowDefinitions =
+                    {
+                        new RowDefinition { Height = 100  },
+                        new RowDefinition { Height = 30  },
+                    },
+                    Margin = new Thickness(15, 0, 15, 0),
+                };
+                ColumnGrid.Children.Add(inGrid, i, 0);
+                CachedImage recentImage = new CachedImage
+                {
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
+                    Aspect = Aspect.AspectFill,
+
+                };
+                CustomLabel recentLabel = new CustomLabel
+                {
+                    Size = 14,
+                    TextColor = Color.Black,
+                    HorizontalOptions = LayoutOptions.Center,
+                };
+                
+                recentImage.Source = HomeList[i].SH_HOME_IMAGE;
+                recentLabel.Text = HomeList[i].SH_HOME_NAME;
+
+                inGrid.Children.Add(recentImage, 0, 0);
+                inGrid.Children.Add(recentLabel, 0, 1);
             }
         }
         
