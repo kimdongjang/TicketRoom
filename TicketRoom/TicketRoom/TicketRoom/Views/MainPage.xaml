@@ -11,14 +11,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <ContentView Grid.Row="1" x:Name="TabContent" x:FieldModifier="Public" />
 
-
-        <!--#region 0행 커스텀 탭바 -->
-        <Grid Grid.Row="2" RowSpacing="0" ColumnSpacing="0">
+        <BoxView Grid.Row="2" BackgroundColor="LightGray" Opacity="0.5"/>
+        <!--#region 3행 커스텀 탭바 -->
+        <Grid Grid.Row="3" RowSpacing="0" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -29,44 +30,44 @@
             <!--#region 0열 구매/판매-->
             <Grid Grid.Column="0" x:Name="GiftTab">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="main_gift_h.png" Aspect="AspectFit" BackgroundColor="White" HorizontalOptions="Center"/>
-                <custom:CustomLabel Grid.Row="1" Text="구매/판매" Size="14" TextColor="CornflowerBlue" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                <Image Grid.Row="0" Source="main_gift_h.png" Aspect="AspectFit" BackgroundColor="White" HorizontalOptions="Center" HeightRequest="20" WidthRequest="20" Margin="0,5,0,0"/>
+                <custom:CustomLabel Grid.Row="1" Text="구매/판매" Size="12" TextColor="CornflowerBlue" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
             </Grid>
             <!--#endregion-->
 
             <!--#region 1열 쇼핑-->
             <Grid Grid.Column="1" x:Name="ShopTab">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="main_shop_non.png" Aspect="AspectFit" BackgroundColor="White" HorizontalOptions="Center"/>
-                <custom:CustomLabel Grid.Row="1" Text="쇼핑" Size="14" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                <Image Grid.Row="0" Source="main_shop_non.png" Aspect="AspectFit" BackgroundColor="White" HorizontalOptions="Center" HeightRequest="20" WidthRequest="20"  Margin="0,5,0,0"/>
+                <custom:CustomLabel Grid.Row="1" Text="쇼핑" Size="12" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
             </Grid>
             <!--#endregion-->
 
             <!--#region 2열 장바구니-->
             <Grid Grid.Column="2" x:Name="BasketTab">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="main_basket_non.png" Aspect="AspectFit" BackgroundColor="White" HorizontalOptions="Center"/>
-                <custom:CustomLabel Grid.Row="1" Text="장바구니" Size="14" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                <Image Grid.Row="0" Source="main_basket_non.png" Aspect="AspectFit" BackgroundColor="White" HorizontalOptions="Center" HeightRequest="20" WidthRequest="20" Margin="0,5,0,0"/>
+                <custom:CustomLabel Grid.Row="1" Text="장바구니" Size="12" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
             </Grid>
             <!--#endregion-->
 
             <!--#region 3열 내정보-->
             <Grid Grid.Column="3" x:Name="UserTab">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="main_user_non.png" Aspect="AspectFit" BackgroundColor="White" HorizontalOptions="Center"/>
-                <custom:CustomLabel Grid.Row="1" Text="내정보" Size="14" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+                <Image Grid.Row="0" Source="main_user_non.png" Aspect="AspectFit" BackgroundColor="White" HorizontalOptions="Center" HeightRequest="20" WidthRequest="20" Margin="0,5,0,0"/>
+                <custom:CustomLabel Grid.Row="1" Text="내정보" Size="12" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
             </Grid>
             <!--#endregion-->
         </Grid>

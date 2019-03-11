@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 0행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
+        <Grid Grid.Row="1" BackgroundColor="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -32,7 +32,7 @@
                     Grid.Column="0"
                     Text="장바구니"
                     Size="18"
-                    TextColor="White"
+                    TextColor="Black"
                      XAlign="End" YAlign="Center"
                     />
             </Grid>

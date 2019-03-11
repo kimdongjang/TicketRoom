@@ -13,7 +13,7 @@
 
 
         <!--#region 0행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
+        <Grid Grid.Row="1" BackgroundColor="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
@@ -26,9 +26,9 @@
                 </Grid.ColumnDefinitions>
                 <local1:CustomLabel 
                     Grid.Column="1"
-                    Text="쇼핑몰"
+                    Text="쇼핑"
                     Size="18"
-                    TextColor="White"
+                    TextColor="Black"
                      XAlign="End" YAlign="Center"/>
                 <!--#endregion-->
             </Grid>
@@ -46,10 +46,6 @@
                     <RowDefinition Height="200"/>
                     <RowDefinition Height="3"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="3"/>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="3"/>
-                    <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
                 <!--#region 0행 메인 이미지 슬라이드 탭-->
                 <Grid Grid.Row="0" x:Name="ImageSlideGrid"  x:FieldModifier="Public">
@@ -69,23 +65,31 @@
 
                 <!--#region 2행 메인 이미지 리스트 그리드-->
                 <ScrollView Grid.Row="2">
-                    <Grid ColumnSpacing="0" RowSpacing="0" x:Name="MainGrid"/>
+                    <Grid RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="3"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="3"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <!--#region 0행 메인 리스트-->
+                        <Grid Grid.Row="0" ColumnSpacing="0" RowSpacing="0" x:Name="MainGrid"/>
+                        <!--#endregion-->
+
+                        <!--#region 2행 최근 본 상품-->
+                         <local1:CustomLabel Grid.Row="2" Text="최근 본 상품" Size="16" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                         <!--#endregion-->
+                     
+                         <!--#region 3행 보더라인-->
+                         <BoxView Grid.Row="3" BackgroundColor="LightGray" Opacity="0.5"/>
+                         <!--#endregion-->
+                     
+                         <!--#region 4행 최근 본 목록-->
+                         <Grid Grid.Row="4" x:Name="RecentViewGrid"/>
+                         <!--#endregion-->
+                    </Grid>
                 </ScrollView>
-                <!--#endregion-->
-
-
-
-                <!--#region 4행 최근 본 상품-->
-                <local1:CustomLabel Grid.Row="4" Text="최근 본 상품" Size="14" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" />
-                <!--#endregion-->
-
-                <!--#region 5행 보더라인-->
-                <BoxView Grid.Row="5" BackgroundColor="LightGray" Opacity="0.5"/>
-                <!--#endregion-->
-
-                <!--#region 6행 보더라인-->
-                <Grid Grid.Row="6" x:Name="RecentViewGrid"/>
-                <!--#endregion-->
 
             </Grid>
             <!--#endregion-->

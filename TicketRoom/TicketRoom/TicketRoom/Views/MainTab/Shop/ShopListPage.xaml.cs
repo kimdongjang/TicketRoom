@@ -482,6 +482,15 @@ namespace TicketRoom.Views.MainTab.Shop
                         }
                         Global.OtherIndexUpdate(tempIndex); // 다른 고객이 함께본 상품 초기화를 위한 처리
                         SH_DB.PostUpdateViewsOtherViewToIndex(Global.g_main_index, Global.g_other_index); // main인덱스와 other인덱스 서버로 전달
+
+                        if (Global.b_user_login == true) // 회원인 상태로 로그인이 되어있다면
+                        {
+                            SH_DB.PostUpdateRecentViewToID(Global.ID, tempIndex.ToString()); // 최근 본 상품 목록 갱신
+                        }
+                        else // 비회원 상태
+                        {
+                            SH_DB.PostUpdateRecentViewToID(Global.non_user_id, tempIndex.ToString()); // 최근 본 상품 목록 갱신
+                        }
                         Navigation.PushAsync(new ShopMainPage(tempIndex));
                     })
                 });

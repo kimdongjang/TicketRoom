@@ -16,7 +16,7 @@
             </Grid.RowDefinitions>
 
             <!--#region 1행 커스텀 액션바 -->
-            <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
+            <Grid Grid.Row="1" BackgroundColor="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
@@ -32,7 +32,7 @@
 
                 <!--#region 1열 액션바 타이틀-->
                 <local1:CustomLabel Grid.Column="1"
-                    x:Name="TitleName" TextColor="White"
+                    x:Name="TitleName" TextColor="Black"
                     Size="18"
                     HorizontalOptions="Center" VerticalOptions="Center" />
                 <!--#endregion-->

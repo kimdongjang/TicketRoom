@@ -36,22 +36,31 @@ namespace TicketRoom.Views
             }
             #endregion
 
-            /*tablist.Add(DealTab);
-            tablist.Add(ShopTab);
-            tablist.Add(BasketTab);
-            tablist.Add(MyPageTab);*/
+            TabContent.Content = new DealTabPage(this);
         }
 
         protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
         {
             Init();
             TabInit();
-            TabContent.Content = new DealTabPage(this);
+            ChangeTabInitAsync();
+
+
+
+
+
+            base.OnAppearing();
+        }
+
+        private async void ChangeTabInitAsync()
+        {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
             DealTabPage dtp;
             ShopTabPage stp;
             BasketTabPage btp;
             MyPageTabPage mtp;
-
 
             #region OnAppearing을 사용해 사용중인 탭으로 되돌리기
             if (Global.isMainDeal == true)
@@ -60,6 +69,7 @@ namespace TicketRoom.Views
                 dtp = new DealTabPage(this);
                 TabColorChanged("deal");
                 Global.InitOnAppearingBool("deal");
+                TabContent.Content = dtp;
             }
             else if (Global.isMainShop == true)
             {
@@ -67,6 +77,7 @@ namespace TicketRoom.Views
                 stp = new ShopTabPage();
                 TabColorChanged("shop");
                 Global.InitOnAppearingBool("shop");
+                TabContent.Content = stp;
             }
             else if (Global.isMainBasket == true)
             {
@@ -74,6 +85,7 @@ namespace TicketRoom.Views
                 btp = new BasketTabPage();
                 TabColorChanged("basket");
                 Global.InitOnAppearingBool("basket");
+                TabContent.Content = btp;
             }
             else if (Global.isMainMyinfo == true)
             {
@@ -81,6 +93,7 @@ namespace TicketRoom.Views
                 mtp = new MyPageTabPage(this);
                 TabColorChanged("myinfo");
                 Global.InitOnAppearingBool("myinfo");
+                TabContent.Content = mtp;
             }
             else if (Global.isMainDealDeatil == true)
             {
@@ -96,7 +109,9 @@ namespace TicketRoom.Views
             {
                 SH_DB.PostInsertRecentViewToID(Global.non_user_id);
             }
-            base.OnAppearing();
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
 
@@ -225,25 +240,38 @@ namespace TicketRoom.Views
 
         private void TabInit()
         {
+
             GiftTab.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>
                 {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
                     TabContent.Content = new DealTabPage(this);
                     Global.InitOnAppearingBool("deal");
 
                     TabColorChanged("deal");
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
                 })
             });
 
             ShopTab.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = new Command(() =>
+                Command = new Command(async () =>
                 {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
                     TabContent.Content = new ShopTabPage();
                     Global.InitOnAppearingBool("shop");
 
                     TabColorChanged("shop");
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
                 })
             });
 
@@ -251,11 +279,16 @@ namespace TicketRoom.Views
             {
                 Command = new Command(async () =>
                 {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
 
                     TabContent.Content = new BasketTabPage();
                     Global.InitOnAppearingBool("basket");
 
                     TabColorChanged("basket");
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
 
                 })
             });
@@ -265,12 +298,16 @@ namespace TicketRoom.Views
             {
                 Command = new Command(async () =>
                 {
-                    Global.ismypagebtns_clicked = true;
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
                     TabContent.Content = new MyPageTabPage(this);
                     Global.InitOnAppearingBool("myinfo");
 
                     TabColorChanged("myinfo");
 
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
                 })
             });
         }

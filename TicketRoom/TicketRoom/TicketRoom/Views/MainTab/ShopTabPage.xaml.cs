@@ -24,7 +24,10 @@ namespace TicketRoom.Views.MainTab
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
         public static List<MainCate> mclist;
 
+
+        List<SH_Home> HomeList = new List<SH_Home>();
         List<Grid> ClickList = new List<Grid>();
+        List<Grid> RecentGridClickList = new List<Grid>();
         Queue<string> imageList = new Queue<string>();
 
         public static int imagelist_count = 2;
@@ -49,7 +52,12 @@ namespace TicketRoom.Views.MainTab
 
             mclist = SH_DB.GetCategoryListAsync();
 
-            Navigation.PushAsync(new IMPWebView());
+
+
+            Global.isOpen_ShopListPage = false; // ShopTabPage -> ShopListPage
+            Global.isOpen_ShopMainPage = false; // ShopListPage -> ShopMainPage(SaleView)
+
+            //Navigation.PushAsync(new IMPWebView());
             //Navigation.PushAsync(new IMPHybridWebView());
 
             // 쇼핑 탭 주소 엔트리 초기화
@@ -125,8 +133,6 @@ namespace TicketRoom.Views.MainTab
                 RecentView = SH_DB.PostSelectRecentViewToID(Global.non_user_id);
             }
 
-            List<SH_Home> HomeList = new List<SH_Home>();
-
             if (RecentView.SH_HOME_INDEX1 != 0)
             {
                 SH_Home sh = SH_DB.PostSearchHomeToHome(RecentView.SH_HOME_INDEX1);
@@ -179,6 +185,7 @@ namespace TicketRoom.Views.MainTab
                     },
                     Margin = new Thickness(15, 0, 15, 0),
                 };
+                RecentGridClickList.Add(inGrid);
                 ColumnGrid.Children.Add(inGrid, i, 0);
                 CachedImage recentImage = new CachedImage
                 {
@@ -186,7 +193,7 @@ namespace TicketRoom.Views.MainTab
                     ErrorPlaceholder = Global.LoadingImagePath,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
-                    Aspect = Aspect.AspectFill,
+                    Aspect = Aspect.AspectFit,
 
                 };
                 CustomLabel recentLabel = new CustomLabel
@@ -202,8 +209,40 @@ namespace TicketRoom.Views.MainTab
                 inGrid.Children.Add(recentImage, 0, 0);
                 inGrid.Children.Add(recentLabel, 0, 1);
             }
+
+            #region 최근 본 목록 그리드 탭 이벤트
+            for (int k = 0; k < RecentGridClickList.Count; k++)
+            {
+                Grid tempGrid = RecentGridClickList[k];
+                CustomLabel tempLabel = (CustomLabel)tempGrid.Children.ElementAt(1);
+
+                tempGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+                {
+                    Command = new Command(() =>
+                    {
+                        // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
+                        if (Global.isOpen_ShopMainPage == true)
+                        {
+                            return;
+                        }
+                        Global.isOpen_ShopMainPage = true;
+
+                        int tempIndex = 0;
+                        for (int i = 0; i < HomeList.Count; i++)
+                        {
+                            if (tempLabel.Text == HomeList[i].SH_HOME_NAME)
+                            {
+                                tempIndex = HomeList[i].SH_HOME_INDEX; // 홈 메인 페이지의 인덱스를 찾음
+                            }
+                        }
+                        Navigation.PushAsync(new ShopMainPage(tempIndex)); // 최근 본 상품 페이지 오픈
+                    })
+                });
+            }
+            #endregion
         }
-        
+
+        // 일반 카테고리 리스트 업데이트
         private void GridUpdate()
         {
             int columnindex = 3;
@@ -251,8 +290,8 @@ namespace TicketRoom.Views.MainTab
                     Grid inGrid = new Grid
                     {
                         RowDefinitions = {
-                            new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
-                            new RowDefinition { Height = 50 },
+                            new RowDefinition { Height = new GridLength(1, GridUnitType.Auto)},
+                            new RowDefinition { Height = new GridLength(1, GridUnitType.Auto)},
                         },
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.Center,
@@ -263,23 +302,25 @@ namespace TicketRoom.Views.MainTab
 
                     CustomLabel label = new CustomLabel
                     {
-                        Size = 18,
+                        Size = 14,
                         Text = mclist[i].SH_MAINCATE_NAME,
                         TextColor = Color.Black,
                         HorizontalOptions = LayoutOptions.Start,
                         VerticalOptions = LayoutOptions.Center,
                         BindingContext = i,
-                        Margin = new Thickness(10,0,0,0)
+                        Margin = new Thickness(10,10,0,0)
                     };
 
                     CachedImage image = new CachedImage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
                         ErrorPlaceholder = Global.LoadingImagePath,
-                        VerticalOptions = LayoutOptions.Center,
-                        HorizontalOptions = LayoutOptions.End,
-                        Aspect = Aspect.AspectFill,
-                        Margin = new Thickness(0, 0, 10, 0)
+                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                        HorizontalOptions = LayoutOptions.EndAndExpand,
+                        WidthRequest = 40,
+                        HeightRequest = 40,
+                        Aspect = Aspect.AspectFit,
+                        Margin = new Thickness(0, 0, 10, 10)
                     };
 
 

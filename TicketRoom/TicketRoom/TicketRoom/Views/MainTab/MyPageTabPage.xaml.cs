@@ -16,6 +16,7 @@ namespace TicketRoom.Views.MainTab
         public MyPageTabPage(MainPage mp)
         {
             InitializeComponent();
+            Global.ismypagebtns_clicked = true; // 내정보 페이지 더블 클릭 제한 해제
             this.mp = mp;
 
             #region IOS의 경우 초기화
@@ -24,10 +25,10 @@ namespace TicketRoom.Views.MainTab
                 TabGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
-
-
             Init();
+
         }
+
 
 
 

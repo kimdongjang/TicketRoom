@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.TicketRoom">
-    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="27" />
-    <application android:label="TicketRoom.Android"></application>
-    <resources>
-    <string name="kakao_app_key">1b6feed216ccdeff0cbadd0fedd12e1c</string>
-    <string name="kakao_scheme">kakao + 1b6feed216ccdeff0cbadd0fedd12e1c</string>
-    <string name="kakaolink_host">kakaolink</string>
-  </resources>
-  <uses-permission android:name="android.permission.INTERNET" />
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.TicketRoom" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="27" />
+	<application android:label="TicketRoom.Android"></application>
+	<resources>
+		<string name="kakao_app_key">1b6feed216ccdeff0cbadd0fedd12e1c</string>
+		<string name="kakao_scheme">kakao + 1b6feed216ccdeff0cbadd0fedd12e1c</string>
+		<string name="kakaolink_host">kakaolink</string>
+	</resources>
+	<uses-permission android:name="android.permission.INTERNET" />
 </manifest>

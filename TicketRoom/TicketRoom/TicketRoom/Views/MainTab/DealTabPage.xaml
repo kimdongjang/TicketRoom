@@ -9,12 +9,6 @@
             <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="1"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="3"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="3"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="3"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -59,50 +53,64 @@
         <BoxView Grid.Row="2" BackgroundColor="LightGray"/>
         <!--#endregion -->
 
-        <!--#region 3행 메인 배너-->
-        <Image Grid.Row="3" Source="gift_banner.png" VerticalOptions="Center" Aspect="AspectFill"/>
-        <!--#endregion -->
+        <!--#region 3행 스크롤뷰-->
+        <ScrollView Grid.Row="3">
+            <Grid RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="3"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="3"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="3"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-        <!--#region 4행 보더라인-->
-        <BoxView Grid.Row="4" BackgroundColor="LightGray" Opacity="0.5"/>
-        <!--#endregion -->
+                <!--#region 0행 메인 배너-->
+                <Image Grid.Row="0" Source="gift_banner.png" VerticalOptions="Center" Aspect="AspectFill"/>
+                <!--#endregion -->
 
-        <!--#region 5행 실시간 거래-->
-        <Grid Grid.Row="5" x:Name="RealTimeGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-            </Grid.RowDefinitions>
-            <custom:CustomLabel Grid.Row="0" Text="실시간 거래" FontAttributes="Bold" TextColor="Black" Size="18" Margin="5,0,0,0"/>
-        </Grid>
-        <!--#endregion -->
+                <!--#region 1행 보더라인-->
+                <BoxView Grid.Row="1" BackgroundColor="LightGray" Opacity="0.5"/>
+                <!--#endregion -->
 
-        <!--#region 6행 보더라인-->
-        <BoxView Grid.Row="6" BackgroundColor="LightGray" Opacity="0.5"/>
-        <!--#endregion -->
+                <!--#region 2행 실시간 거래-->
+                <Grid Grid.Row="2" x:Name="RealTimeGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <custom:CustomLabel Grid.Row="0" Text="실시간 거래" FontAttributes="Bold" TextColor="Black" Size="14" Margin="15,15,0,0"/>
+                </Grid>
+                <!--#endregion -->
 
-
-        <!--#region 7행 보유 포인트-->
-        <Grid Grid.Row="7" x:Name="MyPointGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-            </Grid.RowDefinitions>
-            <custom:CustomLabel Grid.Row="0" Text="보유 포인트" TextColor="Black" Size="16" HorizontalTextAlignment="Center" x:Name="MyPointLabel" VerticalOptions="Center"/>
-        </Grid>
-        <!--#endregion -->
-
-
-        <!--#region 8행 보더라인-->
-        <BoxView Grid.Row="8" BackgroundColor="LightGray" Opacity="0.5"/>
-        <!--#endregion -->
+                <!--#region 3행 보더라인-->
+                <BoxView Grid.Row="3" BackgroundColor="LightGray" Opacity="0.5"/>
+                <!--#endregion -->
 
 
-        <!--#region 9행 카테고리 그리드-->
-        <ScrollView Grid.Row="9" >
-            <Grid BackgroundColor="White" x:Name="CategoryGrid" RowSpacing="0"/>
+                <!--#region 4행 보유 포인트-->
+                <Grid Grid.Row="4" x:Name="MyPointGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <custom:CustomLabel Grid.Row="0" Text="보유 포인트" TextColor="Black" Size="16" HorizontalTextAlignment="Center"
+                                        x:Name="MyPointLabel" VerticalOptions="Center" FontAttributes="Bold"/>
+                </Grid>
+                <!--#endregion -->
+
+
+                <!--#region 5행 보더라인-->
+                <BoxView Grid.Row="5" BackgroundColor="LightGray" Opacity="0.5"/>
+                <!--#endregion -->
+
+
+                <!--#region 6행 카테고리 그리드-->
+                <Grid Grid.Row="6" BackgroundColor="White" x:Name="CategoryGrid" RowSpacing="0"/>
+                <!--#endregion -->
+            </Grid>
         </ScrollView>
-        
-        <!--#endregion -->
+
         
     </Grid>
     <!--#endregion-->

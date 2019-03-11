@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -26,6 +27,9 @@ namespace TicketRoom.Droid.Renderer
             CustomButton control = e.NewElement as CustomButton;
             var label = (TextView)Control;
             label.SetTextSize(Android.Util.ComplexUnitType.Dip, control.Size);
+
+            Typeface font = Typeface.CreateFromAsset(Forms.Context.Assets, "hmklexpo.ttf");
+            label.Typeface = font;
         }
     }
 }

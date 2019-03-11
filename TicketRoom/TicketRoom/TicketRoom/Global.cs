@@ -94,97 +94,49 @@ namespace TicketRoom
         {
             if (PopupNavigation.PopupStack.Count != 0)
             {
-                await PopupNavigation.PopAsync();
+                await PopupNavigation.PopAllAsync();
             }
             Global.isloading_block = false;
         }
         #endregion
 
-        #region Loading 타이머 사용 X 
-        //public static Loading loadingScreen;
-        //public static MyTimer timer;
-        //public static async Task LoadingStartAsync()
-        //{
-        //    if (timer == null)
-        //    {
-        //        timer = new MyTimer(TimeSpan.FromSeconds(0.2), TimerCallback_event);
-        //        timer.Start();
-        //    }
-        //    else
-        //    {
-        //        timer.Stop(); timer.Start();
-        //    }
-        //}
+        #region 상품권 사용여부 조회 크롤링 패킷 확인
+            // 해피머니 확인
+        // happy_money_gift_num_none
+        // happy_money_gift_num_use
+        // happy_money_gift_num_error
 
-        //public static async Task LoadingEndAsync()
-        //{
-        //    if (timer != null)
-        //    {
-        //        timer.Stop();
-        //        timer = null;
-        //    }
-        //    if (PopupNavigation.PopupStack.Count != 0)
-        //    {
-        //        await PopupNavigation.PopAsync();
-        //    }
-        //    Global.isloading_block = false;
-        //}
+            // 북앤라이프 사용 불가
+        // book_and_life_book_pin_none
+        // book_and_life_book_inherence_none
+        // book_and_life_mobile_none
+        // book_and_life_online_none
 
-        //public static async void TimerCallback_event()
-        //{
-        //    loadingScreen = new Loading();
-        //    await PopupNavigation.PushAsync(loadingScreen);
-        //    Global.isloading_block = true;
-        //    if (timer != null)
-        //    {
-        //        timer.Stop();
-        //        timer = null;
-        //    }
-        //}
+            // 북앤 라이프 사용 가능
+        // book_and_life_book_pin_use
+        // book_and_life_book_inherence_use
+        // book_and_life_mobile_use
+        // book_and_life_online_use
+        public static string CrawlingReturnValueCheck(string packet)
+        {
+            // 사용가능
+            if(packet == "happy_money_gift_num_use" || packet == "book_and_life_book_pin_use" || packet == "book_and_life_book_inherence_use"
+                || packet == "book_and_life_mobile_use" || packet == "book_and_life_online_use")
+            {
+                return "사용가능";
+            }
+            else if (packet == "happy_money_gift_num_none" || packet == "book_and_life_book_pin_none" || packet == "book_and_life_book_inherence_none"
+                || packet == "book_and_life_mobile_none" || packet == "book_and_life_online_none")
+            {
+
+                return "사용불가";
+            }
+            else
+            {
+                return "에러";
+            }            
+        }
         #endregion
-
-        //#region Loading
-        //public static Loading loadingScreen;
-        //public static MyTimer timer;
-        //public static async Task LoadingStartAsync()
-        //{
-        //    if (timer == null)
-        //    {
-        //        timer = new MyTimer(TimeSpan.FromSeconds(0.2), TimerCallback_event);
-        //        timer.Start();
-        //    }
-        //    else
-        //    {
-        //        timer.Stop(); timer.Start();
-        //    }
-        //}
-
-        //public static async Task LoadingEndAsync()
-        //{
-        //    if (timer != null)
-        //    {
-        //        timer.Stop();
-        //        timer = null;
-        //    }
-        //    if (PopupNavigation.PopupStack.Count != 0)
-        //    {
-        //        await PopupNavigation.PopAsync();
-        //    }
-        //    Global.isloading_block = false;
-        //}
-
-        //public static async void TimerCallback_event()
-        //{
-        //    loadingScreen = new Loading();
-        //    await PopupNavigation.PushAsync(loadingScreen);
-        //    Global.isloading_block = true;
-        //    if (timer != null)
-        //    {
-        //        timer.Stop();
-        //        timer = null;
-        //    }
-        //}
-        //#endregion
 
         // 다른 고객이 본 상품 인덱스 초기화 전역 변수        
 

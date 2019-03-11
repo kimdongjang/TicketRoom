@@ -310,5 +310,42 @@ namespace TicketRoom.Models.Users
             }
             return false;
         }
+
+        public bool PostCrawlingCheckPinNumber(string packet)
+        {
+            string str = @"{";
+            str += "packet:'" + packet;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "CrawlingCheckPinNumber") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            //request.Expect = "application/json";
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var readdata = reader.ReadToEnd();
+                    string test = JsonConvert.DeserializeObject<string>(readdata);
+
+
+                }
+            }
+            return false;
+        }
     }
 }

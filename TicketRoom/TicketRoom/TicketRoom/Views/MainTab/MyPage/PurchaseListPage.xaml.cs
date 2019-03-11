@@ -107,6 +107,8 @@ namespace TicketRoom.Views.MainTab.MyPage
                     ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
                     ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
 
+                    // 로딩 시작
+                    await Global.LoadingEndAsync();
                 })
             });
             #endregion
@@ -150,6 +152,10 @@ namespace TicketRoom.Views.MainTab.MyPage
                     ((Image)ImageGrid.Children[1]).Source = "list_week_h.png";
                     ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
                     ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
+
+
+                    // 로딩 시작
+                    await Global.LoadingEndAsync();
                 })
             });
             #endregion
@@ -193,6 +199,10 @@ namespace TicketRoom.Views.MainTab.MyPage
                     ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
                     ((Image)ImageGrid.Children[2]).Source = "list_month_h.png";
                     ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
+
+
+                    // 로딩 시작
+                    await Global.LoadingEndAsync();
                 })
             });
             #endregion
@@ -237,6 +247,10 @@ namespace TicketRoom.Views.MainTab.MyPage
                     ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
                     ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
                     ((Image)ImageGrid.Children[3]).Source = "list_year_h.png";
+
+
+                    // 로딩 시작
+                    await Global.LoadingEndAsync();
                 })
             });
             #endregion
@@ -292,6 +306,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
             ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
 
+            await Global.LoadingEndAsync();
         }
 
         private void ImageButton_Clicked(object sender, EventArgs e)

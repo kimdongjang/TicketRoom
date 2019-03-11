@@ -86,6 +86,7 @@
     <AndroidAsset Include="Assets\human_xpo.TTC" />
     <AndroidAsset Include="Assets\HMFMMUEX_1.ttf" />
     <AndroidAsset Include="Assets\HMKMEXPO.TTF" />
+    <AndroidAsset Include="Assets\hmklexpo.ttf" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -113,12 +114,6 @@
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TicketRoom\TicketRoom.csproj">
-      <Project>{EE26C372-DBCD-4FBA-AF2B-8B94F15B45CF}</Project>
-      <Name>TicketRoom</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\women_icon.png" />
@@ -296,6 +291,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\petrolstation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TicketRoom\TicketRoom.csproj">
+      <Project>{00548820-8e4b-4806-9cd3-b45e0cbe4e20}</Project>
+      <Name>TicketRoom</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

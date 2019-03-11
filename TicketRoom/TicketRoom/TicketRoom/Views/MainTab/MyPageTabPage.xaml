@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
+        <Grid Grid.Row="1" BackgroundColor="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -26,7 +26,7 @@
                 <custom:CustomLabel 
                     Grid.Column="0"
                     Text="내 정보"
-                    Size="18" TextColor="White"
+                    Size="18" TextColor="Black"
                      XAlign="End" YAlign="Center"/>
             </Grid>
             <!--#endregion-->
@@ -75,9 +75,9 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-                                <custom:CustomLabel Grid.Column="0" Size="16" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
+                                <custom:CustomLabel Grid.Column="0" Size="14" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
                                                  HeightRequest="25" WidthRequest="50" Text="ID" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                                <custom:CustomLabel Grid.Column="1" x:Name="UserIDLabel" Size="16" VerticalOptions="Center" TextColor="Black"/>
+                                <custom:CustomLabel Grid.Column="1" x:Name="UserIDLabel" Size="14" VerticalOptions="Center" TextColor="Black"/>
                         </Grid>
                         <!--#endregion-->
                         <!--#region  1행 연락처 -->
@@ -86,9 +86,9 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-                                <custom:CustomLabel Grid.Column="0" Size="16" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
+                                <custom:CustomLabel Grid.Column="0" Size="14" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
                                                  HeightRequest="25" WidthRequest="50" Text="연락처" IsEnabled="False" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                                <custom:CustomLabel Grid.Column="1" x:Name="UserPhoneLabel" Size="16"  VerticalOptions="Center" TextColor="Black"/>
+                                <custom:CustomLabel Grid.Column="1" x:Name="UserPhoneLabel" Size="14"  VerticalOptions="Center" TextColor="Black"/>
                         </Grid>
                         <!--#endregion-->
                         <!--#region  2행 포인트 -->
@@ -97,13 +97,13 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-                                <custom:CustomLabel Grid.Column="0" Size="16" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
+                                <custom:CustomLabel Grid.Column="0" Size="14" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
                                                  HeightRequest="25" WidthRequest="50" Text="포인트" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                                <custom:CustomLabel Grid.Column="1" x:Name="UserPointLabel" Size="16" VerticalOptions="Center" TextColor="Black"/>
+                            <custom:CustomLabel Grid.Column="1" x:Name="UserPointLabel" Size="14" VerticalOptions="Center" TextColor="Black"/>
                         </Grid>
                         <!--#endregion-->
-                        <custom:CustomButton Grid.Row="3" x:Name="IsLoginBtn" Clicked="IsLoginBtn_ClickedAsync" Size="16" BackgroundColor="CornflowerBlue" TextColor="White"
-                                             HorizontalOptions="Center" VerticalOptions="Center"  HeightRequest="30" WidthRequest="250" Margin="15,0,15,0"/>
+                        <custom:CustomButton Grid.Row="3" x:Name="IsLoginBtn" Clicked="IsLoginBtn_ClickedAsync" Size="14" BackgroundColor="CornflowerBlue" TextColor="White"
+                                             HorizontalOptions="Center" VerticalOptions="Center"  HeightRequest="30" WidthRequest="250" Margin="15,0,15,0" FontFamily="{StaticResource FontStyle}"/>
                     </Grid>
                 </Grid>
                 <!--#endregion-->
@@ -119,7 +119,7 @@
                         <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="내정보 수정" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
+                    <custom:CustomLabel  Grid.Column="0" Text="내정보 수정" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="14"/>
                     <Image  Grid.Column="1" Source="move_vector.png" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30" HeightRequest="30"/>
                 </Grid>
 
@@ -135,7 +135,7 @@
                         <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="판매내역 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
+                    <custom:CustomLabel  Grid.Column="0" Text="판매내역 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="14"/>
                     <Image  Grid.Column="1" Source="move_vector.png" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30" HeightRequest="30"/>
                 </Grid>
                 <!--#endregion-->
@@ -151,7 +151,7 @@
                         <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="구매내역 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
+                    <custom:CustomLabel  Grid.Column="0" Text="구매내역 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="14"/>
                     <Image  Grid.Column="1" Source="move_vector.png" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30" HeightRequest="30"/>
                 </Grid>
                 <!--#endregion-->
@@ -166,7 +166,7 @@
                         <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="포인트 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="18"/>
+                    <custom:CustomLabel  Grid.Column="0" Text="포인트 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="14"/>
                     <Image  Grid.Column="1" Source="move_vector.png" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30" HeightRequest="30"/>
                 </Grid>
                 <!--#endregion-->

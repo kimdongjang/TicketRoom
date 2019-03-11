@@ -227,7 +227,7 @@ namespace TicketRoom.Views.MainTab
             int rowindex = 0;
             Grid ColumnGrid = new Grid();
 
-            for (int i = 0; i < categories.Count+1; i++)
+            for (int i = 0; i < categories.Count;)
             {          
                 if (columnindex > 2) // 열 그리드
                 {
@@ -241,7 +241,8 @@ namespace TicketRoom.Views.MainTab
                             new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)},
                             new ColumnDefinition { Width = 3},
                             new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)}
-                        }
+                        },
+                        RowSpacing = 0,
                     };
                     CategoryGrid.Children.Add(ColumnGrid, 0, rowindex);
 
@@ -281,11 +282,12 @@ namespace TicketRoom.Views.MainTab
                     CustomLabel nameLabel = new CustomLabel
                     {
                         Text = categories[i].Name,
-                        Size = 18,
+                        Size = 14,
                         TextColor = Color.Black,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Start,
-                        Margin = 5,
+                        Margin = new Thickness(15, 15, 0, 0),
+                        FontAttributes = FontAttributes.Bold,
                     };
                     inGrid.Children.Add(nameLabel, 0, 0);
 
@@ -308,6 +310,7 @@ namespace TicketRoom.Views.MainTab
                             mainPage.ShowDealDetail(inGrid.BindingContext.ToString());
                         })
                     });
+                    i++;
                 }
                 columnindex++;
             }
