@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
+             x:Class="TicketRoom.Views.MainTab.Shop.BrowserShopList">
+    <ContentPage.Content>
+        <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
+        <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="TabGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!--#region 1행 커스텀 액션바 -->
+            <Grid Grid.Row="1" BackgroundColor="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <!--#region 0열 백버튼 등 이미지-->
+                <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButton_Clicked"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <!--#endregion-->
+
+                <!--#region 1열 액션바 타이틀-->
+                <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
+                    x:Name="TitleName" Text="검색결과"
+                    TextColor="Black"
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
+                <!--#endregion-->
+
+                <!--#region 2열 액션바 타이틀-->
+                <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center"></Image>
+                <!--#endregion-->
+            </Grid>
+            <!--#endregion-->
+
+            <Grid Grid.Row="2" x:Name="BrowsingGrid" RowSpacing="0"/>
+
+
+        </Grid>
+        
+    </ContentPage.Content>
+</ContentPage>

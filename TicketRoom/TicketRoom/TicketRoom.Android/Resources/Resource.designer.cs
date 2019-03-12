@@ -2345,26 +2345,26 @@ namespace TicketRoom.Droid
 			// aapt resource value: 0x7f020054
 			public const int avd_hide_password = 2130837588;
 			
-			// aapt resource value: 0x7f020169
-			public const int avd_hide_password_1 = 2130837865;
-			
 			// aapt resource value: 0x7f02016a
-			public const int avd_hide_password_2 = 2130837866;
+			public const int avd_hide_password_1 = 2130837866;
 			
 			// aapt resource value: 0x7f02016b
-			public const int avd_hide_password_3 = 2130837867;
+			public const int avd_hide_password_2 = 2130837867;
+			
+			// aapt resource value: 0x7f02016c
+			public const int avd_hide_password_3 = 2130837868;
 			
 			// aapt resource value: 0x7f020055
 			public const int avd_show_password = 2130837589;
 			
-			// aapt resource value: 0x7f02016c
-			public const int avd_show_password_1 = 2130837868;
-			
 			// aapt resource value: 0x7f02016d
-			public const int avd_show_password_2 = 2130837869;
+			public const int avd_show_password_1 = 2130837869;
 			
 			// aapt resource value: 0x7f02016e
-			public const int avd_show_password_3 = 2130837870;
+			public const int avd_show_password_2 = 2130837870;
+			
+			// aapt resource value: 0x7f02016f
+			public const int avd_show_password_3 = 2130837871;
 			
 			// aapt resource value: 0x7f020056
 			public const int backbutton_icon = 2130837590;
@@ -3092,11 +3092,11 @@ namespace TicketRoom.Droid
 			// aapt resource value: 0x7f020147
 			public const int notification_icon_background = 2130837831;
 			
-			// aapt resource value: 0x7f020167
-			public const int notification_template_icon_bg = 2130837863;
-			
 			// aapt resource value: 0x7f020168
-			public const int notification_template_icon_low_bg = 2130837864;
+			public const int notification_template_icon_bg = 2130837864;
+			
+			// aapt resource value: 0x7f020169
+			public const int notification_template_icon_low_bg = 2130837865;
 			
 			// aapt resource value: 0x7f020148
 			public const int notification_tile_bg = 2130837832;
@@ -3159,37 +3159,40 @@ namespace TicketRoom.Droid
 			public const int search = 2130837851;
 			
 			// aapt resource value: 0x7f02015c
-			public const int Securityimage = 2130837852;
+			public const int searched_icon = 2130837852;
 			
 			// aapt resource value: 0x7f02015d
-			public const int shop_clothes1 = 2130837853;
+			public const int Securityimage = 2130837853;
 			
 			// aapt resource value: 0x7f02015e
-			public const int shophome = 2130837854;
+			public const int shop_clothes1 = 2130837854;
 			
 			// aapt resource value: 0x7f02015f
-			public const int sidemenu = 2130837855;
+			public const int shophome = 2130837855;
 			
 			// aapt resource value: 0x7f020160
-			public const int Splashiamge = 2130837856;
+			public const int sidemenu = 2130837856;
 			
 			// aapt resource value: 0x7f020161
-			public const int star = 2130837857;
+			public const int Splashiamge = 2130837857;
 			
 			// aapt resource value: 0x7f020162
-			public const int tooltip_frame_dark = 2130837858;
+			public const int star = 2130837858;
 			
 			// aapt resource value: 0x7f020163
-			public const int tooltip_frame_light = 2130837859;
+			public const int tooltip_frame_dark = 2130837859;
 			
 			// aapt resource value: 0x7f020164
-			public const int uniform_icon = 2130837860;
+			public const int tooltip_frame_light = 2130837860;
 			
 			// aapt resource value: 0x7f020165
-			public const int women_icon = 2130837861;
+			public const int uniform_icon = 2130837861;
 			
 			// aapt resource value: 0x7f020166
-			public const int x = 2130837862;
+			public const int women_icon = 2130837862;
+			
+			// aapt resource value: 0x7f020167
+			public const int x = 2130837863;
 			
 			static Drawable()
 			{

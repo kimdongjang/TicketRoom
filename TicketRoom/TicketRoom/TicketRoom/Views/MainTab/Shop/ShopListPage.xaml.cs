@@ -227,7 +227,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     CustomLabel bestHome = new CustomLabel
                     {
                         Text = sclist[i].SH_SUBCATE_NAME,
-                        Size = 18,
+                        Size = 14,
                         TextColor = Color.Black,
                     };
 
@@ -252,7 +252,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     CustomLabel grade_label = new CustomLabel
                     {
                         Text = "평점 : " + sclist[i].SH_SUBCATE_GRADE.ToString(),
-                        Size = 14,
+                        Size = 10,
                         TextColor = Color.Black,
                     };
                     grade_Grid.Children.Add(grade_image, 0, 0);
@@ -262,7 +262,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     CustomLabel bestDetail = new CustomLabel
                     {
                         Text = sclist[i].SH_SUBCATE_DETAIL,
-                        Size = 14,
+                        Size = 10,
                         TextColor = Color.Black,
                         //MaxLines = 2,
                     };

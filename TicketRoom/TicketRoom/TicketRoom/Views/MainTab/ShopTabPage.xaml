@@ -19,19 +19,13 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
-            <!--#region 1열 액션바 타이틀 -->
-            <Grid Grid.Column="1" HorizontalOptions="CenterAndExpand" RowSpacing="0" ColumnSpacing="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <local1:CustomLabel 
-                    Grid.Column="1"
-                    Text="쇼핑"
+            <!--#region 1열 액션바 타이틀-->
+            <local1:CustomLabel Grid.Column="1"
+                    x:Name="TitleName" TextColor="Black" Text="쇼핑"
                     Size="18"
-                    TextColor="Black"
-                     XAlign="End" YAlign="Center"/>
-                <!--#endregion-->
-            </Grid>
+                    HorizontalOptions="Center" VerticalOptions="Center" />
+            <!--#endregion-->
+            
             <!--#region 1열 액션바 타이틀-->
             <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center"/>
 
@@ -67,26 +61,41 @@
                 <ScrollView Grid.Row="2">
                     <Grid RowSpacing="0">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="3"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="3"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <!--#region 0행 메인 리스트-->
-                        <Grid Grid.Row="0" ColumnSpacing="0" RowSpacing="0" x:Name="MainGrid"/>
+                        <!--#region 1행 쇼핑몰 검색하기-->
+                        <Grid Grid.Row="0" Margin="15,0,15,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <BoxView Grid.Column="0"  BackgroundColor="LightGray"/>
+                            <Grid Grid.Column="0" BackgroundColor="White" Margin="3" >
+                                <local1:CustomEntry Grid.Column="0" x:Name="BrowsingEntry" Placeholder="검색" Size="14"  Keyboard="Text"
+                               Style="null" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" x:FieldModifier="Public"/>
+                            </Grid>
+                            <Image Grid.Column="1" Source="searched_icon.png" x:Name="BrowsingButton" Aspect="AspectFit"/>
+                        </Grid>
+                        <!--#endregion-->
+                        <!--#region 1행 메인 리스트-->
+                        <Grid Grid.Row="1" ColumnSpacing="0" RowSpacing="0" x:Name="MainGrid"/>
                         <!--#endregion-->
 
                         <!--#region 2행 최근 본 상품-->
-                         <local1:CustomLabel Grid.Row="2" Text="최근 본 상품" Size="16" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                         <local1:CustomLabel Grid.Row="3" Text="최근 본 상품" Size="16" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" />
                          <!--#endregion-->
                      
                          <!--#region 3행 보더라인-->
-                         <BoxView Grid.Row="3" BackgroundColor="LightGray" Opacity="0.5"/>
+                         <BoxView Grid.Row="4" BackgroundColor="LightGray" Opacity="0.5"/>
                          <!--#endregion-->
                      
                          <!--#region 4행 최근 본 목록-->
-                         <Grid Grid.Row="4" x:Name="RecentViewGrid"/>
+                         <Grid Grid.Row="5" x:Name="RecentViewGrid"/>
                          <!--#endregion-->
                     </Grid>
                 </ScrollView>

@@ -1603,5 +1603,52 @@ namespace TicketRoom.Models.ShopData
             }
         }
 
+
+        // 쇼핑 탭에서 쇼핑몰 이름 검색하기
+        public List<SubCate> PostBrowsingShopListToName(string p_name)
+        {
+            List<SubCate> sclist = new List<SubCate>();
+            string str = @"{";
+            str += "p_name : '" + p_name;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SH_BrowsingShopListToName") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        sclist = JsonConvert.DeserializeObject<List<SubCate>>(readdata);
+                    }
+                }
+                return sclist;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return null;
+            }
+        }
+
     }
 }

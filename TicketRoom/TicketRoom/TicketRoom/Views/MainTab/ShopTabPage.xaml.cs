@@ -52,7 +52,13 @@ namespace TicketRoom.Views.MainTab
 
             mclist = SH_DB.GetCategoryListAsync();
 
-
+            BrowsingButton.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(() =>
+                {
+                    BrowsingButtonClick();
+                })
+            });
 
             Global.isOpen_ShopListPage = false; // ShopTabPage -> ShopListPage
             Global.isOpen_ShopMainPage = false; // ShopListPage -> ShopMainPage(SaleView)
@@ -61,7 +67,6 @@ namespace TicketRoom.Views.MainTab
             //Navigation.PushAsync(new IMPHybridWebView());
 
             // 쇼핑 탭 주소 엔트리 초기화
-
             #region 검색 결과 찾을 수 없을 경우
             if (mclist != null)
             {
@@ -119,6 +124,21 @@ namespace TicketRoom.Views.MainTab
 
             }
         }
+
+        // 쇼핑몰 검색 버튼
+        private void BrowsingButtonClick()
+        {
+            List<SubCate> sclist = SH_DB.PostBrowsingShopListToName(BrowsingEntry.Text);
+            if (sclist != null)
+            {
+                Navigation.PushAsync(new BrowserShopList(sclist)); // 쇼핑몰 검색 결과 페이지 오픈
+            }
+            else
+            {
+
+            }
+        }
+
 
         // 최근 본 상품 목록 업데이트
         private void RecentViewUpdate()
