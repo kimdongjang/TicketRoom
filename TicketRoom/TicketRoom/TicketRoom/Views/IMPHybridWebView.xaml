@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:TicketRoom.Models"
              x:Class="TicketRoom.Views.IMPHybridWebView">
     <ContentPage.Content>
-        <local:HybridWebView x:Name="webViewXaml" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+        <local:HybridWebView x:Name="webViewXaml" Uri = "file:///android_asset/IMP.html" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
     </ContentPage.Content>
 </ContentPage>

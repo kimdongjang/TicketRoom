@@ -37,7 +37,7 @@ namespace TicketRoom.Views.MainTab.Dael
 
         private void SelectAllCategory()
         {
-            //request.Method = "POST";
+            //request.Method = "GET";
             HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectAllCategory") as HttpWebRequest;
             request.Method = "GET";
 

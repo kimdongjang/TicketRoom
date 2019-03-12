@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
     <title>Insert title here</title>
 </head>
-<!--<body onload="func4('inicis',2,3,4,5,6,7,8,9);">-->
+<!--<body onload="func4('inicis',3,4,5,6,7,8,9,10);">-->
 <body>
 
     <!-- HTML -->
@@ -20,16 +20,16 @@
 
         function func4(p1, p2, p3, p4, p5, p6, p7, p8, p9) {
             IMP.request_pay({ // param
-                pg: p1,
+                pg: 'kakaopay',
                 pay_method: p2,
                 merchant_uid: p3,
                 name: p4,
-                amount: 1,
+                amount: 100,
                 buyer_email: p6,
                 buyer_name: p7,
                 buyer_tel: p8,
                 buyer_addr: p9,
-                buyer_postcode: "01181",
+                buyer_postcode: "011812",
                 m_redirect_url: 'http://175.115.110.17:8088/Service1.svc'
             }, function (rsp) { // callback
                 if (rsp.success) {
