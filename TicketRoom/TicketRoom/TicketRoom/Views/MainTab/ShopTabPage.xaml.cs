@@ -58,7 +58,7 @@ namespace TicketRoom.Views.MainTab
             Global.isOpen_ShopMainPage = false; // ShopListPage -> ShopMainPage(SaleView)
 
             //Navigation.PushAsync(new IMPWebView());
-            //Navigation.PushAsync(new IMPHybridWebView());
+            Navigation.PushAsync(new IMPHybridWebView());
 
             // 쇼핑 탭 주소 엔트리 초기화
 
