@@ -70,6 +70,7 @@ namespace TicketRoom.Views.MainTab
                     {
                         var readdata = reader.ReadToEnd();
                         string test = JsonConvert.DeserializeObject<string>(readdata);
+
                         if (test != null&& test != "null")
                         {
                             MyPointLabel.Text = "보유포인트 : " + int.Parse(test).ToString("N0");

@@ -28,7 +28,15 @@ namespace TicketRoom.Views.MainTab.Dael
                 TabGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
-            Tab_Changed(PurchaseTab, null);
+
+            if (Global.current_Tab_P_or_S.Equals("P"))
+            {
+                Tab_Changed(PurchaseTab, null);
+            }
+            else
+            {
+                Tab_Changed(SaleTab, null);
+            }
 
         }
 
@@ -51,7 +59,7 @@ namespace TicketRoom.Views.MainTab.Dael
             {
                 // 로딩 시작
                 await Global.LoadingStartAsync();
-
+                Global.current_Tab_P_or_S = "P";
                 // 초기화 코드 작성
                 TabContent.Content = new PurchaseTabPage(mainpage, categorynum);
 
@@ -62,7 +70,7 @@ namespace TicketRoom.Views.MainTab.Dael
             {
                 // 로딩 시작
                 await Global.LoadingStartAsync();
-
+                Global.current_Tab_P_or_S = "S";
                 // 초기화 코드 작성
                 if (Global.b_user_login)
                 {

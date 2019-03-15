@@ -16,7 +16,7 @@ namespace TicketRoom.Views.Users.CreateUser
         public string SubTitle { get; set; }
         public string TermsContent { get; set; }
 
-        public TermsContentPage()
+        public TermsContentPage(string subtitle,string content)
         {
             InitializeComponent();
 
@@ -28,9 +28,9 @@ namespace TicketRoom.Views.Users.CreateUser
             }
             #endregion
 
-            PageTitle = "상품권 거래 이용약관 동의";
-            SubTitle = "상품권 거래 이용 약관";
-            TermsContent = "상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관상품권 거래 이용 약관";
+            PageTitle = "티켓룸 서비스 이용약관";
+            SubTitle = subtitle;
+            TermsContent = content;
             BindingContext = this;
         }
 

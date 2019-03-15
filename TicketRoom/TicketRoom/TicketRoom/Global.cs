@@ -160,6 +160,8 @@ namespace TicketRoom
         public static USERS user = new USERS();
         public static ADRESS adress = new ADRESS();
 
+        //구매 판매 현재탭 기억 변수
+        public static string current_Tab_P_or_S = "P";
 
         // 메인 페이지 OnAppearing시 열려 있는 탭 확인용 전역 변수
         public static bool isMainDeal = true;
