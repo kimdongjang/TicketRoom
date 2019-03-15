@@ -22,10 +22,14 @@ namespace TicketRoom.Models.ShopData
         [JsonProperty("SH_PUR_DELIVERY_PHONE")]
         public string SH_PUR_DELIVERY_PHONE { get; set; } // 배송 연락번호
         [JsonProperty("SH_PUR_DELIVERY_STATE")]
-        public string SH_PUR_DELIVERY_STATE { get; set; } // 배송 정보
-        [JsonProperty("SH_PUR_LIST_ID")]
-        public string SH_PUR_LIST_ID { get; set; } // 구매자 아이디
-        [JsonProperty("SH_PUR_LIST_INDEX")]
-        public int SH_PUR_LIST_INDEX { get; set; } // 주문 번호 인덱스
+        public string SH_PUR_DELIVERY_STATE { get; set; } // 배송 상태
+        [JsonProperty("SH_BUYER_NAME")]
+        public string SH_BUYER_NAME { get; set; } // 구매자 아이디
+        [JsonProperty("SH_PURCHACE_INDEX")]
+        public int SH_PURCHACE_INDEX { get; set; } // 주문 번호 인덱스
+        [JsonProperty("SH_PUR_DELIVERY_NUMBER")]
+        public string SH_PUR_DELIVERY_NUMBER { get; set; } // 송장 번호
+        [JsonProperty("SH_PUR_DELIVERY_ZIPNO")]
+        public string SH_PUR_DELIVERY_ZIPNO { get; set; } // 우편번호
     }
 }

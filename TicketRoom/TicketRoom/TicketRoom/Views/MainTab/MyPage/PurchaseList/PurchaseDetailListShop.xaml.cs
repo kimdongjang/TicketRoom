@@ -16,11 +16,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
 
         List<SH_Pur_Delivery> pdList = new List<SH_Pur_Delivery>();
-        List<SH_Pur_Pay> ppList = new List<SH_Pur_Pay>();
         List<SH_Pur_Product> proList = new List<SH_Pur_Product>();
-        string pl_index = "";
+        SH_Purchace purchaseList = new SH_Purchace();
 
-        public PurchaseDetailListShop (string pl_index)
+        public PurchaseDetailListShop (SH_Purchace purchaseList)
 		{
 			InitializeComponent ();
 
@@ -31,26 +30,24 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 TabGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
+            this.purchaseList = purchaseList;
 
             // 구매 목록 인덱스를 통해 배송 관련 리스트 가져오기
-            pdList = SH_DB.PostSearchPurchaseDeliveryListToIndex(pl_index);
+            pdList = SH_DB.PostSearchPurchaseDeliveryListToIndex(purchaseList.SH_PURCHACE_INDEX.ToString());
             // 구매 목록 인덱스를 통해 결제 관련 리스트 가져오기
-            ppList = SH_DB.PostSearchPurchasePayListToIndex(pl_index);
-            proList = SH_DB.PostSearchPurchaseProductListToIndex(pl_index);
-            this.pl_index = pl_index;
+            proList = SH_DB.PostSearchPurchaseProductListToIndex(purchaseList.SH_PURCHACE_INDEX.ToString());
+
             Init();
         }
-
         private void Init()
         {
-
             Grid coverGrid = new Grid { RowSpacing = 0 };
             MainGrid.Children.Add(coverGrid, 0, 0); // 메인 그리드 추가
 
             #region 주문번호
             CustomLabel order_numLabel = new CustomLabel
             {
-                Text = "주문 번호 : " + pl_index,
+                Text = "주문 번호 : " + purchaseList.SH_PURCHACE_INDEX.ToString(),
                 Size = 18,
                 TextColor = Color.Black,
                 Margin = new Thickness(15, 0, 0, 0),
@@ -59,7 +56,6 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = 40 });
             coverGrid.Children.Add(order_numLabel, 0, 0);
             #endregion
-
 
             BoxView borderLine1 = new BoxView { BackgroundColor = Color.LightGray };
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
@@ -266,24 +262,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
             #region 결제방식
             string testOption = "";
-            if(ppList[0].SH_PUR_PAY_OPTION == "Personal")
-            {
-                testOption = "개인소득공제";
-            }
-            else if (ppList[0].SH_PUR_PAY_OPTION == "Card")
+
+            if (purchaseList.SH_PAY_METHOD == "card")
             {
                 testOption = "신용카드";
-
-            }
-            else if (ppList[0].SH_PUR_PAY_OPTION == "Business")
-            {
-                testOption = "사업자지출증빙";
-
-            }
-            else if (ppList[0].SH_PUR_PAY_OPTION == "Phone")
-            {
-                testOption = "핸드폰 결제";
-
             }
             Grid pay_optionGrid = new Grid
             {
@@ -367,20 +349,196 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             int payoption_row = 16;
 
 
-            if (ppList[0].SH_PUR_PAY_OPTION == "Card")
+            if (purchaseList.SH_PAY_METHOD == "card")
             {
-                pay_bank_phone_Label.Text = "결제카드";
-                List<SH_Pay_Card> card = SH_DB.PostSearchPayCardToIndex(ppList[0].SH_PUR_PAY_INDEX.ToString());
-                input_bank_phone_Label.Text = card[0].SH_PAY_CARD_KINDS;
+                pay_bank_phone_Label.Text = "결제번호";
+                input_bank_phone_Label.Text = purchaseList.SH_IMP_UID;
             }
-            else if (ppList[0].SH_PUR_PAY_OPTION == "Business")
-            {
-                pay_bank_phone_Label.Text = "결제은행";
-                List<SH_Pay_Business> business = SH_DB.PostSearchPayBusinessToIndex(ppList[0].SH_PUR_PAY_INDEX.ToString());
-                input_bank_phone_Label.Text = business[0].SH_PAY_BUSINESS_BANK;
+                //List<SH_Pay_Card> card = SH_DB.PostSearchPayCardToIndex(ppList[0].SH_PUR_PAY_INDEX.ToString());
+                //input_bank_phone_Label.Text = card[0].SH_PAY_CARD_KINDS;
+                //}
+                //else if (ppList[0].SH_PUR_PAY_OPTION == "Business")
+                //{
+                //    pay_bank_phone_Label.Text = "결제은행";
+                //    List<SH_Pay_Business> business = SH_DB.PostSearchPayBusinessToIndex(ppList[0].SH_PUR_PAY_INDEX.ToString());
+                //    input_bank_phone_Label.Text = business[0].SH_PAY_BUSINESS_BANK;
 
-                #region 사업자 등록번호
-                Grid pay_num_Grid = new Grid
+                //    #region 사업자 등록번호
+                //    Grid pay_num_Grid = new Grid
+                //    {
+                //        ColumnDefinitions =
+                //        {
+                //            new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
+                //            new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                //        },
+                //        RowSpacing = 0,
+                //    };
+                //    BoxView pay_num_Line = new BoxView { BackgroundColor = Color.LightGray };
+                //    StackLayout pay_num_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
+                //    CustomLabel pay_num_Label = new CustomLabel
+                //    {
+                //        Text = "사업자등록번호",
+                //        Size = 14,
+                //        TextColor = Color.DarkGray,
+                //        VerticalOptions = LayoutOptions.CenterAndExpand,
+                //        HorizontalOptions = LayoutOptions.CenterAndExpand,
+                //    };
+                //    CustomLabel input_num_Label = new CustomLabel
+                //    {
+                //        Text = business[0].SH_PAY_BUSINESS_NUM,
+                //        Size = 14,
+                //        TextColor = Color.DarkGray,
+                //        VerticalOptions = LayoutOptions.CenterAndExpand,
+                //    };
+                //    pay_num_Grid.Children.Add(pay_num_Line, 0, 0);
+                //    pay_num_Grid.Children.Add(pay_num_Cover, 0, 0);
+                //    pay_num_Cover.Children.Add(pay_num_Label);
+                //    pay_num_Grid.Children.Add(input_num_Label, 1, 0);
+
+                //    coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                //    coverGrid.Children.Add(pay_num_Grid, 0, payoption_row++); // 17
+
+                //    BoxView borderLine9 = new BoxView { BackgroundColor = Color.LightGray };
+                //    coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
+                //    coverGrid.Children.Add(borderLine9, 0, payoption_row++); // 18
+                //    #endregion
+
+                //    #region 사업자 등록이름
+                //    Grid pay_name_Grid = new Grid
+                //    {
+                //        ColumnDefinitions =
+                //        {
+                //            new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
+                //            new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                //        },
+                //        RowSpacing = 0,
+                //    };
+                //    BoxView pay_name_Line = new BoxView { BackgroundColor = Color.LightGray };
+                //    StackLayout pay_name_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
+                //    CustomLabel pay_name_Label = new CustomLabel
+                //    {
+                //        Text = "사업자이름",
+                //        Size = 14,
+                //        TextColor = Color.DarkGray,
+                //        VerticalOptions = LayoutOptions.CenterAndExpand,
+                //        HorizontalOptions = LayoutOptions.CenterAndExpand,
+                //    };
+                //    CustomLabel input_name_Label = new CustomLabel
+                //    {
+                //        Text = business[0].SH_PAY_BUSINESS_NAME,
+                //        Size = 14,
+                //        TextColor = Color.DarkGray,
+                //        VerticalOptions = LayoutOptions.CenterAndExpand,
+                //    };
+                //    pay_name_Grid.Children.Add(pay_name_Line, 0, 0);
+                //    pay_name_Grid.Children.Add(pay_name_Cover, 0, 0);
+                //    pay_name_Cover.Children.Add(pay_name_Label);
+                //    pay_name_Grid.Children.Add(input_name_Label, 1, 0);
+
+                //    coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                //    coverGrid.Children.Add(pay_name_Grid, 0, payoption_row++); // 19
+
+                //    BoxView borderLine10 = new BoxView { BackgroundColor = Color.LightGray };
+                //    coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
+                //    coverGrid.Children.Add(borderLine10, 0, payoption_row++); // 20
+                //    #endregion
+                //}
+                //else if (ppList[0].SH_PUR_PAY_OPTION == "Personal")
+                //{
+                //    pay_bank_phone_Label.Text = "결제은행";
+                //    List<SH_Pay_Personal> personal = SH_DB.PostSearchPayPersonalToIndex(ppList[0].SH_PUR_PAY_INDEX.ToString());
+                //    input_bank_phone_Label.Text = personal[0].SH_PAY_PERSONAL_BANK;
+
+                //    #region 개인 현금영수증 번호
+                //    Grid pay_num_Grid = new Grid
+                //    {
+                //        ColumnDefinitions =
+                //        {
+                //            new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
+                //            new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                //        },
+                //        RowSpacing = 0,
+                //    };
+                //    BoxView pay_num_Line = new BoxView { BackgroundColor = Color.LightGray };
+                //    StackLayout pay_num_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
+                //    CustomLabel pay_num_Label = new CustomLabel
+                //    {
+                //        Text = "현금영수증번호",
+                //        Size = 14,
+                //        TextColor = Color.DarkGray,
+                //        VerticalOptions = LayoutOptions.CenterAndExpand,
+                //        HorizontalOptions = LayoutOptions.CenterAndExpand,
+                //    };
+                //    CustomLabel input_num_Label = new CustomLabel
+                //    {
+                //        Text = personal[0].SH_PAY_PERSONAL_NUM,
+                //        Size = 14,
+                //        TextColor = Color.DarkGray,
+                //        VerticalOptions = LayoutOptions.CenterAndExpand,
+                //    };
+                //    pay_num_Grid.Children.Add(pay_num_Line, 0, 0);
+                //    pay_num_Grid.Children.Add(pay_num_Cover, 0, 0);
+                //    pay_num_Cover.Children.Add(pay_num_Label);
+                //    pay_num_Grid.Children.Add(input_num_Label, 1, 0);
+
+                //    coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                //    coverGrid.Children.Add(pay_num_Grid, 0, payoption_row++); // 17
+
+                //    BoxView borderLine9 = new BoxView { BackgroundColor = Color.LightGray };
+                //    coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
+                //    coverGrid.Children.Add(borderLine9, 0, payoption_row++); // 18
+                //    #endregion
+
+                //    #region 개인 이름
+                //    Grid pay_name_Grid = new Grid
+                //    {
+                //        ColumnDefinitions =
+                //        {
+                //            new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
+                //            new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                //        },
+                //        RowSpacing = 0,
+                //    };
+                //    BoxView pay_name_Line = new BoxView { BackgroundColor = Color.LightGray };
+                //    StackLayout pay_name_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
+                //    CustomLabel pay_name_Label = new CustomLabel
+                //    {
+                //        Text = "이름",
+                //        Size = 14,
+                //        TextColor = Color.DarkGray,
+                //        VerticalOptions = LayoutOptions.CenterAndExpand,
+                //        HorizontalOptions = LayoutOptions.CenterAndExpand,
+                //    };
+                //    CustomLabel input_name_Label = new CustomLabel
+                //    {
+                //        Text = personal[0].SH_PAY_PERSONAL_NAME,
+                //        Size = 14,
+                //        TextColor = Color.DarkGray,
+                //        VerticalOptions = LayoutOptions.CenterAndExpand,
+                //    };
+                //    pay_name_Grid.Children.Add(pay_name_Line, 0, 0);
+                //    pay_name_Grid.Children.Add(pay_name_Cover, 0, 0);
+                //    pay_name_Cover.Children.Add(pay_name_Label);
+                //    pay_name_Grid.Children.Add(input_name_Label, 1, 0);
+
+                //    coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                //    coverGrid.Children.Add(pay_name_Grid, 0, payoption_row++); // 19
+
+                //    BoxView borderLine10 = new BoxView { BackgroundColor = Color.LightGray };
+                //    coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
+                //    coverGrid.Children.Add(borderLine10, 0, payoption_row++); // 20
+                //    #endregion
+                //}
+                //else if (ppList[0].SH_PUR_PAY_OPTION == "Phone")
+                //{
+                //    pay_bank_phone_Label.Text = "통신사";
+                //    List<SH_Pay_Phone> phone = SH_DB.PostSearchPayPhoneToIndex(ppList[0].SH_PUR_PAY_INDEX.ToString());
+                //    input_bank_phone_Label.Text = phone[0].SH_PAY_PHONE_KINDS;
+                //}
+
+
+                #region 결제금액
+                Grid pay_priceGrid = new Grid
                 {
                     ColumnDefinitions =
                     {
@@ -389,38 +547,38 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     },
                     RowSpacing = 0,
                 };
-                BoxView pay_num_Line = new BoxView { BackgroundColor = Color.LightGray };
-                StackLayout pay_num_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
-                CustomLabel pay_num_Label = new CustomLabel
+                BoxView pay_priceLine = new BoxView { BackgroundColor = Color.LightGray };
+                StackLayout pay_priceCover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
+                CustomLabel pay_priceLabel = new CustomLabel
                 {
-                    Text = "사업자등록번호",
+                    Text = "결제금액",
                     Size = 14,
                     TextColor = Color.DarkGray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                 };
-                CustomLabel input_num_Label = new CustomLabel
+                CustomLabel input_pay_priceLabel = new CustomLabel
                 {
-                    Text = business[0].SH_PAY_BUSINESS_NUM,
+                    Text = purchaseList.SH_AMOUNT.ToString("N0"),
                     Size = 14,
                     TextColor = Color.DarkGray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                 };
-                pay_num_Grid.Children.Add(pay_num_Line, 0, 0);
-                pay_num_Grid.Children.Add(pay_num_Cover, 0, 0);
-                pay_num_Cover.Children.Add(pay_num_Label);
-                pay_num_Grid.Children.Add(input_num_Label, 1, 0);
+                pay_priceGrid.Children.Add(pay_priceLine, 0, 0);
+                pay_priceGrid.Children.Add(pay_priceCover, 0, 0);
+                pay_priceCover.Children.Add(pay_priceLabel);
+                pay_priceGrid.Children.Add(input_pay_priceLabel, 1, 0);
 
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(pay_num_Grid, 0, payoption_row++); // 17
+                coverGrid.Children.Add(pay_priceGrid, 0, payoption_row++);
 
-                BoxView borderLine9 = new BoxView { BackgroundColor = Color.LightGray };
+                BoxView borderLine11 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine9, 0, payoption_row++); // 18
+                coverGrid.Children.Add(borderLine11, 0, payoption_row++);
                 #endregion
 
-                #region 사업자 등록이름
-                Grid pay_name_Grid = new Grid
+                #region 사용된 포인트
+                Grid pay_pointGrid = new Grid
                 {
                     ColumnDefinitions =
                     {
@@ -429,44 +587,38 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     },
                     RowSpacing = 0,
                 };
-                BoxView pay_name_Line = new BoxView { BackgroundColor = Color.LightGray };
-                StackLayout pay_name_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
-                CustomLabel pay_name_Label = new CustomLabel
+                BoxView pay_pointLine = new BoxView { BackgroundColor = Color.LightGray };
+                StackLayout pay_pointCover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
+                CustomLabel pay_pointLabel = new CustomLabel
                 {
-                    Text = "사업자이름",
+                    Text = "사용포인트",
                     Size = 14,
                     TextColor = Color.DarkGray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                 };
-                CustomLabel input_name_Label = new CustomLabel
+                CustomLabel input_pay_pointLabel = new CustomLabel
                 {
-                    Text = business[0].SH_PAY_BUSINESS_NAME,
+                    Text = purchaseList .SH_USE_POINT.ToString() + " point",
                     Size = 14,
                     TextColor = Color.DarkGray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                 };
-                pay_name_Grid.Children.Add(pay_name_Line, 0, 0);
-                pay_name_Grid.Children.Add(pay_name_Cover, 0, 0);
-                pay_name_Cover.Children.Add(pay_name_Label);
-                pay_name_Grid.Children.Add(input_name_Label, 1, 0);
+                pay_pointGrid.Children.Add(pay_pointLine, 0, 0);
+                pay_pointGrid.Children.Add(pay_pointCover, 0, 0);
+                pay_pointCover.Children.Add(pay_pointLabel);
+                pay_pointGrid.Children.Add(input_pay_pointLabel, 1, 0);
 
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(pay_name_Grid, 0, payoption_row++); // 19
+                coverGrid.Children.Add(pay_pointGrid, 0, payoption_row++);
 
-                BoxView borderLine10 = new BoxView { BackgroundColor = Color.LightGray };
+                BoxView borderLine12 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine10, 0, payoption_row++); // 20
+                coverGrid.Children.Add(borderLine12, 0, payoption_row++);
                 #endregion
-            }
-            else if (ppList[0].SH_PUR_PAY_OPTION == "Personal")
-            {
-                pay_bank_phone_Label.Text = "결제은행";
-                List<SH_Pay_Personal> personal = SH_DB.PostSearchPayPersonalToIndex(ppList[0].SH_PUR_PAY_INDEX.ToString());
-                input_bank_phone_Label.Text = personal[0].SH_PAY_PERSONAL_BANK;
 
-                #region 개인 현금영수증 번호
-                Grid pay_num_Grid = new Grid
+                #region 결제상태
+                Grid pay_stateGrid = new Grid
                 {
                     ColumnDefinitions =
                     {
@@ -475,206 +627,104 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     },
                     RowSpacing = 0,
                 };
-                BoxView pay_num_Line = new BoxView { BackgroundColor = Color.LightGray };
-                StackLayout pay_num_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
-                CustomLabel pay_num_Label = new CustomLabel
+                BoxView pay_stateLine = new BoxView { BackgroundColor = Color.LightGray };
+                StackLayout pay_stateCover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
+                CustomLabel pay_stateLabel = new CustomLabel
                 {
-                    Text = "현금영수증번호",
+                    Text = "결제상태",
                     Size = 14,
                     TextColor = Color.DarkGray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                 };
-                CustomLabel input_num_Label = new CustomLabel
+                CustomLabel input_pay_stateLabel = new CustomLabel
                 {
-                    Text = personal[0].SH_PAY_PERSONAL_NUM,
+                    Text = purchaseList.SH_STATUS,
                     Size = 14,
                     TextColor = Color.DarkGray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                 };
-                pay_num_Grid.Children.Add(pay_num_Line, 0, 0);
-                pay_num_Grid.Children.Add(pay_num_Cover, 0, 0);
-                pay_num_Cover.Children.Add(pay_num_Label);
-                pay_num_Grid.Children.Add(input_num_Label, 1, 0);
+                pay_stateGrid.Children.Add(pay_stateLine, 0, 0);
+                pay_stateGrid.Children.Add(pay_stateCover, 0, 0);
+                pay_stateCover.Children.Add(pay_stateLabel);
+                pay_stateGrid.Children.Add(input_pay_stateLabel, 1, 0);
 
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(pay_num_Grid, 0, payoption_row++); // 17
+                coverGrid.Children.Add(pay_stateGrid, 0, payoption_row++);
 
-                BoxView borderLine9 = new BoxView { BackgroundColor = Color.LightGray };
+                BoxView borderLine13 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine9, 0, payoption_row++); // 18
+                coverGrid.Children.Add(borderLine13, 0, payoption_row++);
                 #endregion
 
-                #region 개인 이름
-                Grid pay_name_Grid = new Grid
+
+                #region 운송장번호
+                Grid deliveryNumberGrid = new Grid
                 {
                     ColumnDefinitions =
                     {
                         new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = new GridLength(4, GridUnitType.Star) },
+                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
                     },
                     RowSpacing = 0,
                 };
-                BoxView pay_name_Line = new BoxView { BackgroundColor = Color.LightGray };
-                StackLayout pay_name_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
-                CustomLabel pay_name_Label = new CustomLabel
+                BoxView deliveryNumber_Line = new BoxView { BackgroundColor = Color.LightGray };
+                StackLayout deliveryNumber_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
+                CustomLabel deliveryNumber_Label = new CustomLabel
                 {
-                    Text = "이름",
+                    Text = "운송장번호",
                     Size = 14,
                     TextColor = Color.DarkGray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                 };
-                CustomLabel input_name_Label = new CustomLabel
+                CustomLabel input_deliveryNumber_Label = new CustomLabel
                 {
-                    Text = personal[0].SH_PAY_PERSONAL_NAME,
+                    Text = "123", // default
                     Size = 14,
                     TextColor = Color.DarkGray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                 };
-                pay_name_Grid.Children.Add(pay_name_Line, 0, 0);
-                pay_name_Grid.Children.Add(pay_name_Cover, 0, 0);
-                pay_name_Cover.Children.Add(pay_name_Label);
-                pay_name_Grid.Children.Add(input_name_Label, 1, 0);
+                CustomButton deliveryLookup_Button = new CustomButton
+                {
+                    Text = "배송조회",
+                    Size = 14,
+                    TextColor = Color.White,
+                    BackgroundColor = Color.DarkGray,
+                    VerticalOptions = LayoutOptions.CenterAndExpand,
+                    HorizontalOptions = LayoutOptions.FillAndExpand,
+                };
+                deliveryLookup_Button.Clicked += (sender, args) =>
+                {
+                    if (input_deliveryNumber_Label.Text == "") // 운송장 번호가 없을경우
+                {
+                        DisplayAlert("알림", "송장번호가 존재하지 않습니다!", "확인");
+                        return;
+                    }
+                    else
+                    {
+                        Navigation.PushAsync(new DeliveryLookup(input_deliveryNumber_Label.Text));
+                    }
+                };
+
+                deliveryNumberGrid.Children.Add(deliveryNumber_Line, 0, 0);
+                deliveryNumberGrid.Children.Add(deliveryNumber_Cover, 0, 0);
+                deliveryNumber_Cover.Children.Add(deliveryNumber_Label);
+                deliveryNumberGrid.Children.Add(input_deliveryNumber_Label, 1, 0);
+                deliveryNumberGrid.Children.Add(deliveryLookup_Button, 2, 0);
 
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(pay_name_Grid, 0, payoption_row++); // 19
+                coverGrid.Children.Add(deliveryNumberGrid, 0, payoption_row++);
 
-                BoxView borderLine10 = new BoxView { BackgroundColor = Color.LightGray };
+                BoxView borderLine14 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine10, 0, payoption_row++); // 20
+                coverGrid.Children.Add(borderLine14, 0, payoption_row++);
                 #endregion
+
             }
-            else if (ppList[0].SH_PUR_PAY_OPTION == "Phone")
-            {
-                pay_bank_phone_Label.Text = "통신사";
-                List<SH_Pay_Phone> phone = SH_DB.PostSearchPayPhoneToIndex(ppList[0].SH_PUR_PAY_INDEX.ToString());
-                input_bank_phone_Label.Text = phone[0].SH_PAY_PHONE_KINDS;
-            }
-
-
-            #region 결제금액
-            Grid pay_priceGrid = new Grid
-            {
-                ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
-                    },
-                RowSpacing = 0,
-            };
-            BoxView pay_priceLine = new BoxView { BackgroundColor = Color.LightGray };
-            StackLayout pay_priceCover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
-            CustomLabel pay_priceLabel = new CustomLabel
-            {
-                Text = "결제금액",
-                Size = 14,
-                TextColor = Color.DarkGray,
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-                HorizontalOptions = LayoutOptions.CenterAndExpand,
-            };
-            CustomLabel input_pay_priceLabel = new CustomLabel
-            {
-                Text = ppList[0].SH_PUR_PAY_VALUE.ToString("N0"),
-                Size = 14,
-                TextColor = Color.DarkGray,
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-            };
-            pay_priceGrid.Children.Add(pay_priceLine, 0, 0);
-            pay_priceGrid.Children.Add(pay_priceCover, 0, 0);
-            pay_priceCover.Children.Add(pay_priceLabel);
-            pay_priceGrid.Children.Add(input_pay_priceLabel, 1, 0);
-
-            coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            coverGrid.Children.Add(pay_priceGrid, 0, payoption_row++);
-
-            BoxView borderLine11 = new BoxView { BackgroundColor = Color.LightGray };
-            coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-            coverGrid.Children.Add(borderLine11, 0, payoption_row++);
-            #endregion
-
-            #region 사용된 포인트
-            Grid pay_pointGrid = new Grid
-            {
-                ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
-                    },
-                RowSpacing = 0,
-            };
-            BoxView pay_pointLine = new BoxView { BackgroundColor = Color.LightGray };
-            StackLayout pay_pointCover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
-            CustomLabel pay_pointLabel = new CustomLabel
-            {
-                Text = "사용포인트",
-                Size = 14,
-                TextColor = Color.DarkGray,
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-                HorizontalOptions = LayoutOptions.CenterAndExpand,
-            };
-            CustomLabel input_pay_pointLabel = new CustomLabel
-            {
-                Text = ppList[0].SH_PUR_PAY_USEPOINT.ToString() + " point",
-                Size = 14,
-                TextColor = Color.DarkGray,
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-            };
-            pay_pointGrid.Children.Add(pay_pointLine, 0, 0);
-            pay_pointGrid.Children.Add(pay_pointCover, 0, 0);
-            pay_pointCover.Children.Add(pay_pointLabel);
-            pay_pointGrid.Children.Add(input_pay_pointLabel, 1, 0);
-
-            coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            coverGrid.Children.Add(pay_pointGrid, 0, payoption_row++);
-
-            BoxView borderLine12 = new BoxView { BackgroundColor = Color.LightGray };
-            coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-            coverGrid.Children.Add(borderLine12, 0, payoption_row++);
-            #endregion
-
-            #region 결제상태
-            Grid pay_stateGrid = new Grid
-            {
-                ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
-                    },
-                RowSpacing = 0,
-            };
-            BoxView pay_stateLine = new BoxView { BackgroundColor = Color.LightGray };
-            StackLayout pay_stateCover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
-            CustomLabel pay_stateLabel = new CustomLabel
-            {
-                Text = "결제상태",
-                Size = 14,
-                TextColor = Color.DarkGray,
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-                HorizontalOptions = LayoutOptions.CenterAndExpand,
-            };
-            CustomLabel input_pay_stateLabel = new CustomLabel
-            {
-                Text = ppList[0].SH_PUR_PAY_STATE.ToString(),
-                Size = 14,
-                TextColor = Color.DarkGray,
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-            };
-            pay_stateGrid.Children.Add(pay_stateLine, 0, 0);
-            pay_stateGrid.Children.Add(pay_stateCover, 0, 0);
-            pay_stateCover.Children.Add(pay_stateLabel);
-            pay_stateGrid.Children.Add(input_pay_stateLabel, 1, 0);
-
-            coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            coverGrid.Children.Add(pay_stateGrid, 0, payoption_row++);
-
-            BoxView borderLine13 = new BoxView { BackgroundColor = Color.LightGray };
-            coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-            coverGrid.Children.Add(borderLine13, 0, payoption_row++);
-            #endregion
-
-        }
-
+        
+        
         private void PayOptionCondition(string option)
         {
             

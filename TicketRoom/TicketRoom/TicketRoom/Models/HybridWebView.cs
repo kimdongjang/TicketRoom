@@ -21,6 +21,20 @@ namespace TicketRoom.Models
             set { SetValue(UriProperty, value); }
         }
 
+
+        // PG사 결제 연동 객체
+        public static readonly BindableProperty ParamProperty = BindableProperty.Create(
+          propertyName: "Param",
+          returnType: typeof(IMPParam),
+          declaringType: typeof(HybridWebView),
+          defaultValue: default(IMPParam));
+
+        public IMPParam Param
+        {
+            get { return (IMPParam)GetValue(ParamProperty); }
+            set { SetValue(ParamProperty, value); }
+        }
+
         public void RegisterAction(Action<string> callback)
         {
             action = callback;

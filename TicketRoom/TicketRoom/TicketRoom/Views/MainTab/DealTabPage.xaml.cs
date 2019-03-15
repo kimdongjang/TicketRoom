@@ -106,7 +106,7 @@ namespace TicketRoom.Views.MainTab
                 return;
             }
             
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 1; i++)
             {
                 RealTimeGrid.RowDefinitions.Add(new RowDefinition { Height = 30 });
                 Grid inGrid = new Grid

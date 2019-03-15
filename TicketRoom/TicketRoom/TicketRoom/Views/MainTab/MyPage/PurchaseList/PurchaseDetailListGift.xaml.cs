@@ -475,6 +475,71 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             coverGrid.Children.Add(borderLine13, 0, 15);
             #endregion
 
+
+            #region 운송장번호
+            Grid deliveryNumberGrid = new Grid
+            {
+                ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
+                        new ColumnDefinition { Width = new GridLength(4, GridUnitType.Star) },
+                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
+                    },
+                RowSpacing = 0,
+            };
+            BoxView deliveryNumber_Line = new BoxView { BackgroundColor = Color.LightGray };
+            StackLayout deliveryNumber_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
+            CustomLabel deliveryNumber_Label = new CustomLabel
+            {
+                Text = "운송장번호",
+                Size = 14,
+                TextColor = Color.DarkGray,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+            };
+            CustomLabel input_deliveryNumber_Label = new CustomLabel // 실제 송장 번호 데이터베이스에서 가져올것!
+            {
+                Text = "123",
+                Size = 14,
+                TextColor = Color.DarkGray,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+            };
+            CustomButton deliveryLookup_Button = new CustomButton
+            {
+                Text = "배송조회",
+                Size = 14,
+                TextColor = Color.White,
+                BackgroundColor = Color.DarkGray,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+            };
+            deliveryLookup_Button.Clicked += (sender, args) =>
+            {
+                if (input_deliveryNumber_Label.Text == "") // 운송장 번호가 없을경우
+                {
+                    DisplayAlert("알림", "송장번호가 존재하지 않습니다!", "확인");
+                    return;
+                }
+                else
+                {
+                    Navigation.PushAsync(new DeliveryLookup(input_deliveryNumber_Label.Text));
+                }
+            };
+
+            deliveryNumberGrid.Children.Add(deliveryNumber_Line, 0, 0);
+            deliveryNumberGrid.Children.Add(deliveryNumber_Cover, 0, 0);
+            deliveryNumber_Cover.Children.Add(deliveryNumber_Label);
+            deliveryNumberGrid.Children.Add(input_deliveryNumber_Label, 1, 0);
+            deliveryNumberGrid.Children.Add(deliveryLookup_Button, 2, 0);
+
+            coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            coverGrid.Children.Add(deliveryNumberGrid, 0, 16);
+
+            BoxView borderLine14 = new BoxView { BackgroundColor = Color.LightGray };
+            coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
+            coverGrid.Children.Add(borderLine14, 0, 17);
+            #endregion
+
         }
 
         private void PayOptionCondition(string option)

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using TicketRoom.Models;
 using TicketRoom.Models.Gift;
 using TicketRoom.Models.Users;
 using TicketRoom.Views;
@@ -214,6 +215,7 @@ namespace TicketRoom
                 isMainDealDeatil = true;
             }
         }
+
         // 장바구니 페이지 OnAppearing시 열려 있는 탭 확인용 전역 변수
         public static bool isBasketDeal = true;
         public static bool isBasketShop = false;
@@ -254,6 +256,7 @@ namespace TicketRoom
                 Global.g_other_index = input;
             }
         }
+
 
     }
 

@@ -240,8 +240,6 @@
                         <Grid Grid.Row="5" Margin="15,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" x:Name="CardPay">
                                 <Grid.ColumnDefinitions>
@@ -252,26 +250,6 @@
                                    BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
                                    HeightRequest="40" WidthRequest="40"/>
                                 <local1:CustomLabel Grid.Column="1" Text="신용/체크 카드 결제" Size="18" VerticalOptions="Center" />
-                            </Grid>
-                            <Grid Grid.Row="1" x:Name="CashPay">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Source="radio_unchecked_icon.png" x:Name="CashRadio"
-                                   BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
-                                   HeightRequest="40" WidthRequest="40"/>
-                                <local1:CustomLabel Grid.Column="1" Text="현금 결제" Size="18" VerticalOptions="Center" />
-                            </Grid>
-                            <Grid Grid.Row="2" x:Name="PhonePay">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Source="radio_unchecked_icon.png" x:Name="PhoneRadio"
-                                   BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
-                                   HeightRequest="40" WidthRequest="40"/>
-                                <local1:CustomLabel Grid.Column="1" Text="휴대폰 결제" Size="18" VerticalOptions="Center" />
                             </Grid>
                         </Grid>
                         <!--#endregion-->

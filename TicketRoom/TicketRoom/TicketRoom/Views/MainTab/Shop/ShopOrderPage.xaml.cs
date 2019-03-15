@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using TicketRoom.Models;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.PointData;
 using TicketRoom.Models.ShopData;
@@ -275,14 +276,16 @@ namespace TicketRoom.Views.MainTab.Shop
                 Command = new Command(() =>
                 {
                     CardRadio.Source = "radio_checked_icon.png";
+                    /*
                     CashRadio.Source = "radio_unchecked_icon.png";
-                    PhoneRadio.Source = "radio_unchecked_icon.png";
+                    PhoneRadio.Source = "radio_unchecked_icon.png";*/
                     payOption = "Card";
                     PhoneOptionGrid.Children.Clear();
                     PhoneOptionGrid.RowDefinitions.Clear();
                     CardOptionEnable();
                 })
             });
+            /*
             CashPay.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(() =>
@@ -309,6 +312,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     PhoneOptionEnable();
                 })
             });
+            */
             #endregion
 
 
@@ -351,6 +355,7 @@ namespace TicketRoom.Views.MainTab.Shop
             card_picker.Items.Add("삼성카드");
             #endregion
         }
+        /*
         private void CashOptionEnable()
         {
             PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
@@ -542,36 +547,10 @@ namespace TicketRoom.Views.MainTab.Shop
             }
             #endregion
         }
-
+        */
         private void PhoneEntry_TextChanged(object sender, TextChangedEventArgs e)
         {
             throw new NotImplementedException();
-        }
-
-        private void PhoneOptionEnable()
-        {
-            PhoneOptionGrid.Children.Clear();
-            phone_picker.Items.Clear();
-            PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            CustomLabel label = new CustomLabel
-            {
-                Text = "통신사 선택",
-                Size = 18,
-            };
-            phone_picker = new CustomPicker
-            {
-                Title = "통신사를 선택해주세요.",
-                FontSize = 18,
-            };
-            PhoneOptionGrid.Children.Add(label, 0, 0);
-            PhoneOptionGrid.Children.Add(phone_picker, 0, 1);
-
-            #region 통신사 피커 초기화
-            phone_picker.Items.Add("KT");
-            phone_picker.Items.Add("LGU+");
-            phone_picker.Items.Add("SKT");
-            #endregion
         }
 
         // 배송비 갱신 함수
@@ -661,6 +640,102 @@ namespace TicketRoom.Views.MainTab.Shop
             }
         }
 
+
+        public async void PurchaseSuccessProcessAsync(IMP_RValue rvalue) // 결제가 진행되었을 경우
+        {
+            int userCheck = 0;
+            if (Global.b_user_login == true) userCheck = 1; else userCheck = 2; // 회원상태 ( 1: 회원 2: 비회원)
+
+            // IMPParam으로 결제 신청한 뒤 돌아오는 리턴 값을 결제 내역 데이터베이스에 저장
+            SH_Pur_Delivery delivery = new SH_Pur_Delivery
+            {
+                SH_PUR_DELIVERY_PAY = DeliveryPrice/*배송비*/,
+                SH_PUR_DELIVERY_OPTION = DeliveryOption, /*선불착불*/
+                SH_PUR_DELIVERY_DETAIL = MyDeliveryLabel.Text, /*배송선택사항*/
+                SH_PUR_DELIVERY_ADRESS = AdressLabel.Text, /*배송지*/
+                SH_PUR_DELIVERY_PHONE = MyPhoneLabel.Text, /*휴대폰번호*/
+                SH_PUR_DELIVERY_STATE = "상품준비중", /*배송상태*/
+                SH_PUR_DELIVERY_NUMBER = "0", /*송장번호*/
+                SH_PUR_DELIVERY_ZIPNO = myAdress.ZIPNO.ToString(), /*우편번호*/
+            };
+
+
+            int OrderIndex = SH_DB.PostInsertPurchaseListToID(
+                delivery,
+                rvalue/*IMP_RValue*/,
+                MyUsePoint.ToString()/*사용포인트*/,
+                ShopOrderPage_ID/*아이디*/,
+                userCheck.ToString()/*비회원상태확인*/);
+
+            if (OrderIndex == -1)
+            {
+                await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
+            }
+            else
+            {
+                for (int i = 0; i < basketList.Count; i++)
+                {
+
+                    if (SH_DB.SH_UpdateProductCountToIndex(basketList[i].SH_PRODUCT_INDEX.ToString(), basketList[i].SH_BASKET_COUNT.ToString()) == false)
+                    {
+                        await DisplayAlert("알림", "구매 가능한 수량이 부족합니다.", "확인"); return;
+                    }
+
+                    // 구매 목록에 장바구니에 저장했던 상품들 추가
+                    if (SH_DB.PostInsertProductToPurchaseList(basketList[i].SH_HOME_INDEX.ToString(),
+                        basketList[i].SH_BASKET_IMAGE,
+                        basketList[i].SH_BASKET_COUNT.ToString(),
+                        basketList[i].SH_BASKET_COLOR,
+                        basketList[i].SH_BASKET_SIZE,
+                        basketList[i].SH_BASKET_NAME,
+                        basketList[i].SH_BASKET_ID,
+                        OrderIndex.ToString(),
+                        basketList[i].SH_BASKET_PRICE.ToString(),
+                        basketList[i].SH_PRODUCT_INDEX.ToString()) == false)
+                    {
+                        await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
+                    }
+                    if (SH_DB.PostDeleteBasketListToBasket(basketList[i].SH_BASKET_INDEX.ToString()) == false)
+                    {
+                        await DisplayAlert("알림", "장바구니의 내용을 갱신하는 도중 문제가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
+                    }
+                }
+                if (MyUsePoint != 0)
+                {
+                    if (basketList.Count != 0)
+                    {
+                        PT_DB.PostInsertPointWithDrawToID(basketList[0].SH_BASKET_NAME + "외 " + (basketList.Count - 1).ToString() + "개 상품 구매",
+                            "",/*은행*/
+                            "",/*계좌번호*/
+                            "",/*예금주*/
+                            ShopOrderPage_ID,/*아이디*/
+                            MyUsePoint.ToString(),/*사용포인트*/
+                            PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/
+                            );
+                    }
+                    else
+                    {
+                        PT_DB.PostInsertPointWithDrawToID(basketList[0].SH_BASKET_NAME + "상품 구매",
+                            "",/*은행*/
+                            "",/*계좌번호*/
+                            "",/*예금주*/
+                            ShopOrderPage_ID,/*아이디*/
+                            MyUsePoint.ToString(),/*사용포인트*/
+                            PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/
+                            );
+                    }
+                }
+                await DisplayAlert("알림", "결제 성공", "확인");
+
+                BasketTabPage.isOpenPage = false;
+                await Navigation.PopToRootAsync();
+                MainPage mp = (MainPage)Xamarin.Forms.Application.Current.MainPage.Navigation.NavigationStack[0];
+
+                // 구매 성공시 상품 수량 마이너스 할 것.
+            }
+            // 결제 완료 페이지 이동
+            // 장바구니 리스트, 유저 아이디, 날짜, 배송정보
+        }
         // 주문 버튼 클릭했을시
         private async void PaymentBtn_Clicked(object sender, EventArgs e)
         {
@@ -682,114 +757,21 @@ namespace TicketRoom.Views.MainTab.Shop
                 var answer = await DisplayAlert("결제금액 : " + PriceLabel.Text, "결제 정보가 맞습니까?", "확인", "취소");
                 if (answer)
                 {
-                    if (MyDeliveryLabel.Text == "배송시 요청사항") // 배송 선택사항이 선택되지 않았을 경우
+                    IMPParam impparam = new IMPParam
                     {
-                        int userCheck = 0;
-                        if (Global.b_user_login == true) userCheck = 1; else userCheck = 2; // 회원상태 ( 1: 회원 2: 비회원)
+                        pg = "inicis",
+                        pay_method = "card",
+                        merchant_uid = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"),
+                        name = basketList[0].SH_BASKET_NAME + "외 " + basketList.Count + "개 상품",
+                        amount = 200, // AmountOfPay + DeliveryPrice - MyUsePoint,
+                        buyer_email = "",
+                        buyer_name = ShopOrderPage_ID/*아이디*/,
+                        buyer_tel = MyPhoneLabel.Text/*휴대폰번호*/,
+                        buyer_addr = AdressLabel.Text/*배송지*/,
+                        buyer_postcode = myAdress.ZIPNO.ToString()/*우편번호*/
+                    };
 
-                        int OrderIndex = SH_DB.PostInsertPurchaseListToID(DeliveryPrice.ToString()/*배송비*/, DeliveryOption/*선불착불*/, MyDeliveryLabel.Text/*배송선택사항*/,
-                            AdressLabel.Text/*배송지*/, myAdress.JIBUNADDR/*지번주소*/, myAdress.ZIPNO.ToString()/*우편번호*/, MyPhoneLabel.Text/*휴대폰번호*/, "상품준비중"/*배송상태*/, payOption/*결제수단*/,
-                            AmountOfPay.ToString()/*결제금액*/, MyUsePoint.ToString()/*사용포인트*/, "결제대기중"/*결제상태*/,
-                            ShopOrderPage_ID/*아이디*/, userCheck.ToString()/*비회원상태확인*/);
-                        if (OrderIndex == -1)
-                        {
-                            await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
-                        }
-                        else
-                        {
-                            for (int i = 0; i < basketList.Count; i++)
-                            {
-
-                                if (SH_DB.SH_UpdateProductCountToIndex(basketList[i].SH_PRODUCT_INDEX.ToString(), basketList[i].SH_BASKET_COUNT.ToString()) == false)
-                                {
-                                    await DisplayAlert("알림", "구매 가능한 수량이 부족합니다.", "확인"); return;
-                                }
-
-                                // 구매 목록에 장바구니에 저장했던 상품들 추가
-                                if (SH_DB.PostInsertProductToPurchaseList(basketList[i].SH_HOME_INDEX.ToString(),
-                                    basketList[i].SH_BASKET_IMAGE,
-                                    basketList[i].SH_BASKET_COUNT.ToString(),
-                                    basketList[i].SH_BASKET_COLOR,
-                                    basketList[i].SH_BASKET_SIZE,
-                                    basketList[i].SH_BASKET_NAME,
-                                    basketList[i].SH_BASKET_ID,
-                                    OrderIndex.ToString(),
-                                    basketList[i].SH_BASKET_PRICE.ToString(),
-                                    basketList[i].SH_PRODUCT_INDEX.ToString()) == false)
-                                {
-                                    await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
-                                }
-                                if (SH_DB.PostDeleteBasketListToBasket(basketList[i].SH_BASKET_INDEX.ToString()) == false)
-                                {
-                                    await DisplayAlert("알림", "장바구니의 내용을 갱신하는 도중 문제가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
-                                }
-                            }
-                            //Personal, Card, Business, Phone
-                            if (payOption == "Card")
-                            {
-                                if (SH_DB.PostInsertPayCardToPay(card_picker.SelectedItem.ToString(), OrderIndex.ToString()) == false)
-                                {
-                                    await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
-                                }
-                            }
-                            else if (payOption == "Business")
-                            {
-                                if (SH_DB.PostInsertPayBusinessToPay(phoneEntry.Text, nameEntry.Text, cash_picker.SelectedItem.ToString(), OrderIndex.ToString()) == false)
-                                {
-                                    await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
-                                }
-                            }
-                            else if (payOption == "Personal")
-                            {
-                                if (SH_DB.PostInsertPayPersonalToPay(phoneEntry.Text, nameEntry.Text, cash_picker.SelectedItem.ToString(), OrderIndex.ToString()) == false)
-                                {
-                                    await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
-                                }
-                            }
-                            else if (payOption == "Phone")
-                            {
-                                if (SH_DB.PostInsertPayPhoneToPay(card_picker.SelectedItem.ToString(), OrderIndex.ToString()) == false)
-                                {
-                                    await DisplayAlert("알림", "오류가 발생했습니다. 다시 한번 시도해주십시오.", "확인"); return;
-                                }
-                            }
-                            if (MyUsePoint != 0)
-                            {
-                                if (basketList.Count != 0)
-                                {
-                                    PT_DB.PostInsertPointWithDrawToID(basketList[0].SH_BASKET_NAME + "외 " + (basketList.Count - 1).ToString() + "개 상품 구매",
-                                        "",/*은행*/
-                                        "",/*계좌번호*/
-                                        "",/*예금주*/
-                                        ShopOrderPage_ID,/*아이디*/
-                                        MyUsePoint.ToString(),/*사용포인트*/
-                                        PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/
-                                        );
-                                }
-                                else
-                                {
-                                    PT_DB.PostInsertPointWithDrawToID(basketList[0].SH_BASKET_NAME + "상품 구매",
-                                        "",/*은행*/
-                                        "",/*계좌번호*/
-                                        "",/*예금주*/
-                                        ShopOrderPage_ID,/*아이디*/
-                                        MyUsePoint.ToString(),/*사용포인트*/
-                                        PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/
-                                        );
-                                }
-                            }
-                            await DisplayAlert("알림", "결제 성공", "확인");
-
-                            BasketTabPage.isOpenPage = false;
-                            await Navigation.PopToRootAsync();
-                            MainPage mp = (MainPage)Xamarin.Forms.Application.Current.MainPage.Navigation.NavigationStack[0];
-
-                            // 구매 성공시 상품 수량 마이너스 할 것.
-                        }
-                    }
-
-                    // 결제 완료 페이지 이동
-                    // 장바구니 리스트, 유저 아이디, 날짜, 배송정보
+                    await Navigation.PushAsync(new IMPHybridWebView(impparam, this)); //
                 }
             }
         }

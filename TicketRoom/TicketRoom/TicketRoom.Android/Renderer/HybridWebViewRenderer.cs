@@ -42,7 +42,7 @@ namespace TicketRoom.Droid.Renderer
                 var webView = new Android.Webkit.WebView(_context);
                 webView.Settings.JavaScriptEnabled = true;
                 //webView.SetWebViewClient(new JavascriptWebViewClient($"javascript: {JavascriptFunction}"));
-                webView.SetWebViewClient(new JavaScriptWebViewClient2(this.Context, this)); 
+                webView.SetWebViewClient(new PGJavaScriptWebView(this.Context, this, Element.Param));  // Element.Param이 결제정보
                 SetNativeControl(webView);
             }
             if (e.OldElement != null)
@@ -58,6 +58,7 @@ namespace TicketRoom.Droid.Renderer
             }
         }
     }
+    /*볼 필요 없음^^*/
     public class JSBridge : Java.Lang.Object
     {
         readonly WeakReference<HybridWebViewRenderer> hybridWebViewRenderer;
@@ -79,6 +80,8 @@ namespace TicketRoom.Droid.Renderer
             }
         }
     }
+
+    // 안쓰는듯^^ 
     public class JavascriptWebViewClient : WebViewClient
     {
         string _javascript;
@@ -96,35 +99,34 @@ namespace TicketRoom.Droid.Renderer
     }
 
     #region LDH 추가부분
-    public class JavaScriptWebViewClient2 : WebViewClient
+    public class PGJavaScriptWebView : WebViewClient
     {
         private Context context;
         HybridWebViewRenderer hybridWebViewRenderer;
-        public JavaScriptWebViewClient2(Context context, HybridWebViewRenderer hybridWebViewRenderer)
+        IMPParam param; // inicis
+
+
+        public PGJavaScriptWebView(Context context, HybridWebViewRenderer hybridWebViewRenderer, IMPParam param)
         {
             this.context = context;
             this.hybridWebViewRenderer = hybridWebViewRenderer;
+            this.param = param;
         }
         public override void OnPageFinished(Android.Webkit.WebView view, string url)
         {
             base.OnPageFinished(view, url);
-            IMPParam param = new IMPParam();
-            param.pg = "inicis";
-            param.pay_method = "card";
-            param.merchant_uid = "merchant_" + System.DateTime.Now;
-            param.name = $"test";
-            param.buyer_email = "iamport@siot.do";
-            param.buyer_name = "구매자이름";
-            param.buyer_tel = "010-1234-5678";
-            param.amount = 5000;
-            //retorno = await browser.EvaluateJavaScriptAsync($"func1( \"inicis\",\"card\",\"merchant_\",\"stemp\",\"stemp\",\"stemp\",\"stemp\",\"stemp\",\"stemp\")");
+
             String blank = "\"";
-            string script = string.Format("javascript:func4(" + blank + param.pg.ToString() + blank + "," +
-                                                                                           blank + param.pay_method.ToString() + blank + "," +
-                                                                                            blank + param.merchant_uid.ToString() + blank + "," +
-                                                                                            blank + param.name.ToString() + blank + "," +
-                                                                                            param.amount.ToString() + "," +
-                                                                                            "\"stemp\",\"stemp\",\"stemp\",\"stemp\")");
+            string script = string.Format("javascript:func4(" + blank + param.pg.ToString() + blank + "," + /*pg사(inicis 기본)*/
+                                                                            blank + param.pay_method.ToString() + blank + "," + /*결제방법(카드결제기본)*/
+                                                                            blank + param.merchant_uid.ToString() + blank + "," + /*결제시각*/
+                                                                            blank + param.name.ToString() + blank + "," + /*주문한 상품 이름*/
+                                                                            param.amount.ToString() + "," + /* 결제 가격(int)*/
+                                                                            blank + param.buyer_email.ToString() + blank + "," + /*구매자 이메일*/
+                                                                            blank + param.buyer_name.ToString() + blank + "," + /*구매자 이름*/
+                                                                            blank + param.buyer_tel.ToString() + blank + "," + /*구매자 전화번호*/
+                                                                            blank + param.buyer_addr.ToString() + blank + "," + /*구매자 주소*/
+                                                                            blank + param.buyer_postcode.ToString() + blank +")"); /*구매자 우편번호*/
             view.EvaluateJavascript(script, null);
         }
         public override bool ShouldOverrideUrlLoading(Android.Webkit.WebView view, string url)
@@ -178,8 +180,9 @@ namespace TicketRoom.Droid.Renderer
                         
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    System.Diagnostics.Debug.WriteLine(ex);
                     throw;
                 }
 
@@ -188,6 +191,7 @@ namespace TicketRoom.Droid.Renderer
             return false;
         }
 
+        // PG사 호출 url 로드시 예외 처리용 함수
         protected bool handleNotFoundPaymentScheme(String scheme)
         {
             //PG사에서 호출하는 url에 package정보가 없어 ActivityNotFoundException이 난 후 market 실행이 안되는 경우
@@ -207,6 +211,7 @@ namespace TicketRoom.Droid.Renderer
             return false;
         }
 
+        // 예외처리용 결제 스키마 클래스 정리
         public class PaymentScheme
         {
             public static String ISP = "ispmobile"; //	ISP모바일 : ispmobile://TID=nictest00m01011606281506341724
