@@ -45,7 +45,7 @@
         <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
         <Grid Grid.Row="2" BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="110"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
@@ -120,20 +120,24 @@
                     </Grid.RowDefinitions>
 
                     <!--#region 0행 플러스 이미지 버튼-->
-                    <Image Grid.Row="0" Source="plus.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                    <Image Grid.Row="0" Source="plus.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit" >
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="PlusBtn_Clicked"/>
                         </Image.GestureRecognizers>
                     </Image>
                     <!--#endregion-->
 
-                    <!--#region 1행 수량 Label-->
-                    <local1:CustomLabel Grid.Row="1" x:Name="Count_label" Text="0" Size="14" TextColor="Black" 
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
+                    <!--<local1:CustomLabel Grid.Row="1" x:Name="Count_label" Text="0" Size="14" TextColor="Black" 
+                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>-->
                     <!--#endregion-->
+                    <!--#region 1행 수량 Label-->
+                    
+                    <local1:CustomEntry Grid.Row="1" Margin="1" x:Name="Count_label" Size="12"  Keyboard="Numeric" Text="0"
+                               Style="null" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:FieldModifier="Public" BackgroundColor="White"
+                               HorizontalTextAlignment="Center" />
 
                     <!--#region 2행 마이너스 이미지 버튼-->
-                    <Image Grid.Row="2" Source="minus.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                    <Image Grid.Row="2" Source="minus.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit" >
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="MinusBtn_Clicked"/>
                         </Image.GestureRecognizers>
@@ -148,7 +152,7 @@
             <BoxView Grid.Row="1" BackgroundColor="#f4f2f2" HeightRequest="1" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
             <!--#endregion-->
 
-            <ScrollView Grid.Row="2" Margin="40,10,0,0">
+            <ScrollView Grid.Row="2" Margin="20,10,0,0">
                 <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -156,36 +160,11 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <!--#region 0행 이용안내 Label-->
-                    <local1:CustomLabel Grid.Row="0" Text="이용안내" Size="15" TextColor="Black" 
-                        HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center"/>
-                    <!--#endregion-->
 
-                    <!--#region 1행 유의사항 Label-->
-                    <local1:CustomLabel Grid.Row="1" Text="[유의사항]" Size="14" 
-                        HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center"/>
-                    <!--#endregion-->
+                    <local1:CustomLabel Grid.Row="0" Text="선택 사항" TextColor="Black" Size="18" HorizontalOptions="Start" VerticalOptions="Center"/>
 
-                    <!--#region 2행 유의사항 1번 Label-->
-                    <local1:CustomLabel Grid.Row="2" Text="1. 해당 매장에서 유효기간 이내에 본 쿠폰을 제시하시면 실물상품과 교환 가능합니다." Size="14" 
-                        HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center"/>
-                    <!--#endregion-->
-
-                    <!--#region 3행 유의사항 2번 Label-->
-                    <local1:CustomLabel Grid.Row="3" Text="2. 해당 매장에서 유효기간 이내에 본 쿠폰을 제시하시면 실물상품과 교환 가능합니다." Size="14" 
-                        HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center"/>
-                    <!--#endregion-->
-
-                    <!--#region 4행 유의사항 3번 Label-->
-                    <local1:CustomLabel Grid.Row="4" Text="3. 해당 매장에서 유효기간 이내에 본 쿠폰을 제시하시면 실물상품과 교환 가능합니다." Size="14" 
-                        HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center"/>
-
-                    <local1:CustomLabel Grid.Row="5" Text="선택 사항" Margin="0,10,0,0" TextColor="Black" Size="18" HorizontalOptions="Start" VerticalOptions="Center"/>
-
-                    <Grid Grid.Row="6" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <Grid Grid.Row="1" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="10"/>
@@ -197,11 +176,11 @@
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            
+
                             <Image Grid.Column="0" x:Name="prepaymentradio" Source="radio_checked_icon.png" BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"></Image>
-                            
+
                             <local1:CustomLabel Grid.Column="2" Text="지류" Size="14" HorizontalOptions="Start" VerticalOptions="Center"/>
-                            
+
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Radio1_Clicked"/>
                             </Grid.GestureRecognizers>
@@ -213,16 +192,33 @@
                                 <ColumnDefinition Width="10"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            
+
                             <Image Grid.Column="0" x:Name="Cashondeliveryradio" Source="radio_unchecked_icon.png" BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"></Image>
 
                             <local1:CustomLabel Grid.Column="2" Text="핀번호" Size="14" HorizontalOptions="Start" VerticalOptions="Center"/>
-                            
+
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Radio2_Clicked"/>
                             </Grid.GestureRecognizers>
                         </Grid>
                     </Grid>
+                    
+                    <!--#region 2행 이용안내 Label-->
+                    <local1:CustomLabel Grid.Row="2" Text="이용안내" Size="15" TextColor="Black" Margin="0,10,0,0" 
+                        HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center"/>
+                    <!--#endregion-->
+
+                    <!--#region 3행 유의사항 Label-->
+                    <local1:CustomLabel Grid.Row="3" Text="[유의사항]" Size="14" 
+                        HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center"/>
+                    <!--#endregion-->
+
+                    <!--#region 4행 유의사항 1번 Label-->
+                    <local1:CustomLabel Grid.Row="4" Size="14" 
+                        HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center" x:Name="Contentlabel"/>
+                    <!--#endregion-->
+
+                    
                 </Grid>
             </ScrollView>
 

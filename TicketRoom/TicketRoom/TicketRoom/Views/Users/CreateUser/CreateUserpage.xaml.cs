@@ -67,7 +67,7 @@ namespace TicketRoom.Views.Users.CreateUser
                                                 {
                                                     string str = @"{";
                                                     str += "ID:'" + ID_box.Text;
-                                                    str += "',RECOMMENDER:'" + Recommender_box.Text;
+                                                    str += "',RECOMMENDER:'" + "";// 추천이 넣게 되면 수정부분 Recommender_box.Text;
                                                     str += "'}";
 
                                                     //// JSON 문자열을 파싱하여 JObject를 리턴
@@ -104,7 +104,7 @@ namespace TicketRoom.Views.Users.CreateUser
                                                                         return;
                                                                     case 1:
                                                                         Navigation.PushAsync(new CreateUserPhoneCheckPage(new USERSData(ID_box.Text, PW_box.Text, Email_box.Text,
-                                                                            adrAPI.roadAddr, adrAPI.jibunAddr, adrAPI.zipNo, termsdata, Recommender_box.Text, Age_picker.SelectedItem.ToString())));
+                                                                            adrAPI.roadAddr, adrAPI.jibunAddr, adrAPI.zipNo, termsdata, "", Age_picker.SelectedItem.ToString())));
                                                                         return;
                                                                     case 2:
                                                                         DisplayAlert("알림", "추천인 아이디가 존재하지않습니다", "OK");

@@ -251,7 +251,7 @@
                 </Grid>
                 <!--#endregion-->
                 
-                <!--#region 7행 추천인 아이디-->
+                <!--#region 7행 추천인 아이디--><!--
                 <Grid Grid.Row="7" RowSpacing="0" ColumnSpacing="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10.5"/>
@@ -259,35 +259,35 @@
                         <RowDefinition Height="58"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <!--#region 0행 여백의 미-->
+                    --><!--#region 0행 여백의 미-->
                     <!--#endregion-->
 
-                    <!--#region 1행 추천인 아이디 Label-->
+                    <!--#region 1행 추천인 아이디 Label--><!--
                     <local1:CustomLabel Grid.Row="1"
                         Text="추천인 아이디"
                         Size="18"
                         TextColor="Black"
                         Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
-                    <!--#endregion-->
+                    --><!--#endregion-->
 
-                    <!--#region 2행 추천인 아이디 Entry(Input)-->
+                    <!--#region 2행 추천인 아이디 Entry(Input)--><!--
                     <Entry Grid.Row="2" x:Name="Recommender_box" Margin="15,0,15,0" 
                            Placeholder="ex) abcdef" FontSize="15" 
                            Keyboard="Email"
                            HorizontalOptions="Fill" VerticalOptions="Center" Style="null">
                     </Entry>
-                    <!--#endregion-->
+                    --><!--#endregion-->
 
-                    <!--#region 3행 추천인 아이디 입력 설명label-->
+                    <!--#region 3행 추천인 아이디 입력 설명label--><!--
                     <Grid Grid.Row="3" Margin="15,0,15,0" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <local1:CustomLabel TextDecorations="Underline" Text="*추천인 아이디를 입력해 주세요(선택)" XAlign="Start" FontSize="18" TextColor="Black"/>
                     </Grid>
-                    <!--#endregion-->
+                    --><!--#endregion--><!--
                 </Grid>
-                <!--#endregion-->
+                --><!--#endregion-->
 
             </Grid>
             <!--#endregion-->

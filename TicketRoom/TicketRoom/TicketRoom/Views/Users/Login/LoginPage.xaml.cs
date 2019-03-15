@@ -37,7 +37,7 @@ namespace TicketRoom.Views.Users.Login
         {
             base.OnAppearing();
             Global.isloginbtn_clicked = true;
-            Global.isbackbutton_clicked = false;
+            Global.isbackbutton_clicked = true;
         }
 
         private void Button_Clicked(object sender, EventArgs e)

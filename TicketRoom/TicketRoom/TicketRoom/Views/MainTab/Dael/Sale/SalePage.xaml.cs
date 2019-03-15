@@ -53,7 +53,15 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
 
         public void ShowPinAddForm(G_ProductInfo productInfo)
         {
-            if (int.Parse(productInfo.DETAILCATEGORYNUM) == 1) //도서문화상품권
+            //if (int.Parse(productInfo.DETAILCATEGORYNUM) == 1) //컬쳐랜드
+            //{
+            //Pin4.MaxLength = 6;
+            //Pin4.Placeholder = "4~6자리";
+            //PinAddBtn_Grid1.IsVisible = true;
+            //PinAddBtn_Grid2.IsVisible = false;
+            //}
+            //else 
+            if (int.Parse(productInfo.DETAILCATEGORYNUM) == 2) //해피머니
             {
                 Pin4.MaxLength = 4;
                 Pin4.Placeholder = "4자리";
@@ -62,14 +70,7 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                 PinCertify_Entry.MaxLength = 4;
                 PinCertify_Entry.Placeholder = "인증번호 4자리";
             }
-            else if (int.Parse(productInfo.DETAILCATEGORYNUM) == 2) //컬쳐랜드
-            {
-                Pin4.MaxLength = 6;
-                Pin4.Placeholder = "4~6자리";
-                PinAddBtn_Grid1.IsVisible = true;
-                PinAddBtn_Grid2.IsVisible = false;
-            }
-            else if (int.Parse(productInfo.DETAILCATEGORYNUM) == 3) //해피머니
+            else if (int.Parse(productInfo.DETAILCATEGORYNUM) == 3) //북앤라이프(도서문화상품권)
             {
                 Pin4.MaxLength = 4;
                 Pin4.Placeholder = "4자리";
@@ -148,13 +149,31 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
 
         private void AddPinNumBtn_Clicked(object sender, EventArgs e)
         {
-            if (int.Parse(productInfo.DETAILCATEGORYNUM) == 1) //도서문화상품권
+            //if (int.Parse(productInfo.DETAILCATEGORYNUM) == 1) //도서문화상품권
+            //{
+            //    if (Pin1.Text != null && Pin1.Text != "" && Pin2.Text != null && Pin2.Text != "" && Pin3.Text != null && Pin3.Text != "" && Pin4.Text != null && Pin4.Text != "")
+            //    {
+            //        addpin();
+            //    }
+            //    else
+            //    {
+            //        DisplayAlert("알림", "핀번호를 입력해주세요", "OK");
+            //    }
+            //}
+            //else 
+            if (int.Parse(productInfo.DETAILCATEGORYNUM) == 2) //해피머니
             {
                 if (Pin1.Text != null && Pin1.Text != "" && Pin2.Text != null && Pin2.Text != "" && Pin3.Text != null && Pin3.Text != "" && Pin4.Text != null && Pin4.Text != "")
                 {
-                    if(PinCertify_Entry.Text!=null && PinCertify_Entry.Text != "")
+                    if (PinCertify_Entry.Text != null && PinCertify_Entry.Text != "")
                     {
                         addpin();
+                        Pin1.Text = "";
+                        Pin2.Text = "";
+                        Pin3.Text = "";
+                        Pin4.Text = "";
+                        Pin4.Text = "";
+                        PinCertify_Entry.Text = "";
                     }
                     else
                     {
@@ -166,24 +185,19 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                     DisplayAlert("알림", "핀번호를 입력해주세요", "OK");
                 }
             }
-            else if (int.Parse(productInfo.DETAILCATEGORYNUM) == 2) //컬쳐랜드
-            {
-                if (Pin1.Text != null && Pin1.Text != "" && Pin2.Text != null && Pin2.Text != "" && Pin3.Text != null && Pin3.Text != "" && Pin4.Text != null && Pin4.Text != "")
-                {
-                    addpin();
-                }
-                else
-                {
-                    DisplayAlert("알림", "핀번호를 입력해주세요", "OK");
-                }
-            }
-            else if (int.Parse(productInfo.DETAILCATEGORYNUM) == 3) //해피머니
+            else if (int.Parse(productInfo.DETAILCATEGORYNUM) == 3) //북앤라이프
             {
                 if (Pin1.Text != null && Pin1.Text != "" && Pin2.Text != null && Pin2.Text != "" && Pin3.Text != null && Pin3.Text != "" && Pin4.Text != null && Pin4.Text != "")
                 {
                     if (PinCertify_Entry.Text != null && PinCertify_Entry.Text != "")
                     {
                         addpin();
+                        Pin1.Text = "";
+                        Pin2.Text = "";
+                        Pin3.Text = "";
+                        Pin4.Text = "";
+                        Pin4.Text = "";
+                        PinCertify_Entry.Text = "";
                     }
                     else
                     {
@@ -283,6 +297,7 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                                     {
                                         await ShowMessage("판매내역에서 확인해주세요.", "알림", "OK", async () =>
                                         {
+                                            Global.InitOnAppearingBool("deal");
                                             Navigation.PopToRootAsync();
                                             MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                                         });

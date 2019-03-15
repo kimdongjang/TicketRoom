@@ -530,6 +530,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                                             {
                                                 await ShowMessage("구매내역에서 확인해주세요.", "알림", "OK", async () =>
                                                 {
+                                                    Global.InitOnAppearingBool("deal");
                                                     Navigation.PopToRootAsync();
                                                     MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                                                 });
