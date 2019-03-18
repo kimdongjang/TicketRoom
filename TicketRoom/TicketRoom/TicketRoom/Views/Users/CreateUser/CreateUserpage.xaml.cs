@@ -104,7 +104,7 @@ namespace TicketRoom.Views.Users.CreateUser
                                                                         return;
                                                                     case 1:
                                                                         Navigation.PushAsync(new CreateUserPhoneCheckPage(new USERSData(ID_box.Text, PW_box.Text, Email_box.Text,
-                                                                            adrAPI.roadAddr, adrAPI.jibunAddr, adrAPI.zipNo, termsdata, "", Age_picker.SelectedItem.ToString())));
+                                                                            adrAPI.roadAddr, adrAPI.jibunAddr, adrAPI.zipNo, termsdata, "", Age_picker.SelectedItem.ToString().Replace("대",""))));
                                                                         return;
                                                                     case 2:
                                                                         DisplayAlert("알림", "추천인 아이디가 존재하지않습니다", "OK");
