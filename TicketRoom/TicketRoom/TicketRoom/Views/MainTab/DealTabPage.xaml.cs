@@ -35,7 +35,7 @@ namespace TicketRoom.Views.MainTab
             
             Showdeal();
             ShowPoint();
-            SelectAllCategory();
+            Showimge(giftDBFunc.SelectAllCategory());
         }
 
         private void ShowPoint()
@@ -73,11 +73,11 @@ namespace TicketRoom.Views.MainTab
 
                         if (test != null&& test != "null")
                         {
-                            MyPointLabel.Text = "보유포인트 : " + int.Parse(test).ToString("N0");
+                            MyPointLabel.Text = int.Parse(test).ToString("N0") + " Point";
                         }
                         else
                         {
-                            MyPointLabel.Text = "보유 포인트 : 0";
+                            MyPointLabel.Text = "0 Point";
                         }
                         
                     }
@@ -85,10 +85,12 @@ namespace TicketRoom.Views.MainTab
             }
             else
             {
-                MyPointLabel.Text = "보유포인트 : "  + int.Parse("0").ToString("N0");
+                MyPointLabel.Text = int.Parse("0").ToString("N0") + " Point";
             }
         }
 
+
+        // 실시간 거래
         private void Showdeal()
         {
             g_DealInfolist = giftDBFunc.SelectDealList();
@@ -106,8 +108,18 @@ namespace TicketRoom.Views.MainTab
                 RealTimeGrid.Children.Add(label, 0, 1);         //실시간거래 그리드에 라벨추가
                 return;
             }
-            
-            for (int i = 0; i < 1; i++)
+            // 실시간 거래 행은 3행으로 고정
+            int row_count = 0;
+            if(g_DealInfolist.Count >= 3)
+            {
+                row_count = 3;
+            }
+            else
+            {
+                row_count = g_DealInfolist.Count;
+            }
+
+            for (int i = 0; i < row_count; i++)
             {
                 RealTimeGrid.RowDefinitions.Add(new RowDefinition { Height = 30 });
                 Grid inGrid = new Grid
@@ -117,20 +129,27 @@ namespace TicketRoom.Views.MainTab
                     new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
                     new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
                 },
-                    ColumnSpacing = 5,
                 };
-
+                StackLayout sl = new StackLayout
+                {
+                    BackgroundColor = Color.CornflowerBlue,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
+                };
                 // 결제 상태 레이블
                 CustomLabel statusLabel = new CustomLabel
                 {
-                    BackgroundColor = Color.CornflowerBlue,
                     TextColor = Color.White,
                     Size = 14,
                     Text = "구매완료",
-                    WidthRequest = 30,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
+                    WidthRequest = 80,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    
                 };
-
-                inGrid.Children.Add(statusLabel, 0, 0);
+                sl.Children.Add(statusLabel);
+                inGrid.Children.Add(sl, 0, 0);
 
                 string name = "";
                 string title = g_DealInfolist[i].TITLE;
@@ -166,45 +185,25 @@ namespace TicketRoom.Views.MainTab
                 string hour = date.Hour.ToString();
                 string minute = date.Minute.ToString();
 
-                CustomLabel label = new CustomLabel
+                CustomLabel dateLabel = new CustomLabel
                 {
                     Text = name + " " + title + "["+ hour+":"+minute+"]",
-                    Size = 10,
+                    Size = 14,
                     TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
+                    VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Start
                 };
-                inGrid.Children.Add(statusLabel, 1, 0);
-                RealTimeGrid.Children.Add(inGrid, 0, i + 1);         //실시간거래 그리드에 행 추가
+                inGrid.Children.Add(dateLabel, 1, 0);
+                RealTimeGrid.Children.Add(inGrid, 0, i);         //실시간거래 그리드에 행 추가
             }
         }
 
 
         
 
-        private void SelectAllCategory()
-        {
-            //request.Method = "POST";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectAllCategory") as HttpWebRequest;
-            request.Method = "GET";
+        
 
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-            {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    var readdata = reader.ReadToEnd();
-                    List<G_CategoryInfo> test = JsonConvert.DeserializeObject<List<G_CategoryInfo>>(readdata);
-                    if (test != null)
-                    {
-                        Showimge(test);
-                    }
-                }
-            }
-
-        }
-
+        // 상품권 목록
         private void Showimge(List<G_CategoryInfo> categories)
         {
             if (categories.Count == 0)
@@ -224,95 +223,95 @@ namespace TicketRoom.Views.MainTab
                 }
             }
 
-            int columnindex = 3;
+            int columnindex = 2;
             int rowindex = 0;
             Grid ColumnGrid = new Grid();
 
             for (int i = 0; i < categories.Count;)
             {          
-                if (columnindex > 2) // 열 그리드
+                if (columnindex > 1) // 열 그리드
                 {
                     columnindex = 0;
-                    CategoryGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
-                    CategoryGrid.RowDefinitions.Add(new RowDefinition { Height = 3 });
+                    CategoryGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
                     ColumnGrid = new Grid
                     {
                         ColumnDefinitions =
                         {
                             new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)},
-                            new ColumnDefinition { Width = 3},
                             new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star)}
                         },
                         RowSpacing = 0,
+                        Margin = new Thickness(10, 0, 10, 0),
                     };
                     CategoryGrid.Children.Add(ColumnGrid, 0, rowindex);
-
-                    BoxView borderR = new BoxView
-                    {
-                        BackgroundColor = Color.LightGray,
-                        Opacity = 0.5,
-                    };
-                    CategoryGrid.Children.Add(borderR, 0, rowindex+1);
-                    rowindex+=2;
+                    rowindex+=1;
                 }
 
-                if(columnindex == 1)
+                BoxView borderLine = new BoxView
                 {
-                    BoxView borderC = new BoxView
-                    {
-                        BackgroundColor = Color.LightGray,
-                        Opacity = 0.5,
-                    };
-                    ColumnGrid.Children.Add(borderC, 1, 0);
-                }
-                else
+                    BackgroundColor = Color.FromHex("#ebecf9"),
+                };
+                // 내부 그리드
+                Grid inGrid = new Grid
                 {
-                    // 내부 그리드
-                    Grid inGrid = new Grid
-                    {
-                        RowDefinitions =
+                    RowDefinitions =
                         {
+                        new RowDefinition {  Height = new GridLength(1, GridUnitType.Auto)},
                         new RowDefinition { Height = new GridLength(1, GridUnitType.Auto)},
-                        new RowDefinition { Height = 60 },
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto)},
                         },
-                        BindingContext = i+1,
-                    };
-                    ColumnGrid.Children.Add(inGrid, columnindex, 0);
+                    BindingContext = i + 1,
+                    BackgroundColor = Color.White,
+                    Margin = 1,
+                };
+                ColumnGrid.Children.Add(borderLine, columnindex, 0);
+                ColumnGrid.Children.Add(inGrid, columnindex, 0);
 
 
-                    CustomLabel nameLabel = new CustomLabel
+
+                CachedImage image = new CachedImage
+                {
+                    LoadingPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.LoadingImagePath,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center,
+                    Aspect = Aspect.AspectFit,
+                    Source = categories[i].Image,
+                };
+                inGrid.Children.Add(image, 0, 0);
+
+                CustomLabel nameLabel = new CustomLabel
+                {
+                    Text = categories[i].Name,
+                    Size = 14,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Start,
+                    FontAttributes = FontAttributes.Bold,
+                    Margin = new Thickness(15,0,0,0),
+                };
+                inGrid.Children.Add(nameLabel, 0, 1);
+
+                CustomLabel detailLabel = new CustomLabel
+                {
+                    Text = "설명ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ2줄ㅇㅇㅇㅇ",
+                    Size = 14,
+                    TextColor = Color.Gray,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Start,
+                    FontAttributes = FontAttributes.Bold,
+                    Margin = new Thickness(15, 0, 0, 0),
+                };
+                inGrid.Children.Add(detailLabel, 0, 2);
+
+                inGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+                {
+                    Command = new Command(() =>
                     {
-                        Text = categories[i].Name,
-                        Size = 14,
-                        TextColor = Color.Black,
-                        VerticalOptions = LayoutOptions.Center,
-                        HorizontalOptions = LayoutOptions.Start,
-                        Margin = new Thickness(15, 15, 0, 0),
-                        FontAttributes = FontAttributes.Bold,
-                    };
-                    inGrid.Children.Add(nameLabel, 0, 0);
-
-                    CachedImage image = new CachedImage
-                    {
-                        LoadingPlaceholder = Global.LoadingImagePath,
-                        ErrorPlaceholder = Global.LoadingImagePath,
-                        VerticalOptions = LayoutOptions.Center,
-                        HorizontalOptions = LayoutOptions.End,
-                        Aspect = Aspect.AspectFit,
-                        Source = categories[i].Image,
-                    };
-                    inGrid.Children.Add(image, 0, 1);
-
-
-                    inGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-                    {
-                        Command = new Command(() =>
-                        {
-                            mainPage.ShowDealDetail(inGrid.BindingContext.ToString());
-                        })
-                    });
-                    i++;
-                }
+                        mainPage.ShowDealDetail(inGrid.BindingContext.ToString());
+                    })
+                });
+                i++;
                 columnindex++;
             }
         }

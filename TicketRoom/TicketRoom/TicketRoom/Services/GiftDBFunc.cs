@@ -37,7 +37,30 @@ namespace TicketRoom.Services
             return _instance;
         }
         // DB에서 홈 인덱스로 홈페이지 가져오기
-        
+
+        public List<G_CategoryInfo> SelectAllCategory()
+        {
+            //request.Method = "POST";
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectAllCategory") as HttpWebRequest;
+            request.Method = "GET";
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var readdata = reader.ReadToEnd();
+                    List<G_CategoryInfo> test = JsonConvert.DeserializeObject<List<G_CategoryInfo>>(readdata);
+                    if (test != null)
+                    {
+                        return test;
+                    }
+                }
+            }
+            return null;
+        }
+
         public int UserAddSale(G_SaleInfo g_SaleInfo)
         {
             var dataString = JsonConvert.SerializeObject(g_SaleInfo);

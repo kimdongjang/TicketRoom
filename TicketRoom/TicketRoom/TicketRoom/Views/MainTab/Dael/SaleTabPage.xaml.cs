@@ -8,6 +8,7 @@ using System.Net;
 using System.Text;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
+using TicketRoom.Services;
 using TicketRoom.Views.MainTab.Dael.Sale;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -18,13 +19,107 @@ namespace TicketRoom.Views.MainTab.Dael
     public partial class SaleTabPage : ContentView
     {
         string categorynum = "";
+        GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
+        List<Grid> ClickTabList = new List<Grid>();
 
         public SaleTabPage(string categorynum)
         {
             InitializeComponent();
             this.categorynum = categorynum;
+            ShowSubTab(categorynum);
             SelectSaleCategory(categorynum);
-            ShowPoint();
+            //ShowPoint(); // 잔여 포인트 인비지블
+        }
+
+        private void ShowSubTab(string categorynum)
+        {
+            List<G_CategoryInfo> CategoryList = giftDBFunc.SelectAllCategory();
+            int row = 0;
+            int column = 4;
+            if (CategoryList == null) { return; }
+            Grid ColumnGrid = new Grid();
+            StackLayout layout = new StackLayout();
+            layout.Orientation = StackOrientation.Horizontal;
+
+            for (int i = 0; i < CategoryList.Count; i++)
+            {
+                Grid inGrid = new Grid
+                {
+                    RowDefinitions =
+                    {
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition { Height = 5 },
+                    },
+                };
+                // 카테고리 이름
+                CustomLabel cateName = new CustomLabel
+                {
+                    TextColor = Color.Black,
+                    Size = 14,
+                    Text = CategoryList[i].Name,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
+                    BindingContext = i,
+                    Margin = new Thickness(15, 15, 15, 0),
+                };
+                // 카테고리 밑줄 라인
+                BoxView cateLine = new BoxView
+                {
+                    BackgroundColor = Color.White,
+                    Margin = new Thickness(10, 0, 10, 0),
+                };
+
+                inGrid.Children.Add(cateName, 0, 0);
+                inGrid.Children.Add(cateLine, 0, 1);
+                layout.Children.Add(inGrid);
+                ClickTabList.Add(inGrid);
+
+                if(i == int.Parse(categorynum)) // 인풋된 카테고리 넘버가 일치할경우
+                {
+                    cateName.TextColor = Color.CornflowerBlue;
+                    cateLine.BackgroundColor = Color.CornflowerBlue;
+                }
+
+                inGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+                {
+                    Command = new Command(async () =>
+                    {
+                        for (int k = 0; k < ClickTabList.Count; k++)
+                        {
+                            if (((CustomLabel)ClickTabList[k].Children[0]).Text == cateName.Text)
+                            {
+                                ((CustomLabel)ClickTabList[k].Children[0]).TextColor = Color.CornflowerBlue;
+                                ((BoxView)ClickTabList[k].Children[1]).BackgroundColor = Color.CornflowerBlue;
+                                // 클릭 이벤트
+
+                                // 로딩 시작
+                                await Global.LoadingStartAsync();
+                                
+                                string number = "";
+                                for (int mk = 0; mk < CategoryList.Count; mk++)
+                                {
+                                    if(CategoryList[mk].Name == cateName.Text)
+                                    {
+                                        number = CategoryList[mk].CategoryNum;
+                                        break;
+                                    }
+                                }
+                                // 클릭 이벤트
+                                SelectSaleCategory(number);
+
+                                // 로딩 완료
+                                await Global.LoadingEndAsync();
+                            }
+                            else
+                            {
+                                ((CustomLabel)ClickTabList[k].Children[0]).TextColor = Color.Black;
+                                ((BoxView)ClickTabList[k].Children[1]).BackgroundColor = Color.White;
+                            }
+                        }
+                    })
+                });
+            }
+            TabScoll.Content = layout;
         }
 
         private void ShowPoint()
@@ -59,13 +154,13 @@ namespace TicketRoom.Views.MainTab.Dael
                     {
                         var readdata = reader.ReadToEnd();
                         string test = JsonConvert.DeserializeObject<string>(readdata);
-                        Point_label.Text = int.Parse(test).ToString("N0");
+                        //Point_label.Text = int.Parse(test).ToString("N0");
                     }
                 }
             }
             else
             {
-                Point_label.Text = int.Parse("0").ToString("N0");
+                //Point_label.Text = int.Parse("0").ToString("N0");
             }
         }
 
@@ -106,7 +201,9 @@ namespace TicketRoom.Views.MainTab.Dael
 
         private void Showlist(List<G_ProductInfo> salelist)
         {
-            int row = 1;
+            Salelist_Grid.Children.Clear();
+            Salelist_Grid.RowDefinitions.Clear();
+            int row = 0;
 
             var label_tap = new TapGestureRecognizer();
             label_tap.Tapped += (s, e) =>
@@ -120,23 +217,24 @@ namespace TicketRoom.Views.MainTab.Dael
                 }
             };
 
-            if (salelist.Count == 0)
-            {
-                Salelist_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                #region 상품이 준비중
-                CustomLabel nullproduct = new CustomLabel
-                {
-                    Text = "상품 준비중입니다.",
-                    Size = 25,
-                    TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.Center,
-                    YAlign = TextAlignment.Center,
-                    HorizontalOptions = LayoutOptions.Center
-                };
-                #endregion
-                Salelist_Grid.Children.Add(nullproduct, 0, 1);
-                return;
-            }
+            if (salelist == null) return;
+            //if (salelist.Count == 0)
+            //{
+            //    Salelist_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            //    #region 상품이 준비중
+            //    CustomLabel nullproduct = new CustomLabel
+            //    {
+            //        Text = "상품 준비중입니다.",
+            //        Size = 25,
+            //        TextColor = Color.Black,
+            //        VerticalOptions = LayoutOptions.Center,
+            //        YAlign = TextAlignment.Center,
+            //        HorizontalOptions = LayoutOptions.Center
+            //    };
+            //    #endregion
+            //    Salelist_Grid.Children.Add(nullproduct, 0, 1);
+            //    return;
+            //}
 
             for (int i = 0; i < salelist.Count; i++)
             {

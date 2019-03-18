@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
+        <Grid Grid.Row="1" BackgroundColor="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
@@ -30,7 +30,7 @@
             <!--#region 1열 액션바 타이틀-->
             <custom:CustomLabel Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
                     Text="구매/판매"
-                    TextColor="White"
+                    TextColor="Black"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 
@@ -40,7 +40,7 @@
         </Grid>
         <!--#endregion-->
 
-        <ScrollView Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <Grid Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
             <Grid BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                 <Grid.RowDefinitions>
@@ -53,30 +53,26 @@
                 <Grid Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="1"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <!--#region 0열 구매-->
-                    <custom:CustomButton Grid.Column="0" Text="상품권 구매" Size="22" FontFamily="{StaticResource FontStyle}"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" TextColor="White"
-                    BackgroundColor="CornflowerBlue" BorderRadius="0"
-                    Clicked="Tab_Changed"
-                    x:Name="PurchaseTab"
-                    />
-                    <!--#endregion-->
-
-                    <!--#region 1열 Grid라인-->
-                    <BoxView Grid.Column="1" BackgroundColor="#f4f2f2" WidthRequest="1" VerticalOptions="FillAndExpand" HorizontalOptions="Start"/>
-                    <!--#endregion-->
-
-                    <!--#region 2열 판매-->
-                    <custom:CustomButton Grid.Column="2" Text="상품권 판매" Size="22" FontFamily="{StaticResource FontStyle}" TextColor="White"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                    BackgroundColor="CornflowerBlue" BorderRadius="0"
-                    Clicked="Tab_Changed"
-                    x:Name="SaleTab"
-                    />
-                    <!--#endregion-->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="5"/>
+                        </Grid.RowDefinitions>
+                        <custom:CustomLabel Grid.Row="0" Text="상품권 구매" Size="22" HorizontalOptions="Center" VerticalOptions="Center" TextColor="CornflowerBlue"
+                                                        BackgroundColor="White" x:Name="PurchaseTab"/>
+                        <BoxView Grid.Row="1" x:Name="PurchaseLine" BackgroundColor="CornflowerBlue" Margin="15,0,15,0"/>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="5"/>
+                        </Grid.RowDefinitions>
+                        <custom:CustomLabel Grid.Row="0" Text="상품권 판매" Size="22" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
+                                                        BackgroundColor="White" x:Name="SaleTab"/>
+                        <BoxView Grid.Row="1" x:Name="SaleLine" BackgroundColor="White" Margin="15,0,15,0"/>
+                    </Grid>
                 </Grid>
                 <!--#endregion-->
 
@@ -87,7 +83,7 @@
                 <ContentView Grid.Row="2" x:Name="TabContent"/>
             </Grid>
             <!--#endregion-->
-        </ScrollView>
+        </Grid>
     </Grid>
     <!--#endregion-->
 </ContentView>

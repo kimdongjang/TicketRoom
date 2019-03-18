@@ -9,7 +9,7 @@
             <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="1"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
@@ -57,35 +57,33 @@
         <ScrollView Grid.Row="3">
             <Grid RowSpacing="0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="200"/>
-                    <RowDefinition Height="3"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="3"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="3"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
 
-                <!--#region 0행 메인 배너-->
-                <Image Grid.Row="0" Source="gift_banner.png" VerticalOptions="Center" Aspect="AspectFill"/>
+                <!--#region 0행 -->
+                <custom:CustomLabel Grid.Row="0" Text="안심 상품권 거래" Size="18" TextColor="Black" Margin="15,15,0,0"/>
                 <!--#endregion -->
 
-                <!--#region 1행 보더라인-->
-                <BoxView Grid.Row="1" BackgroundColor="LightGray" Opacity="0.5"/>
+                <!--#region 1행 -->
+                <custom:CustomLabel Grid.Row="1" Text="여러분의 상품권 구매 판매를 도와드립니다." Size="14" TextColor="Gray" Margin="15,15,0,0"/>
                 <!--#endregion -->
 
-                <!--#region 2행 실시간 거래-->
-                <Grid Grid.Row="2" x:Name="RealTimeGrid">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                    </Grid.RowDefinitions>
-                    <custom:CustomLabel Grid.Row="0" Text="실시간 거래" FontAttributes="Bold" TextColor="Black" Size="14" Margin="15,15,0,0"/>
-                </Grid>
+                <!--#region 2행 메인 배너-->
+                <Image Grid.Row="2" Source="gift_banner.jpg" VerticalOptions="Center" Aspect="AspectFit"/>
                 <!--#endregion -->
 
-                <!--#region 3행 보더라인-->
-                <BoxView Grid.Row="3" BackgroundColor="LightGray" Opacity="0.5"/>
+                <!--#region 3행 -->
+                <custom:CustomLabel Grid.Row="3" Text="포인트" Size="18" TextColor="Black" Margin="15,15,0,0"/>
                 <!--#endregion -->
 
 
@@ -94,24 +92,74 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
-                    <custom:CustomLabel Grid.Row="0" Text="보유 포인트" TextColor="Black" Size="16" HorizontalTextAlignment="Center"
-                                        x:Name="MyPointLabel" VerticalOptions="Center" FontAttributes="Bold"/>
+                    <BoxView Grid.Row="0" Color="#ebecf9" Margin="20,15,20,0"/>
+                    <custom:CustomLabel Grid.Row="0" Text="" Size="18" HorizontalTextAlignment="Center"
+                                        x:Name="MyPointLabel" VerticalOptions="Center" FontAttributes="Bold" TextColor="CornflowerBlue" Margin="0,15,0,0"/>
+                </Grid>
+                <!--#endregion -->
+
+                <!--#region 5행 -->
+                <custom:CustomLabel Grid.Row="5" Text="실시간 거래" Size="18" TextColor="Black" Margin="15,30,0,0"/>
+                <!--#endregion -->
+                
+                <!--#region 6행 실시간 거래-->
+                <Grid Grid.Row="6" x:Name="RealTimeGrid" Margin="15,15,0,0" RowSpacing="0"/>
+                <!--#endregion -->
+
+
+                <!--#region 7행 -->
+                <custom:CustomLabel Grid.Row="7" Text="상품권" Size="18" TextColor="Black" Margin="15,30,0,0"/>
+                <!--#endregion -->
+
+                <!--#region 8행 카테고리 그리드-->
+                <Grid Grid.Row="8" BackgroundColor="White" x:Name="CategoryGrid" RowSpacing="20" Margin="0,15,0,0"/>
+                <!--#endregion -->
+
+
+                <!--#region 9행 -->
+                <custom:CustomLabel Grid.Row="9" Text="실시간 시세" Size="18" TextColor="Black" Margin="15,15,0,0"/>
+                <!--#endregion -->
+
+
+                <!--#region 10행 -->
+                <BoxView Grid.Row="10" BackgroundColor="#ebecf9" Margin="20,15,20,0"/>
+                <Grid Grid.Row="10" x:Name="RealTimePriceGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="8*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="realtimepriceimage.png" Margin="30,15,0,0" VerticalOptions="Center" HorizontalOptions="Center" Aspect="AspectFit"/>
+                    <Grid  Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <custom:CustomLabel Grid.Row="0" Text="현재 상품권 시세 정보를 확인할 수 있습니다" Size="16" TextColor="Black" Margin="15,30,0,0"/>                        
+                        <custom:CustomButton Grid.Row="1" Text="바로가기" Size="16" TextColor="Black" Margin="15,5,5,5" BackgroundColor="White" WidthRequest="80"
+                                             HorizontalOptions="Start"/>
+                    </Grid>
                 </Grid>
                 <!--#endregion -->
 
 
-                <!--#region 5행 보더라인-->
-                <BoxView Grid.Row="5" BackgroundColor="LightGray" Opacity="0.5"/>
-                <!--#endregion -->
-
-
-                <!--#region 6행 카테고리 그리드-->
-                <Grid Grid.Row="6" BackgroundColor="White" x:Name="CategoryGrid" RowSpacing="0"/>
+                <!--#region 11행 사업자 그리드-->
+                <Grid Grid.Row="11">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <custom:CustomLabel Grid.Row="0" Text="[사업자 명]" Size="12" TextColor="Gray" Margin="15,15,0,0"/>
+                    <custom:CustomLabel Grid.Row="1" Text="사업자 등록번호 : 000-00-00000 | 통신판매업 : 대전 동구-0515" Size="12" TextColor="Gray" Margin="15,0,0,0"/>
+                    <custom:CustomLabel Grid.Row="2" Text="메일: abc@abc.com" Size="12" TextColor="Gray" Margin="15,0,0,0"/>
+                    <custom:CustomLabel Grid.Row="3" Text="고객센터: 1234-1234(월~금, 오전9시~오후6시)" Size="12" TextColor="Gray" Margin="15,0,0,0"/>
+                    <custom:CustomLabel Grid.Row="4" Text="주소: 대전광역시 주소 입력" Size="12" TextColor="Gray" Margin="15,0,0,0"/>
+                </Grid>
                 <!--#endregion -->
             </Grid>
         </ScrollView>
-
-        
     </Grid>
     <!--#endregion-->
 </ContentView>

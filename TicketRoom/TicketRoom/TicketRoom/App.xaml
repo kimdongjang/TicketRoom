@@ -7,7 +7,7 @@
             <OnPlatform x:Key="FontStyle" x:TypeArguments="x:String">
                 <On Platform="iOS" Value="hmklexpo.ttf"/>
                 <!--<On Platform="Android" Value="BMHANNAAir_ttf.ttf#BMHANNAAir_ttf" />-->
-                <On Platform="Android" Value="hmklexpo.ttf" />
+                <On Platform="Android" Value="NotoSansCJKkr-Medium.otf" />
             </OnPlatform>
         </ResourceDictionary>
     </Application.Resources>

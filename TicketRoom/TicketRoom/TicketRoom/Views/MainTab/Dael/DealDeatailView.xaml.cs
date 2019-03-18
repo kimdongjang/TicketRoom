@@ -29,71 +29,71 @@ namespace TicketRoom.Views.MainTab.Dael
             }
             #endregion
 
-            if (Global.current_Tab_P_or_S.Equals("P"))
-            {
-                Tab_Changed(PurchaseTab, null);
-            }
-            else
-            {
-                Tab_Changed(SaleTab, null);
-            }
-
+            TabContent.Content = new PurchaseTabPage(mainpage, categorynum);
+            MainTabClick();
         }
-
-        private async void Tab_Changed(object sender, EventArgs e)
+        // 상위 탭 클릭
+        private void MainTabClick()
         {
-            //구매 or 판매 리스트 클릭 가능상태
-            Global.isgiftlistcliecked = true;
-
-            PurchaseTab.BackgroundColor = Color.CornflowerBlue;
-            PurchaseTab.TextColor = Color.White;
-            SaleTab.BackgroundColor = Color.CornflowerBlue;
-            SaleTab.TextColor = Color.White;
-
-
-            Button selectedtab = (Button)sender;
-            selectedtab.BackgroundColor = Color.White;
-            selectedtab.TextColor = Color.CornflowerBlue;
-
-            if (selectedtab.Text.Equals("상품권 구매"))
+            PurchaseTab.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                // 로딩 시작
-                await Global.LoadingStartAsync();
-                Global.current_Tab_P_or_S = "P";
-                // 초기화 코드 작성
-                TabContent.Content = new PurchaseTabPage(mainpage, categorynum);
+                Command = new Command(async () =>
+                {
+                    //구매 or 판매 리스트 클릭 가능상태
+                    Global.isgiftlistcliecked = true;
 
-                // 로딩 완료
-                await Global.LoadingEndAsync();
-            }
-            else if (selectedtab.Text.Equals("상품권 판매"))
+                    PurchaseTab.TextColor = Color.CornflowerBlue;
+                    PurchaseLine.BackgroundColor= Color.CornflowerBlue;
+                    SaleTab.TextColor = Color.Black;
+                    SaleLine.BackgroundColor = Color.White;
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    TabContent.Content = new PurchaseTabPage(mainpage, categorynum);
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+                })
+            });
+            SaleTab.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                // 로딩 시작
-                await Global.LoadingStartAsync();
-                Global.current_Tab_P_or_S = "S";
-                // 초기화 코드 작성
-                if (Global.b_user_login)
+                Command = new Command(async () =>
                 {
-                    TabContent.Content = new SaleTabPage(categorynum);
-                }
-                else
-                {
-                    if (Global.isDealTabCliecked)
+                    //구매 or 판매 리스트 클릭 가능상태
+                    Global.isgiftlistcliecked = true;
+
+                    PurchaseTab.TextColor = Color.Black;
+                    PurchaseLine.BackgroundColor = Color.White;
+                    SaleTab.TextColor = Color.CornflowerBlue;
+                    SaleLine.BackgroundColor = Color.CornflowerBlue;
+
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    // 초기화 코드 작성
+                    if (Global.b_user_login)
                     {
-                        Global.isDealTabCliecked = false;
-                        await mainpage.ShowMessage("로그인상태에서 이용할수 있습니다.", "알림", "OK", async () =>
-                        {
-                            //App.Current.MainPage = new MainPage();
-                            Navigation.PushAsync(new LoginPage());
-                        });
+                        TabContent.Content = new SaleTabPage(categorynum);
                     }
-                }
+                    else
+                    {
+                        if (Global.isDealTabCliecked)
+                        {
+                            Global.isDealTabCliecked = false;
+                            await mainpage.ShowMessage("로그인상태에서 이용할수 있습니다.", "알림", "OK", async () =>
+                            {
+                                //App.Current.MainPage = new MainPage();
+                                await Navigation.PushAsync(new LoginPage());
+                            });
+                        }
+                    }
 
-                // 로딩 완료
-                await Global.LoadingEndAsync();
-
-            }
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+                })
+            });
         }
+
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {

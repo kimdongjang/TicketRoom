@@ -28,7 +28,7 @@ namespace TicketRoom.Droid.Renderer
             var label = (TextView)Control;
             label.SetTextSize(Android.Util.ComplexUnitType.Dip, control_label.Size);
 
-            Typeface font = Typeface.CreateFromAsset(Forms.Context.Assets, "hmklexpo.ttf");
+            Typeface font = Typeface.CreateFromAsset(Forms.Context.Assets, "NANUMSQUAREROUNDB.TTF");
             label.Typeface = font;
         }
     }
