@@ -58,7 +58,6 @@ namespace TicketRoom.Views.MainTab.MyPage
             {
                 Command = new Command(() =>
                 {
-
                     pls = new PurchaseListShop(this);
                     PurchaseListContentView.Content = pls;
                     TapColorChangeAsync(pls);
@@ -282,7 +281,6 @@ namespace TicketRoom.Views.MainTab.MyPage
             }
             else // 쇼핑몰이 선택 되었을 경우
             {
-
                 TapShopingGridLabel.TextColor = Color.CornflowerBlue;
                 TapShopingGrid.BackgroundColor = Color.White;
 
@@ -293,12 +291,12 @@ namespace TicketRoom.Views.MainTab.MyPage
                 if (Global.b_user_login) // 로그인 상태인 경우
                 {
                     pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, -99, 0, 0); // 사용자 아이디로 구매 목록 가져옴
-                    await pls.Init();
+                    pls.Init();
                 }
                 else
                 {
                     pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, -99, 0, 0); // 사용자 아이디로 구매 목록 가져옴
-                    await pls.Init();
+                    pls.Init();
                 }
             }
             ((Image)ImageGrid.Children[0]).Source = "list_all_h.png";
@@ -306,6 +304,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
             ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
 
+            // 로딩완료
             await Global.LoadingEndAsync();
         }
 

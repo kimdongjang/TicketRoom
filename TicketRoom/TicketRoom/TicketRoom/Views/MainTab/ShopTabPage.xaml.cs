@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using TicketRoom.Models;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
 using TicketRoom.Models.Users;
@@ -63,8 +64,21 @@ namespace TicketRoom.Views.MainTab
             Global.isOpen_ShopListPage = false; // ShopTabPage -> ShopListPage
             Global.isOpen_ShopMainPage = false; // ShopListPage -> ShopMainPage(SaleView)
 
-            //Navigation.PushAsync(new IMPWebView());
-            Navigation.PushAsync(new IMPHybridWebView());
+            ////Navigation.PushAsync(new IMPWebView());
+            //IMPParam param = new IMPParam();
+            //param.pg = "inicis";
+            //param.pay_method = "card";
+            //param.merchant_uid = "merchant_" + System.DateTime.Now;
+            //param.name = $"test";
+            //param.amount = 5000;
+            //param.buyer_email = "iamport@siot.do";
+            //param.buyer_name = "구매자이름";
+            //param.buyer_tel = "010-1234-5678";
+            //param.buyer_addr = "대전시";
+            //param.buyer_postcode = "우편번호";
+
+            ////Navigation.PushAsync(new IMPHybridWebView(param, sop));
+
 
             // 쇼핑 탭 주소 엔트리 초기화
             #region 검색 결과 찾을 수 없을 경우

@@ -17,15 +17,16 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
         PurchaseListPage plp;
 
-        public List<SH_Pur_List> purchaseList = new List<SH_Pur_List>();
+        public List<SH_Purchace> purchaseList = new List<SH_Purchace>();
 
         public PurchaseListShop(PurchaseListPage plp)
         {
             InitializeComponent();
             this.plp = plp;
+            Init();
         }
 
-        public async Task Init()
+        public void Init()
         {
             MainGrid.Children.Clear();
             
@@ -50,9 +51,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 MainLine.BackgroundColor = Color.LightGray;
                 for (int i = 0; i < purchaseList.Count; i++)
                 {
-                    List<SH_Pur_Product> productList = SH_DB.PostSearchPurchaseProductListToIndex(purchaseList[i].SH_PUR_LIST_INDEX.ToString()); // 주문 번호로 구매 내역 조회
-                    List<SH_Pur_Pay> payList = SH_DB.PostSearchPurchasePayListToIndex(purchaseList[i].SH_PUR_LIST_INDEX.ToString());
-
+                    List<SH_Pur_Product> productList = SH_DB.PostSearchPurchaseProductListToIndex(purchaseList[i].SH_PURCHACE_INDEX.ToString()); // 주문 번호로 구매 내역 조회
+                    
                     #region 전체 그리드
                     MainGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                     BoxView row_boxview = new BoxView { BackgroundColor = Color.Blue, Opacity = 0.2, Margin = new Thickness(10), };
@@ -92,7 +92,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                     CustomLabel ordernumLabel = new CustomLabel
                     {
-                        Text = "주문번호 : " + purchaseList[i].SH_PUR_LIST_INDEX,
+                        Text = "주문번호 : " + purchaseList[i].SH_PURCHACE_INDEX,
                         Size = 18,
                         TextColor = Color.White,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -124,9 +124,9 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                         for (int k = 0; k < purchaseList.Count; k++)
                         {
-                            if (purchaseList[k].SH_PUR_LIST_INDEX.ToString() == ordernumLabel.Text.Replace("주문번호 : ", ""))
+                            if (purchaseList[k].SH_PURCHACE_INDEX.ToString() == ordernumLabel.Text.Replace("주문번호 : ", ""))
                             {
-                                Navigation.PushAsync(new PurchaseDetailListShop(purchaseList[k].SH_PUR_LIST_INDEX.ToString()));
+                                Navigation.PushAsync(new PurchaseDetailListShop(purchaseList[k]));
                             }
                         }
                     };
@@ -245,7 +245,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     };
                     CustomLabel dateLabel = new CustomLabel
                     {
-                        Text = purchaseList[i].SH_PUR_LIST_DATE, // 구매 날짜
+                        Text = purchaseList[i].SH_DATE, // 구매 날짜
                         Size = 14,
                         TextColor = Color.Black,
                         VerticalOptions = LayoutOptions.Center,
@@ -253,7 +253,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     };
                     CustomLabel statusLabel = new CustomLabel
                     {
-                        Text = payList[0].SH_PUR_PAY_STATE, // 구매 상태
+                        Text = purchaseList[0].SH_STATUS, // 구매 상태
                         Size = 18,
                         TextColor = Color.Red,
                         VerticalOptions = LayoutOptions.Center,
@@ -267,9 +267,6 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 }
 
             }
-
-            // 로딩 완료
-            await Global.LoadingEndAsync();
         }
     }
 }

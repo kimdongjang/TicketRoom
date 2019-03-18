@@ -34,26 +34,21 @@ namespace TicketRoom.Models.PointData
             return _instance;
         }
 
-
         // 포인트 충전 및 적립되는 프로시저
-        public bool PostInsertPointChargeToID(string p_content, string p_bank, string p_card, string p_id, string p_point, string pl_index)
+        public bool PostInsertPointChargeToID(IMP_RValue rvalue, string pl_index)
         {
+            var dataString = JsonConvert.SerializeObject(rvalue);
+            JObject jo = JObject.Parse(dataString);
+            UTF8Encoding encoder = new UTF8Encoding();
+
             bool isbool = false;
             string str = @"{";
-            str += "p_content:'" + p_content;
-            str += "',p_bank:'" + p_bank;
-            str += "',p_card:'" + p_card;
-            str += "',p_id:'" + p_id;
-            str += "',p_point:'" + p_point;
-            str += "',pl_index:'" + pl_index;
+            str += "rvalue:" + jo.ToString();
+            str += ",pl_index:'" + pl_index;
             str += "'}";
 
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+            JObject jo2 = JObject.Parse(str);
+            byte[] data = encoder.GetBytes(jo2.ToString()); // a json object, or xml, whatever...
 
             HttpWebRequest request = WebRequest.Create(Global.WCFURL + "PT_InsertPointChargeToID") as HttpWebRequest;
             request.Method = "POST";

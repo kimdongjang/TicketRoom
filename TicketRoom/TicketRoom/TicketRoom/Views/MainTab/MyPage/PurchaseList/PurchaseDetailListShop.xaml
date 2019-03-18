@@ -22,7 +22,11 @@
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
                 <!--#region 0열 백버튼 등 이미지-->
-                <local1:CustomButton Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Image="backbutton_icon.png" BackgroundColor="White" Clicked="ImageButton_Clicked" />
+                <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ImageButton_Clicked"/>
+                    </Image.GestureRecognizers>
+                </Image>
                 <!--#endregion-->
 
                 <!--#region 1열 액션바 타이틀-->
