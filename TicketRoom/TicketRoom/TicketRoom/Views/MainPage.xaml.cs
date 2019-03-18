@@ -13,6 +13,7 @@ using System.Threading;
 using TicketRoom.Models.Custom;
 using TicketRoom.Views.MainTab.Dael;
 using TicketRoom.Models.ShopData;
+using System.Net;
 
 namespace TicketRoom.Views
 {
@@ -119,6 +120,9 @@ namespace TicketRoom.Views
         {
             try
             {
+                #region 방문자수 올리는부분
+                AddVisitors();
+                #endregion
                 if (File.Exists(Global.localPath + "app.config") == false) // 앱 설정 파일이 없다면 생성
                 {
                     Global.non_user_id = USER_DB.PostInsertNonUsersID();
@@ -158,6 +162,24 @@ namespace TicketRoom.Views
             Global.user = USER_DB.PostSelectUserToID(Global.ID);
             Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
 
+        }
+
+        public void AddVisitors()
+        {
+            //request.Method = "GET";
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "AddVisitors") as HttpWebRequest;
+            request.Method = "GET";
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var readdata = reader.ReadToEnd();
+                    //예외처리 (방문자수 올리기 실패) 일부러 비워놓음
+                }
+            }
         }
 
         private bool IsBoolCheckFunc(string s)
