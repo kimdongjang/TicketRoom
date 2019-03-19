@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,10 +16,10 @@ namespace TicketRoom.Views.MainTab.Dael
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Realtime_Price : ContentPage
     {
+        List<G_CategoryInfo> categoryInfoList = new List<G_CategoryInfo>();
         public Realtime_Price()
         {
             InitializeComponent();
-            SelectAllCategory();
 
             #region IOS의 경우 초기화
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
@@ -27,6 +28,43 @@ namespace TicketRoom.Views.MainTab.Dael
                 MainGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
+
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+            {
+                categoryInfoList = SelectAllCategory(); // 카테고리 피커 리스트 검색
+
+            }
+            else
+            {
+                categoryInfoList = null;
+            }
+            #endregion
+
+            #region 네트워크 검색 불가
+            if(categoryInfoList == null) // 검색 불가일 경우
+            {
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Start,
+                    HorizontalOptions = LayoutOptions.Center,
+                    Margin = new Thickness(0, 15, 0, 0),
+                };
+                Price_Grid.Children.Add(label, 0, 0);         //실시간거래 그리드에 라벨추가
+                return;
+                // 카테고리 피커 초기화 하지 않음
+            }
+            else
+            {
+                AddCategoryCombo(categoryInfoList);
+                CategoryCombo.SelectedIndex = 0;
+            }
+            #endregion
+
         }
 
         protected override void OnAppearing()
@@ -35,26 +73,33 @@ namespace TicketRoom.Views.MainTab.Dael
             Global.isbackbutton_clicked = true;
         }
 
-        private void SelectAllCategory()
+        private List<G_CategoryInfo> SelectAllCategory()
         {
-            //request.Method = "GET";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectAllCategory") as HttpWebRequest;
-            request.Method = "GET";
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            try
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    var readdata = reader.ReadToEnd();
-                    List<G_CategoryInfo> test = JsonConvert.DeserializeObject<List<G_CategoryInfo>>(readdata);
-                    AddCategoryCombo(test);
+                //request.Method = "GET";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectAllCategory") as HttpWebRequest;
+                request.Method = "GET";
 
-                    CategoryCombo.SelectedIndex = 0;
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        List<G_CategoryInfo> test = JsonConvert.DeserializeObject<List<G_CategoryInfo>>(readdata);
+                        return test;
+                    }
                 }
             }
+            catch
+            {
+                return null;
+            }
         }
+
+
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
@@ -108,6 +153,7 @@ namespace TicketRoom.Views.MainTab.Dael
             Price_Grid.Children.Add(titler, 2, 0);
 
             int row = 1;
+            if (Pricelist == null) return;
 
             for (int i = 0; i < Pricelist.Count; i++)
             {

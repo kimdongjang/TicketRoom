@@ -14,6 +14,7 @@ using TicketRoom.Models.Custom;
 using TicketRoom.Views.MainTab.Dael;
 using TicketRoom.Models.ShopData;
 using System.Net;
+using Xamarin.Essentials;
 
 namespace TicketRoom.Views
 {
@@ -24,6 +25,7 @@ namespace TicketRoom.Views
         UserDBFunc USER_DB = UserDBFunc.Instance();
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
         string categorynum = "";
+
 
         public MainPage()
         {
@@ -44,10 +46,10 @@ namespace TicketRoom.Views
         {
             Init();
             TabInit();
+            // 사용중인 탭으로 되돌리기
             ChangeTabInitAsync();
-
-
-
+            // 최근 본 상품 로우 유저 아이디에 따른 생성
+            Init_ShopRecentViewToID();
 
 
             base.OnAppearing();
@@ -62,6 +64,7 @@ namespace TicketRoom.Views
             ShopTabPage stp;
             BasketTabPage btp;
             MyPageTabPage mtp;
+
 
             #region OnAppearing을 사용해 사용중인 탭으로 되돌리기
             if (Global.isMainDeal == true)
@@ -98,35 +101,61 @@ namespace TicketRoom.Views
             }
             else if (Global.isMainDealDeatil == true)
             {
-                ShowDealDetail(this.categorynum);
+                ShowDealDetailAsync(this.categorynum);
             }
             #endregion
-
-            if (Global.b_user_login == true) // 회원인 상태로 로그인이 되어있다면
-            {
-                SH_DB.PostInsertRecentViewToID(Global.ID); // 최근 본 상품 로우 생성
-            }
-            else // 비회원 상태
-            {
-                SH_DB.PostInsertRecentViewToID(Global.non_user_id);
-            }
 
             // 로딩 완료
             await Global.LoadingEndAsync();
         }
 
+        #region 최근 본 상품 로우 유저 아이디에 따른 생성
+        private void Init_ShopRecentViewToID()
+        {
+            var current = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current == NetworkAccess.Internet) // 네트워크 연결 가능
+            {
+                if (Global.b_user_login == true) // 회원인 상태로 로그인이 되어있다면
+                {
+                    SH_DB.PostInsertRecentViewToID(Global.ID); // 최근 본 상품 로우 생성
+                }
+                else // 비회원 상태
+                {
+                    SH_DB.PostInsertRecentViewToID(Global.non_user_id);
+                }
+            }
+            else
+            {
+                // 생성불가
+            }
+        }
+        #endregion
 
         private void Init()
         {
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+
             try
             {
                 #region 방문자수 올리는부분
-                AddVisitors();
+                if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+                {
+                    AddVisitors();
+                }
+
                 #endregion
                 if (File.Exists(Global.localPath + "app.config") == false) // 앱 설정 파일이 없다면 생성
                 {
-                    Global.non_user_id = USER_DB.PostInsertNonUsersID();
-                    // db에서 비회원 아이디를 가져옴. 중복 검사 필요.
+                    if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+                    {
+                        Global.non_user_id = USER_DB.PostInsertNonUsersID(); // 사용가능한 비회원 아이디 검색
+                    }
+                    else
+                    {
+                        Global.non_user_id = "검색실패"; // 아이디 검색 실패시 null로 처리
+                    }
+
+                    // config파일 작성
                     File.WriteAllText(Global.localPath + "app.config",
                         "NonUserID=" + Global.non_user_id + "\n" +
                         "IsLogin=" + Global.b_user_login.ToString() + "\n" + // 회원 로그인 false
@@ -159,9 +188,18 @@ namespace TicketRoom.Views
             {
 
             }
-            Global.user = USER_DB.PostSelectUserToID(Global.ID);
-            Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
-
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+            {
+                // 회원 정보와 주소 정보를 가져옴
+                Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+            }
+            else
+            {
+                // 실패시 null로 처리... 객체라서 어쩔 수 업음
+                Global.user = null;
+                Global.adress = null;
+            }
         }
 
         public void AddVisitors()
@@ -335,11 +373,17 @@ namespace TicketRoom.Views
         }
 
 
-        public void ShowDealDetail(string categorynum)
+        public async void ShowDealDetailAsync(string categorynum)
         {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
             this.categorynum = categorynum;
             TabContent.Content = new DealDeatailView(this, categorynum);
             Global.InitOnAppearingBool("dealdetail");
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
         public void ShowDeal()

@@ -27,19 +27,14 @@
             <Grid Grid.Column="1" HorizontalOptions="CenterAndExpand" RowSpacing="0" ColumnSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
                 <custom:CustomLabel 
                     Grid.Column="0"
-                    Text="실시간 시세 표시"
+                    Text="구매/판매"
                     Size="18"
                     TextColor="Black"
                      XAlign="End" YAlign="Center"
                     />
-                <Image Grid.Column="1" Source="main_check.png" VerticalOptions="Center" Aspect="AspectFit" Margin="5,0,0,0"/>
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Arrow_Clicked"/>
-                </Grid.GestureRecognizers>
             </Grid>
             <!--#endregion-->
 
@@ -71,7 +66,7 @@
                 </Grid.RowDefinitions>
 
                 <!--#region 0행 -->
-                <custom:CustomLabel Grid.Row="0" Text="안심 상품권 거래" Size="18" TextColor="Black" Margin="15,15,0,0"/>
+                <custom:CustomLabel Grid.Row="0" Text="안심 상품권 거래" Size="24" TextColor="Black" Margin="15,15,0,0"/>
                 <!--#endregion -->
 
                 <!--#region 1행 -->
@@ -90,10 +85,10 @@
                 <!--#region 4행 보유 포인트-->
                 <Grid Grid.Row="4" x:Name="MyPointGrid">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="60"/>
                     </Grid.RowDefinitions>
                     <BoxView Grid.Row="0" Color="#ebecf9" Margin="20,15,20,0"/>
-                    <custom:CustomLabel Grid.Row="0" Text="" Size="18" HorizontalTextAlignment="Center"
+                    <custom:CustomLabel Grid.Row="0" Text="" Size="24" HorizontalTextAlignment="Center"
                                         x:Name="MyPointLabel" VerticalOptions="Center" FontAttributes="Bold" TextColor="CornflowerBlue" Margin="0,15,0,0"/>
                 </Grid>
                 <!--#endregion -->
@@ -103,7 +98,7 @@
                 <!--#endregion -->
                 
                 <!--#region 6행 실시간 거래-->
-                <Grid Grid.Row="6" x:Name="RealTimeGrid" Margin="15,15,0,0" RowSpacing="0"/>
+                <Grid Grid.Row="6" x:Name="RealTimeGrid" Margin="40,15,0,0" RowSpacing="3"/>
                 <!--#endregion -->
 
 
@@ -112,12 +107,12 @@
                 <!--#endregion -->
 
                 <!--#region 8행 카테고리 그리드-->
-                <Grid Grid.Row="8" BackgroundColor="White" x:Name="CategoryGrid" RowSpacing="20" Margin="0,15,0,0"/>
+                <Grid Grid.Row="8" BackgroundColor="White" x:Name="CategoryGrid" RowSpacing="10" Margin="0,15,0,0"/>
                 <!--#endregion -->
 
 
                 <!--#region 9행 -->
-                <custom:CustomLabel Grid.Row="9" Text="실시간 시세" Size="18" TextColor="Black" Margin="15,15,0,0"/>
+                <custom:CustomLabel Grid.Row="9" Text="실시간 시세" Size="18" TextColor="Black" Margin="15,30,0,0"/>
                 <!--#endregion -->
 
 
@@ -134,9 +129,9 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <custom:CustomLabel Grid.Row="0" Text="현재 상품권 시세 정보를 확인할 수 있습니다" Size="16" TextColor="Black" Margin="15,30,0,0"/>                        
-                        <custom:CustomButton Grid.Row="1" Text="바로가기" Size="16" TextColor="Black" Margin="15,5,5,5" BackgroundColor="White" WidthRequest="80"
-                                             HorizontalOptions="Start"/>
+                        <custom:CustomLabel Grid.Row="0" Text="현재 상품권 시세 정보를 확인할 수 있습니다" Size="14" TextColor="Black" Margin="15,30,0,0"/>                        
+                        <custom:CustomButton Grid.Row="1" Text="바로가기" Size="14" TextColor="Black" Margin="15,5,5,5" BackgroundColor="White" WidthRequest="80"
+                                             HorizontalOptions="Start" x:Name="RealTimeBtn" Clicked="RealTimeBtn_Clicked"/>
                     </Grid>
                 </Grid>
                 <!--#endregion -->
