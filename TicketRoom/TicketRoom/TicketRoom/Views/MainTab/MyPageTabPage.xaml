@@ -37,30 +37,26 @@
         </Grid>
         <!--#endregion-->
 
-        <ScrollView Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <ScrollView Grid.Row="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="#f5f5f5">
             <Grid Margin="15,0,15,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="200"/>
-                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="180"/>
+                    <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+
+
+                <!--#region  0행 구분선 -->
+                <!--#endregion-->
                 
-                
-                <!--#region  0행 사용자 네임카드 -->
-                <Grid Grid.Row="0" BackgroundColor="White">
+                <!--#region  1행 사용자 네임카드 -->
+                <Grid Grid.Row="1" BackgroundColor="White">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="profile.png" Aspect="AspectFill" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <Image Grid.Column="0" Source="iconmonstr_user.png" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
                     <Grid Grid.Column="1" BackgroundColor="White"  VerticalOptions="Center">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -107,73 +103,97 @@
                     </Grid>
                 </Grid>
                 <!--#endregion-->
-                <!--#region  1행 구분선 -->
-                <BoxView Grid.Row="1" BackgroundColor="LightGray"/>
+                
+                <!--#region  2행 구분선 -->
                 <!--#endregion-->
 
 
-                <!--#region  2행 내정보 수정버튼 -->
-                <BoxView Grid.Row="2" BackgroundColor="CornflowerBlue"/>
-                <Grid Grid.Row="2" BackgroundColor="White" Margin="2" x:Name="MyInfoGrid">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="6*"/>
-                        <ColumnDefinition Width="4*"/>
-                    </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="내정보 수정" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="14"/>
-                    <Image  Grid.Column="1" Source="move_vector.png" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30" HeightRequest="30"/>
+                <!--#region  3행 기타 기능들 -->
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150"/>
+                        <RowDefinition Height="0"/>
+                        <RowDefinition Height="150"/>
+                    </Grid.RowDefinitions>
+                    <!--#region  0행 -->
+                    <Grid Grid.Row="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <!--#region 0열 내정보 수정 버튼 -->
+                            <Grid Grid.Column="0" BackgroundColor="White" x:Name="MyInfoGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="60"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0" Source="iconmonstr_updateuser.png" Aspect="AspectFit" HorizontalOptions="Start" VerticalOptions="Start" Margin="15,15,0,0"/>
+                                <custom:CustomLabel  Grid.Row="1" Text="내정보 수정" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Start" Size="18" Margin="15,0,0,0"/>
+                                <custom:CustomLabel  Grid.Row="2" Text="비밀번호 변경" 
+                                                     TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Size="14" Margin="15,0,0,0"/>
+                            </Grid>
+                            <!--#endregion-->
+
+                            <!--#region 2열 판매내역 확인 버튼 -->
+                            <Grid Grid.Column="2" BackgroundColor="White" x:Name="SaleListGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="60"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0" Source="iconmonstr_task.png" Aspect="AspectFit" HorizontalOptions="Start" VerticalOptions="Start" Margin="15,15,0,0"/>
+                                <custom:CustomLabel  Grid.Row="1" Text="판매내역 확인" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Start" Size="18" Margin="15,0,0,0"/>
+                                <custom:CustomLabel  Grid.Row="2" Text="판매 상품권 기간별 조회" 
+                                                     TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Size="14" Margin="15,0,0,0"/>
+                            </Grid>
+                            <!--#endregion-->
+                        </Grid>
+                    </Grid>
+                    <!--#endregion-->
+
+                    <!--#region  2행 -->
+                    <Grid Grid.Row="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <!--#region 0열 구매내역 확인 버튼 -->
+                            <Grid Grid.Column="0" BackgroundColor="White" x:Name="PurchaseListGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="60"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0" Source="iconmonstr_card.png" Aspect="AspectFit" HorizontalOptions="Start" VerticalOptions="Start" Margin="15,15,0,0"/>
+                                <custom:CustomLabel  Grid.Row="1" Text="구매내역 확인" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Start" Size="18" Margin="15,0,0,0"/>
+                                <custom:CustomLabel  Grid.Row="2" Text="구매 상품권 기간별 조회, 구매 쇼핑 기간별 조회" 
+                                                     TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Size="14" Margin="15,0,0,0"/>
+                            </Grid>
+                            <!--#endregion-->
+
+                            <!--#region 2열 포인트 확인 버튼 -->
+                            <Grid Grid.Column="2" BackgroundColor="White" x:Name="PointGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="60"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0" Source="iconmonstr_cur.png" Aspect="AspectFit" HorizontalOptions="Start" VerticalOptions="Start" Margin="15,15,0,0"/>
+                                <custom:CustomLabel  Grid.Row="1" Text="포인트 확인" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Start" Size="18" Margin="15,0,0,0"/>
+                                <custom:CustomLabel  Grid.Row="2" Text="포인트 적립내역, 포인트 사용내역, 포인트 충전, 포인트 출금"
+                                                     TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Size="14" Margin="15,0,0,0"/>
+                            </Grid>
+                            <!--#endregion-->
+                        </Grid>
+                    </Grid>
+                    <!--#endregion-->
                 </Grid>
-
                 <!--#endregion-->
-
-                <!--#region  3행 여백 -->
-                <!--#endregion-->
-
-                <!--#region  4행 판매내역 확인 버튼 -->
-                <BoxView Grid.Row="4" BackgroundColor="CornflowerBlue"/>
-                <Grid Grid.Row="4" BackgroundColor="White" Margin="2" x:Name="SaleListGrid">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="6*"/>
-                        <ColumnDefinition Width="4*"/>
-                    </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="판매내역 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="14"/>
-                    <Image  Grid.Column="1" Source="move_vector.png" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30" HeightRequest="30"/>
-                </Grid>
-                <!--#endregion-->
-
-                <!--#region  4행 여백 -->
-                <!--#endregion-->
-
-                <!--#region  5행 구매내역 확인 버튼 -->
-
-                <BoxView Grid.Row="6" BackgroundColor="CornflowerBlue"/>
-                <Grid Grid.Row="6" BackgroundColor="White" Margin="2" x:Name="PurchaseListGrid">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="6*"/>
-                        <ColumnDefinition Width="4*"/>
-                    </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="구매내역 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="14"/>
-                    <Image  Grid.Column="1" Source="move_vector.png" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30" HeightRequest="30"/>
-                </Grid>
-                <!--#endregion-->
-
-                <!--#region  6행 여백 -->
-                <!--#endregion-->
-
-                <!--#region  8행 포인트 확인 -->
-                <BoxView Grid.Row="8" BackgroundColor="CornflowerBlue"/>
-                <Grid Grid.Row="8" BackgroundColor="White" Margin="2" x:Name="PointGrid">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="6*"/>
-                        <ColumnDefinition Width="4*"/>
-                    </Grid.ColumnDefinitions>
-                    <custom:CustomLabel  Grid.Column="0" Text="포인트 확인" TextColor="CornflowerBlue" VerticalOptions="Center" HorizontalOptions="Center" Size="14"/>
-                    <Image  Grid.Column="1" Source="move_vector.png" Aspect="AspectFill" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="30" HeightRequest="30"/>
-                </Grid>
-                <!--#endregion-->
-
-                <!--#region  8행 여백 -->
-                <!--#endregion-->
-
             </Grid>
         </ScrollView>
     </Grid>

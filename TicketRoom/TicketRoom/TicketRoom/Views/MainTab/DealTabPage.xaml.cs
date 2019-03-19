@@ -11,6 +11,7 @@ using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Services;
 using TicketRoom.Views.MainTab.Dael;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -35,65 +36,104 @@ namespace TicketRoom.Views.MainTab
             
             Showdeal();
             ShowPoint();
-            Showimge(giftDBFunc.SelectAllCategory());
+            Showimge();
         }
 
         private void ShowPoint()
         {
-            if (Global.b_user_login)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
             {
-                string str = @"{";
-                str += "USER_ID:'" + Global.ID;  //아이디찾기에선 Name으로 
-                str += "'}";
-
-                //// JSON 문자열을 파싱하여 JObject를 리턴
-                JObject jo = JObject.Parse(str);
-
-                UTF8Encoding encoder = new UTF8Encoding();
-                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-                //request.Method = "POST";
-                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectUserPoint") as HttpWebRequest;
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                request.ContentLength = data.Length;
-
-                //request.Expect = "application/json";
-
-                request.GetRequestStream().Write(data, 0, data.Length);
-
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                if (Global.b_user_login)
                 {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-                        var readdata = reader.ReadToEnd();
-                        string test = JsonConvert.DeserializeObject<string>(readdata);
+                    string str = @"{";
+                    str += "USER_ID:'" + Global.ID;  //아이디찾기에선 Name으로 
+                    str += "'}";
 
-                        if (test != null&& test != "null")
+                    //// JSON 문자열을 파싱하여 JObject를 리턴
+                    JObject jo = JObject.Parse(str);
+
+                    UTF8Encoding encoder = new UTF8Encoding();
+                    byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                    //request.Method = "POST";
+                    HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectUserPoint") as HttpWebRequest;
+                    request.Method = "POST";
+                    request.ContentType = "application/json";
+                    request.ContentLength = data.Length;
+
+                    //request.Expect = "application/json";
+
+                    request.GetRequestStream().Write(data, 0, data.Length);
+
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    {
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                         {
-                            MyPointLabel.Text = int.Parse(test).ToString("N0") + " Point";
+                            var readdata = reader.ReadToEnd();
+                            string test = JsonConvert.DeserializeObject<string>(readdata);
+
+                            if (test != null && test != "null")
+                            {
+                                MyPointLabel.Text = int.Parse(test).ToString("N0") + " Point";
+                            }
+                            else
+                            {
+                                MyPointLabel.Text = "0 Point";
+                            }
+
                         }
-                        else
-                        {
-                            MyPointLabel.Text = "0 Point";
-                        }
-                        
                     }
                 }
-            }
-            else
+                else
+                {
+                    MyPointLabel.Text = int.Parse("0").ToString("N0") + " Point";
+                }
+            } // 네트워크 연결 가능
+            else // 연결 불가 -> 포인트 0으로 처리
             {
-                MyPointLabel.Text = int.Parse("0").ToString("N0") + " Point";
+                MyPointLabel.Text = "0 Point";
             }
+            #endregion
         }
 
 
         // 실시간 거래
         private void Showdeal()
         {
-            g_DealInfolist = giftDBFunc.SelectDealList();
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+            {
+                g_DealInfolist = giftDBFunc.SelectDealList(); // 실시간 거래 리스트 검색
+            }
+            else
+            {
+                g_DealInfolist = null;
+            }
+            #endregion
+
+            #region 네트워크 연결 불가
+            if (g_DealInfolist == null) // 네트워크 연결 불가
+            {
+                RealTimeGrid.RowDefinitions.Add(new RowDefinition { Height = 30 });
+                CustomLabel label = new CustomLabel
+                {
+                    //Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.", // 위치가 좀 달라서 굳이 띄우진 않겠음
+                    Size = 14,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                RealTimeGrid.Children.Add(label, 0, 1);   //실시간거래 그리드에 라벨추가
+                return;
+            }
+            #endregion
+
+            #region 실시간 거래 내역 검색 불가
             if (g_DealInfolist.Count == 0)
             {
                 RealTimeGrid.RowDefinitions.Add(new RowDefinition{ Height = 30 });
@@ -108,6 +148,9 @@ namespace TicketRoom.Views.MainTab
                 RealTimeGrid.Children.Add(label, 0, 1);         //실시간거래 그리드에 라벨추가
                 return;
             }
+            #endregion
+
+            #region 실시간 거래 내역 가져오기
             // 실시간 거래 행은 3행으로 고정
             int row_count = 0;
             if(g_DealInfolist.Count >= 3)
@@ -121,14 +164,14 @@ namespace TicketRoom.Views.MainTab
 
             for (int i = 0; i < row_count; i++)
             {
-                RealTimeGrid.RowDefinitions.Add(new RowDefinition { Height = 30 });
+                RealTimeGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(3, GridUnitType.Auto) });
                 Grid inGrid = new Grid
                 {
                     ColumnDefinitions =
-                {
-                    new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                    new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
-                },
+                    {
+                        new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) },
+                        new ColumnDefinition { Width = new GridLength(8, GridUnitType.Star) },
+                    },
                 };
                 StackLayout sl = new StackLayout
                 {
@@ -196,16 +239,45 @@ namespace TicketRoom.Views.MainTab
                 inGrid.Children.Add(dateLabel, 1, 0);
                 RealTimeGrid.Children.Add(inGrid, 0, i);         //실시간거래 그리드에 행 추가
             }
+
+            #endregion
         }
 
 
-        
-
-        
-
         // 상품권 목록
-        private void Showimge(List<G_CategoryInfo> categories)
+        private void Showimge()
         {
+            List<G_CategoryInfo> categories = new List<G_CategoryInfo>();
+
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+            {
+                categories = giftDBFunc.SelectAllCategory(); // 상품권 목록 가져오기
+            }
+            else
+            {
+                categories = null;
+            }
+            #endregion
+
+            #region 네트워크 연결 불가
+            if (categories == null) // 네트워크 연결 불가
+            {
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                CategoryGrid.Children.Add(label, 0, 0);         //실시간거래 그리드에 라벨추가
+                return;
+            }
+            #endregion
+
+            #region 상품권 목록 검색 불가
             if (categories.Count == 0)
             {
                 if (categories[0].Error == null || categories[0].Error == "")
@@ -222,7 +294,9 @@ namespace TicketRoom.Views.MainTab
                     return;
                 }
             }
+            #endregion
 
+            #region 상품권 목록 가져오기
             int columnindex = 2;
             int rowindex = 0;
             Grid ColumnGrid = new Grid();
@@ -256,7 +330,7 @@ namespace TicketRoom.Views.MainTab
                 {
                     RowDefinitions =
                         {
-                        new RowDefinition {  Height = new GridLength(1, GridUnitType.Auto)},
+                        new RowDefinition {  Height = 60},
                         new RowDefinition { Height = new GridLength(1, GridUnitType.Auto)},
                         new RowDefinition { Height = new GridLength(1, GridUnitType.Auto)},
                         },
@@ -274,9 +348,11 @@ namespace TicketRoom.Views.MainTab
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.LoadingImagePath,
                     VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = LayoutOptions.Center,
-                    Aspect = Aspect.AspectFit,
-                    Source = categories[i].Image,
+                    HorizontalOptions = LayoutOptions.Start,
+                    Aspect = Aspect.AspectFill,
+                    Margin = new Thickness(15,0,0,0),
+                    //Source = categories[i].Image,
+                    Source = "test_icon.png",
                 };
                 inGrid.Children.Add(image, 0, 0);
 
@@ -294,29 +370,62 @@ namespace TicketRoom.Views.MainTab
 
                 CustomLabel detailLabel = new CustomLabel
                 {
-                    Text = "설명ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ2줄ㅇㅇㅇㅇ",
                     Size = 14,
                     TextColor = Color.Gray,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Start,
                     FontAttributes = FontAttributes.Bold,
-                    Margin = new Thickness(15, 0, 0, 0),
+                    Margin = new Thickness(15, 0, 0, 5),
                 };
+
+                // 상품권 하위 카테고리 초기화
+                List<DetailCategory> giftNameList = new List<DetailCategory>();
+                #region 네트워크 상태 확인
+                if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+                {
+                    giftNameList = giftDBFunc.PostSelectDetailCategoryToIndex(categories[i].CategoryNum);
+                }
+                else
+                {
+                    giftNameList = null;
+                }
+                #endregion
+
+                if(giftNameList != null)
+                {
+                    string named = "";
+                    for (int k = 0; k < giftNameList.Count; k++)
+                    {
+                        named += giftNameList[k].PRODUCTTYPE;
+                        if (k != giftNameList.Count - 1) // 마지막일 경우 쉼표를 붙히지 않음.
+                        {
+                            named += ", ";
+                        }
+                    }
+                    detailLabel.Text = named;
+                }
+
                 inGrid.Children.Add(detailLabel, 0, 2);
 
                 inGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
                     Command = new Command(() =>
                     {
-                        mainPage.ShowDealDetail(inGrid.BindingContext.ToString());
+                        mainPage.ShowDealDetailAsync(inGrid.BindingContext.ToString());
                     })
                 });
                 i++;
                 columnindex++;
             }
+
+            #endregion
         }
 
         private void Arrow_Clicked(object sender, EventArgs e)
+        {
+        }
+
+        private void RealTimeBtn_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new Realtime_Price());
         }

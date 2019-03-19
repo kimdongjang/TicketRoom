@@ -10,6 +10,7 @@ using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Services;
 using TicketRoom.Views.MainTab.Dael.Purchase;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -29,20 +30,70 @@ namespace TicketRoom.Views.MainTab.Dael
             this.categorynum = categorynum;
             this.ddp = ddp;
             ShowSubTab(categorynum);
-            SelectPurchaseCategory(categorynum);
+            Showlist(categorynum);
             //ShowPoint(); // 잔여 포인트 인비지블
         }
 
         private void ShowSubTab(string categorynum)
         {
-            List<G_CategoryInfo> CategoryList = giftDBFunc.SelectAllCategory();
+            
+
             int row = 0;
             int column = 4;
-            if(CategoryList == null) { return; }
+
             Grid ColumnGrid = new Grid();
             StackLayout layout = new StackLayout();
             layout.Orientation = StackOrientation.Horizontal;
 
+            List<G_CategoryInfo> CategoryList = new List<G_CategoryInfo>();
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+            {
+                CategoryList = giftDBFunc.SelectAllCategory();
+            }
+            else
+            {
+                CategoryList = null;
+            }
+            #endregion
+
+            #region 네트워크 연결 불가
+            if (CategoryList == null)
+            {
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "네트워크 연결 불가",
+                    Size = 14,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                layout.Children.Add(label);
+                TabScoll.Content = layout;
+                return;
+            }
+            #endregion
+
+
+            #region 상품권 목록 검색 불가
+            if (CategoryList.Count == 0)
+            {
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "상품권 검색 불가",
+                    Size = 14,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                layout.Children.Add(label);
+                TabScoll.Content = layout;
+                return;
+            }
+            #endregion
+
+            #region 서브탭 상품권 목록 초기화
             for (int i = 0; i < CategoryList.Count; i++)
             {
                 Grid inGrid = new Grid
@@ -105,7 +156,7 @@ namespace TicketRoom.Views.MainTab.Dael
                                     }
                                 }
                                 // 클릭 이벤트
-                                SelectPurchaseCategory(number);
+                                Showlist(number);
 
                                 // 로딩 완료
                                 await Global.LoadingEndAsync();
@@ -118,7 +169,8 @@ namespace TicketRoom.Views.MainTab.Dael
                         }
                     })
                 });
-            }            
+            }
+            #endregion
             TabScoll.Content = layout;
         }
 
@@ -165,46 +217,58 @@ namespace TicketRoom.Views.MainTab.Dael
             }
         }
 
-        private void SelectPurchaseCategory(string categorynum)
+
+        private void Showlist(string categorynum)
         {
-            string str = @"{";
-            str += "CategoryNum:'" + categorynum;  //아이디찾기에선 Name으로 
-            str += "'}";
+            List<G_ProductInfo> productlist = new List<G_ProductInfo>();
 
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            //request.Method = "POST";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectPurchaseProduct") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            //request.Expect = "application/json";
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    var readdata = reader.ReadToEnd();
-                    List<G_ProductInfo> test = JsonConvert.DeserializeObject<List<G_ProductInfo>>(readdata);
-                    Showlist(test);
-                }
+                productlist = giftDBFunc.PostSelectPurchaseProductToIndex(categorynum); // 상품 목록 가져오기
             }
-        }
+            else
+            {
+                productlist = null;
+            }
+            #endregion
 
-        private void Showlist(List<G_ProductInfo> productlist)
-        {
+
+            #region 네트워크 연결 불가
+            if (productlist == null) // 네트워크 연결 불가
+            {
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                Purchaselist_Grid.Children.Add(label, 0, 1);         
+                return;
+            }
+            #endregion
+
+            #region 상품권 목록 검색 불가
+            if (productlist.Count == 0)
+            {
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "상품권 목록을 불러 올 수 없습니다!",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                Purchaselist_Grid.Children.Add(label, 0, 1);         //실시간거래 그리드에 라벨추가
+                return;
+            }
+            #endregion
+
             Purchaselist_Grid.Children.Clear();
             Purchaselist_Grid.RowDefinitions.Clear();
-
 
             int row = 0;
 
@@ -233,8 +297,20 @@ namespace TicketRoom.Views.MainTab.Dael
                 }
             };
 
-            #region 상품이 준비중
-            if (productlist == null) return;
+            #region 상품권 목록 검색 불가
+            if (productlist == null)
+            {
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "상품권 목록을 불러 올 수 없습니다!",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                Purchaselist_Grid.Children.Add(label, 0, 1);         //실시간거래 그리드에 라벨추가
+                return;
+            }
             //if (productlist.Count == 0)
             //{
             //    Purchaselist_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
@@ -255,37 +331,33 @@ namespace TicketRoom.Views.MainTab.Dael
 
             for (int i = 0; i < productlist.Count; i++)
             {
-                G_ProductCount test = null;
-                string str = @"{";
-                str += "ProNum:'" + productlist[i].PRONUM;  //아이디찾기에선 Name으로 
-                str += "'}";
-
-                //// JSON 문자열을 파싱하여 JObject를 리턴
-                JObject jo = JObject.Parse(str);
-
-                UTF8Encoding encoder = new UTF8Encoding();
-                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-                //request.Method = "POST";
-                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Get_Product_Ccount") as HttpWebRequest;
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                request.ContentLength = data.Length;
-
-                //request.Expect = "application/json";
-
-                request.GetRequestStream().Write(data, 0, data.Length);
-
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                G_ProductCount g_count = new G_ProductCount();
+                #region 네트워크 상태 확인
+                if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
                 {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-                        var readdata = reader.ReadToEnd();
-                        test = JsonConvert.DeserializeObject<G_ProductCount>(readdata);
-                    }
+                    g_count = giftDBFunc.Get_Product_Ccount(productlist[i].PRONUM);
                 }
+                else
+                {
+                    g_count = null;
+                }
+                #endregion
+
+                #region 네트워크 연결 불가
+                if (g_count == null) // 네트워크 연결 불가
+                {
+                    CustomLabel label = new CustomLabel
+                    {
+                        Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
+                        Size = 18,
+                        TextColor = Color.Black,
+                        VerticalOptions = LayoutOptions.Center,
+                        HorizontalOptions = LayoutOptions.Center
+                    };
+                    Purchaselist_Grid.Children.Add(label, 0, 1);         //실시간거래 그리드에 라벨추가
+                    return;
+                }
+                #endregion
 
                 Purchaselist_Grid.RowDefinitions.Add(new RowDefinition { Height = 100 });
                 Purchaselist_Grid.RowDefinitions.Add(new RowDefinition { Height = 1 });
@@ -307,7 +379,7 @@ namespace TicketRoom.Views.MainTab.Dael
                 #endregion
 
                 CachedImage image = null;
-                if (int.Parse(test.PAPER_GC_COUNT) == 0 && int.Parse(test.PIN_GC_COUNT) == 0)
+                if (int.Parse(g_count.PAPER_GC_COUNT) == 0 && int.Parse(g_count.PIN_GC_COUNT) == 0)
                 {
                     #region 이미지
                     image = new CachedImage
@@ -393,6 +465,7 @@ namespace TicketRoom.Views.MainTab.Dael
                 #endregion
 
                 #region 상풍권 수량 Label
+                /*
                 var CountformattedString = new FormattedString();
                 CountformattedString.Spans.Add(new Span
                 {
@@ -428,12 +501,13 @@ namespace TicketRoom.Views.MainTab.Dael
                     YAlign = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.Start
                 };
+                */
                 #endregion
 
                 #region label 그리드에 추가
                 labelgrid.Children.Add(Name_label, 0, 0);         //약관 그리드에 라벨추가
                 labelgrid.Children.Add(discountrate_label, 0, 1);         //약관 그리드에 Radio이미지 추가
-                labelgrid.Children.Add(ProCount_label, 0, 2);         //약관 
+                //labelgrid.Children.Add(ProCount_label, 0, 2);         //약관 
                 #endregion
 
                 #region label 그리드에 추가
@@ -447,7 +521,7 @@ namespace TicketRoom.Views.MainTab.Dael
                 #endregion
 
                 #region list 그리드 클릭이벤트
-                if (int.Parse(test.PAPER_GC_COUNT) != 0 || int.Parse(test.PIN_GC_COUNT) != 0)
+                if (int.Parse(g_count.PAPER_GC_COUNT) != 0 || int.Parse(g_count.PIN_GC_COUNT) != 0)
                 {
                     listgrid.GestureRecognizers.Add(label_tap); //라벨 클릭 이벤트 등록
                 }

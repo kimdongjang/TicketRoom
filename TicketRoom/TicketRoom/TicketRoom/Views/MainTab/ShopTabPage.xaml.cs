@@ -14,6 +14,7 @@ using TicketRoom.Models.ShopData;
 using TicketRoom.Models.Users;
 using TicketRoom.Views.MainTab.Shop;
 using TicketRoom.Views.Users.CreateUser;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,7 +28,7 @@ namespace TicketRoom.Views.MainTab
 
 
         List<SH_Home> HomeList = new List<SH_Home>();
-        List<Grid> ClickList = new List<Grid>();
+        List<Grid> MainCategoryGridList = new List<Grid>();
         List<Grid> RecentGridClickList = new List<Grid>();
         Queue<string> imageList = new Queue<string>();
 
@@ -52,6 +53,7 @@ namespace TicketRoom.Views.MainTab
             ImageSlideAsync();
 
             mclist = SH_DB.GetCategoryListAsync();
+            
 
             BrowsingButton.GestureRecognizers.Add(new TapGestureRecognizer()
             {
@@ -101,6 +103,9 @@ namespace TicketRoom.Views.MainTab
                 MainGrid.Children.Add(label, 0, 0);
             }
             #endregion
+
+
+
         }
 
 
@@ -331,7 +336,7 @@ namespace TicketRoom.Views.MainTab
                         VerticalOptions = LayoutOptions.Center,
                     };
                     ColumnGrid.Children.Add(inGrid, columnindex, 0);
-                    ClickList.Add(inGrid);
+                    MainCategoryGridList.Add(inGrid);
 
 
                     CustomLabel label = new CustomLabel
@@ -358,6 +363,35 @@ namespace TicketRoom.Views.MainTab
                     };
 
 
+                    inGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+                    {
+                        Command = new Command(async () =>
+                        {
+
+                            // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
+                            if (Global.isOpen_ShopListPage == true)
+                            {
+                                return;
+                            }
+                            Global.isOpen_ShopListPage = true;
+
+                            int tempIndex = 0;
+                            for (int k = 0; k < mclist.Count; k++)
+                            {
+                                if (((CustomLabel)MainCategoryGridList[int.Parse((label.BindingContext).ToString())].Children[0]).Text == mclist[k].SH_MAINCATE_NAME)
+                                {
+                                    tempIndex = mclist[k].SH_MAINCATE_INDEX; // 메인 카테고리 인덱스를 찾음
+                                    Global.OnShopListTapIndex = tempIndex;
+                                    break;
+                                }
+                            }
+
+                            await Navigation.PushAsync(new ShopListPage(Global.OnShopListTapIndex)); // 메인 카테고리 인덱스 기반으로 서브 카테고리(리스트 페이지)를 오픈
+
+                        })
+                    });
+
+
                     #region 의류 카테고리 이미지 생성
                     if (mclist[i].SH_MAINCATE_NAME == "남성의류")
                     {
@@ -379,9 +413,9 @@ namespace TicketRoom.Views.MainTab
             }
 
             #region 그리드 탭 이벤트
-            for (int k = 0; k < ClickList.Count; k++)
+            for (int k = 0; k < MainCategoryGridList.Count; k++)
             {
-                Grid tempGrid = ClickList[k];
+                Grid tempGrid = MainCategoryGridList[k];
                 CustomLabel tempLabel = (CustomLabel)tempGrid.Children.ElementAt(0);
 
                 tempGrid.GestureRecognizers.Add(new TapGestureRecognizer()

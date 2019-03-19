@@ -36,7 +36,132 @@ namespace TicketRoom.Services
 
             return _instance;
         }
-        // DB에서 홈 인덱스로 홈페이지 가져오기
+
+
+       public G_ProductCount Get_Product_Ccount(string pro_num)
+        {
+            try
+            {
+                G_ProductCount test = null;
+                string str = @"{";
+                str += "ProNum:'" + pro_num;  //아이디찾기에선 Name으로 
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Get_Product_Ccount") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        test = JsonConvert.DeserializeObject<G_ProductCount>(readdata);
+                        return test;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        // 카테고리 넘버로 카테고리 리스트 가져오기
+        public List<G_ProductInfo> PostSelectPurchaseProductToIndex(string category_num)
+        {
+            try
+            {
+                string str = @"{";
+                str += "CategoryNum:'" + category_num;  //아이디찾기에선 Name으로 
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectPurchaseProduct") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        List<G_ProductInfo> test = JsonConvert.DeserializeObject<List<G_ProductInfo>>(readdata);
+                        return test;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+            
+        }
+
+        // 카테고리 넘버로 카테고리 리스트 가져오기
+        public List<DetailCategory> PostSelectDetailCategoryToIndex(string category_num)
+        {
+            string str = @"{";
+            str += "category_num:'" + category_num;  //아이디찾기에선 Name으로 
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            //request.Method = "POST";
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "GIFT_SelectDetailCategoryToIndex") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            //request.Expect = "application/json";
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var readdata = reader.ReadToEnd();
+                    List<DetailCategory> test = JsonConvert.DeserializeObject<List<DetailCategory>>(readdata);
+                    return test;
+                }
+            }
+            return null;
+        }
+
 
         public List<G_CategoryInfo> SelectAllCategory()
         {

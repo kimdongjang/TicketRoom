@@ -14,9 +14,9 @@
         <!--#region 1행 커스텀 액션바 -->
         <Grid Grid.Row="1" BackgroundColor="White">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
 
             <!--#region 0열 백버튼 등 이미지-->
@@ -28,7 +28,7 @@
             <!--#endregion-->
 
             <!--#region 1열 액션바 타이틀-->
-            <custom:CustomLabel Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
+            <custom:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
                     Text="구매/판매"
                     TextColor="Black"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
@@ -60,7 +60,7 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="5"/>
                         </Grid.RowDefinitions>
-                        <custom:CustomLabel Grid.Row="0" Text="상품권 구매" Size="22" HorizontalOptions="Center" VerticalOptions="Center" TextColor="CornflowerBlue"
+                        <custom:CustomLabel Grid.Row="0" Text="상품권 구매" Size="18" HorizontalOptions="Center" VerticalOptions="Center" TextColor="CornflowerBlue"
                                                         BackgroundColor="White" x:Name="PurchaseTab"/>
                         <BoxView Grid.Row="1" x:Name="PurchaseLine" BackgroundColor="CornflowerBlue" Margin="15,0,15,0"/>
                     </Grid>
@@ -69,7 +69,7 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="5"/>
                         </Grid.RowDefinitions>
-                        <custom:CustomLabel Grid.Row="0" Text="상품권 판매" Size="22" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
+                        <custom:CustomLabel Grid.Row="0" Text="상품권 판매" Size="18" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
                                                         BackgroundColor="White" x:Name="SaleTab"/>
                         <BoxView Grid.Row="1" x:Name="SaleLine" BackgroundColor="White" Margin="15,0,15,0"/>
                     </Grid>

@@ -74,7 +74,7 @@ namespace TicketRoom.Views.MainTab.Dael
                 layout.Children.Add(inGrid);
                 ClickTabList.Add(inGrid);
 
-                if(i == int.Parse(categorynum)) // 인풋된 카테고리 넘버가 일치할경우
+                if(CategoryList[i].CategoryNum == categorynum) // 인풋된 카테고리 넘버가 일치할경우
                 {
                     cateName.TextColor = Color.CornflowerBlue;
                     cateLine.BackgroundColor = Color.CornflowerBlue;

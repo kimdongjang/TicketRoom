@@ -47,13 +47,9 @@
             <BoxView Grid.Row="2" BackgroundColor="White"/>
             <!--#endregion-->
 
+
             <!--#region 3행 쇼핑몰 리스트 탭 -->
-            <Grid Grid.Row="3" BackgroundColor="White" x:Name="MainCateTapGrid">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-            </Grid>
+            <ScrollView Grid.Row="3" x:Name="TabScoll" Orientation="Horizontal"/>
             <!--#endregion-->
             <!--#region 4행 구분선  -->
             <BoxView Grid.Row="4" BackgroundColor="White"/>
