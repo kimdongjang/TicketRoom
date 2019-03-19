@@ -87,11 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\BMHANNAAir_ttf.ttf" />
-    <AndroidAsset Include="Assets\human_xpo.TTC" />
-    <AndroidAsset Include="Assets\HMFMMUEX_1.ttf" />
     <AndroidAsset Include="Assets\HMKMEXPO.TTF" />
     <AndroidAsset Include="Assets\hmklexpo.ttf" />
-    <AndroidAsset Include="Assets\NotoSansCJKkr-Medium.otf" />
     <AndroidAsset Include="Assets\NANUMSQUAREROUNDR.TTF" />
     <AndroidAsset Include="Assets\NANUMSQUAREROUNDB.TTF" />
     <None Include="Resources\AboutResources.txt" />
