@@ -139,6 +139,129 @@ namespace TicketRoom
         }
         #endregion
 
+        #region 구매/판매 상태값 -> 문자열 반환 함수
+        public static string StateToString(string state)
+        {
+            #region 판매(지류)
+            if (state.Equals("11"))
+            {
+                return "판매대기";
+            }
+            else if (state.Equals("12"))
+            {
+                return "판매가능";//(배송중)
+            }
+            else if (state.Equals("13"))
+            {
+                return "판매실패";//(전달사항 기준 판매거절)
+            }
+            else if (state.Equals("14"))
+            {
+                return "배송완료";
+            }
+            else if (state.Equals("15"))
+            {
+                return "판매실패";//(배송실패)
+            }
+            else if (state.Equals("16"))
+            {
+                return "판매완료";//(입금완료)
+            }
+            else if (state.Equals("17"))
+            {
+                return "판매실패";//(지류상태보고 판매거절)
+            }
+            else if (state.Equals("18"))
+            {
+                return "판매실패";//(시스템 오류)
+            }
+            #endregion
+            #region 판매(핀번호)
+            else if (state.Equals("21"))
+            {
+                return "판매대기";
+            }
+            else if (state.Equals("22"))
+            {
+                return "판매가능";//(입금대기)
+            }
+            else if (state.Equals("23"))
+            {
+                return "판매실패";//(유효하지않은 핀번호 포함됨)
+            }
+            else if (state.Equals("24"))
+            {
+                return "판매완료";//(입금완료)
+            }
+            else if (state.Equals("25"))
+            {
+                return "판매실패";//(잘못된 계좌정보)
+            }
+            else if (state.Equals("26"))
+            {
+                return "판매실패";//(핀번호체크 오류(수동체크 요망))
+            }
+            else if (state.Equals("27"))
+            {
+                return "판매실패";//(시스템오류)
+            }
+            #endregion
+            #region 구매(주문번호에 대한 상태)
+            else if (state.Equals("1"))
+            {
+                return "구매중";
+            }
+            else if (state.Equals("2"))
+            {
+                return "구매실패";
+            }
+            else if (state.Equals("3"))
+            {
+                return "구매완료";
+            }
+            else if (state.Equals("4"))
+            {
+                return "구매실패";//(시스템오류(지류,핀번호테이블 변경시 에러)))
+            }
+            #endregion
+            #region 판매(핀번호)
+            else if (state.Equals("31"))
+            {
+                return "구매대기";//(입금대기)
+            }
+            else if (state.Equals("32"))
+            {
+                return "입금완료";//(배송/발송대기)
+            }
+            else if (state.Equals("33"))
+            {
+                return "구매실패";//(입금실패)
+            }
+            else if (state.Equals("34"))
+            {
+                return "배송/발송중";
+            }
+            else if (state.Equals("35"))
+            {
+                return "배송/발송완료";
+            }
+            else if (state.Equals("36"))
+            {
+                return "구매실패";//(반송)
+            }
+            else if (state.Equals("37"))
+            {
+                return "구매실패";//(수량부족)
+            }
+            else if (state.Equals("38"))
+            {
+                return "구매실패";//(시스템 에러)
+            }
+            #endregion
+            return "예외 없는 상태값";
+        }
+        #endregion
+
         // 다른 고객이 본 상품 인덱스 초기화 전역 변수        
 
         public static int g_main_index = -1;

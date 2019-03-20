@@ -300,8 +300,7 @@ namespace TicketRoom.Services
             request.ContentLength = data.Length;
 
             request.GetRequestStream().Write(data, 0, data.Length);
-
-
+            
             try
             {
                 using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
