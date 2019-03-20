@@ -11,8 +11,10 @@ using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Models.Users;
+using TicketRoom.Services;
 using TicketRoom.Views.MainTab.Popup;
 using TicketRoom.Views.Users.CreateUser;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -24,6 +26,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         List<G_PurchasedetailInfo> g_PurchasedetailInfos = null;
         InputAdress adrAPI;
 
+        GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
         PopupPhoneEntry popup_phone; // 핸드폰 번호 변경 팝업 객체
         PopupNameEntry popup_name; // 핸드폰 번호 변경 팝업 객체
 
@@ -195,38 +198,29 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             {
                 MyNameLabel.Text = Global.user.NAME;
                 MyPhoneLabel.Text = Global.user.PHONENUM;
-
-                string str = @"{";
-                str += "USER_ID:'" + Global.ID;  //아이디찾기에선 Name으로 
-                str += "'}";
-
-                //// JSON 문자열을 파싱하여 JObject를 리턴
-                JObject jo = JObject.Parse(str);
-
-                UTF8Encoding encoder = new UTF8Encoding();
-                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-                //request.Method = "POST";
-                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectUserPoint") as HttpWebRequest;
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                request.ContentLength = data.Length;
-
-                //request.Expect = "application/json";
-
-                request.GetRequestStream().Write(data, 0, data.Length);
-
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                string test = "";
+                #region 네트워크 상태 확인
+                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
                 {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-                        var readdata = reader.ReadToEnd();
-                        string test = JsonConvert.DeserializeObject<string>(readdata);
-                        Point_label.Text = int.Parse(test).ToString("N0");
-                    }
+                    test = giftDBFunc.PostSelectUserPoint(Global.ID); // 유저 포인트
                 }
+                else
+                {
+                    test = "";
+                }
+                #endregion
+
+                #region 네트워크 연결 불가
+                if (test == "") // 네트워크 연결 불가
+                {
+                    DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                    return;
+                }
+                #endregion
+
+                Point_label.Text = int.Parse(test).ToString("N0");
+
             }
             else
             {
@@ -242,50 +236,62 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         {
             if (Global.b_user_login)
             {
-                string str = @"{";
-                str += "UserID:'" + Global.ID;  //아이디찾기에선 Name으로 
-                str += "'}";
-
-                //// JSON 문자열을 파싱하여 JObject를 리턴
-                JObject jo = JObject.Parse(str);
-
-                UTF8Encoding encoder = new UTF8Encoding();
-                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-                //request.Method = "POST";
-                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectUserAddr") as HttpWebRequest;
-                request.Method = "POST";
-                request.ContentType = "application/json";
-                request.ContentLength = data.Length;
-
-                //request.Expect = "application/json";
-
-                request.GetRequestStream().Write(data, 0, data.Length);
-
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                #region 네트워크 상태 확인
+                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
                 {
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    string str = @"{";
+                    str += "UserID:'" + Global.ID;  //아이디찾기에선 Name으로 
+                    str += "'}";
+
+                    //// JSON 문자열을 파싱하여 JObject를 리턴
+                    JObject jo = JObject.Parse(str);
+
+                    UTF8Encoding encoder = new UTF8Encoding();
+                    byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                    //request.Method = "POST";
+                    HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectUserAddr") as HttpWebRequest;
+                    request.Method = "POST";
+                    request.ContentType = "application/json";
+                    request.ContentLength = data.Length;
+
+                    //request.Expect = "application/json";
+
+                    request.GetRequestStream().Write(data, 0, data.Length);
+
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                     {
-                        var readdata = reader.ReadToEnd();
-                        if(readdata != null && readdata!= "")
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                         {
-                            List<ADRESS> test = JsonConvert.DeserializeObject<List<ADRESS>>(readdata);
-
-                            if (test.Count >= 1)
+                            var readdata = reader.ReadToEnd();
+                            if (readdata != null && readdata != "")
                             {
-                                Addr_Picker.Items.Clear();
-                                for (int i = 0; i < test.Count; i++)
-                                {
-                                    Addr_Picker.Items.Add(test[i].ROADADDR);
-                                }
+                                List<ADRESS> test = JsonConvert.DeserializeObject<List<ADRESS>>(readdata);
 
-                                EntryAdress.Text = test[0].ROADADDR;
+                                if (test.Count >= 1)
+                                {
+                                    Addr_Picker.Items.Clear();
+                                    for (int i = 0; i < test.Count; i++)
+                                    {
+                                        Addr_Picker.Items.Add(test[i].ROADADDR);
+                                    }
+
+                                    EntryAdress.Text = test[0].ROADADDR;
+                                }
                             }
                         }
                     }
                 }
+                else
+                {
+                    // 피커에 주소 초기화 하는 코드인거 같은데 네트워크 연결안되면 어차피 널임.
+                    DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                    return;
+                }
+                #endregion
             }
             else
             {
@@ -493,70 +499,79 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                                     //// JSON 문자열을 파싱하여 JObject를 리턴
                                     //JObject jo = JObject.Parse(str);
 
-                                    var dataString = JsonConvert.SerializeObject(g_PurchaseInfo);
-
-                                    JObject jo = JObject.Parse(dataString);
-
-                                    UTF8Encoding encoder = new UTF8Encoding();
-
-                                    string str = @"{";
-                                    str += "g_PurchaseInfo:" + jo.ToString();  //아이디찾기에선 Name으로 
-                                    str += "}";
-
-                                    JObject jo2 = JObject.Parse(str);
-
-                                    byte[] data = encoder.GetBytes(jo2.ToString()); // a json object, or xml, whatever...
-
-                                    //request.Method = "POST";
-                                    HttpWebRequest request = WebRequest.Create(Global.WCFURL + "UserAddPurchase") as HttpWebRequest;
-                                    request.Method = "POST";
-                                    request.ContentType = "application/json";
-                                    request.ContentLength = data.Length;
-
-                                    //request.Expect = "application/json";
-
-                                    request.GetRequestStream().Write(data, 0, data.Length);
-
-                                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                                    #region 네트워크 상태 확인
+                                    var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                                    if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
                                     {
-                                        if (response.StatusCode != HttpStatusCode.OK)
-                                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                                        var dataString = JsonConvert.SerializeObject(g_PurchaseInfo);
+                                        JObject jo = JObject.Parse(dataString);
+                                        UTF8Encoding encoder = new UTF8Encoding();
+
+                                        string str = @"{";
+                                        str += "g_PurchaseInfo:" + jo.ToString();  //아이디찾기에선 Name으로 
+                                        str += "}";
+
+                                        JObject jo2 = JObject.Parse(str);
+
+                                        byte[] data = encoder.GetBytes(jo2.ToString()); // a json object, or xml, whatever...
+
+                                        //request.Method = "POST";
+                                        HttpWebRequest request = WebRequest.Create(Global.WCFURL + "UserAddPurchase") as HttpWebRequest;
+                                        request.Method = "POST";
+                                        request.ContentType = "application/json";
+                                        request.ContentLength = data.Length;
+
+                                        //request.Expect = "application/json";
+
+                                        request.GetRequestStream().Write(data, 0, data.Length);
+
+                                        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                                         {
-                                            var readdata = reader.ReadToEnd();
-                                            string test = JsonConvert.DeserializeObject<string>(readdata);
-                                            string[] test2 = test.Split('*');
-                                            if (int.Parse(test2[0].ToString()) == 3)
+                                            if (response.StatusCode != HttpStatusCode.OK)
+                                                Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                                            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                                             {
-                                                await ShowMessage("구매내역에서 확인해주세요.", "알림", "OK", async () =>
+                                                var readdata = reader.ReadToEnd();
+                                                string test = JsonConvert.DeserializeObject<string>(readdata);
+                                                string[] test2 = test.Split('*');
+                                                if (int.Parse(test2[0].ToString()) == 3)
                                                 {
-                                                    Global.InitOnAppearingBool("deal");
-                                                    Navigation.PopToRootAsync();
-                                                    MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
-                                                });
-                                            }
-                                            else if (int.Parse(test2[0].ToString()) == 2)
-                                            {
-                                                if (test2[1] != null && test2[1] != "")
-                                                {
-                                                    string[] proinfos = test2[1].Split('@');
-                                                    string[] procnts = test2[2].Split('@');
-                                                    string errormessage = "";
-                                                    for (int i = 0; i < proinfos.Length - 1; i++)
+                                                    await ShowMessage("구매내역에서 확인해주세요.", "알림", "OK", async () =>
                                                     {
-                                                        errormessage += proinfos[i] + "가 " + procnts[i] + "개 있습니다";
+                                                        Global.InitOnAppearingBool("deal");
+                                                        Navigation.PopToRootAsync();
+                                                        MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
+                                                    });
+                                                }
+                                                else if (int.Parse(test2[0].ToString()) == 2)
+                                                {
+                                                    if (test2[1] != null && test2[1] != "")
+                                                    {
+                                                        string[] proinfos = test2[1].Split('@');
+                                                        string[] procnts = test2[2].Split('@');
+                                                        string errormessage = "";
+                                                        for (int i = 0; i < proinfos.Length - 1; i++)
+                                                        {
+                                                            errormessage += proinfos[i] + "가 " + procnts[i] + "개 있습니다";
+                                                        }
+                                                        DisplayAlert("알림", errormessage, "OK");
+                                                        Global.isPurchaseDeatailBtn_clicked = true;
                                                     }
-                                                    DisplayAlert("알림", errormessage, "OK");
+                                                }
+                                                else if (int.Parse(test2[0].ToString()) == 4)
+                                                {
+                                                    DisplayAlert("알림", "서버점검중입니다", "OK");
                                                     Global.isPurchaseDeatailBtn_clicked = true;
                                                 }
                                             }
-                                            else if (int.Parse(test2[0].ToString()) == 4)
-                                            {
-                                                DisplayAlert("알림", "서버점검중입니다", "OK");
-                                                Global.isPurchaseDeatailBtn_clicked = true;
-                                            }
                                         }
                                     }
+                                    else
+                                    {
+                                        DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                                        return;
+                                    }
+                                    #endregion
                                 }
                                 else
                                 {
@@ -605,25 +620,36 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         private void SelectAllAccount()
         {
-            //request.Method = "POST";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectAllAccount") as HttpWebRequest;
-            request.Method = "GET";
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectAllAccount") as HttpWebRequest;
+                request.Method = "GET";
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                 {
-                    var readdata = reader.ReadToEnd();
-                    List<AccountInfo> test = JsonConvert.DeserializeObject<List<AccountInfo>>(readdata);
-                    if (test != null)
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                     {
-                        ShowAccount(test);
+                        var readdata = reader.ReadToEnd();
+                        List<AccountInfo> test = JsonConvert.DeserializeObject<List<AccountInfo>>(readdata);
+                        if (test != null)
+                        {
+                            ShowAccount(test);
+                        }
                     }
                 }
             }
-
+            else
+            {
+                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                return;
+            }
+            #endregion
         }
 
         private void ShowAccount(List<AccountInfo> accountlist)

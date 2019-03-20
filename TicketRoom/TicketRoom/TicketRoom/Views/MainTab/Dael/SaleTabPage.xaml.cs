@@ -10,6 +10,7 @@ using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Services;
 using TicketRoom.Views.MainTab.Dael.Sale;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,29 +19,78 @@ namespace TicketRoom.Views.MainTab.Dael
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SaleTabPage : ContentView
     {
-        string categorynum = "";
         GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
         List<Grid> ClickTabList = new List<Grid>();
 
         public SaleTabPage(string categorynum)
         {
             InitializeComponent();
-            this.categorynum = categorynum;
-            ShowSubTab(categorynum);
-            SelectSaleCategory(categorynum);
+            Global.isgiftlistcliecked = true;
+            ShowSubTab(Global.deal_select_category_num);
+            Showlist();
             //ShowPoint(); // 잔여 포인트 인비지블
         }
 
         private void ShowSubTab(string categorynum)
         {
-            List<G_CategoryInfo> CategoryList = giftDBFunc.SelectAllCategory();
             int row = 0;
             int column = 4;
-            if (CategoryList == null) { return; }
+
             Grid ColumnGrid = new Grid();
             StackLayout layout = new StackLayout();
             layout.Orientation = StackOrientation.Horizontal;
 
+
+            List<G_CategoryInfo> CategoryList = new List<G_CategoryInfo>();
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+            {
+                CategoryList = giftDBFunc.SelectAllCategory();
+            }
+            else
+            {
+                CategoryList = null;
+            }
+            #endregion
+
+            #region 네트워크 연결 불가
+            if (CategoryList == null)
+            {
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "네트워크 연결 불가",
+                    Size = 14,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center,
+                    Margin = new Thickness(50,0,0,0),
+                };
+                layout.Children.Add(label);
+                TabScoll.Content = layout;
+                return;
+            }
+            #endregion
+
+
+            #region 상품권 목록 검색 불가
+            if (CategoryList.Count == 0)
+            {
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "상품권 검색 불가",
+                    Size = 14,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                layout.Children.Add(label);
+                TabScoll.Content = layout;
+                return;
+            }
+            #endregion
+
+            #region 서브탭 상품권 목록 초기화
             for (int i = 0; i < CategoryList.Count; i++)
             {
                 Grid inGrid = new Grid
@@ -95,17 +145,16 @@ namespace TicketRoom.Views.MainTab.Dael
                                 // 로딩 시작
                                 await Global.LoadingStartAsync();
                                 
-                                string number = "";
                                 for (int mk = 0; mk < CategoryList.Count; mk++)
                                 {
                                     if(CategoryList[mk].Name == cateName.Text)
                                     {
-                                        number = CategoryList[mk].CategoryNum;
+                                        Global.deal_select_category_num = CategoryList[mk].CategoryNum;
                                         break;
                                     }
                                 }
                                 // 클릭 이벤트
-                                SelectSaleCategory(number);
+                                Showlist();
 
                                 // 로딩 완료
                                 await Global.LoadingEndAsync();
@@ -119,6 +168,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     })
                 });
             }
+            #endregion
             TabScoll.Content = layout;
         }
 
@@ -164,43 +214,61 @@ namespace TicketRoom.Views.MainTab.Dael
             }
         }
 
-        private void SelectSaleCategory(string categorynum)
+
+        private void Showlist()
         {
-            string str = @"{";
-            str += "CategoryNum:'" + categorynum;  //아이디찾기에선 Name으로 
-            str += "'}";
+            List<G_ProductInfo> salelist = new List<G_ProductInfo>();
 
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            //request.Method = "POST";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectSaleProduct") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            //request.Expect = "application/json";
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    var readdata = reader.ReadToEnd();
-                    List<G_ProductInfo> test = JsonConvert.DeserializeObject<List<G_ProductInfo>>(readdata);
-                    Showlist(test);
-                }
+                salelist = giftDBFunc.PostSelectSaleCategory(Global.deal_select_category_num); // 상품 목록 가져오기
             }
-        }
+            else
+            {
+                salelist = null;
+            }
+            #endregion
 
-        private void Showlist(List<G_ProductInfo> salelist)
-        {
+
+            #region 네트워크 연결 불가
+            if (salelist == null) // 네트워크 연결 불가
+            {
+                Salelist_Grid.Children.Clear();
+                Salelist_Grid.RowDefinitions.Clear();
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                Salelist_Grid.Children.Add(label, 0, 1);
+                return;
+            }
+            #endregion
+
+            #region 상품권 목록 검색 불가
+            if (salelist.Count == 0)
+            {
+                Salelist_Grid.Children.Clear();
+                Salelist_Grid.RowDefinitions.Clear();
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "상품권 목록을 불러 올 수 없습니다!",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                Salelist_Grid.Children.Add(label, 0, 1);         //실시간거래 그리드에 라벨추가
+                return;
+            }
+            #endregion
+
+
             Salelist_Grid.Children.Clear();
             Salelist_Grid.RowDefinitions.Clear();
             int row = 0;
@@ -213,29 +281,11 @@ namespace TicketRoom.Views.MainTab.Dael
                     Global.isgiftlistcliecked = false;
                     
                     Grid g = (Grid)s;
+                    Global.deal_select_category_value = "판매";
                     Navigation.PushAsync(new SalePage(salelist[int.Parse(g.BindingContext.ToString())]));
                 }
             };
-
-            if (salelist == null) return;
-            //if (salelist.Count == 0)
-            //{
-            //    Salelist_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            //    #region 상품이 준비중
-            //    CustomLabel nullproduct = new CustomLabel
-            //    {
-            //        Text = "상품 준비중입니다.",
-            //        Size = 25,
-            //        TextColor = Color.Black,
-            //        VerticalOptions = LayoutOptions.Center,
-            //        YAlign = TextAlignment.Center,
-            //        HorizontalOptions = LayoutOptions.Center
-            //    };
-            //    #endregion
-            //    Salelist_Grid.Children.Add(nullproduct, 0, 1);
-            //    return;
-            //}
-
+            
             for (int i = 0; i < salelist.Count; i++)
             {
                 Salelist_Grid.RowDefinitions.Add(new RowDefinition { Height = 100 });

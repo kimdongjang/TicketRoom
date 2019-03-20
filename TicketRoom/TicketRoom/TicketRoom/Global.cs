@@ -34,7 +34,11 @@ namespace TicketRoom
 
         public static bool ISLOGIN = true;
 
-        
+        // 상품권 탭 클릭시의 카테고리 번호
+        public static string deal_select_category_num = "";
+        // 상품권 탭 클릭시의 카테고리 종류(구매/판매)
+        public static string deal_select_category_value = "";
+
         // loading창 back button blocking하는 bool 변수
         public static bool isloading_block = false;
 

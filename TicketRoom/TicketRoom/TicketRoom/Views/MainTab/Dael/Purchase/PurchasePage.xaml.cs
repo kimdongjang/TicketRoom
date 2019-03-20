@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.Gift;
 using TicketRoom.Models.Gift.Purchase;
+using TicketRoom.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -21,6 +23,9 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         G_ProductInfo productInfo = null;
         public string Purchase_Price = "";
         public string DiscountPurchase_Price = "";
+        GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
+
+
         public PurchasePage(MainPage mainpage,G_ProductInfo productInfo, string categorynum)
         {
             InitializeComponent();
@@ -45,39 +50,33 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             Purchase_Price_span.Text = Purchase_Price;
             Purchase_DiscountPrice_span.Text = DiscountPurchase_Price;
             DisCountRate_label.Text = productInfo.PURCHASEDISCOUNTRATE + "%";
-            G_ProductCount test = null;
-            string str = @"{";
-            str += "ProNum:'" + productInfo.PRONUM;  //아이디찾기에선 Name으로 
-            str += "'}";
 
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
 
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+            G_ProductCount g_count = new G_ProductCount();
 
-            //request.Method = "POST";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Get_Product_Ccount") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            //request.Expect = "application/json";
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    var readdata = reader.ReadToEnd();
-                    test = JsonConvert.DeserializeObject<G_ProductCount>(readdata);
-                    Purchase_Count_span.Text = test.PAPER_GC_COUNT + " 개";
-                    Pin_Count_span.Text = test.PIN_GC_COUNT + " 개";
-                }
+                g_count = giftDBFunc.Get_Product_Ccount(productInfo.PRONUM);
+                Purchase_Count_span.Text = g_count.PAPER_GC_COUNT + " 개";
+                Pin_Count_span.Text = g_count.PIN_GC_COUNT + " 개";
             }
+            else
+            {
+                g_count = null;
+            }
+            #endregion
+
+            #region 네트워크 연결 불가
+            if (g_count == null) // 네트워크 연결 불가
+            {
+                Purchase_Count_span.Text = "0개";
+                Pin_Count_span.Text = "0개";
+                return;
+            }
+            #endregion
+
         }
 
         protected override void OnAppearing()
@@ -162,8 +161,18 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 // 로딩 시작
                 await Global.LoadingStartAsync();
 
+                #region 네트워크 상태 확인
+                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+                {
+                    await Navigation.PushAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
+                }
+                else
+                {
+                    await DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                }
+                #endregion
 
-                await Navigation.PushAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
 
                 // 로딩 완료
                 await Global.LoadingEndAsync();

@@ -24,7 +24,7 @@ namespace TicketRoom.Views
         List<Button> tablist = new List<Button>();
         UserDBFunc USER_DB = UserDBFunc.Instance();
         ShopDBFunc SH_DB = ShopDBFunc.Instance();
-        string categorynum = "";
+        string deal_select_category_num = "";
 
 
         public MainPage()
@@ -101,7 +101,7 @@ namespace TicketRoom.Views
             }
             else if (Global.isMainDealDeatil == true)
             {
-                ShowDealDetailAsync(this.categorynum);
+                ShowDealDetailAsync(Global.deal_select_category_num);
             }
             #endregion
 
@@ -378,8 +378,8 @@ namespace TicketRoom.Views
             // 로딩 시작
             await Global.LoadingStartAsync();
 
-            this.categorynum = categorynum;
-            TabContent.Content = new DealDeatailView(this, categorynum);
+            Global.deal_select_category_num = categorynum;
+            TabContent.Content = new DealDeatailView(this, Global.deal_select_category_num);
             Global.InitOnAppearingBool("dealdetail");
 
             // 로딩 완료

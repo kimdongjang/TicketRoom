@@ -20,24 +20,21 @@ namespace TicketRoom.Views.MainTab.Dael
     public partial class PurchaseTabPage : ContentView
     {
         MainPage ddp;
-        string categorynum = "";
         GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
         List<Grid> ClickTabList = new List<Grid>();
 
         public PurchaseTabPage(MainPage ddp, string categorynum)
         {
             InitializeComponent();
-            this.categorynum = categorynum;
+            Global.isgiftlistcliecked = true;
             this.ddp = ddp;
-            ShowSubTab(categorynum);
-            Showlist(categorynum);
+            ShowSubTab(Global.deal_select_category_num);
+            Showlist();
             //ShowPoint(); // 잔여 포인트 인비지블
         }
 
         private void ShowSubTab(string categorynum)
         {
-            
-
             int row = 0;
             int column = 4;
 
@@ -67,7 +64,8 @@ namespace TicketRoom.Views.MainTab.Dael
                     Size = 14,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = LayoutOptions.Center
+                    HorizontalOptions = LayoutOptions.Center,
+                    Margin = new Thickness(50, 0, 0, 0),
                 };
                 layout.Children.Add(label);
                 TabScoll.Content = layout;
@@ -146,17 +144,16 @@ namespace TicketRoom.Views.MainTab.Dael
 
                                 // 로딩 시작
                                 await Global.LoadingStartAsync();
-                                string number = "";
                                 for (int mk = 0; mk < CategoryList.Count; mk++)
                                 {
                                     if(CategoryList[mk].Name == cateName.Text)
                                     {
-                                        number = CategoryList[mk].CategoryNum;
+                                        Global.deal_select_category_num = CategoryList[mk].CategoryNum;
                                         break;
                                     }
                                 }
                                 // 클릭 이벤트
-                                Showlist(number);
+                                Showlist();
 
                                 // 로딩 완료
                                 await Global.LoadingEndAsync();
@@ -218,7 +215,7 @@ namespace TicketRoom.Views.MainTab.Dael
         }
 
 
-        private void Showlist(string categorynum)
+        private void Showlist()
         {
             List<G_ProductInfo> productlist = new List<G_ProductInfo>();
 
@@ -226,7 +223,7 @@ namespace TicketRoom.Views.MainTab.Dael
             var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
             if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
             {
-                productlist = giftDBFunc.PostSelectPurchaseProductToIndex(categorynum); // 상품 목록 가져오기
+                productlist = giftDBFunc.PostSelectPurchaseProductToIndex(Global.deal_select_category_num); // 상품 목록 가져오기
             }
             else
             {
@@ -238,6 +235,8 @@ namespace TicketRoom.Views.MainTab.Dael
             #region 네트워크 연결 불가
             if (productlist == null) // 네트워크 연결 불가
             {
+                Purchaselist_Grid.Children.Clear();
+                Purchaselist_Grid.RowDefinitions.Clear();
                 CustomLabel label = new CustomLabel
                 {
                     Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
@@ -254,6 +253,8 @@ namespace TicketRoom.Views.MainTab.Dael
             #region 상품권 목록 검색 불가
             if (productlist.Count == 0)
             {
+                Purchaselist_Grid.Children.Clear();
+                Purchaselist_Grid.RowDefinitions.Clear();
                 CustomLabel label = new CustomLabel
                 {
                     Text = "상품권 목록을 불러 올 수 없습니다!",
@@ -280,7 +281,8 @@ namespace TicketRoom.Views.MainTab.Dael
                     Global.isgiftlistcliecked = false;
 
                     Grid g = (Grid)s;
-                    await Navigation.PushAsync(new PurchasePage(ddp, productlist[int.Parse(g.BindingContext.ToString())], categorynum));
+                    Global.deal_select_category_value = "구매";
+                    await Navigation.PushAsync(new PurchasePage(ddp, productlist[int.Parse(g.BindingContext.ToString())], Global.deal_select_category_num));
                 }
             };
 
@@ -297,37 +299,6 @@ namespace TicketRoom.Views.MainTab.Dael
                 }
             };
 
-            #region 상품권 목록 검색 불가
-            if (productlist == null)
-            {
-                CustomLabel label = new CustomLabel
-                {
-                    Text = "상품권 목록을 불러 올 수 없습니다!",
-                    Size = 18,
-                    TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = LayoutOptions.Center
-                };
-                Purchaselist_Grid.Children.Add(label, 0, 1);         //실시간거래 그리드에 라벨추가
-                return;
-            }
-            //if (productlist.Count == 0)
-            //{
-            //    Purchaselist_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-
-            //    CustomLabel nullproduct = new CustomLabel
-            //    {
-            //        Text = "상품 준비중입니다.",
-            //        Size = 25,
-            //        TextColor = Color.Black,
-            //        VerticalOptions = LayoutOptions.Center,
-            //        YAlign = TextAlignment.Center,
-            //        HorizontalOptions = LayoutOptions.Center
-            //    };
-            //    Purchaselist_Grid.Children.Add(nullproduct, 0, 1);
-            //    return;
-            //}
-            #endregion
 
             for (int i = 0; i < productlist.Count; i++)
             {

@@ -37,8 +37,49 @@ namespace TicketRoom.Services
             return _instance;
         }
 
+        public string PostSelectUserPoint(string user_id)
+        {
+            try
+            {
+                string str = @"{";
+                str += "USER_ID:'" + user_id;  //아이디찾기에선 Name으로 
+                str += "'}";
 
-       public G_ProductCount Get_Product_Ccount(string pro_num)
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectUserPoint") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        string test = JsonConvert.DeserializeObject<string>(readdata);
+                        return test;
+                    }
+                }
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        public G_ProductCount Get_Product_Ccount(string pro_num)
         {
             try
             {
@@ -81,7 +122,52 @@ namespace TicketRoom.Services
             }
         }
 
-        // 카테고리 넘버로 카테고리 리스트 가져오기
+
+        // 카테고리 넘버로 카테고리 구매 리스트 가져오기
+        public List<G_ProductInfo> PostSelectSaleCategory(string category_num)
+        {
+            try
+            {
+                string str = @"{";
+                str += "CategoryNum:'" + category_num;  //아이디찾기에선 Name으로 
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectSaleProduct") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        List<G_ProductInfo> test = JsonConvert.DeserializeObject<List<G_ProductInfo>>(readdata);
+                        return test;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
+
+        // 카테고리 넘버로 카테고리 구매 리스트 가져오기
         public List<G_ProductInfo> PostSelectPurchaseProductToIndex(string category_num)
         {
             try

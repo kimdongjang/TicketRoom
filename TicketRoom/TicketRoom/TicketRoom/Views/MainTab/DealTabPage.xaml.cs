@@ -1,12 +1,14 @@
 ﻿using FFImageLoading.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Refractored.XamForms.PullToRefresh;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
+using TicketRoom.Models;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Services;
@@ -33,10 +35,44 @@ namespace TicketRoom.Views.MainTab
                 TabGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
-            
+
+            ScrollRefresh();
+            Init();
+        }
+        private void Init()
+        {
             Showdeal();
             ShowPoint();
             Showimge();
+        }
+
+        private void ScrollRefresh()
+        {
+            var refreshView = new PullToRefreshLayout
+            {
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                Content = MainScroll,
+                RefreshColor = Color.FromHex("#3498db")
+            };
+
+            refreshView.SetBinding<ScrollModel>(PullToRefreshLayout.IsRefreshingProperty, vm => vm.IsBusy, BindingMode.OneWay);
+            refreshView.SetBinding<ScrollModel>(PullToRefreshLayout.RefreshCommandProperty, vm => vm.RefreshCommand);
+
+            TabGrid.Children.Add(refreshView, 0, 3);
+
+            refreshView.RefreshCommand = new Command(async () =>
+            {
+                refreshView.IsRefreshing = false;
+
+                // 로딩 시작
+                await Global.LoadingStartAsync();
+
+                Init();
+
+                // 로딩 완료
+                await Global.LoadingEndAsync();
+            });
         }
 
         private void ShowPoint()
@@ -104,6 +140,9 @@ namespace TicketRoom.Views.MainTab
         // 실시간 거래
         private void Showdeal()
         {
+            RealTimeGrid.Children.Clear();
+            RealTimeGrid.RowDefinitions.Clear();
+
             #region 네트워크 상태 확인
             var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
             if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
@@ -247,6 +286,9 @@ namespace TicketRoom.Views.MainTab
         // 상품권 목록
         private void Showimge()
         {
+            CategoryGrid.Children.Clear();
+            CategoryGrid.RowDefinitions.Clear();
+
             List<G_CategoryInfo> categories = new List<G_CategoryInfo>();
 
             #region 네트워크 상태 확인
@@ -411,6 +453,7 @@ namespace TicketRoom.Views.MainTab
                 {
                     Command = new Command(() =>
                     {
+                        Global.deal_select_category_value = "구매"; // 상품권 탭 클릭시 디폴트 상태는 구매.
                         mainPage.ShowDealDetailAsync(inGrid.BindingContext.ToString());
                     })
                 });

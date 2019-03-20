@@ -14,13 +14,14 @@ namespace TicketRoom.Views.MainTab.Dael
 	{
         MainPage mainpage;
         string categorynum;
+
         public DealDeatailView(MainPage mainpage, string categorynum)
         {
             InitializeComponent();
             
             Global.isDealTabCliecked = true;
             this.mainpage = mainpage;
-            this.categorynum = categorynum;
+            this.categorynum = Global.deal_select_category_num;
             #region IOS의 경우 초기화
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
             if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
@@ -28,8 +29,24 @@ namespace TicketRoom.Views.MainTab.Dael
                 TabGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
-
-            TabContent.Content = new PurchaseTabPage(mainpage, categorynum);
+            
+            if(Global.deal_select_category_value == "구매")
+            {
+                PurchaseTab.TextColor = Color.CornflowerBlue;
+                PurchaseLine.BackgroundColor = Color.CornflowerBlue;
+                SaleTab.TextColor = Color.Black;
+                SaleLine.BackgroundColor = Color.White;
+                TabContent.Content = new PurchaseTabPage(mainpage, categorynum);
+            }
+            else if (Global.deal_select_category_value == "판매")
+            {
+                PurchaseTab.TextColor = Color.Black;
+                PurchaseLine.BackgroundColor = Color.White;
+                SaleTab.TextColor = Color.CornflowerBlue;
+                SaleLine.BackgroundColor = Color.CornflowerBlue;
+                TabContent.Content = new SaleTabPage(categorynum);
+            }
+            
             MainTabClick();
         }
         // 상위 탭 클릭
@@ -42,6 +59,9 @@ namespace TicketRoom.Views.MainTab.Dael
                     //구매 or 판매 리스트 클릭 가능상태
                     Global.isgiftlistcliecked = true;
 
+                    // 구매 탭 선택
+                    Global.deal_select_category_value = "구매";
+
                     PurchaseTab.TextColor = Color.CornflowerBlue;
                     PurchaseLine.BackgroundColor= Color.CornflowerBlue;
                     SaleTab.TextColor = Color.Black;
@@ -49,7 +69,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     // 로딩 시작
                     await Global.LoadingStartAsync();
 
-                    TabContent.Content = new PurchaseTabPage(mainpage, categorynum);
+                    TabContent.Content = new PurchaseTabPage(mainpage, Global.deal_select_category_num);
 
                     // 로딩 완료
                     await Global.LoadingEndAsync();
@@ -62,6 +82,9 @@ namespace TicketRoom.Views.MainTab.Dael
                     //구매 or 판매 리스트 클릭 가능상태
                     Global.isgiftlistcliecked = true;
 
+                    // 판매 탭 선택
+                    Global.deal_select_category_value = "판매";
+
                     PurchaseTab.TextColor = Color.Black;
                     PurchaseLine.BackgroundColor = Color.White;
                     SaleTab.TextColor = Color.CornflowerBlue;
@@ -73,7 +96,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     // 초기화 코드 작성
                     if (Global.b_user_login)
                     {
-                        TabContent.Content = new SaleTabPage(categorynum);
+                        TabContent.Content = new SaleTabPage(Global.deal_select_category_num);
                     }
                     else
                     {

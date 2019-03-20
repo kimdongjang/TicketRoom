@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Refractored.XamForms.PullToRefresh.Droid;
 
 namespace TicketRoom.Droid
 {
@@ -13,6 +14,7 @@ namespace TicketRoom.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+            PullToRefreshLayoutRenderer.Init();
             LoadApplication(new App());
 
         }

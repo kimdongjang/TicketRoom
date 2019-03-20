@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                          xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
+             xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.DealTabPage">
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="TabGrid">
@@ -49,7 +49,7 @@
         <!--#endregion -->
 
         <!--#region 3행 스크롤뷰-->
-        <ScrollView Grid.Row="3">
+        <ScrollView Grid.Row="3" x:Name="MainScroll">
             <Grid RowSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
