@@ -303,44 +303,18 @@ namespace TicketRoom.Views.MainTab.MyPage
                         VerticalOptions = LayoutOptions.Center,
                         Margin = new Thickness(10, 0, 0, 0)
                     };
-                    CustomLabel statusLabel = null;
 
-                    if (salelist[i].SL_ISSUCCES.Equals("1"))
+                    string statestring = Global.StateToString(salelist[i].SL_ISSUCCES);
+
+                    CustomLabel statusLabel = new CustomLabel
                     {
-                        statusLabel = new CustomLabel
-                        {
-                            Text = "판매완료", // 구매 상태
-                            Size = 18,
-                            TextColor = Color.Blue,
-                            VerticalOptions = LayoutOptions.Center,
-                            HorizontalOptions = LayoutOptions.End,
-                            Margin = new Thickness(0, 0, 10, 0)
-                        };
-                    }
-                    else if (salelist[i].SL_ISSUCCES.Equals("2"))
-                    {
-                        statusLabel = new CustomLabel
-                        {
-                            Text = "판매실패", // 구매 상태
-                            Size = 18,
-                            TextColor = Color.Blue,
-                            VerticalOptions = LayoutOptions.Center,
-                            HorizontalOptions = LayoutOptions.End,
-                            Margin = new Thickness(0, 0, 10, 0)
-                        };
-                    }
-                    else if (salelist[i].SL_ISSUCCES.Equals("3"))
-                    {
-                        statusLabel = new CustomLabel
-                        {
-                            Text = "판매중", // 구매 상태
-                            Size = 18,
-                            TextColor = Color.Blue,
-                            VerticalOptions = LayoutOptions.Center,
-                            HorizontalOptions = LayoutOptions.End,
-                            Margin = new Thickness(0, 0, 10, 0)
-                        };
-                    }
+                        Text = statestring, // 구매 상태
+                        Size = 18,
+                        TextColor = Color.Blue,
+                        VerticalOptions = LayoutOptions.Center,
+                        HorizontalOptions = LayoutOptions.End,
+                        Margin = new Thickness(0, 0, 10, 0)
+                    };
 
                     dateGrid.Children.Add(dateLabel, 0, 0);
                     dateGrid.Children.Add(statusLabel, 1, 0);

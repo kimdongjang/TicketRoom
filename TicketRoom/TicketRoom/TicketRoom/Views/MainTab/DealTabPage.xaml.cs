@@ -173,6 +173,20 @@ namespace TicketRoom.Views.MainTab
             #endregion
 
             #region 실시간 거래 내역 검색 불가
+            if (g_DealInfolist==null)
+            {
+                RealTimeGrid.RowDefinitions.Add(new RowDefinition { Height = 30 });
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "조회실패",
+                    Size = 14,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                RealTimeGrid.Children.Add(label, 0, 1);         //실시간거래 그리드에 라벨추가
+                return;
+            }
             if (g_DealInfolist.Count == 0)
             {
                 RealTimeGrid.RowDefinitions.Add(new RowDefinition{ Height = 30 });
@@ -190,18 +204,8 @@ namespace TicketRoom.Views.MainTab
             #endregion
 
             #region 실시간 거래 내역 가져오기
-            // 실시간 거래 행은 3행으로 고정
-            int row_count = 0;
-            if(g_DealInfolist.Count >= 3)
-            {
-                row_count = 3;
-            }
-            else
-            {
-                row_count = g_DealInfolist.Count;
-            }
 
-            for (int i = 0; i < row_count; i++)
+            for (int i = 0; i < g_DealInfolist.Count; i++)
             {
                 RealTimeGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(3, GridUnitType.Auto) });
                 Grid inGrid = new Grid

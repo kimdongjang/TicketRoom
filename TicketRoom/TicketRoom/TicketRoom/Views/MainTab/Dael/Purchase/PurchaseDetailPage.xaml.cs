@@ -534,7 +534,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                                                 var readdata = reader.ReadToEnd();
                                                 string test = JsonConvert.DeserializeObject<string>(readdata);
                                                 string[] test2 = test.Split('*');
-                                                if (int.Parse(test2[0].ToString()) == 3)
+                                                if (int.Parse(test2[0].ToString()) == 1)
                                                 {
                                                     await ShowMessage("구매내역에서 확인해주세요.", "알림", "OK", async () =>
                                                     {

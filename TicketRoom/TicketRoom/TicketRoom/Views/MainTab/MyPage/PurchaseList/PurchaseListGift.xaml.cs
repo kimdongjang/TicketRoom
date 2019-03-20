@@ -166,19 +166,20 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     #region 주문 번호로 감싸는 실제 구매 내역
                     for (int j = 0; j < productlist.Count; j++)
                     {
-                        coverGrid.RowDefinitions.Add(new RowDefinition { Height = 75 });
+                        coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                         coverGrid.RowDefinitions.Add(new RowDefinition { Height = 3 });
                         // 주문 번호로 감싸고 있는 실제 구매 내역 리스트
                         Grid inGrid = new Grid
                         {
                             ColumnDefinitions =
                             {
-                                new ColumnDefinition { Width = 100 },
+                                new ColumnDefinition { Width = 75 },
                                 new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                                new ColumnDefinition { Width = 50 },
                             },
                             VerticalOptions = LayoutOptions.Center,
                             HorizontalOptions = LayoutOptions.FillAndExpand,
-                            Margin = new Thickness(20, 5, 20, 5),
+                            Margin = new Thickness(5, 5, 5, 5),
                             RowSpacing = 0,
                             ColumnSpacing = 0,
                         };
@@ -216,8 +217,24 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                                 new RowDefinition { Height = GridLength.Auto }
                             },
                         };
+
+                        #region 상품별 구매 상태
+                        string prostatestring = Global.StateToString(purchaselist[i].PL_ISSUCCESS);
+
+                        CustomLabel prostatusLabel = new CustomLabel
+                        {
+                            Text = prostatestring, // 구매 상태
+                            Size = 12,
+                            TextColor = Color.Red,
+                            VerticalOptions = LayoutOptions.Center,
+                            HorizontalOptions = LayoutOptions.End,
+                            Margin = new Thickness(0, 0, 0, 0)
+                        };
+                        #endregion
+
                         inGrid.Children.Add(product_image, 0, 0);
                         inGrid.Children.Add(product_label_grid, 1, 0);
+                        inGrid.Children.Add(prostatusLabel, 2, 0);
 
                         #region 상품 이름 Label
                         CustomLabel pro_label = new CustomLabel
@@ -287,44 +304,18 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                         VerticalOptions = LayoutOptions.Center,
                         Margin = new Thickness(10, 0, 0, 0)
                     };
-                    CustomLabel statusLabel = null;
 
-                    if (purchaselist[i].PL_ISSUCCESS.Equals("1"))
+                    string statestring = Global.StateToString(purchaselist[i].PL_ISSUCCESS);
+
+                    CustomLabel statusLabel = new CustomLabel
                     {
-                        statusLabel = new CustomLabel
-                        {
-                            Text = "구매완료", // 구매 상태
-                            Size = 18,
-                            TextColor = Color.Red,
-                            VerticalOptions = LayoutOptions.Center,
-                            HorizontalOptions = LayoutOptions.End,
-                            Margin = new Thickness(0, 0, 10, 0)
-                        };
-                    }
-                    else if (purchaselist[i].PL_ISSUCCESS.Equals("2"))
-                    {
-                        statusLabel = new CustomLabel
-                        {
-                            Text = "구매실패", // 구매 상태
-                            Size = 18,
-                            TextColor = Color.Red,
-                            VerticalOptions = LayoutOptions.Center,
-                            HorizontalOptions = LayoutOptions.End,
-                            Margin = new Thickness(0, 0, 10, 0)
-                        };
-                    }
-                    else if (purchaselist[i].PL_ISSUCCESS.Equals("3"))
-                    {
-                        statusLabel = new CustomLabel
-                        {
-                            Text = "구매중", // 구매 상태
-                            Size = 18,
-                            TextColor = Color.Red,
-                            VerticalOptions = LayoutOptions.Center,
-                            HorizontalOptions = LayoutOptions.End,
-                            Margin = new Thickness(0, 0, 10, 0)
-                        };
-                    }
+                        Text = statestring, // 구매 상태
+                        Size = 18,
+                        TextColor = Color.Red,
+                        VerticalOptions = LayoutOptions.Center,
+                        HorizontalOptions = LayoutOptions.End,
+                        Margin = new Thickness(0, 0, 10, 0)
+                    };
                     
                     dateGrid.Children.Add(dateLabel, 0, 0);
                     dateGrid.Children.Add(statusLabel, 1, 0);
