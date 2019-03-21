@@ -4,6 +4,7 @@ using TicketRoom.Models.PointData;
 using TicketRoom.Views.MainTab.MyPage;
 using TicketRoom.Views.MainTab.MyPage.Point;
 using TicketRoom.Views.Users.Login;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -34,21 +35,36 @@ namespace TicketRoom.Views.MainTab
 
         private void Init()
         {
-            if (Global.b_user_login == true)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
             {
-                UserIDLabel.Text = Global.ID;
-                UserPhoneLabel.Text = Global.user.PHONENUM;
-                UserPointLabel.Text = PointDBFunc.Instance().PostSearchPointListToID(Global.ID).PT_POINT_HAVEPOINT.ToString();
-                IsLoginBtn.Text = "로그아웃";
+                if (Global.b_user_login == true)
+                {   
+                    UserIDLabel.Text = Global.ID;
+                    UserPhoneLabel.Text = Global.user.PHONENUM;
+                    UserPointLabel.Text = PointDBFunc.Instance().PostSearchPointListToID(Global.ID).PT_POINT_HAVEPOINT.ToString();
+                                        
+                    #endregion
+                    IsLoginBtn.Text = "로그아웃";
+                }
+                else if (Global.b_user_login == false)
+                {
+                    UserIDLabel.Text = "티켓룸아이디#" + Global.non_user_id;
+                    UserPhoneLabel.Text = "";
+                    UserPointLabel.Text = "";
+                    IsLoginBtn.Text = "로그인";
+                }
             }
-            else if (Global.b_user_login == false)
+            #region 네트워크 연결 불가
+            else
             {
-                UserIDLabel.Text = "티켓룸아이디#" + Global.non_user_id;
-                UserPhoneLabel.Text = "";
+                Global.b_user_login = false;
                 UserPointLabel.Text = "";
+                UserPhoneLabel.Text = "";
                 IsLoginBtn.Text = "로그인";
             }
-
+            #endregion
             MyInfoGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>
@@ -87,12 +103,12 @@ namespace TicketRoom.Views.MainTab
             });
             PurchaseListGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = new Command(async () =>
+                Command = new Command(() =>
                 {
                     if (Global.ismypagebtns_clicked)
                     {
                         Global.ismypagebtns_clicked = false;
-                        await Navigation.PushAsync(new PurchaseListPage());
+                        Navigation.PushAsync(new PurchaseListPage());
                     }
                 })
             });

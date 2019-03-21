@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TicketRoom.Models;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.PointData;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -218,22 +219,35 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
         public async void PurchaseSuccessProcessAsync(IMP_RValue rvalue) // 결제가 진행되었을 경우
         {
-            // ready(미결제), paid(결제완료), cancelled(결제취소, 부분취소포함), failed(결제실패)
-            if (rvalue.SH_STATUS == "paid") // 결제 완료 상태라면 포인트 페이지에서 결제 진행
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                if (PT_DB.PostInsertPointChargeToID(rvalue, pp.PT_POINT_INDEX.ToString()) == false)  // 포인트 인덱스
+                await App.Current.MainPage.DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 고객센터에 문의해주세요.", "확인");
+                return;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                // ready(미결제), paid(결제완료), cancelled(결제취소, 부분취소포함), failed(결제실패)
+                if (rvalue.SH_STATUS == "paid") // 결제 완료 상태라면 포인트 페이지에서 결제 진행
+                {
+                    if (PT_DB.PostInsertPointChargeToID(rvalue, pp.PT_POINT_INDEX.ToString()) == false)  // 포인트 인덱스
+                    {
+                        await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 실패했습니다. 다시 한번 시도해주십시오.", "확인");
+                        return;
+                    }
+                }
+                else
                 {
                     await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 실패했습니다. 다시 한번 시도해주십시오.", "확인");
                     return;
                 }
+                await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 성공했습니다.", "확인");
+                await Navigation.PopAsync();
             }
-            else
-            {
-                await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 실패했습니다. 다시 한번 시도해주십시오.", "확인");
-                return;
-            }
-            await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 성공했습니다.", "확인");
-            await Navigation.PopAsync();
+            #endregion
         }
 
         private async void ConfirmBtn_ClickedAsync(object sender, EventArgs e)
@@ -269,12 +283,24 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 {
                     SH_AMOUNT = "100",                    
                 };
-
-                if (PT_DB.PostInsertPointChargeToID(rvalue, pp.PT_POINT_INDEX.ToString()) == false)  // 포인트 인덱스
+                #region 네트워크 상태 확인
+                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                 {
-                    await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 실패했습니다. 다시 한번 시도해주십시오.", "확인");
+                    await App.Current.MainPage.DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
                     return;
                 }
+                #endregion
+                #region 네트워크 연결 가능
+                else
+                {
+                    if (PT_DB.PostInsertPointChargeToID(rvalue, pp.PT_POINT_INDEX.ToString()) == false)  // 포인트 인덱스
+                    {
+                        await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 실패했습니다. 다시 한번 시도해주십시오.", "확인");
+                        return;
+                    }
+                }
+                #endregion
 
                 //await Navigation.PushAsync(new IMPHybridWebView(param, this));
             }

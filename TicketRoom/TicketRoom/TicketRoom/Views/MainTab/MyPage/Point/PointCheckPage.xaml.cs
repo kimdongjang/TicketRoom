@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.PointData;
 using TicketRoom.Views.MainTab.MyPage.Point;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -43,8 +44,23 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
             // 로딩 시작
             await Global.LoadingStartAsync();
-
-            pp = PT_DB.PostSearchPointListToID(Global.ID); // 사용자 아이디로 아이디에 해당하는 포인트 테이블 가져옴
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                pp = null;
+                // 로딩 완료
+                await Global.LoadingEndAsync();
+                return;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                pp = PT_DB.PostSearchPointListToID(Global.ID); // 사용자 아이디로 아이디에 해당하는 포인트 테이블 가져옴
+            }
+            #endregion
 
             pal = new PointAddList(this, pp);
             pul = new PointUsedList(this, pp);

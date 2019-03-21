@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift.PurchaseList;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -45,96 +46,144 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
         // 유저 아이디를 통해 상품권 구매리스트 가져오기
         public void SearchPurchaseDetailToPlNum(string pl_num)
         {
-            string str = @"{";
-            str += "plnum : '" + pl_num;
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPurchaseDetailToPlnum") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-
-            try
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
+                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                pdlist = null;
+                return;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                string str = @"{";
+                str += "plnum : '" + pl_num;
+                str += "'}";
 
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPurchaseDetailToPlnum") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+
+                try
+                {
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                     {
 
-                        // readdata
-                        var readdata = reader.ReadToEnd();
-                        if(readdata!=null && readdata != "")
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                         {
-                            pdlist = JsonConvert.DeserializeObject<List<G_PLInfo>>(readdata);
+
+                            // readdata
+                            var readdata = reader.ReadToEnd();
+                            if (readdata != null && readdata != "")
+                            {
+                                pdlist = JsonConvert.DeserializeObject<List<G_PLInfo>>(readdata);
+                            }
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
+            #endregion
         }
 
         public void SearchPurchaseListToPlNum(string pl_num)
         {
-            //구매내역 가져오기
-            string str = @"{";
-            str += "plnum : '" + pl_num;
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPurchaseListToPlnum") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-
-            try
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
+                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                productlist = null;
+                return;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                //구매내역 가져오기
+                string str = @"{";
+                str += "plnum : '" + pl_num;
+                str += "'}";
 
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPurchaseListToPlnum") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+
+                try
+                {
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                     {
-                        // readdata
-                        var readdata = reader.ReadToEnd();
-                        if (readdata != null && readdata != "")
+
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                         {
-                            productlist = JsonConvert.DeserializeObject<List<PLProInfo>>(readdata);
+                            // readdata
+                            var readdata = reader.ReadToEnd();
+                            if (readdata != null && readdata != "")
+                            {
+                                productlist = JsonConvert.DeserializeObject<List<PLProInfo>>(readdata);
+                            }
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
+            #endregion
         }
 
         private void Init()
         {
+            #region 네트워크 연결 불가
+            if (productlist == null)
+            {
+                CustomLabel error_label = new CustomLabel
+                {
+                    Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.CenterAndExpand,
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    VerticalTextAlignment = TextAlignment.Center,
+                    HorizontalTextAlignment = TextAlignment.Center
+                };
+                MainGrid.RowDefinitions.Clear();
+                MainGrid.Children.Clear();
+                MainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MainGrid.Children.Add(error_label, 0, 0);
+                return;
+            }
+            #endregion
 
             Grid coverGrid = new Grid { RowSpacing = 0 };
             MainGrid.Children.Add(coverGrid, 0, 0); // 메인 그리드 추가

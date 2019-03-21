@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Views.Users.Login;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -61,96 +62,108 @@ namespace TicketRoom.Views.Users.FindUser
 
         private async void CheckNumSendBtn_Clicked(object sender, EventArgs e)
         {
-            if (Name_box.Text != "" && Name_box.Text != null)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
             {
-                if (Phone_box.Text != "" && Phone_box.Text != null)
+                if (Name_box.Text != "" && Name_box.Text != null)
                 {
-                    #region 인증번호 만들기
-                    var bytes = new byte[4];
-                    var rng = RandomNumberGenerator.Create();
-                    rng.GetBytes(bytes);
-                    uint random = BitConverter.ToUInt32(bytes, 0) % 100000000;
-                    #endregion
-
-                    string str = @"{";
-                    str += "DATA:'" + Name_box.Text;  //아이디찾기에선 Name으로 
-                    str += "',PHONENUM:'" + Phone_box.Text;
-                    str += "',KEY:'" + String.Format("{0:D8}", random);
-                    str += "',TYPE:'" + "2"; //인증 종류( 1: 회원가입, 2: ID찾기, 3: 비밀번호 찾기)
-                    str += "'}";
-
-                    //// JSON 문자열을 파싱하여 JObject를 리턴
-                    JObject jo = JObject.Parse(str);
-
-                    UTF8Encoding encoder = new UTF8Encoding();
-                    byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-                    //request.Method = "POST";
-                    HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Certifiaction_Create") as HttpWebRequest;
-                    request.Method = "POST";
-                    request.ContentType = "application/json";
-                    request.ContentLength = data.Length;
-
-                    //request.Expect = "application/json";
-
-                    request.GetRequestStream().Write(data, 0, data.Length);
-
-                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    if (Phone_box.Text != "" && Phone_box.Text != null)
                     {
-                        if (response.StatusCode != HttpStatusCode.OK)
-                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                        {
-                            var readdata = reader.ReadToEnd();
-                            //Stuinfo test = JsonConvert.DeserializeObject<Stuinfo>(readdata);
-                            switch (int.Parse(readdata))
-                            {
-                                case 0:
-                                    CheckNumSendBtn.Text = "인증";
-                                    CheckNumGrid.IsVisible = false;
-                                    ShowId_Grid.IsVisible = false;
-                                    DisplayAlert("알림", "일치하는 정보가 없습니다.", "OK");
-                                    return;
-                                case 1:
-                                    Name = Name_box.Text;
-                                    Phone = Phone_box.Text;
-                                    CheckNumSendBtn.Text = "인증번호 재전송";
-                                    CheckNumGrid.IsVisible = true;
-                                    ShowId_Grid.IsVisible = false;
-                                    #region 남은시간 타이머 
-                                    await ShowMessage(String.Format("{0:D8}", random) + "인증번호가 발송 되었습니다.", "알림", "OK", async () =>
-                                    {
-                                        // 타이머 생성 및 시작
-                                        test = 300;
+                        #region 인증번호 만들기
+                        var bytes = new byte[4];
+                        var rng = RandomNumberGenerator.Create();
+                        rng.GetBytes(bytes);
+                        uint random = BitConverter.ToUInt32(bytes, 0) % 100000000;
+                        #endregion
 
-                                        if (timer == null)
+                        string str = @"{";
+                        str += "DATA:'" + Name_box.Text;  //아이디찾기에선 Name으로 
+                        str += "',PHONENUM:'" + Phone_box.Text;
+                        str += "',KEY:'" + String.Format("{0:D8}", random);
+                        str += "',TYPE:'" + "2"; //인증 종류( 1: 회원가입, 2: ID찾기, 3: 비밀번호 찾기)
+                        str += "'}";
+
+                        //// JSON 문자열을 파싱하여 JObject를 리턴
+                        JObject jo = JObject.Parse(str);
+
+                        UTF8Encoding encoder = new UTF8Encoding();
+                        byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                        //request.Method = "POST";
+                        HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Certifiaction_Create") as HttpWebRequest;
+                        request.Method = "POST";
+                        request.ContentType = "application/json";
+                        request.ContentLength = data.Length;
+
+                        //request.Expect = "application/json";
+
+                        request.GetRequestStream().Write(data, 0, data.Length);
+
+                        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                        {
+                            if (response.StatusCode != HttpStatusCode.OK)
+                                Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                            {
+                                var readdata = reader.ReadToEnd();
+                                //Stuinfo test = JsonConvert.DeserializeObject<Stuinfo>(readdata);
+                                switch (int.Parse(readdata))
+                                {
+                                    case 0:
+                                        CheckNumSendBtn.Text = "인증";
+                                        CheckNumGrid.IsVisible = false;
+                                        ShowId_Grid.IsVisible = false;
+                                        DisplayAlert("알림", "일치하는 정보가 없습니다.", "OK");
+                                        return;
+                                    case 1:
+                                        Name = Name_box.Text;
+                                        Phone = Phone_box.Text;
+                                        CheckNumSendBtn.Text = "인증번호 재전송";
+                                        CheckNumGrid.IsVisible = true;
+                                        ShowId_Grid.IsVisible = false;
+                                        #region 남은시간 타이머 
+                                        await ShowMessage(String.Format("{0:D8}", random) + "인증번호가 발송 되었습니다.", "알림", "OK", async () =>
                                         {
-                                            timer = new MyTimer(TimeSpan.FromSeconds(1), TimerCallback_event);
-                                            timer.Start();
-                                        }
-                                        else
-                                        {
-                                            timer.Stop(); timer.Start();
-                                        }
-                                    });
-                                    #endregion
-                                    return;
-                                default:
-                                    DisplayAlert("알림", "서버 점검중입니다.", "OK");
-                                    return;
+                                            // 타이머 생성 및 시작
+                                            test = 300;
+
+                                            if (timer == null)
+                                            {
+                                                timer = new MyTimer(TimeSpan.FromSeconds(1), TimerCallback_event);
+                                                timer.Start();
+                                            }
+                                            else
+                                            {
+                                                timer.Stop(); timer.Start();
+                                            }
+                                        });
+                                        #endregion
+                                        return;
+                                    default:
+                                        DisplayAlert("알림", "서버 점검중입니다.", "OK");
+                                        return;
+                                }
                             }
                         }
+                    }
+                    else
+                    {
+                        DisplayAlert("알림", "핸드폰번호를 입력하세요", "OK");
                     }
                 }
                 else
                 {
-                    DisplayAlert("알림", "핸드폰번호를 입력하세요", "OK");
+                    DisplayAlert("알림", "이름을 입력하세요", "OK");
                 }
             }
             else
             {
-                DisplayAlert("알림", "이름을 입력하세요", "OK");
+                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                return;
             }
+            #endregion
+
         }
 
         private void TimerCallback_event()
@@ -193,70 +206,14 @@ namespace TicketRoom.Views.Users.FindUser
 
         private void CheckNumCheckBtn_Clicked(object sender, EventArgs e)
         {
-            string str = @"{";
-            str += "Phonenum:'" + Phone;
-            str += "',CKey:'" + CheckNum_box.Text;
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            //request.Method = "POST";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Find_UserID") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            //request.Expect = "application/json";
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    var readdata = reader.ReadToEnd();
-                    string test = JsonConvert.DeserializeObject<string>(readdata);
-                    if (test.Equals("false"))
-                    {
-                        DisplayAlert("알림", "인증번호가 틀렸습니다.", "OK");
-                    }
-                    else if (test.Equals("ex"))
-                    {
-                        DisplayAlert("알림", "서버점검중입니다.", "OK");
-                    }
-                    else
-                    {
-                        timer.Stop();
-                        CheckNumSendBtn.Text = "인증";
-                        CheckNumGrid.IsVisible = false;
-                        ShowId_Grid.IsVisible = true;
-                        IDHint_box.Text = readdata;
-                    }
-                }
-            }
-        }
-
-        private async void SendEmail_BtnBtn_Clicked(object sender, EventArgs e)
-        {
-            if (Global.isfindidpage_clicked)
-            {
-                Global.isfindidpage_clicked = false;
-                if (timer != null)
-                {
-                    timer.Stop();
-                }
 
                 string str = @"{";
-                str += "Name:'" + Name;
-                str += "',Phone:'" + Phone;
-                str += "',Title:'" + "상품권거래 ID찾기 결과";
-                str += "',Type:'" + "ID";
+                str += "Phonenum:'" + Phone;
+                str += "',CKey:'" + CheckNum_box.Text;
                 str += "'}";
 
                 //// JSON 문자열을 파싱하여 JObject를 리턴
@@ -266,7 +223,7 @@ namespace TicketRoom.Views.Users.FindUser
                 byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
 
                 //request.Method = "POST";
-                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "EmailSend") as HttpWebRequest;
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Find_UserID") as HttpWebRequest;
                 request.Method = "POST";
                 request.ContentType = "application/json";
                 request.ContentLength = data.Length;
@@ -285,24 +242,104 @@ namespace TicketRoom.Views.Users.FindUser
                         string test = JsonConvert.DeserializeObject<string>(readdata);
                         if (test.Equals("false"))
                         {
-                            DisplayAlert("알림", "다시 시도해주세요", "OK");
-                            Global.isfindidpage_clicked = true;
+                            DisplayAlert("알림", "인증번호가 틀렸습니다.", "OK");
                         }
                         else if (test.Equals("ex"))
                         {
                             DisplayAlert("알림", "서버점검중입니다.", "OK");
-                            Global.isfindidpage_clicked = true;
                         }
                         else
                         {
-                            await ShowMessage(test + "로 발송 되었습니다.", "알림", "OK", async () =>
-                            {
-                                Navigation.PopToRootAsync(); ;
-                            });
+                            timer.Stop();
+                            CheckNumSendBtn.Text = "인증";
+                            CheckNumGrid.IsVisible = false;
+                            ShowId_Grid.IsVisible = true;
+                            IDHint_box.Text = readdata;
                         }
                     }
                 }
             }
+            else
+            {
+                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                return;
+            }
+            #endregion
+        }
+
+        private async void SendEmail_BtnBtn_Clicked(object sender, EventArgs e)
+        {
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+            {
+
+                if (Global.isfindidpage_clicked)
+                {
+                    Global.isfindidpage_clicked = false;
+                    if (timer != null)
+                    {
+                        timer.Stop();
+                    }
+
+                    string str = @"{";
+                    str += "Name:'" + Name;
+                    str += "',Phone:'" + Phone;
+                    str += "',Title:'" + "상품권거래 ID찾기 결과";
+                    str += "',Type:'" + "ID";
+                    str += "'}";
+
+                    //// JSON 문자열을 파싱하여 JObject를 리턴
+                    JObject jo = JObject.Parse(str);
+
+                    UTF8Encoding encoder = new UTF8Encoding();
+                    byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                    //request.Method = "POST";
+                    HttpWebRequest request = WebRequest.Create(Global.WCFURL + "EmailSend") as HttpWebRequest;
+                    request.Method = "POST";
+                    request.ContentType = "application/json";
+                    request.ContentLength = data.Length;
+
+                    //request.Expect = "application/json";
+
+                    request.GetRequestStream().Write(data, 0, data.Length);
+
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    {
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            var readdata = reader.ReadToEnd();
+                            string test = JsonConvert.DeserializeObject<string>(readdata);
+                            if (test.Equals("false"))
+                            {
+                                DisplayAlert("알림", "다시 시도해주세요", "OK");
+                                Global.isfindidpage_clicked = true;
+                            }
+                            else if (test.Equals("ex"))
+                            {
+                                DisplayAlert("알림", "서버점검중입니다.", "OK");
+                                Global.isfindidpage_clicked = true;
+                            }
+                            else
+                            {
+                                await ShowMessage(test + "로 발송 되었습니다.", "알림", "OK", async () =>
+                                {
+                                    Navigation.PopToRootAsync(); ;
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                return;
+            }
+            #endregion
         }
 
         public async Task ShowMessage(string message, string title, string buttonText, Action afterHideCallback)

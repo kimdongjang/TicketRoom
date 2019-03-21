@@ -356,7 +356,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     image = new CachedImage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
-                        ErrorPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.NotFoundImagePath,
                         Source = "SClture_pro.png",
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.Center,
@@ -370,7 +370,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     image = new CachedImage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
-                        ErrorPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.NotFoundImagePath,
                         Source = ImageSource.FromUri(new Uri(productlist[i].PRODUCTIMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.Center,

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift.SaleList;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -59,48 +60,79 @@ namespace TicketRoom.Views.MainTab.MyPage.SaleList
         // 판매번호를 통해 상품권 판매 상세리스트 가져오기
         public void PostSearchSaleListToSlNum(string slnum)
         {
-            string str = @"{";
-            str += "slnum : '" + slnum;
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchSaleListToSlNum") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-
-            try
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
+                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                salelist = null;
+                return;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                string str = @"{";
+                str += "slnum : '" + slnum;
+                str += "'}";
 
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchSaleListToSlNum") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+
+                try
+                {
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                     {
 
-                        // readdata
-                        var readdata = reader.ReadToEnd();
-                        salelist = JsonConvert.DeserializeObject<List<G_SaleInfo>>(readdata);
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+
+                            // readdata
+                            var readdata = reader.ReadToEnd();
+                            salelist = JsonConvert.DeserializeObject<List<G_SaleInfo>>(readdata);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
+            #endregion
         }
 
         private void Init()
         {
+            #region 네트워크 연결 불가
+            if (salelist == null) // 네트워크 연결 불가
+            {
+                MainGrid.Children.Clear();
+                MainGrid.RowDefinitions.Clear();
+                CustomLabel label = new CustomLabel
+                {
+                    Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                MainGrid.Children.Add(label, 0, 0);
+                return;
+            }
+            #endregion
 
             Grid coverGrid = new Grid { RowSpacing = 0 };
             MainGrid.Children.Add(coverGrid, 0, 0); // 메인 그리드 추가

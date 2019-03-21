@@ -79,12 +79,12 @@ namespace TicketRoom.Views.MainTab.MyPage
                     {
                         if (Global.b_user_login)
                         {
-                            plg.PostSearchPurchaseListToID(Global.ID, -99, 0, 0);
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -99, 0, 0);
                             plg.Init();
                         }
                         else
                         {
-                            plg.PostSearchPurchaseListToID(Global.ID, -99, 0, 0);
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -99, 0, 0);
                             plg.Init();
                         }
                     }
@@ -125,12 +125,12 @@ namespace TicketRoom.Views.MainTab.MyPage
                     {
                         if (Global.b_user_login)
                         {
-                            plg.PostSearchPurchaseListToID(Global.ID, 0, 0, -7);
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, 0, -7);
                             plg.Init();
                         }
                         else
                         {
-                            plg.PostSearchPurchaseListToID(Global.ID, 0, 0, -7);
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, 0, -7);
                             plg.Init();
                         }
                     }
@@ -172,12 +172,12 @@ namespace TicketRoom.Views.MainTab.MyPage
                     {
                         if (Global.b_user_login)
                         {
-                            plg.PostSearchPurchaseListToID(Global.ID, 0, -1, 0);
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, -1, 0);
                             plg.Init();
                         }
                         else
                         {
-                            plg.PostSearchPurchaseListToID(Global.ID, 0, -1, 0);
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, -1, 0);
                             plg.Init();
                         }
                     }
@@ -220,12 +220,12 @@ namespace TicketRoom.Views.MainTab.MyPage
                     {
                         if (Global.b_user_login)
                         {
-                            plg.PostSearchPurchaseListToID(Global.ID, -1, 0, 0);
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -1, 0, 0);
                             plg.Init();
                         }
                         else
                         {
-                            plg.PostSearchPurchaseListToID(Global.ID, -1, 0, 0);
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -1, 0, 0);
                             plg.Init();
                         }
                     }
@@ -270,12 +270,12 @@ namespace TicketRoom.Views.MainTab.MyPage
 
                 if (Global.b_user_login)
                 {
-                    plg.PostSearchPurchaseListToID(Global.ID, -99, 0, 0);
+                    plg.PostSearchPurchaseListToIDAsync(Global.ID, -99, 0, 0);
                     await plg.Init();
                 }
                 else
                 {
-                    plg.PostSearchPurchaseListToID(Global.non_user_id, -99, 0, 0);
+                    plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, -99, 0, 0);
                     await plg.Init();
                 }
             }

@@ -12,6 +12,7 @@ using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Views.MainTab.Dael.Purchase;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -43,46 +44,77 @@ namespace TicketRoom.Views.MainTab.Basket
             {
                 userid = Global.non_user_id;
             }
-
-            string str = @"{";
-            str += "ID:'" + userid;  //아이디찾기에선 Name으로 
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            //request.Method = "POST";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Select_Basketlist") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            //request.Expect = "application/json";
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                BasketList = null;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                string str = @"{";
+                str += "ID:'" + userid;  //아이디찾기에선 Name으로 
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Select_Basketlist") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                 {
-                    var readdata = reader.ReadToEnd();
-                    if (readdata != null && readdata != "")
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                     {
-                        BasketList = JsonConvert.DeserializeObject<List<G_BasketInfo>>(readdata);
+                        var readdata = reader.ReadToEnd();
+                        if (readdata != null && readdata != "")
+                        {
+                            BasketList = JsonConvert.DeserializeObject<List<G_BasketInfo>>(readdata);
+                        }
                     }
                 }
             }
+            #endregion
 
             Basketlist_Grid.Children.Clear();
             Basketlist_Grid.RowDefinitions.Clear();
 
             int row = 0;
             int result_price = 0;
+
+            #region 네트워크 연결 불가
+            if (BasketList == null)
+            {
+                Basketlist_Grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+                CustomLabel nullproduct = new CustomLabel
+                {
+                    Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    YAlign = TextAlignment.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                Basketlist_Grid.Children.Add(nullproduct, 0, 0);
+                Bottom_Grid.IsVisible = false;
+                return;
+            }
+            #endregion
 
             #region 상품이 준비중
             if (BasketList.Count == 0)
@@ -317,51 +349,63 @@ namespace TicketRoom.Views.MainTab.Basket
                     {
                         return;
                     }
-                    Image deletegrid = (Image)s;
-                    //Global.BasketList.RemoveAt(int.Parse(deletegrid.BindingContext.ToString()));
-
-                    string str2 = @"{";
-                    str2 += "basketlistnum:'" + BasketList[int.Parse(deletegrid.BindingContext.ToString())].BASKETLISTTABLE_NUM;  //아이디찾기에선 Name으로 
-                    str2 += "'}";
-
-                    //// JSON 문자열을 파싱하여 JObject를 리턴
-                    JObject jo2 = JObject.Parse(str2);
-
-                    UTF8Encoding encoder2 = new UTF8Encoding();
-                    byte[] data2 = encoder2.GetBytes(jo2.ToString()); // a json object, or xml, whatever...
-
-                    //request.Method = "POST";
-                    HttpWebRequest request2 = WebRequest.Create(Global.WCFURL + "Delete_Basketlist") as HttpWebRequest;
-                    request2.Method = "POST";
-                    request2.ContentType = "application/json";
-                    request2.ContentLength = data2.Length;
-
-                    //request.Expect = "application/json";
-
-                    request2.GetRequestStream().Write(data2, 0, data2.Length);
-
-                    using (HttpWebResponse response2 = request2.GetResponse() as HttpWebResponse)
+                    #region 네트워크 상태 확인
+                    if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                     {
-                        if (response2.StatusCode != HttpStatusCode.OK)
-                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response2.StatusCode);
-                        using (StreamReader reader = new StreamReader(response2.GetResponseStream()))
+                        await App.Current.MainPage.DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                        return;
+                    }
+                    #endregion
+                    #region 네트워크 연결 가능
+                    else
+                    {
+                        Image deletegrid = (Image)s;
+                        //Global.BasketList.RemoveAt(int.Parse(deletegrid.BindingContext.ToString()));
+
+                        string str2 = @"{";
+                        str2 += "basketlistnum:'" + BasketList[int.Parse(deletegrid.BindingContext.ToString())].BASKETLISTTABLE_NUM;  //아이디찾기에선 Name으로 
+                        str2 += "'}";
+
+                        //// JSON 문자열을 파싱하여 JObject를 리턴
+                        JObject jo2 = JObject.Parse(str2);
+
+                        UTF8Encoding encoder2 = new UTF8Encoding();
+                        byte[] data2 = encoder2.GetBytes(jo2.ToString()); // a json object, or xml, whatever...
+
+                        //request.Method = "POST";
+                        HttpWebRequest request2 = WebRequest.Create(Global.WCFURL + "Delete_Basketlist") as HttpWebRequest;
+                        request2.Method = "POST";
+                        request2.ContentType = "application/json";
+                        request2.ContentLength = data2.Length;
+
+                        //request.Expect = "application/json";
+
+                        request2.GetRequestStream().Write(data2, 0, data2.Length);
+
+                        using (HttpWebResponse response2 = request2.GetResponse() as HttpWebResponse)
                         {
-                            var readdata = reader.ReadToEnd();
-                            string test = JsonConvert.DeserializeObject<string>(readdata);
-                            if (test != null && test != "")
+                            if (response2.StatusCode != HttpStatusCode.OK)
+                                Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response2.StatusCode);
+                            using (StreamReader reader = new StreamReader(response2.GetResponseStream()))
                             {
-                                if (test.Equals("true"))
+                                var readdata = reader.ReadToEnd();
+                                string test = JsonConvert.DeserializeObject<string>(readdata);
+                                if (test != null && test != "")
                                 {
-                                    //삭제되었습니다
-                                }
-                                else
-                                {
-                                    await App.Current.MainPage.DisplayAlert("알림", "서버점검중입니다", "확인");
+                                    if (test.Equals("true"))
+                                    {
+                                        //삭제되었습니다
+                                    }
+                                    else
+                                    {
+                                        await App.Current.MainPage.DisplayAlert("알림", "서버점검중입니다", "확인");
+                                    }
                                 }
                             }
                         }
+                        ShowBasketlist();
                     }
-                    ShowBasketlist();
+                    #endregion
                 };
                 #endregion
                 deleteImage.GestureRecognizers.Add(deletebtn_Clicked);
