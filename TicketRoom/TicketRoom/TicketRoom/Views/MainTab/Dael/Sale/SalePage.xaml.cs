@@ -11,6 +11,7 @@ using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Models.Gift.SaleList;
 using TicketRoom.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -291,8 +292,20 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                                         SL_SALEPRO_TYPE = "1",
                                         SL_PIN_LIST = g_Pinlist
                                     };
+                                    #region 네트워크 상태 확인
+                                    int result = 0;
+                                    var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                                    if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+                                    {
+                                        result = giftDBFunc.UserAddSale(g_SaleInfo);
+                                    }
+                                    else
+                                    {
+                                        DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                                        return;
+                                    }
+                                    #endregion
 
-                                    int result = giftDBFunc.UserAddSale(g_SaleInfo);
                                     if (result == 3)
                                     {
                                         await ShowMessage("판매내역에서 확인해주세요.", "알림", "OK", async () =>
@@ -368,8 +381,19 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                                                     SL_PIN_LIST = g_Pinlist,
                                                     SL_SALE_PW = OrderNum_box.Text
                                                 };
-
-                                                int result = giftDBFunc.UserAddSale(g_SaleInfo);
+                                                #region 네트워크 상태 확인
+                                                int result = 0;
+                                                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                                                if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+                                                {
+                                                    result = giftDBFunc.UserAddSale(g_SaleInfo);
+                                                }
+                                                else
+                                                {
+                                                    DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                                                    return;
+                                                }
+                                                #endregion
                                                 if (result == 3)
                                                 {
                                                     await ShowMessage("판매내역에서 확인해주세요.", "알림", "OK", async () =>

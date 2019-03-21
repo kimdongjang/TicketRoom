@@ -12,6 +12,7 @@ using TicketRoom.Views.MainTab.Dael.Purchase;
 using TicketRoom.Views.MainTab.MyPage;
 using TicketRoom.Views.MainTab.MyPage.SaleList;
 using TicketRoom.Views.MainTab.Shop;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -31,61 +32,74 @@ namespace TicketRoom.Views.MainTab.Popup
 
         private void ConfirmBtn_Clicked(object sender, EventArgs e)
         {
-            string str = @"{";
-            str += "slnum : '" + slnum;
-            str += "',salepw:'" + MyPWEntry.Text;
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "CheckSalePw") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-
-            try
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
+                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                return;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                string str = @"{";
+                str += "slnum : '" + slnum;
+                str += "',salepw:'" + MyPWEntry.Text;
+                str += "'}";
 
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "CheckSalePw") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+
+                try
+                {
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                     {
 
-                        // readdata
-                        var readdata = reader.ReadToEnd();
-                        string test = JsonConvert.DeserializeObject<string>(readdata);
-
-                        if(test !=null && test != "null")
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                         {
-                            if (test.Equals("true"))
+
+                            // readdata
+                            var readdata = reader.ReadToEnd();
+                            string test = JsonConvert.DeserializeObject<string>(readdata);
+
+                            if (test != null && test != "null")
                             {
-                                PopupNavigation.Instance.RemovePageAsync(this);
-                                slp.Navigation.PushAsync(new SaleDetailListGift(slnum));
+                                if (test.Equals("true"))
+                                {
+                                    PopupNavigation.Instance.RemovePageAsync(this);
+                                    slp.Navigation.PushAsync(new SaleDetailListGift(slnum));
+                                }
+                                else
+                                {
+                                    PopupNavigation.Instance.RemovePageAsync(this);
+                                    slp.DisplayAlert("알림", "접수비밀번호가 틀렸습니다", "OK");
+                                }
                             }
-                            else
-                            {
-                                PopupNavigation.Instance.RemovePageAsync(this);
-                                slp.DisplayAlert("알림", "접수비밀번호가 틀렸습니다", "OK");
-                            }
+
                         }
-                        
                     }
                 }
+                catch (Exception ex)
+                {
+                    slp.check_salepw = false;
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
             }
-            catch (Exception ex)
-            {
-                slp.check_salepw = false;
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
+            #endregion
         }
     }
 }

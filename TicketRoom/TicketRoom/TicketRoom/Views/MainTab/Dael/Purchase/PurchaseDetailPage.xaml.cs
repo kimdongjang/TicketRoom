@@ -569,6 +569,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                                     else
                                     {
                                         DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                                        Global.isPurchaseDeatailBtn_clicked = true;
                                         return;
                                     }
                                     #endregion

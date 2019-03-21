@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.PointData;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,8 +28,19 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 			InitializeComponent ();
             this.pcp = pcp;
             this.pp = pp;
-
-            pcl = PT_DB.PostSearchChargeListToID(pp.USER_ID);
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+                pcl = null;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                pcl = PT_DB.PostSearchChargeListToID(pp.USER_ID);
+            }
+            #endregion
             MyPoint = pp.PT_POINT_HAVEPOINT;
             MyPointLabel.Text = "보유 포인트 : " + MyPoint.ToString();
             Init();
@@ -36,6 +48,25 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
         }
         private void Init()
         {
+            if (pcl == null)
+            {
+                MainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+                CustomLabel nullproduct = new CustomLabel
+                {
+                    Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    YAlign = TextAlignment.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                MainGrid.Children.Clear();
+                MainGrid.RowDefinitions.Clear();
+                MainGrid.Children.Add(nullproduct, 0, 0);
+                return;
+            }
+
             for (int i = 0; i < pcl.Count; i++)
             {
                 MainGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
@@ -145,9 +176,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 point_label_grid.Children.Add(date_label, 0, 1);
                 point_label_grid.Children.Add(content_label, 0, 3);
                 #endregion
-
-
-
             }
         }
 	}

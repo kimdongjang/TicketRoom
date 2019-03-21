@@ -6,6 +6,7 @@ using TicketRoom.Models.Custom;
 using TicketRoom.Models.Effect;
 using TicketRoom.Models.ShopData;
 using TicketRoom.Views.MainTab.Shop;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -56,23 +57,37 @@ namespace TicketRoom.Views.MainTab.Basket
 
         private void ShowBasketList()
         {
-            basketList = SH_DB.PostSearchBasketListToID(basketID); // 사용자 아이디
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+                basketList = null;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                basketList = SH_DB.PostSearchBasketListToID(basketID); // 사용자 아이디
+            }
+            #endregion
 
             BasketGridList.Clear();
             Basketlist_Grid.Children.Clear();
             Basketlist_Grid.RowDefinitions.Clear();
 
-            if(basketList == null)
+            #region 네트워크 연결 불가
+            if (basketList == null)
             {
                 CustomLabel alert = new CustomLabel
                 {
-                    Text = "장바구니에 내용이 없습니다!",
+                    Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
                     Size = 18,
                     HorizontalOptions = LayoutOptions.Center,
                 };
                 Basketlist_Grid.Children.Add(alert);
                 return;
             }
+            #endregion
 
             int row = 0;
             for (int i = 0; i < basketList.Count; i++)

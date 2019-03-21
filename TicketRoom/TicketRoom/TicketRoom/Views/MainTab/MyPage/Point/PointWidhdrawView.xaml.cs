@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TicketRoom.Models.PointData;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -60,17 +61,30 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 await App.Current.MainPage.DisplayAlert("알림", "출금 금액이 입력되지 않았습니다.", "확인");
                 return;
             }
-            if (PT_DB.PostInsertPointWithDrawToID("포인트 출금", // 내용
-                BankPicker.SelectedItem.ToString(), // 출금은행
-                AccountEntry.Text, // 출금계좌
-                NameEntry.Text, // 예금주
-                pp.USER_ID, // 유저아이디
-                WidhdrawPointEntry.Text, // 출금금액
-                pp.PT_POINT_INDEX.ToString()) == false)  // 포인트 인덱스
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                await App.Current.MainPage.DisplayAlert("알림", "포인트 출금에 실패했습니다. 다시 한번 시도해주십시오.", "확인");
+                await App.Current.MainPage.DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
                 return;
             }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                if (PT_DB.PostInsertPointWithDrawToID("포인트 출금", // 내용
+                    BankPicker.SelectedItem.ToString(), // 출금은행
+                    AccountEntry.Text, // 출금계좌
+                    NameEntry.Text, // 예금주
+                    pp.USER_ID, // 유저아이디
+                    WidhdrawPointEntry.Text, // 출금금액
+                    pp.PT_POINT_INDEX.ToString()) == false)  // 포인트 인덱스
+                {
+                    await App.Current.MainPage.DisplayAlert("알림", "포인트 출금에 실패했습니다. 다시 한번 시도해주십시오.", "확인");
+                    return;
+                }
+            }
+            #endregion
             
             await App.Current.MainPage.DisplayAlert("알림", "포인트 출금에 성공했습니다.", "확인");
             await Navigation.PopAsync();

@@ -133,72 +133,86 @@ namespace TicketRoom.Views
 
         private void Init()
         {
-            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
-
             try
             {
-                #region 방문자수 올리는부분
-                if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+                #region 네트워크 상태 확인
+                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                 {
-                    AddVisitors();
-                }
-
-                #endregion
-                if (File.Exists(Global.localPath + "app.config") == false) // 앱 설정 파일이 없다면 생성
-                {
-                    if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+                    Global.ID = "";
+                    Global.non_user_id = "";
+                    Global.user = new USERS();
+                    Global.adress = new ADRESS();
+                    if (File.Exists(Global.localPath + "app.config") == false) // 앱 설정 파일이 없다면 생성
                     {
-                        Global.non_user_id = USER_DB.PostInsertNonUsersID(); // 사용가능한 비회원 아이디 검색
-                    }
-                    else
-                    {
-                        Global.non_user_id = "검색실패"; // 아이디 검색 실패시 null로 처리
-                    }
-
-                    // config파일 작성
-                    File.WriteAllText(Global.localPath + "app.config",
+                        // config파일 작성
+                        File.WriteAllText(Global.localPath + "app.config",
                         "NonUserID=" + Global.non_user_id + "\n" +
                         "IsLogin=" + Global.b_user_login.ToString() + "\n" + // 회원 로그인 false
                         "AutoLogin=" + Global.b_auto_login.ToString() + "\n" + // 자동 로그인 false
                         "UserID=" + Global.ID + "\n"); // 회원 아이디(지금은 잠시 아이디로 대체함)
+                        return;
+                    }
                 }
+                #endregion
+                #region 네트워크 연결 가능
                 else
                 {
-                    // config 파일 정보를 읽어옴
-                    string text = File.ReadAllText(Global.localPath + "app.config");
-                    string[] temp = text.Split('\n');
-                    int textPoint = temp[0].IndexOf("NonUserID="); // 0행 째의 라인
-                    Global.non_user_id = temp[0].Substring(textPoint).Replace("NonUserID=", "");
-                    textPoint = temp[1].IndexOf("IsLogin="); // 1행 째의 라인
-                    Global.b_user_login = IsBoolCheckFunc(temp[1].Substring(textPoint).Replace("IsLogin=", ""));
-                    textPoint = temp[2].IndexOf("AutoLogin="); // 2행 째의 라인
-                    Global.b_auto_login = IsBoolCheckFunc(temp[2].Substring(textPoint).Replace("AutoLogin=", ""));
-                    if (Global.b_auto_login == true) // 자동 로그인이 되어있다면
+
+                    #region 방문자수 올리는부분
+                    AddVisitors();
+                    #endregion
+                    if (File.Exists(Global.localPath + "app.config") == false) // 앱 설정 파일이 없다면 생성
                     {
-                        textPoint = temp[3].IndexOf("UserID="); // 3행 째의 라인
-                        Global.ID = temp[3].Substring(textPoint).Replace("UserID=", "");
+                        Global.non_user_id = USER_DB.PostInsertNonUsersID(); // 사용가능한 비회원 아이디 검색
+
+                        // config파일 작성
+                        File.WriteAllText(Global.localPath + "app.config",
+                            "NonUserID=" + Global.non_user_id + "\n" +
+                            "IsLogin=" + Global.b_user_login.ToString() + "\n" + // 회원 로그인 false
+                            "AutoLogin=" + Global.b_auto_login.ToString() + "\n" + // 자동 로그인 false
+                            "UserID=" + Global.ID + "\n"); // 회원 아이디(지금은 잠시 아이디로 대체함)
                     }
                     else
                     {
-                        Global.ID = "";
+                        // config 파일 정보를 읽어옴
+                        string text = File.ReadAllText(Global.localPath + "app.config");
+                        string[] temp = text.Split('\n');
+                        int textPoint = temp[0].IndexOf("NonUserID="); // 0행 째의 라인
+                        Global.non_user_id = temp[0].Substring(textPoint).Replace("NonUserID=", "");
+                        textPoint = temp[1].IndexOf("IsLogin="); // 1행 째의 라인
+                        Global.b_user_login = IsBoolCheckFunc(temp[1].Substring(textPoint).Replace("IsLogin=", ""));
+                        textPoint = temp[2].IndexOf("AutoLogin="); // 2행 째의 라인
+                        Global.b_auto_login = IsBoolCheckFunc(temp[2].Substring(textPoint).Replace("AutoLogin=", ""));
+                        if (Global.b_auto_login == true) // 자동 로그인이 되어있다면
+                        {
+                            textPoint = temp[3].IndexOf("UserID="); // 3행 째의 라인
+                            Global.ID = temp[3].Substring(textPoint).Replace("UserID=", "");
+                        }
+                        else
+                        {
+                            Global.ID = "";
+                        }
+
+                        if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+                        {
+                            // 회원 정보와 주소 정보를 가져옴
+                            Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                            Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                        }
+                        else
+                        {
+                            // 실패시 null로 처리... 객체라서 어쩔 수 업음
+                            Global.user = new USERS();
+                            Global.adress = new ADRESS();
+                        }
                     }
                 }
+                #endregion
             }
             catch
             {
 
-            }
-            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
-            {
-                // 회원 정보와 주소 정보를 가져옴
-                Global.user = USER_DB.PostSelectUserToID(Global.ID);
-                Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
-            }
-            else
-            {
-                // 실패시 null로 처리... 객체라서 어쩔 수 업음
-                Global.user = null;
-                Global.adress = null;
             }
         }
 
