@@ -98,7 +98,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 CachedImage bestimage = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     Source = ImageSource.FromUri(new Uri(sclist[i].SH_SUBCATE_IMAGE)),
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
@@ -141,7 +141,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 CachedImage grade_image = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     Source = "star.png",
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,

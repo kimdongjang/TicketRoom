@@ -14,11 +14,11 @@
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" BackgroundColor="CornflowerBlue">
+        <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" BackgroundColor="White">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
 
             <!--#region 0열 백버튼 등 이미지-->
@@ -38,7 +38,7 @@
                     Grid.Column="0"
                     Text="구매내역(전체)"
                     Size="18"
-                    TextColor="White"
+                    TextColor="Black"
                      XAlign="End" YAlign="Center"
                     />
             </Grid>
@@ -57,7 +57,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <!--#region 1행 주기 탭 이미지 라벨-->
-            <Grid Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="ImageGrid" BackgroundColor="CornflowerBlue">
+            <Grid Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="ImageGrid" BackgroundColor="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -99,16 +99,26 @@
 
 
         <!--#region 4행 상품권/쇼핑몰 탭매뉴-->
-        <Grid Grid.Row="4" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="4" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" Margin="0,3,0,3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0" BackgroundColor="White" Margin="1" x:Name="TapGiftGrid">
-                <custom:CustomLabel Size="22" Text="상품권" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" x:Name="TapGiftGridLabel" />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="5*"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" x:Name="GiftSelectImage" Aspect="AspectFill" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <custom:CustomLabel Grid.Row="1" Size="14" Text="상품권" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" x:Name="TapGiftGridLabel" />
             </Grid>
             <Grid Grid.Column="1" BackgroundColor="White" Margin="1" x:Name="TapShopingGrid">
-                <custom:CustomLabel Size="22" Text="쇼핑몰" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" x:Name="TapShopingGridLabel"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="5*"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" x:Name="ShopSelectImage" Aspect="AspectFill" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <custom:CustomLabel Grid.Row="1" Size="14" Text="쇼핑몰" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" x:Name="TapShopingGridLabel"/>
             </Grid>
         </Grid>
         <!--#endregion-->

@@ -8,16 +8,17 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="1"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
-        <Grid Grid.Row="1" BackgroundColor="CornflowerBlue" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="1" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
 
             <!--#region 0열 백버튼 등 이미지-->
@@ -29,9 +30,9 @@
             <!--#endregion-->
 
             <!--#region 1열 액션바 타이틀-->
-            <local1:CustomLabel Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
+            <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
                     Text="실시간 시세 표시"
-                    TextColor="White"
+                    TextColor="Black"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 
@@ -40,8 +41,12 @@
             <!--#endregion-->
         </Grid>
         <!--#endregion-->
+        
+        <!--#region 2행 보더라인-->
+        <BoxView Grid.Row="2" BackgroundColor="LightGray"/>
+        <!--#endregion -->
 
-        <Grid Grid.Row="2" Margin="20,0,20,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+        <Grid Grid.Row="3" Margin="20,0,20,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -73,7 +78,7 @@
 
         </Grid>
 
-        <ScrollView Grid.Row="3" Margin="10,0,10,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <ScrollView Grid.Row="4" Margin="10,0,10,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <Grid x:Name="Price_Grid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="2" ColumnSpacing="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

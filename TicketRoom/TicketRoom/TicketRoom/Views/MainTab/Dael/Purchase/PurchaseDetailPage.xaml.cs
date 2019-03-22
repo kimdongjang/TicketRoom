@@ -93,7 +93,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 CachedImage product_image = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     Source = ImageSource.FromUri(new Uri(g_PurchasedetailInfos[i].PRODUCT_IMAGE)),
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,

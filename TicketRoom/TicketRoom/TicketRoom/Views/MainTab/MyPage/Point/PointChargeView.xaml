@@ -43,17 +43,7 @@
                         <Image Grid.Column="0" Source="radio_checked_icon.png" x:Name="CardRadioImage"
                                    BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
                                    HeightRequest="40" WidthRequest="40"/>
-                        <custom:CustomLabel Grid.Column="1" Text="신용/체크카드 결제" Size="18"  VerticalOptions="Center"/>
-                    </Grid>
-                    <Grid Grid.Column="1" x:Name="CashOptionGrid">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="radio_unchecked_icon.png" x:Name="CashRadioImage"
-                                   BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"
-                                   HeightRequest="40" WidthRequest="40"/>
-                        <custom:CustomLabel Grid.Column="1" Text="현금 결제" Size="18"  VerticalOptions="Center"/>
+                        <custom:CustomLabel Grid.Column="1" Text="무통장입금/계좌이체" Size="18"  VerticalOptions="Center"/>
                     </Grid>
                 </Grid>
                 <!-- 6행 라디오 버튼 클릭시 생성되는 레이블 -->

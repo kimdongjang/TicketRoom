@@ -229,7 +229,7 @@ namespace TicketRoom.Views.MainTab
                 CachedImage recentImage = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
                     Aspect = Aspect.AspectFit,
@@ -353,7 +353,7 @@ namespace TicketRoom.Views.MainTab
                     CachedImage image = new CachedImage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
-                        ErrorPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.NotFoundImagePath,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         HorizontalOptions = LayoutOptions.EndAndExpand,
                         WidthRequest = 40,

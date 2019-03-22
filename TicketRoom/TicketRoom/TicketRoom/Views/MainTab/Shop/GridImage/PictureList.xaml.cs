@@ -58,7 +58,7 @@ namespace TicketRoom.Views.MainTab.Shop.GridImage
                 CachedImage image = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     Source = ImageSource.FromUri(new Uri(imageList[i].SH_IMAGELIST_SOURCE)),
                     Aspect = Aspect.AspectFill,
                 };

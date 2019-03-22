@@ -59,7 +59,7 @@
                     <ColumnDefinition Width="40"/>
                 </Grid.ColumnDefinitions>
                 <!--#region 0열 상품권 이미지-->
-                <forms:CachedImage Grid.Column="0" x:Name="Pro_imgae" LoadingPlaceholder = "Global.LoadingImagePath" ErrorPlaceholder = "Global.LoadingImagePath" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Aspect="AspectFit"/>
+                <forms:CachedImage Grid.Column="0" x:Name="Pro_imgae" LoadingPlaceholder = "Global.LoadingImagePath" ErrorPlaceholder = "Global.NotFoundImagePath" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Aspect="AspectFit"/>
                 <!--#endregion-->
 
                 <!--#region 1열 상품정보 Label Grid-->

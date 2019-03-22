@@ -16,7 +16,7 @@
             </Grid.RowDefinitions>
 
             <!--#region 1행 커스텀 액션바 -->
-            <Grid Grid.Row="1" BackgroundColor="CornflowerBlue">
+            <Grid Grid.Row="1" BackgroundColor="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
@@ -33,7 +33,7 @@
                 <!--#region 1열 액션바 타이틀-->
                 <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="1"
                     x:Name="TitleName"
-                    TextColor="White"
+                    TextColor="Black"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
                 <!--#endregion-->
 
@@ -69,7 +69,7 @@
                         <Grid Grid.Row="0">
                             <StackLayout HorizontalOptions="Center">
                                 <forms:CachedImage x:Name="MainShopImage" HeightRequest="300" WidthRequest="300" Aspect="AspectFill"
-                                                   LoadingPlaceholder="Global.LoadingImagePath" ErrorPlaceholder="Global.LoadingImagePath"/>
+                                                   LoadingPlaceholder="Global.LoadingImagePath" ErrorPlaceholder="Global.NotFoundImagePath"/>
                             </StackLayout>
                         </Grid>
                         <!--#endregion-->

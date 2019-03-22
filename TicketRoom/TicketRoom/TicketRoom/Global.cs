@@ -31,7 +31,7 @@ namespace TicketRoom
 
         public static string localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         public static string LoadingImagePath = "load.png";
-        public static string NotFoundImagePath = "not_found.png";
+        public static string NotFoundImagePath = "not_image.png";
 
         public static bool ISLOGIN = true;
 

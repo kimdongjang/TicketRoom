@@ -66,8 +66,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -106,8 +106,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -145,8 +145,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -185,8 +185,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -225,8 +225,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -271,8 +271,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -542,8 +542,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 {
                     ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                     RowSpacing = 0,
                 };
@@ -582,8 +582,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 {
                     ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                     RowSpacing = 0,
                 };
@@ -622,8 +622,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 {
                     ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                     RowSpacing = 0,
                 };
@@ -663,9 +663,9 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 {
                     ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(4, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
                     },
                     RowSpacing = 0,
                 };

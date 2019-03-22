@@ -115,7 +115,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 CachedImage product_image = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     Source = basketList[i].SH_BASKET_IMAGE,
                     BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
