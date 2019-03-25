@@ -214,38 +214,44 @@ namespace TicketRoom.Services
         // 카테고리 넘버로 카테고리 리스트 가져오기
         public List<DetailCategory> PostSelectDetailCategoryToIndex(string category_num)
         {
-            string str = @"{";
-            str += "category_num:'" + category_num;  //아이디찾기에선 Name으로 
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            //request.Method = "POST";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "GIFT_SelectDetailCategoryToIndex") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            //request.Expect = "application/json";
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            try
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                string str = @"{";
+                str += "category_num:'" + category_num;  //아이디찾기에선 Name으로 
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "GIFT_SelectDetailCategoryToIndex") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                 {
-                    var readdata = reader.ReadToEnd();
-                    List<DetailCategory> test = JsonConvert.DeserializeObject<List<DetailCategory>>(readdata);
-                    return test;
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        List<DetailCategory> test = JsonConvert.DeserializeObject<List<DetailCategory>>(readdata);
+                        return test;
+                    }
                 }
             }
-            return null;
+            catch
+            {
+                return null;
+            }
         }
 
 

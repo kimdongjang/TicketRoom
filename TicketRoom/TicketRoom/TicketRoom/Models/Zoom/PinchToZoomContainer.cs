@@ -7,7 +7,6 @@ namespace TicketRoom.Models.Zoom
 {
     public class PinchToZoomContainer : ContentView
     {
-        double x, y;
         double currentScale = 1;
         double startScale = 1;
         double xOffset = 0;
