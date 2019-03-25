@@ -123,6 +123,8 @@ namespace TicketRoom.Views.Users.CreateUser
             else if (pdp != null)
             {
                 pdp.EntryAdress.Text = Global.adress.ROADADDR;
+                pdp.jibunAddr = Global.adress.ROADADDR;
+                pdp.zipNo = Global.adress.ROADADDR;
             }
             // 쇼핑몰 주문 페이지 주소 변경시
             else if (sop != null)

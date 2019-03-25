@@ -30,6 +30,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         PopupPhoneEntry popup_phone; // 핸드폰 번호 변경 팝업 객체
         PopupNameEntry popup_name; // 핸드폰 번호 변경 팝업 객체
 
+        List<ADRESS> user_addrs = null;
         public string jibunAddr = ""; // 지번 주소 
         public string zipNo = "";     // 우편 번호
 
@@ -278,8 +279,10 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                                     {
                                         Addr_Picker.Items.Add(test[i].ROADADDR);
                                     }
-
+                                    user_addrs = test;
                                     EntryAdress.Text = test[0].ROADADDR;
+                                    jibunAddr = test[0].JIBUNADDR;
+                                    zipNo = test[0].ZIPNO.ToString();
                                 }
                             }
                         }
@@ -678,7 +681,9 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         private void Addr_PickerChanged(object sender, EventArgs e)
         {
-            EntryAdress.Text = Addr_Picker.SelectedItem.ToString();
+            EntryAdress.Text = user_addrs[Addr_Picker.SelectedIndex].ROADADDR;
+            jibunAddr = user_addrs[Addr_Picker.SelectedIndex].JIBUNADDR;
+            zipNo = user_addrs[Addr_Picker.SelectedIndex].ZIPNO.ToString();
         }
 
         private void ChaneName_btnClicked(object sender, EventArgs e)
