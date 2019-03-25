@@ -89,7 +89,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             #endregion
             for (int i = 0; i < wdl.Count; i++)
             {
-                MainGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+                MainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
 
                 // 박스의 구분선 생성
                 BoxView BorderLine1 = new BoxView { BackgroundColor = Color.CornflowerBlue, };

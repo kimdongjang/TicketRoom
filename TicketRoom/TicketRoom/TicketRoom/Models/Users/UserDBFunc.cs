@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using TicketRoom.Models.Gift.Purchase;
 
 namespace TicketRoom.Models.Users
 {
@@ -33,6 +34,35 @@ namespace TicketRoom.Models.Users
 
             return _instance;
         }
+
+
+        public List<AccountInfo> GetSelectAllAccount() // 계좌 리스트 검색
+        {
+            try
+            {
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectAllAccount") as HttpWebRequest;
+                request.Method = "GET";
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        List<AccountInfo> test = JsonConvert.DeserializeObject<List<AccountInfo>>(readdata);
+                        return test;
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         // DB에서 홈 인덱스로 홈페이지 가져오기
         public string PostInsertNonUsersID()
         {

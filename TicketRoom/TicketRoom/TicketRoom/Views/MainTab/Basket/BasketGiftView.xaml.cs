@@ -163,7 +163,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 CachedImage product_image = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     Source = ImageSource.FromUri(new Uri(BasketList[i].BK_PRODUCT_IMAGE)),
                     BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.CenterAndExpand,

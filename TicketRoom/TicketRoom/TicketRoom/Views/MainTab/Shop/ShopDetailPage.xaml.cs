@@ -202,7 +202,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 CachedImage image = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
                     Aspect = Aspect.AspectFill,
@@ -289,7 +289,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     CachedImage image = new CachedImage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
-                        ErrorPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.NotFoundImagePath,
                         Aspect = Aspect.AspectFill,
                     };
                     if (imageList.Count <= i)

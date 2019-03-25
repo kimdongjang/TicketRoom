@@ -211,8 +211,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -251,8 +251,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -305,8 +305,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -344,8 +344,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -383,8 +383,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -423,8 +423,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -463,8 +463,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                     },
                 RowSpacing = 0,
             };
@@ -530,9 +530,9 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 ColumnDefinitions =
                     {
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(4, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                        new ColumnDefinition { Width = 100 },
                     },
                 RowSpacing = 0,
             };
@@ -548,7 +548,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             };
             CustomLabel input_deliveryNumber_Label = new CustomLabel // 실제 송장 번호 데이터베이스에서 가져올것!
             {
-                Text = "123",
+                Text = "",
                 Size = 14,
                 TextColor = Color.DarkGray,
                 VerticalOptions = LayoutOptions.CenterAndExpand,

@@ -261,11 +261,11 @@ namespace TicketRoom.Views.MainTab.MyPage
 
             if (cv == plg) // 상품권이 선택되었을 경우
             {
-                TapShopingGridLabel.TextColor = Color.White;
-                TapShopingGrid.BackgroundColor = Color.CornflowerBlue;
-
+                ShopSelectImage.Source = "main_shop_non.png";
+                TapShopingGridLabel.TextColor = Color.Black;
+                GiftSelectImage.Source = "main_gift_h.png";
                 TapGiftGridLabel.TextColor = Color.CornflowerBlue;
-                TapGiftGrid.BackgroundColor = Color.White;
+
                 TabListColorChange(0);
 
                 if (Global.b_user_login)
@@ -281,11 +281,11 @@ namespace TicketRoom.Views.MainTab.MyPage
             }
             else // 쇼핑몰이 선택 되었을 경우
             {
+                ShopSelectImage.Source = "main_shop_h.png";
                 TapShopingGridLabel.TextColor = Color.CornflowerBlue;
-                TapShopingGrid.BackgroundColor = Color.White;
+                GiftSelectImage.Source = "main_gift_non.png";
+                TapGiftGridLabel.TextColor = Color.Black;
 
-                TapGiftGridLabel.TextColor = Color.White;
-                TapGiftGrid.BackgroundColor = Color.CornflowerBlue;
                 TabListColorChange(0);
 
                 if (Global.b_user_login) // 로그인 상태인 경우

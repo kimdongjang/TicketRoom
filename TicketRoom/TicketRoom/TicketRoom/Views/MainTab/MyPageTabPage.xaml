@@ -14,9 +14,9 @@
         <!--#region 1행 커스텀 액션바 -->
         <Grid Grid.Row="1" BackgroundColor="White">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
             <!--#region 1열 액션바 타이틀-->
             <Grid Grid.Column="1" HorizontalOptions="CenterAndExpand" RowSpacing="0" ColumnSpacing="0">

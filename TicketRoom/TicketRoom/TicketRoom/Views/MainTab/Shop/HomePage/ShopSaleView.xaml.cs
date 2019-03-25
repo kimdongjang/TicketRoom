@@ -60,7 +60,7 @@ namespace TicketRoom.Views.MainTab.Shop
             Grid bestGrid = new Grid();
             if (productList.Count == 0) // 등록된 상품이 없을 경우
             {
-                bestGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+                bestGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
                 CustomLabel best_error = new CustomLabel
                 {
                     Text = "등록된 상품이 없습니다.",
@@ -76,12 +76,12 @@ namespace TicketRoom.Views.MainTab.Shop
                 // 베스트 이미지로 분류가 되었을 경우
                 if (productList[i].SH_PRODUCT_ISBEST == "TRUE")
                 {
-                    bestGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+                    bestGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
 
                     Grid best_rowGrid = new Grid
                     {
                         ColumnDefinitions = {
-                        new ColumnDefinition { Width = 30 },
+                        new ColumnDefinition { Width = 20 },
                         new ColumnDefinition { Width = new GridLength(4, GridUnitType.Star) },
                         new ColumnDefinition { Width = new GridLength(6, GridUnitType.Star)  }
                     },
@@ -91,12 +91,13 @@ namespace TicketRoom.Views.MainTab.Shop
                     CachedImage bestimage = new CachedImage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
-                        ErrorPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.NotFoundImagePath,
                         Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
                         Aspect = Aspect.AspectFit,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Center,
-                        Margin = 5
+                        Margin = 5,
+                        HeightRequest = 100,
                     };
 
                     // 쇼핑 페이지 타이틀, 평점, 세부내용 출력을 위한 내부 그리드
@@ -104,11 +105,11 @@ namespace TicketRoom.Views.MainTab.Shop
                     {
                         RowDefinitions =
                     {
-                        new RowDefinition {Height = 10 },
-                        new RowDefinition {Height = new GridLength(1, GridUnitType.Star) },
-                        new RowDefinition {Height = new GridLength(1, GridUnitType.Star) },
-                        new RowDefinition {Height = 28 },
-                        new RowDefinition {Height = 10 },
+                        new RowDefinition {Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition {Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition {Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition {Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition {Height = new GridLength(1, GridUnitType.Auto) },
                     },
                         Margin = new Thickness(10, 0, 10, 0),
                     };
@@ -119,7 +120,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     CustomLabel bestHome = new CustomLabel
                     {
                         Text = "상품 이름 : " + productList[i].SH_PRODUCT_NAME,
-                        Size = 14,
+                        Size = 18,
                         TextColor = Color.Black,
                         MaxLines = 1,
 
@@ -127,7 +128,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     CustomLabel bestValue = new CustomLabel
                     {
                         Text = productList[i].SH_PRODUCT_PRICE.ToString("N0") + "원",
-                        Size = 18,
+                        Size = 14,
                         TextColor = Color.Black,
                     };
                     CustomLabel bestAddDetail = new CustomLabel
@@ -183,7 +184,7 @@ namespace TicketRoom.Views.MainTab.Shop
             Grid naturalGrid = new Grid();
             if (productList.Count == 0) // 등록된 상품이 없을 경우
             {
-                naturalGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+                naturalGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
                 CustomLabel natural_error = new CustomLabel
                 {
                     Text = "등록된 상품이 없습니다.",
@@ -196,12 +197,12 @@ namespace TicketRoom.Views.MainTab.Shop
             }
             for (int i = 0; i < productList.Count; i++)
             {
-                naturalGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+                naturalGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
 
                 Grid natural_rowGrid = new Grid
                 {
                     ColumnDefinitions = {
-                        new ColumnDefinition { Width = 30 },
+                        new ColumnDefinition { Width = 20 },
                         new ColumnDefinition { Width = new GridLength(4, GridUnitType.Star) },
                         new ColumnDefinition { Width = new GridLength(6, GridUnitType.Star)  }
                     },
@@ -211,12 +212,13 @@ namespace TicketRoom.Views.MainTab.Shop
                 CachedImage natrueimage = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
                     Aspect = Aspect.AspectFit,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
-                    Margin = 5
+                    Margin = 5,
+                    HeightRequest = 100,
                 };
 
                 // 쇼핑 페이지 타이틀, 평점, 세부내용 출력을 위한 내부 그리드
@@ -224,11 +226,11 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     RowDefinitions =
                     {
-                        new RowDefinition {Height = 10 },
-                        new RowDefinition {Height = new GridLength(1, GridUnitType.Star) },
-                        new RowDefinition {Height = new GridLength(1, GridUnitType.Star) },
-                        new RowDefinition {Height = 28 },
-                        new RowDefinition {Height = 10 },
+                        new RowDefinition {Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition {Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition {Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition {Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition {Height = new GridLength(1, GridUnitType.Auto) },
                     },
                     Margin = new Thickness(10, 0, 10, 0),
                 };
@@ -238,7 +240,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 CustomLabel naturalHome = new CustomLabel
                 {
                     Text = "상품 이름 : " + productList[i].SH_PRODUCT_NAME,
-                    Size = 14,
+                    Size = 18,
                     TextColor = Color.Black,
                     MaxLines = 1,
 
@@ -246,7 +248,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 CustomLabel naturalValue = new CustomLabel
                 {
                     Text = productList[i].SH_PRODUCT_PRICE.ToString("N0") + "원",
-                    Size = 18,
+                    Size = 14,
                     TextColor = Color.Black,
                 };
                 CustomLabel naturalAddDetail = new CustomLabel

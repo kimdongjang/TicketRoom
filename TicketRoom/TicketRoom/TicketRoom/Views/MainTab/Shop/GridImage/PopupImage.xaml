@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <local:PinchToZoomContainer Grid.Row="0">
             <local:PinchToZoomContainer.Content>
-                <forms:CachedImage x:Name="SeenImage" Aspect="AspectFit" HeightRequest="600" WidthRequest="300" LoadingPlaceholder = "Global.LoadingImagePath" ErrorPlaceholder = "Global.LoadingImagePath"/>
+                <forms:CachedImage x:Name="SeenImage" Aspect="AspectFit" HeightRequest="600" WidthRequest="300" LoadingPlaceholder = "Global.LoadingImagePath" ErrorPlaceholder = "Global.NotFoundImagePath"/>
             </local:PinchToZoomContainer.Content>
         </local:PinchToZoomContainer>
         <models:CustomLabel Grid.Row="1" Text="" Size="18" x:Name="ProductContentLabel"/>

@@ -76,7 +76,7 @@
                             <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
                         <!--#region 0열 상품권 이미지-->
-                        <forms:CachedImage Grid.Column="0" LoadingPlaceholder = "Global.LoadingImagePath" ErrorPlaceholder = "Global.LoadingImagePath" x:Name="Pro_imgae" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                        <forms:CachedImage Grid.Column="0" LoadingPlaceholder = "Global.LoadingImagePath" ErrorPlaceholder = "Global.NotFoundImagePath" x:Name="Pro_imgae" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
                         <!--#endregion-->
 
                         <!--#region 1열 상품정보 Label Grid-->

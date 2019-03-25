@@ -35,10 +35,10 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             }
             #endregion
 
-            LoadingInit();
+            LoadingInitAsync();
         }
 
-        private async Task LoadingInit()
+        private async void LoadingInitAsync()
         {
             TabColorChanged(0);
 
@@ -48,7 +48,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
             if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                await DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
                 pp = null;
                 // 로딩 완료
                 await Global.LoadingEndAsync();
@@ -72,6 +72,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             // 로딩 완료
             await Global.LoadingEndAsync();
         }
+        
 
         public void init(ContentView cv)
         {

@@ -45,17 +45,17 @@ namespace TicketRoom.Views.MainTab
         {
             if (cv == bgv) // 상품권이 선택되었을 경우
             {
-                ShopSelect.TextColor = Color.White;
-                ((Grid)ShopSelect.Parent).BackgroundColor = Color.CornflowerBlue;
+                ShopSelectImage.Source = "main_shop_non.png";
+                ShopSelect.TextColor = Color.Black;
+                GiftSelectImage.Source = "main_gift_h.png";
                 GiftSelect.TextColor = Color.CornflowerBlue;
-                ((Grid)GiftSelect.Parent).BackgroundColor = Color.White;
             }
             else // 쇼핑몰이 선택 되었을 경우
             {
+                GiftSelectImage.Source = "main_gift_non.png";
+                GiftSelect.TextColor = Color.Black;
+                ShopSelectImage.Source = "main_shop_h.png";
                 ShopSelect.TextColor = Color.CornflowerBlue;
-                ((Grid)ShopSelect.Parent).BackgroundColor = Color.White;
-                GiftSelect.TextColor = Color.White;
-                ((Grid)GiftSelect.Parent).BackgroundColor = Color.CornflowerBlue;
             }
         }
 

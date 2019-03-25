@@ -209,7 +209,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     CachedImage bestimage = new CachedImage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
-                        ErrorPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.NotFoundImagePath,
                         Source = ImageSource.FromUri(new Uri(sclist[i].SH_SUBCATE_IMAGE)),
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Center,
@@ -251,7 +251,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     CachedImage grade_image = new CachedImage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
-                        ErrorPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.NotFoundImagePath,
                         Source = "star.png",
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Center,
@@ -259,7 +259,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     CustomLabel grade_label = new CustomLabel
                     {
                         Text = "평점 : " + sclist[i].SH_SUBCATE_GRADE.ToString(),
-                        Size = 10,
+                        Size = 14,
                         TextColor = Color.Black,
                     };
                     grade_Grid.Children.Add(grade_image, 0, 0);
@@ -269,7 +269,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     CustomLabel bestDetail = new CustomLabel
                     {
                         Text = sclist[i].SH_SUBCATE_DETAIL,
-                        Size = 10,
+                        Size = 14,
                         TextColor = Color.Black,
                         //MaxLines = 2,
                     };
@@ -380,7 +380,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 CachedImage naturalimage = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     Source = ImageSource.FromUri(new Uri(sclist[i].SH_SUBCATE_IMAGE)),
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
@@ -405,7 +405,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 CustomLabel naturalHome = new CustomLabel
                 {
                     Text = sclist[i].SH_SUBCATE_NAME,
-                    Size = 18,
+                    Size = 14,
                     TextColor = Color.Black,
                 };
 

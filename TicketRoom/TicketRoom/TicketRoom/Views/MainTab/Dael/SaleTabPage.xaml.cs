@@ -311,7 +311,7 @@ namespace TicketRoom.Views.MainTab.Dael
                 CachedImage image = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     Source = ImageSource.FromUri(new Uri(salelist[i].PRODUCTIMAGE)),
                     BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.Center

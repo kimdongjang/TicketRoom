@@ -415,7 +415,7 @@ namespace TicketRoom.Views.MainTab.MyPage.SaleList
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
             };
 
-            CustomLabel input_pay_stateLabel = null;
+            CustomLabel input_pay_stateLabel = new CustomLabel();
             if (salelist[0].SL_ISSUCCES.Equals("1"))
             {
                 input_pay_stateLabel = new CustomLabel

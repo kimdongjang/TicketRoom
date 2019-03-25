@@ -15,7 +15,8 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 	public partial class PointWidhdrawView : ContentView
     {
         PointDBFunc PT_DB = PointDBFunc.Instance();
-
+        private bool isChangeText = false;
+        private int usepoint = 0;
         PointCheckPage pcp;
         PT_Point pp;
 
@@ -41,7 +42,12 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
         private async void ConfirmBtn_ClickedAsync(object sender, EventArgs e)
         {
-            if(BankPicker.SelectedIndex == -1)
+            if (usepoint < 10000)
+            {
+                await App.Current.MainPage.DisplayAlert("알림", "포인트 출금은 만원 이상부터 가능합니다.", "확인");
+                return;
+            }
+            if (BankPicker.SelectedIndex == -1)
             {
                 await App.Current.MainPage.DisplayAlert("알림", "출금 은행이 선택되지 않았습니다.", "확인");
                 return;
@@ -56,7 +62,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 await App.Current.MainPage.DisplayAlert("알림", "예금주가 입력되지 않았습니다.", "확인");
                 return;
             }
-            if (WidhdrawPointEntry.Text == "")
+            if (usepoint == 0)
             {
                 await App.Current.MainPage.DisplayAlert("알림", "출금 금액이 입력되지 않았습니다.", "확인");
                 return;
@@ -77,7 +83,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                     AccountEntry.Text, // 출금계좌
                     NameEntry.Text, // 예금주
                     pp.USER_ID, // 유저아이디
-                    WidhdrawPointEntry.Text, // 출금금액
+                    usepoint.ToString(), // 출금금액
                     pp.PT_POINT_INDEX.ToString()) == false)  // 포인트 인덱스
                 {
                     await App.Current.MainPage.DisplayAlert("알림", "포인트 출금에 실패했습니다. 다시 한번 시도해주십시오.", "확인");
@@ -90,37 +96,26 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             await Navigation.PopAsync();
         }
 
-        private void WidhdrawPointEntry_TextChanged(object sender, TextChangedEventArgs e)
+        private void MyUsedPointButton_Clicked(object sender, EventArgs e)
         {
-            try
+            if(WidhdrawPointEntry.Text != "") // null이 아닐 경우
             {
-                WidhdrawPointEntry.Text = int.Parse(Regex.Replace(WidhdrawPointEntry.Text, @"\D", "")).ToString();
-                if (e.NewTextValue.Contains(".") || e.NewTextValue.Equals("-"))
+                usepoint = int.Parse(Regex.Replace(WidhdrawPointEntry.Text, @"\D", "")); // 숫자만 추출
+                if(pp.PT_POINT_HAVEPOINT > usepoint) // 보유 포인트가 사용 포인트보다 많을 경우
                 {
-                    if (e.OldTextValue != null)
-                    {
-                        WidhdrawPointEntry.Text = e.OldTextValue;
-                    }
-                    else
-                    {
-                        WidhdrawPointEntry.Text = "";
-                    }
-                    return;
+                    MyUsedPointLabel.Text = "사용 포인트 : " + usepoint.ToString();
+                    WidhdrawPointEntry.Text = "";
                 }
-                else
+                else if(pp.PT_POINT_HAVEPOINT == 0)// 원래는 0
                 {
-                    if (int.Parse(WidhdrawPointEntry.Text) > pp.PT_POINT_HAVEPOINT) // 입력한 포인트가 보유 포인트보다 클 경우
-                    {
-                        WidhdrawPointEntry.Text = pp.PT_POINT_HAVEPOINT.ToString();
-                    }
-                    else
-                    {
-                    }
+                    App.Current.MainPage.DisplayAlert("알림", "출금 가능한 포인트가 없습니다.", "확인");
+                    WidhdrawPointEntry.Text = "";
                 }
-            }
-            catch
-            {
-
+                else // 많게 입력할 경우 전부 사용
+                {
+                    MyUsedPointLabel.Text = "사용 포인트 : " + pp.PT_POINT_HAVEPOINT.ToString();
+                    WidhdrawPointEntry.Text = "";
+                }
             }
         }
     }

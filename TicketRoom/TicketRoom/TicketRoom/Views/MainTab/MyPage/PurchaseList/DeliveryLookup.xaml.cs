@@ -43,10 +43,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             #region 네트워크 연결 가능
             else
             {
-                //delivery_api_adress = "https://tracker.delivery/#/" + carrier_id + "/" + track_id;
                 //default
                 delivery_api_adress = "https://service.epost.go.kr/trace.RetrieveDomRigiTraceList.comm?sid1=" + track_id + "&displayHeader=N"; // 우체국 등기
-                                                                                                                                               //delivery_api_adress = "https://tracker.delivery/#/kr.logen/90179076831"; // 택배
+                //delivery_api_adress = "https://tracker.delivery/#/" + carrier_id + "/" + track_id;
+                //delivery_api_adress = "https://tracker.delivery/#/kr.logen/90179076831"; // 택배
                 DeliveryWeb.Source = delivery_api_adress;
             }
             #endregion

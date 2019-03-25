@@ -230,7 +230,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     CachedImage product_image = new CachedImage  // 상품 이미지
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
-                        ErrorPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.NotFoundImagePath,
                         Source = ImageSource.FromUri(new Uri(productlist[j].PRODUCTIMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.CenterAndExpand,

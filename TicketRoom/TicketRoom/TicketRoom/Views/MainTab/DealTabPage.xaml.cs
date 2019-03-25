@@ -230,9 +230,11 @@ namespace TicketRoom.Views.MainTab
                     Text = "구매완료",
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
+                    HeightRequest = 30,
                     WidthRequest = 80,
                     HorizontalTextAlignment = TextAlignment.Center,
-                    
+                    VerticalTextAlignment = TextAlignment.Center,
+
                 };
                 sl.Children.Add(statusLabel);
                 inGrid.Children.Add(sl, 0, 0);
@@ -392,7 +394,7 @@ namespace TicketRoom.Views.MainTab
                 CachedImage image = new CachedImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.LoadingImagePath,
+                    ErrorPlaceholder = Global.NotFoundImagePath,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Start,
                     Aspect = Aspect.AspectFill,

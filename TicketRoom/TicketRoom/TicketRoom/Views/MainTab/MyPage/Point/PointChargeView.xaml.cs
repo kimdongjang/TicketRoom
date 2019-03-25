@@ -1,12 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TicketRoom.Models;
 using TicketRoom.Models.Custom;
+using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Models.PointData;
+using TicketRoom.Models.Users;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -16,11 +21,10 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PointChargeView : ContentView
 	{
-
         PointDBFunc PT_DB = PointDBFunc.Instance();
+        UserDBFunc USER_DB = UserDBFunc.Instance();
 
-        CustomPicker card_picker = new CustomPicker();
-        CustomPicker cash_picker = new CustomPicker();
+        CustomPicker account_picker = new CustomPicker();
         string payOption = "Card";
 
         PointCheckPage pcp;
@@ -37,10 +41,13 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             Init();
             CardOptionEnable();
         }
+
+
+
+
         private void Init()
         {
             MyPointLabel.Text = pp.PT_POINT_HAVEPOINT.ToString("N0") + "포인트";
-
 
             PayOptionGrid.Children.Clear();
             
@@ -49,28 +56,16 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 Command = new Command(() =>
                 {
                     CardRadioImage.Source = "radio_checked_icon.png";
-                    CashRadioImage.Source = "radio_unchecked_icon.png";
                     payOption = "Card";
                     PayOptionGrid.Children.Clear();
                     CardOptionEnable();
-                })
-            });
-            CashOptionGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-            {
-                Command = new Command(() =>
-                {
-                    CardRadioImage.Source = "radio_unchecked_icon.png";
-                    CashRadioImage.Source = "radio_checked_icon.png";
-                    payOption = "Personal";
-                    PayOptionGrid.Children.Clear();
-                    CashOptionEnable();
                 })
             });
         }
         private void CardOptionEnable()
         {
             PayOptionGrid.Children.Clear();
-            card_picker.Items.Clear();
+            account_picker.Items.Clear();
             PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
@@ -79,27 +74,51 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             CustomLabel label = new CustomLabel
             {
-                Text = "결제 카드 선택",
+                Text = "결제 계좌 선택",
                 Size = 18,
                 Margin = new Thickness(15, 0, 0, 0),
-        };
-            card_picker = new CustomPicker
+            };
+            account_picker = new CustomPicker
             {
-                Title = "카드를 선택해주세요.",
+                Title = "계좌를 선택해주세요.",
                 FontSize = 18,
             };
-            PayOptionGrid.Children.Add(label, 0, 0);
-            PayOptionGrid.Children.Add(card_picker, 0, 1);
 
-            #region 카드결제 피커 초기화
-            card_picker.Items.Add("농협카드");
-            card_picker.Items.Add("신한카드");
-            card_picker.Items.Add("하나카드");
-            card_picker.Items.Add("국민카드");
-            card_picker.Items.Add("기업카드");
-            card_picker.Items.Add("현대카드");
-            card_picker.Items.Add("삼성카드");
+            #region 네트워크 상태 확인
+            List<AccountInfo> accountlist = new List<AccountInfo>();
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+                accountlist = null;
+            }
             #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                accountlist = USER_DB.GetSelectAllAccount();
+            }
+            #endregion
+
+            if(accountlist == null)
+            {
+                App.Current.MainPage.DisplayAlert("알림", "네트워크 연결이 되지 않았습니다!", "확인");
+                return;
+            }
+            #region 계좌 피커 초기화
+            else
+            {
+                for (int i = 0; i < accountlist.Count; i++)
+                {
+                    account_picker.Items.Clear();
+                    account_picker.Items.Add(accountlist[i].AC_BANKNAME + ": " + accountlist[i].AC_ACCOUNTNUM + " " + accountlist[i].AC_NAME);
+                }
+            }
+
+            #endregion
+
+            PayOptionGrid.Children.Add(label, 0, 0);
+            PayOptionGrid.Children.Add(account_picker, 0, 1);
+
 
             CustomLabel priceLabel = new CustomLabel
             {
@@ -150,73 +169,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             }
         }
 
-        private void CashOptionEnable()
-        {
-            PayOptionGrid.Children.Clear();
-            cash_picker.Items.Clear();
-            PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            CustomLabel label = new CustomLabel
-            {
-                Text = "결제 은행 선택",
-                Size = 18,
-                Margin = new Thickness(15, 0, 0, 0),
-            };
-            cash_picker = new CustomPicker
-            {
-                Title = "은행을 선택해주세요.",
-                FontSize = 18,
-            };
-            PayOptionGrid.Children.Add(label, 0, 0);
-            PayOptionGrid.Children.Add(cash_picker, 0, 1);
-
-            #region 은행 피커 초기화
-            cash_picker.Items.Add("농협");
-            cash_picker.Items.Add("신한은행");
-            cash_picker.Items.Add("하나은행");
-            cash_picker.Items.Add("국민은행");
-            cash_picker.Items.Add("기업은행");
-            #endregion
-
-            CustomLabel priceLabel = new CustomLabel
-            {
-                Text = "금액 선택",
-                Size = 18,
-                Margin = new Thickness(15, 0, 0, 0),
-            };
-            priceEntry = new Entry
-            {
-                Placeholder = "0원(숫자만 입력해주십시오.)",
-                FontSize = 18,
-                HorizontalTextAlignment = TextAlignment.Center,
-                Keyboard = Keyboard.Numeric,
-            };
-            PayOptionGrid.Children.Add(priceLabel, 0, 2);
-            PayOptionGrid.Children.Add(priceEntry, 0, 3);
-            priceEntry.TextChanged += InputPointEntry_TextChanged;
-
-            CustomLabel alretLabel1 = new CustomLabel
-            {
-                Text = "[유의 사항]",
-                Size = 12,
-                TextColor = Color.Gray,
-                Margin = new Thickness(15, 0, 0, 0),
-            };
-            CustomLabel alretLabel2 = new CustomLabel
-            {
-                Text = "* 충전된 포인트는 1년간 유효합니다.",
-                Size = 12,
-                TextColor = Color.Gray,
-                Margin = new Thickness(15, 0, 0, 0),
-            };
-            PayOptionGrid.Children.Add(alretLabel1, 0, 4);
-            PayOptionGrid.Children.Add(alretLabel2, 0, 5);
-        }
-
         public async void PurchaseSuccessProcessAsync(IMP_RValue rvalue) // 결제가 진행되었을 경우
         {
             #region 네트워크 상태 확인
@@ -254,7 +206,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
         {
             if (payOption == "Card")
             {
-                if (card_picker.SelectedIndex == -1)
+                if (account_picker.SelectedIndex == -1)
                 {
                     await App.Current.MainPage.DisplayAlert("알림", "결제 카드가 선택되지 않았습니다.", "확인");
                     return;
@@ -281,7 +233,18 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
                 IMP_RValue rvalue = new IMP_RValue
                 {
-                    SH_AMOUNT = "100",                    
+                    SH_BANK_NAME = account_picker.SelectedIndex.ToString(),
+                    SH_BUYER_EMAIL = Global.user.EMAIL/*이메일*/,
+                    SH_BUYER_NAME = Global.ID/*아이디*/,
+                    SH_BUYER_TEL = Global.user.PHONENUM/*휴대폰번호*/,
+                    SH_BUYER_ADDR = Global.adress.ROADADDR/*배송지*/,
+                    SH_BUYER_POSTCODE = Global.adress.ZIPNO.ToString()/*우편번호*/,
+                    SH_PAY_METHOD = "account", // 계좌이체(무통장입금)
+                    SH_MERCHANT_UID = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"),
+                    SH_NAME = "포인트 충전 " + int.Parse(priceEntry.Text).ToString("N0"),
+                    SH_AMOUNT = priceEntry.Text /*충전포인트(입금금액)*/,
+                    SH_STATUS = "입금대기",
+                    SH_POINT_INDEX = pp.PT_POINT_INDEX.ToString(), // 포인트 인덱스
                 };
                 #region 네트워크 상태 확인
                 var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
@@ -299,10 +262,15 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                         await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 실패했습니다. 다시 한번 시도해주십시오.", "확인");
                         return;
                     }
+                    else
+                    {
+                        await App.Current.MainPage.DisplayAlert("알림", "포인트 충전에 성공했습니다.", "확인");
+                        await Navigation.PopAsync();
+                    }
                 }
                 #endregion
 
-                //await Navigation.PushAsync(new IMPHybridWebView(param, this));
+                //await Navigation.PushAsync(new IMPHybridWebView(param, this)); // PG사 연결
             }
         }
     }

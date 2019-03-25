@@ -144,7 +144,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             {
                 #region 전체 그리드
                 MainGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                BoxView row_boxview = new BoxView { BackgroundColor = Color.Red, Opacity = 0.2, Margin = new Thickness(10), };
+                BoxView row_boxview = new BoxView { BackgroundColor = Color.Blue, Opacity = 0.2, Margin = new Thickness(10), };
 
 
                 Grid row_Grid = new Grid
@@ -176,7 +176,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                         new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
                         new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
                     },
-                    BackgroundColor = Color.IndianRed,
+                    BackgroundColor = Color.CornflowerBlue,
                 };
 
                 CustomLabel ordernumLabel = new CustomLabel
@@ -191,7 +191,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                 CustomButton orderBtn = new CustomButton
                 {
                     Text = "상세보기",
-                    BackgroundColor = Color.DarkRed,
+                    BackgroundColor = Color.DarkBlue,
                     TextColor = Color.White,
                     Size = 18,
                     Margin = 2,
@@ -216,7 +216,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                 };
                 #endregion
 
-                BoxView orderLine = new BoxView { BackgroundColor = Color.Gray };
+                BoxView orderLine = new BoxView { BackgroundColor = Color.LightGray };
 
                 Grid coverGrid = new Grid { };
                 row_Grid.Children.Add(orderLabelGrid, 0, 0);
@@ -256,7 +256,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                     CachedImage product_image = new CachedImage  // 상품 이미지
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
-                        ErrorPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.NotFoundImagePath,
                         Source = ImageSource.FromUri(new Uri(salelist[i].PRODUCTIMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -327,7 +327,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                 }
                 #endregion
 
-                BoxView dateLine = new BoxView { BackgroundColor = Color.Gray };
+                BoxView dateLine = new BoxView { BackgroundColor = Color.LightGray };
 
                 Grid dateGrid = new Grid
                 {
