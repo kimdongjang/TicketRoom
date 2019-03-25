@@ -35,14 +35,10 @@ namespace TicketRoom.Views.Users.CreateUser
 
         PopupRecentAdress pra;
 
-        private bool _canClose = true;
         private bool IsInputAdress = false;
         public string roadAddr = "";
         public string jibunAddr = "";
         public string zipNo = "";
-        string page_status = "";
-
-        Thread t_loading;
 
         #region 생성자
         public InputAdress()

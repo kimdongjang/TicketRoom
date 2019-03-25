@@ -123,7 +123,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 Global.isgiftpurchasepage_clieck = false;
                 if (int.Parse(Count_label.Text) == 0)
                 {
-                    DisplayAlert("알림", "수량을 입력해주세요", "OK");
+                    await DisplayAlert("알림", "수량을 입력해주세요", "OK");
                     Global.isgiftpurchasepage_clieck = true;
                     return;
                 }

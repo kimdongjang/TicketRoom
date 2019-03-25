@@ -103,7 +103,7 @@ namespace TicketRoom.Views.Users.CreateUser
                                         CheckNumGrid.IsVisible = false;
                                         users.Name = Name_box.Text;
                                         users.Phone = Phone_box.Text;
-                                        DisplayAlert("알림", "이미 가입하신 전화번호입니다.", "OK");
+                                        await DisplayAlert("알림", "이미 가입하신 전화번호입니다.", "OK");
                                         return;
                                     case 1:
                                         CheckNumSendBtn.Text = "인증번호 재전송";
@@ -130,7 +130,7 @@ namespace TicketRoom.Views.Users.CreateUser
                                         #endregion
                                         return;
                                     default:
-                                        DisplayAlert("알림", "서버 점검중입니다.", "OK");
+                                        await DisplayAlert("알림", "서버 점검중입니다.", "OK");
                                         return;
                                 }
                             }
@@ -138,17 +138,17 @@ namespace TicketRoom.Views.Users.CreateUser
                     }
                     else
                     {
-                        DisplayAlert("알림", "핸드폰번호를 입력하세요", "OK");
+                        await DisplayAlert("알림", "핸드폰번호를 입력하세요", "OK");
                     }
                 }
                 else
                 {
-                    DisplayAlert("알림", "이름을 입력하세요", "OK");
+                    await DisplayAlert("알림", "이름을 입력하세요", "OK");
                 }
             }
             else
             {
-                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                await DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
                 return;
             }
             #endregion

@@ -218,11 +218,11 @@ namespace TicketRoom.Views.Users.FindUser
                     string test = JsonConvert.DeserializeObject<string>(readdata);
                     if (test.Equals("false"))
                     {
-                        DisplayAlert("알림", "인증번호가 틀렸습니다.", "OK");
+                        await DisplayAlert("알림", "인증번호가 틀렸습니다.", "OK");
                     }
                     else if (test.Equals("ex"))
                     {
-                        DisplayAlert("알림", "서버점검중입니다.", "OK");
+                        await DisplayAlert("알림", "서버점검중입니다.", "OK");
                     }
                     else
                     {

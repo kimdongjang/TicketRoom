@@ -35,9 +35,6 @@ namespace TicketRoom.Views.MainTab.Dael
 
         private void ShowSubTab(string categorynum)
         {
-            int row = 0;
-            int column = 4;
-
             Grid ColumnGrid = new Grid();
             StackLayout layout = new StackLayout();
             layout.Orientation = StackOrientation.Horizontal;
@@ -403,7 +400,6 @@ namespace TicketRoom.Views.MainTab.Dael
                     Size = 18,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
-                    YAlign = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.Start
                 };
                 #endregion
@@ -430,7 +426,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     Size = 12,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
-                    YAlign = TextAlignment.Center,
+                    VerticalTextAlignment = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.Start
                 };
                 #endregion

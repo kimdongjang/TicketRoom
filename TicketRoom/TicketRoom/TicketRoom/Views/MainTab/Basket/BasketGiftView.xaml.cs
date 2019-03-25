@@ -107,7 +107,7 @@ namespace TicketRoom.Views.MainTab.Basket
                     Size = 18,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
-                    YAlign = TextAlignment.Center,
+                    VerticalTextAlignment = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.Center
                 };
                 Basketlist_Grid.Children.Add(nullproduct, 0, 0);
@@ -127,7 +127,7 @@ namespace TicketRoom.Views.MainTab.Basket
                     Size = 25,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
-                    YAlign = TextAlignment.Center,
+                    VerticalTextAlignment = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.Center
                 };
                 Basketlist_Grid.Children.Add(nullproduct, 0, 0);
@@ -139,7 +139,7 @@ namespace TicketRoom.Views.MainTab.Basket
             for (int i = 0; i < BasketList.Count; i++)
             {
                 Basketlist_Grid.RowDefinitions.Add(new RowDefinition { Height = 100 });
-                Basketlist_Grid.RowDefinitions.Add(new RowDefinition { Height = 1 });
+                Basketlist_Grid.RowDefinitions.Add(new RowDefinition { Height = 3 });
 
                 #region 상품 그리드
                 Grid product_grid = new Grid
@@ -184,7 +184,7 @@ namespace TicketRoom.Views.MainTab.Basket
                     {
                         new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = GridLength.Auto },
-                        new RowDefinition { Height = 10 },
+                        new RowDefinition { Height = 20 },
                         new RowDefinition { Height = GridLength.Auto }
                     }
                 };
@@ -199,8 +199,6 @@ namespace TicketRoom.Views.MainTab.Basket
                         Size = 16,
                         TextColor = Color.Black,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
-                        XAlign = TextAlignment.Start,
-                        YAlign = TextAlignment.Center,
                         HorizontalOptions = LayoutOptions.StartAndExpand
                     };
                 }
@@ -212,8 +210,6 @@ namespace TicketRoom.Views.MainTab.Basket
                         Size = 16,
                         TextColor = Color.Black,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
-                        XAlign = TextAlignment.Start,
-                        YAlign = TextAlignment.Center,
                         HorizontalOptions = LayoutOptions.StartAndExpand
                     };
                 }
@@ -226,8 +222,8 @@ namespace TicketRoom.Views.MainTab.Basket
                     Size = 14,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
-                    XAlign = TextAlignment.Start,
-                    YAlign = TextAlignment.Center,
+                    HorizontalTextAlignment = TextAlignment.Start,
+                    VerticalTextAlignment = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.StartAndExpand
                 };
                 #endregion
@@ -239,8 +235,6 @@ namespace TicketRoom.Views.MainTab.Basket
                     Size = 14,
                     TextColor = Color.Gray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
-                    XAlign = TextAlignment.Start,
-                    YAlign = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.StartAndExpand
                 };
                 #endregion
@@ -261,9 +255,9 @@ namespace TicketRoom.Views.MainTab.Basket
                     //BindingContext = i,
                     RowDefinitions =
                     {
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) },
-                        new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
+                        new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) }
                     }
                 };
 
@@ -272,21 +266,22 @@ namespace TicketRoom.Views.MainTab.Basket
                 {
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Source = ImageSource.FromUri(new Uri("http://175.115.110.17:8088/img/default/plus.png")),
-                    Aspect = Aspect.AspectFit
+                    Source = "plus.png",
+                    Aspect = Aspect.AspectFit,
+                    HeightRequest = 25,
                 };
                 #endregion
 
                 #region 상품 수량 label
-                CustomLabel Count_label = new CustomLabel
+                CustomEntry Count_label = new CustomEntry
                 {
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalTextAlignment = TextAlignment.Center,
                     Text = BasketList[i].BK_PROCOUNT,
+                    Keyboard = Keyboard.Numeric,
                     Size = 14,
                     TextColor = Color.Black,
-                    XAlign = TextAlignment.Center,
-                    YAlign = TextAlignment.Center
                 };
                 #endregion
 
@@ -295,8 +290,9 @@ namespace TicketRoom.Views.MainTab.Basket
                 {
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Source = ImageSource.FromUri(new Uri("http://175.115.110.17:8088/img/default/minus.png")),
-                    Aspect = Aspect.AspectFit
+                    Source = "minus.png",
+                    Aspect = Aspect.AspectFit,
+                    HeightRequest = 25,
                 };
                 #endregion
 
@@ -329,7 +325,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 Image deleteImage = new Image
                 {
                     BindingContext = i,
-                    Source = ImageSource.FromUri(new Uri("http://175.115.110.17:8088/img/default/x.png")),
+                    Source = "x.png",
                     HeightRequest = 40,
                     WidthRequest = 40,
                 };
@@ -499,7 +495,7 @@ namespace TicketRoom.Views.MainTab.Basket
                     List<Xamarin.Forms.View> b = g.Children.ToList();
                     Grid g2 = (Grid)b[2];
                     List<Xamarin.Forms.View> b2 = g2.Children.ToList();
-                    CustomLabel g3 = (CustomLabel)b2[1];
+                    CustomEntry g3 = (CustomEntry)b2[1];
 
                     if (int.Parse(g3.Text) != 0)
                     {

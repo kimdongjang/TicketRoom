@@ -114,7 +114,7 @@ namespace TicketRoom.Views.Users.FindUser
                                         CheckNumSendBtn.Text = "인증";
                                         CheckNumGrid.IsVisible = false;
                                         ShowId_Grid.IsVisible = false;
-                                        DisplayAlert("알림", "일치하는 정보가 없습니다.", "OK");
+                                        await DisplayAlert("알림", "일치하는 정보가 없습니다.", "OK");
                                         return;
                                     case 1:
                                         Name = Name_box.Text;
@@ -123,7 +123,7 @@ namespace TicketRoom.Views.Users.FindUser
                                         CheckNumGrid.IsVisible = true;
                                         ShowId_Grid.IsVisible = false;
                                         #region 남은시간 타이머 
-                                        await ShowMessage(String.Format("{0:D8}", random) + "인증번호가 발송 되었습니다.", "알림", "OK", async () =>
+                                        await ShowMessage(String.Format("{0:D8}", random) + "인증번호가 발송 되었습니다.", "알림", "OK", () =>
                                         {
                                             // 타이머 생성 및 시작
                                             test = 300;
@@ -141,7 +141,7 @@ namespace TicketRoom.Views.Users.FindUser
                                         #endregion
                                         return;
                                     default:
-                                        DisplayAlert("알림", "서버 점검중입니다.", "OK");
+                                        await DisplayAlert("알림", "서버 점검중입니다.", "OK");
                                         return;
                                 }
                             }
@@ -149,17 +149,17 @@ namespace TicketRoom.Views.Users.FindUser
                     }
                     else
                     {
-                        DisplayAlert("알림", "핸드폰번호를 입력하세요", "OK");
+                        await DisplayAlert("알림", "핸드폰번호를 입력하세요", "OK");
                     }
                 }
                 else
                 {
-                    DisplayAlert("알림", "이름을 입력하세요", "OK");
+                    await DisplayAlert("알림", "이름을 입력하세요", "OK");
                 }
             }
             else
             {
-                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                await DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
                 return;
             }
             #endregion
@@ -315,19 +315,19 @@ namespace TicketRoom.Views.Users.FindUser
                             string test = JsonConvert.DeserializeObject<string>(readdata);
                             if (test.Equals("false"))
                             {
-                                DisplayAlert("알림", "다시 시도해주세요", "OK");
+                                await DisplayAlert("알림", "다시 시도해주세요", "OK");
                                 Global.isfindidpage_clicked = true;
                             }
                             else if (test.Equals("ex"))
                             {
-                                DisplayAlert("알림", "서버점검중입니다.", "OK");
+                                await DisplayAlert("알림", "서버점검중입니다.", "OK");
                                 Global.isfindidpage_clicked = true;
                             }
                             else
                             {
                                 await ShowMessage(test + "로 발송 되었습니다.", "알림", "OK", async () =>
                                 {
-                                    Navigation.PopToRootAsync(); ;
+                                    await Navigation.PopToRootAsync(); ;
                                 });
                             }
                         }
@@ -336,7 +336,7 @@ namespace TicketRoom.Views.Users.FindUser
             }
             else
             {
-                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                await DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
                 return;
             }
             #endregion

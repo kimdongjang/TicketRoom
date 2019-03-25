@@ -301,7 +301,7 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                                     }
                                     else
                                     {
-                                        DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                                        await DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
                                         return;
                                     }
                                     #endregion
@@ -311,42 +311,42 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                                         await ShowMessage("판매내역에서 확인해주세요.", "알림", "OK", async () =>
                                         {
                                             Global.InitOnAppearingBool("deal");
-                                            Navigation.PopToRootAsync();
+                                            await Navigation.PopToRootAsync();
                                             MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                                         });
                                     }
                                     else if (result == 2)
                                     {
-                                        DisplayAlert("알림", "판매실패", "OK");
+                                        await DisplayAlert("알림", "판매실패", "OK");
                                         Global.isSaleBtnclicked = true;
                                     }
                                     else if (result == 4)
                                     {
-                                        DisplayAlert("알림", "서버점검중입니다", "OK");
+                                        await DisplayAlert("알림", "서버점검중입니다", "OK");
                                         Global.isSaleBtnclicked = true;
                                     }
                                 }
                                 else
                                 {
-                                    DisplayAlert("알림", "입금계좌번호를 입력하세요", "OK");
+                                    await DisplayAlert("알림", "입금계좌번호를 입력하세요", "OK");
                                     Global.isSaleBtnclicked = true;
                                 }
                             }
                             else
                             {
-                                DisplayAlert("알림", "예금주명을 입력하세요", "OK");
+                                await DisplayAlert("알림", "예금주명을 입력하세요", "OK");
                                 Global.isSaleBtnclicked = true;
                             }
                         }
                         else
                         {
-                            DisplayAlert("알림", "은행명을 입력하세요", "OK");
+                            await DisplayAlert("알림", "은행명을 입력하세요", "OK");
                             Global.isSaleBtnclicked = true;
                         }
                     }
                     else
                     {
-                        DisplayAlert("알림", "수량을 입력해주세요", "OK");
+                        await DisplayAlert("알림", "수량을 입력해주세요", "OK");
                         Global.isSaleBtnclicked = true;
                     }
                 }
@@ -404,54 +404,54 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                                                 }
                                                 else if (result == 2)
                                                 {
-                                                    DisplayAlert("알림", "판매실패", "OK");
+                                                    await DisplayAlert("알림", "판매실패", "OK");
                                                     Global.isSaleBtnclicked = true;
                                                 }
                                                 else if (result == 4)
                                                 {
-                                                    DisplayAlert("알림", "서버점검중입니다", "OK");
+                                                    await DisplayAlert("알림", "서버점검중입니다", "OK");
                                                     Global.isSaleBtnclicked = true;
                                                 }
                                             }
                                             else
                                             {
-                                                DisplayAlert("알림", "접수비밀번호가 다릅니다", "OK");
+                                                await DisplayAlert("알림", "접수비밀번호가 다릅니다", "OK");
                                                 Global.isSaleBtnclicked = true;
                                             }
                                         }
                                         else
                                         {
-                                            DisplayAlert("알림", "접수비밀번호확인를 입력하세요", "OK");
+                                            await DisplayAlert("알림", "접수비밀번호확인를 입력하세요", "OK");
                                             Global.isSaleBtnclicked = true;
                                         }
                                     }
                                     else
                                     {
-                                        DisplayAlert("알림", "접수비밀번호를 입력하세요", "OK");
+                                        await DisplayAlert("알림", "접수비밀번호를 입력하세요", "OK");
                                         Global.isSaleBtnclicked = true;
                                     }
                                 }
                                 else
                                 {
-                                    DisplayAlert("알림", "입금계좌번호를 입력하세요", "OK");
+                                    await DisplayAlert("알림", "입금계좌번호를 입력하세요", "OK");
                                     Global.isSaleBtnclicked = true;
                                 }
                             }
                             else
                             {
-                                DisplayAlert("알림", "예금주명을 입력하세요", "OK");
+                                await DisplayAlert("알림", "예금주명을 입력하세요", "OK");
                                 Global.isSaleBtnclicked = true;
                             }
                         }
                         else
                         {
-                            DisplayAlert("알림", "은행명을 입력하세요", "OK");
+                            await DisplayAlert("알림", "은행명을 입력하세요", "OK");
                             Global.isSaleBtnclicked = true;
                         }
                     }
                     else
                     {
-                        DisplayAlert("알림", "수량을 입력해주세요", "OK");
+                        await DisplayAlert("알림", "수량을 입력해주세요", "OK");
                         Global.isSaleBtnclicked = true;
                     }
                 }

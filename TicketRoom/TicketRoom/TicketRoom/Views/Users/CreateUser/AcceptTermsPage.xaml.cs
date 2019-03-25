@@ -72,7 +72,6 @@ namespace TicketRoom.Views.Users.CreateUser
                     Size = 18,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.FillAndExpand,
-                    YAlign = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.Start
                 };
                 #endregion
