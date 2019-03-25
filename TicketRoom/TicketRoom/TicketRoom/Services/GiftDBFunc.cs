@@ -268,7 +268,9 @@ namespace TicketRoom.Services
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
                     var readdata = reader.ReadToEnd();
+
                     List<G_CategoryInfo> test = JsonConvert.DeserializeObject<List<G_CategoryInfo>>(readdata);
+                    
                     if (test != null)
                     {
                         return test;
