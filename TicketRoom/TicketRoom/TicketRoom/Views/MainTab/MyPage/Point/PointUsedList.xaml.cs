@@ -68,6 +68,24 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 MainGrid.Children.Add(nullproduct, 0, 0);
                 return;
             }
+            if (wdl.Count == 0)
+            {
+                MainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+                CustomLabel nullproduct = new CustomLabel
+                {
+                    Text = "사용내역이 없습니다.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    YAlign = TextAlignment.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                MainGrid.Children.Clear();
+                MainGrid.RowDefinitions.Clear();
+                MainGrid.Children.Add(nullproduct, 0, 0);
+                return;
+            }
             #endregion
             for (int i = 0; i < wdl.Count; i++)
             {

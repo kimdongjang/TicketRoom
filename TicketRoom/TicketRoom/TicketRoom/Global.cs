@@ -214,53 +214,57 @@ namespace TicketRoom
             #region 구매(주문번호에 대한 상태)
             else if (state.Equals("1"))
             {
-                return "구매중";
+                return "구매대기";
             }
             else if (state.Equals("2"))
             {
-                return "구매실패";
+                return "구매중";
             }
             else if (state.Equals("3"))
             {
-                return "구매완료";
+                return "구매실패";
             }
             else if (state.Equals("4"))
+            {
+                return "구매완료";
+            }
+            else if (state.Equals("5"))
             {
                 return "구매실패";//(시스템오류(지류,핀번호테이블 변경시 에러)))
             }
             #endregion
-            #region 판매(핀번호)
+            #region 구매(상세 삼품들 구매 상태)
             else if (state.Equals("31"))
-            {
-                return "구매대기";//(입금대기)
-            }
-            else if (state.Equals("32"))
-            {
-                return "입금완료";//(배송/발송대기)
-            }
-            else if (state.Equals("33"))
-            {
-                return "구매실패";//(입금실패)
-            }
-            else if (state.Equals("34"))
             {
                 return "배송/발송중";
             }
-            else if (state.Equals("35"))
+            else if (state.Equals("32"))
             {
-                return "배송/발송완료";
+                return "배송/발송 완료";
             }
-            else if (state.Equals("36"))
+            else if (state.Equals("33"))
             {
                 return "구매실패";//(반송)
             }
-            else if (state.Equals("37"))
+            else if (state.Equals("34"))
+            {
+                return "구매완료";
+            }
+            else if (state.Equals("35"))
             {
                 return "구매실패";//(수량부족)
             }
+            else if (state.Equals("36"))
+            {
+                return "구매실패";//(시스템에러)
+            }
+            else if (state.Equals("37"))
+            {
+                return "교환";
+            }
             else if (state.Equals("38"))
             {
-                return "구매실패";//(시스템 에러)
+                return "환불";
             }
             #endregion
             return "예외 없는 상태값";

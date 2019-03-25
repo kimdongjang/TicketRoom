@@ -48,6 +48,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
         }
         private void Init()
         {
+            #region 네트워크 오류 
             if (pcl == null)
             {
                 MainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
@@ -66,7 +67,27 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 MainGrid.Children.Add(nullproduct, 0, 0);
                 return;
             }
+            #endregion
+            #region 수량 0일떄
+            if (pcl.Count == 0)
+            {
+                MainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
+                CustomLabel nullproduct = new CustomLabel
+                {
+                    Text = "적립내역이 없습니다.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    YAlign = TextAlignment.Center,
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                MainGrid.Children.Clear();
+                MainGrid.RowDefinitions.Clear();
+                MainGrid.Children.Add(nullproduct, 0, 0);
+                return;
+            }
+            #endregion
             for (int i = 0; i < pcl.Count; i++)
             {
                 MainGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
