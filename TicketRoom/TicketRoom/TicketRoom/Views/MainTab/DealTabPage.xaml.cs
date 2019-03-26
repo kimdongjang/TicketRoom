@@ -13,6 +13,7 @@ using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Services;
 using TicketRoom.Views.MainTab.Dael;
+using TicketRoom.Views.MainTab.MyPage;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -41,9 +42,27 @@ namespace TicketRoom.Views.MainTab
         }
         private void Init()
         {
+            NavigationInit();
             Showdeal();
             ShowPoint();
             Showimge();
+        }
+
+        private void NavigationInit()
+        {
+            NavigationButton.GestureRecognizers.Add(new TapGestureRecognizer()
+             {
+                 Command = new Command(async () =>
+                 {
+                     // 로딩 시작
+                     await Global.LoadingStartAsync();
+
+                     await Navigation.PushAsync(new NavagationPage());
+
+                     // 로딩 완료
+                     await Global.LoadingEndAsync();
+                 })
+             });
         }
 
         private void ScrollRefresh()
@@ -167,7 +186,7 @@ namespace TicketRoom.Views.MainTab
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center
                 };
-                RealTimeGrid.Children.Add(label, 0, 1);   //실시간거래 그리드에 라벨추가
+                RealTimeGrid.Children.Add(label, 0, 0);   //실시간거래 그리드에 라벨추가
                 return;
             }
             #endregion
@@ -184,7 +203,7 @@ namespace TicketRoom.Views.MainTab
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center
                 };
-                RealTimeGrid.Children.Add(label, 0, 1);         //실시간거래 그리드에 라벨추가
+                RealTimeGrid.Children.Add(label, 0, 0);         //실시간거래 그리드에 라벨추가
                 return;
             }
             if (g_DealInfolist.Count == 0)
@@ -192,13 +211,13 @@ namespace TicketRoom.Views.MainTab
                 RealTimeGrid.RowDefinitions.Add(new RowDefinition{ Height = 30 });
                 CustomLabel label = new CustomLabel
                 {
-                    Text = "거래내역이 없습니다",
+                    //Text = "거래내역이 없습니다",
                     Size = 14,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center
                 };
-                RealTimeGrid.Children.Add(label, 0, 1);         //실시간거래 그리드에 라벨추가
+                RealTimeGrid.Children.Add(label, 0, 0);         //실시간거래 그리드에 라벨추가
                 return;
             }
             #endregion

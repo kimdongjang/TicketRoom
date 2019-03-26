@@ -7,6 +7,7 @@ using System.Text;
 using TicketRoom.Models.ShopData;
 using TicketRoom.Models.Users;
 using TicketRoom.Services;
+using TicketRoom.Views.MainTab.MyPage;
 using TicketRoom.Views.Users.CreateUser;
 using TicketRoom.Views.Users.FindUser;
 using Xamarin.Essentials;

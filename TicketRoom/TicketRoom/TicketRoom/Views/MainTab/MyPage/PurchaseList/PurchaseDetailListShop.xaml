@@ -37,7 +37,7 @@
                 <!--#endregion-->
 
                 <!--#region 2열 액션바 타이틀-->
-                <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center"></Image>
+                <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center" x:Name="NavigationButton"/>
                 <!--#endregion-->
             </Grid>
             <!--#endregion-->

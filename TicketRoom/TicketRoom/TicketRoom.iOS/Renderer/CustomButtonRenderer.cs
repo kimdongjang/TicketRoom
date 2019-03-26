@@ -10,24 +10,24 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(CustomLabel), typeof(CustomLabelRenderer))]
+[assembly: ExportRenderer(typeof(CustomButton), typeof(CustomButtonRenderer))]
 namespace TicketRoom.iOS.Renderer
 {
-    public class CustomLabelRenderer : LabelRenderer
+    public class CustomButtonRenderer : ButtonRenderer
     {
-        protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
+        protected override void OnElementChanged(ElementChangedEventArgs<Button> e)
         {
             base.OnElementChanged(e);
-            
-            var label = Control as UILabel;
+
+            var label = Control as UIButton;
             if (label != null)
             {
                 //label.AdjustsFontSizeToFitWidth = true;
                 //label.AdjustsFontForContentSizeCategory = true;
-                label.BaselineAdjustment = UIBaselineAdjustment.AlignCenters;
-                label.LineBreakMode = UILineBreakMode.Clip;
+                //label.BaselineAdjustment = UIBaselineAdjustment.AlignCenters;
+                //label.LineBreakMode = UILineBreakMode.Clip;
 
-                CustomLabel control_label = e.NewElement as CustomLabel;
+                CustomButton control_label = e.NewElement as CustomButton;
                 label.Font = UIFont.FromName("NANUMSQUAREROUNDB.TTF", control_label.Size);
             }
         }

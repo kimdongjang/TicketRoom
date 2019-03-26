@@ -35,6 +35,24 @@ namespace TicketRoom.Views.MainTab.MyPage.SaleList
 
             PostSearchSaleListToSlNum(slnum);
             Init();
+            NavigationInit();
+        }
+
+        private void NavigationInit()
+        {
+            NavigationButton.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    await Navigation.PushAsync(new NavagationPage());
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+                })
+            });
         }
 
         protected override void OnAppearing()

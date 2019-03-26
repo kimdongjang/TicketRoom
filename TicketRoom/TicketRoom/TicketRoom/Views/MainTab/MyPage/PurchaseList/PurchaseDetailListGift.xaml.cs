@@ -41,6 +41,24 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             SearchPurchaseListToPlNum(pl_index);
             this.pl_index = pl_index;
             Init();
+            NavigationInit();
+        }
+
+        private void NavigationInit()
+        {
+            NavigationButton.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    await Navigation.PushAsync(new NavagationPage());
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+                })
+            });
         }
 
         // 유저 아이디를 통해 상품권 구매리스트 가져오기
@@ -50,7 +68,6 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
             if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
                 pdlist = null;
                 return;
             }

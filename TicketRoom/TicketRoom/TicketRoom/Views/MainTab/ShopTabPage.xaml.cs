@@ -12,6 +12,7 @@ using TicketRoom.Models;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
 using TicketRoom.Models.Users;
+using TicketRoom.Views.MainTab.MyPage;
 using TicketRoom.Views.MainTab.Shop;
 using TicketRoom.Views.Users.CreateUser;
 using Xamarin.Essentials;
@@ -51,6 +52,7 @@ namespace TicketRoom.Views.MainTab
             #endregion
 
             ImageSlideAsync();
+            NavigationInit();
 
             mclist = SH_DB.GetCategoryListAsync();
             
@@ -65,23 +67,7 @@ namespace TicketRoom.Views.MainTab
 
             Global.isOpen_ShopListPage = false; // ShopTabPage -> ShopListPage
             Global.isOpen_ShopMainPage = false; // ShopListPage -> ShopMainPage(SaleView)
-
-            ////Navigation.PushAsync(new IMPWebView());
-            //IMPParam param = new IMPParam();
-            //param.pg = "inicis";
-            //param.pay_method = "card";
-            //param.merchant_uid = "merchant_" + System.DateTime.Now;
-            //param.name = $"test";
-            //param.amount = 5000;
-            //param.buyer_email = "iamport@siot.do";
-            //param.buyer_name = "구매자이름";
-            //param.buyer_tel = "010-1234-5678";
-            //param.buyer_addr = "대전시";
-            //param.buyer_postcode = "우편번호";
-
-            ////Navigation.PushAsync(new IMPHybridWebView(param, sop));
-
-
+                       
             // 쇼핑 탭 주소 엔트리 초기화
             #region 검색 결과 찾을 수 없을 경우
             if (mclist != null)
@@ -104,8 +90,22 @@ namespace TicketRoom.Views.MainTab
             }
             #endregion
 
+        }
+        private void NavigationInit()
+        {
+            NavigationButton.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
 
+                    await Navigation.PushAsync(new NavagationPage());
 
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+                })
+            });
         }
 
 
