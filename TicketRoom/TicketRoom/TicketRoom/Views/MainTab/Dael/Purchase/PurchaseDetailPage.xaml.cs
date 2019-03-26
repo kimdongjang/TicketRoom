@@ -34,6 +34,8 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         public string jibunAddr = ""; // 지번 주소 
         public string zipNo = "";     // 우편 번호
 
+        bool checktype = false; // true : 구매리스트에 지류가 있을때 , false : 지류가 없는 상태 
+
         int UsedPoint = 0;
         int OldPoint = 0;
         int tempdeliveryprice = 0;
@@ -235,7 +237,6 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         private void ShowUserAddrlist()
         {
-            bool checktype = false; // true : 구매리스트에 지류가 있을때 , false : 지류가 없는 상태 
             for (int i = 0; i < g_PurchasedetailInfos.Count; i++)
             {
                 if (g_PurchasedetailInfos[i].PDL_PROTYPE.Equals("1"))
@@ -402,10 +403,53 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             if (Global.isPurchaseDeatailBtn_clicked)
             {
                 Global.isPurchaseDeatailBtn_clicked = false;
-
-                if (EntryAdress.Text != "" && EntryAdress.Text != null)
+                if (checktype) // 구매리스트에 지류가 있을때 
                 {
-                    if(MyNameLabel.Text!=""&& MyNameLabel.Text !=null && MyNameLabel.Text !="이름을 입력하세요")
+                    if (EntryAdress.Text != "" && EntryAdress.Text != null)
+                    {
+                        if (MyNameLabel.Text != "" && MyNameLabel.Text != null && MyNameLabel.Text != "이름을 입력하세요")
+                        {
+                            if (MyPhoneLabel.Text != "" && MyPhoneLabel.Text != null && MyPhoneLabel.Text != "연락처를 입력해주세요")
+                            {
+                                if (Name_box.Text != "" && Name_box.Text != null)
+                                {
+                                    if (Combo.SelectedItem != null)
+                                    {
+                                        DoPurchase(EntryAdress.Text);
+                                    }
+                                    else
+                                    {
+                                        DisplayAlert("알림", "입금계좌를 선택해주세요", "OK");
+                                        Global.isPurchaseDeatailBtn_clicked = true;
+                                    }
+                                }
+                                else
+                                {
+                                    DisplayAlert("알림", "입금예정인을 입력해주세요", "OK");
+                                    Global.isPurchaseDeatailBtn_clicked = true;
+                                }
+                            }
+                            else
+                            {
+                                DisplayAlert("알림", "연락처를 입력해주세요", "OK");
+                                Global.isPurchaseDeatailBtn_clicked = true;
+                            }
+                        }
+                        else
+                        {
+                            DisplayAlert("알림", "수취인을 입력해주세요", "OK");
+                            Global.isPurchaseDeatailBtn_clicked = true;
+                        }
+                    }
+                    else
+                    {
+                        DisplayAlert("알림", "주소를 입력해주세요", "OK");
+                        Global.isPurchaseDeatailBtn_clicked = true;
+                    }
+                }
+                else// 구매리스트에 지류가 없을때 
+                {
+                    if (MyNameLabel.Text != "" && MyNameLabel.Text != null && MyNameLabel.Text != "이름을 입력하세요")
                     {
                         if (MyPhoneLabel.Text != "" && MyPhoneLabel.Text != null && MyPhoneLabel.Text != "연락처를 입력해주세요")
                         {
@@ -413,138 +457,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                             {
                                 if (Combo.SelectedItem != null)
                                 {
-                                    string userid = "";
-                                    string isuser = "";
-                                    if (Global.b_user_login)
-                                    {
-                                        userid = Global.ID;
-                                        isuser = "1";
-                                    }
-                                    else
-                                    {
-                                        userid = Global.non_user_id;
-                                        isuser = "2";
-                                    }
-                                    G_PurchaseInfo g_PurchaseInfo = null;
-                                    if (prepaymentradio.Source.ToString().Contains("radio_checked_icon.png"))
-                                    {
-                                        g_PurchaseInfo = new G_PurchaseInfo
-                                        {
-                                            ID = userid,
-                                            PL_DELIVERY_ADDRESS = EntryAdress.Text,
-                                            PL_USED_POINT = UsedPoint.ToString(),
-                                            PL_ISSUCCESS = "",
-                                            PL_DELIVERYPAY_TYPE = "1",
-                                            PL_PAYMENT_PRICE = Purchase_AllPrice_label.Text.ToString().Replace(",", ""),
-                                            AC_NUM = (Combo.SelectedIndex + 1).ToString(),
-                                            G_PD_LIST = g_PurchasedetailInfos,
-                                            PL_ACCUSER_NAME = Name_box.Text,
-                                            PL_DV_NAME = MyNameLabel.Text,
-                                            PL_DV_PHONE = MyPhoneLabel.Text,
-                                            DELIVERY_JIBUNADDR = jibunAddr,
-                                            DELIVERY_ZIPNO = zipNo,
-                                            ISUSER = isuser
-                                        };
-                                    }
-                                    else
-                                    {
-                                        g_PurchaseInfo = new G_PurchaseInfo
-                                        {
-                                            ID = userid,
-                                            PL_DELIVERY_ADDRESS = EntryAdress.Text,
-                                            PL_USED_POINT = UsedPoint.ToString(),
-                                            PL_ISSUCCESS = "",
-                                            PL_DELIVERYPAY_TYPE = "2",
-                                            PL_PAYMENT_PRICE = Purchase_AllPrice_label.Text.ToString().Replace(",", ""),
-                                            AC_NUM = (Combo.SelectedIndex + 1).ToString(),
-                                            G_PD_LIST = g_PurchasedetailInfos,
-                                            PL_ACCUSER_NAME = Name_box.Text,
-                                            PL_DV_NAME = MyNameLabel.Text,
-                                            PL_DV_PHONE = MyPhoneLabel.Text,
-                                            DELIVERY_JIBUNADDR = jibunAddr,
-                                            DELIVERY_ZIPNO = zipNo,
-                                            ISUSER = isuser
-                                        };
-                                    }
-
-
-                                    //// JSON 문자열을 파싱하여 JObject를 리턴
-                                    //JObject jo = JObject.Parse(str);
-
-                                    #region 네트워크 상태 확인
-                                    var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
-                                    if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
-                                    {
-                                        var dataString = JsonConvert.SerializeObject(g_PurchaseInfo);
-                                        JObject jo = JObject.Parse(dataString);
-                                        UTF8Encoding encoder = new UTF8Encoding();
-
-                                        string str = @"{";
-                                        str += "g_PurchaseInfo:" + jo.ToString();  //아이디찾기에선 Name으로 
-                                        str += "}";
-
-                                        JObject jo2 = JObject.Parse(str);
-
-                                        byte[] data = encoder.GetBytes(jo2.ToString()); // a json object, or xml, whatever...
-
-                                        //request.Method = "POST";
-                                        HttpWebRequest request = WebRequest.Create(Global.WCFURL + "UserAddPurchase") as HttpWebRequest;
-                                        request.Method = "POST";
-                                        request.ContentType = "application/json";
-                                        request.ContentLength = data.Length;
-
-                                        //request.Expect = "application/json";
-
-                                        request.GetRequestStream().Write(data, 0, data.Length);
-
-                                        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                                        {
-                                            if (response.StatusCode != HttpStatusCode.OK)
-                                                Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                                            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                                            {
-                                                var readdata = reader.ReadToEnd();
-                                                string test = JsonConvert.DeserializeObject<string>(readdata);
-                                                string[] test2 = test.Split('*');
-                                                if (int.Parse(test2[0].ToString()) == 1)
-                                                {
-                                                    await ShowMessage("구매내역에서 확인해주세요.", "알림", "OK", async () =>
-                                                    {
-                                                        Global.InitOnAppearingBool("deal");
-                                                        Navigation.PopToRootAsync();
-                                                        MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
-                                                    });
-                                                }
-                                                else if (int.Parse(test2[0].ToString()) == 2)
-                                                {
-                                                    if (test2[1] != null && test2[1] != "")
-                                                    {
-                                                        string[] proinfos = test2[1].Split('@');
-                                                        string[] procnts = test2[2].Split('@');
-                                                        string errormessage = "";
-                                                        for (int i = 0; i < proinfos.Length - 1; i++)
-                                                        {
-                                                            errormessage += proinfos[i] + "가 " + procnts[i] + "개 있습니다";
-                                                        }
-                                                        DisplayAlert("알림", errormessage, "OK");
-                                                        Global.isPurchaseDeatailBtn_clicked = true;
-                                                    }
-                                                }
-                                                else if (int.Parse(test2[0].ToString()) == 4)
-                                                {
-                                                    DisplayAlert("알림", "서버점검중입니다", "OK");
-                                                    Global.isPurchaseDeatailBtn_clicked = true;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
-                                        Global.isPurchaseDeatailBtn_clicked = true;
-                                        return;
-                                    }
-                                    #endregion
+                                    DoPurchase("");
                                 }
                                 else
                                 {
@@ -570,13 +483,144 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                         Global.isPurchaseDeatailBtn_clicked = true;
                     }
                 }
-                else
-                {
-                    DisplayAlert("알림", "주소를 입력해주세요", "OK");
-                    Global.isPurchaseDeatailBtn_clicked = true;
-                }
             }
             
+        }
+
+        public async void DoPurchase(string address)
+        {
+            string userid = "";
+            string isuser = "";
+            if (Global.b_user_login)
+            {
+                userid = Global.ID;
+                isuser = "1";
+            }
+            else
+            {
+                userid = Global.non_user_id;
+                isuser = "2";
+            }
+            G_PurchaseInfo g_PurchaseInfo = null;
+            if (prepaymentradio.Source.ToString().Contains("radio_checked_icon.png"))
+            {
+                g_PurchaseInfo = new G_PurchaseInfo
+                {
+                    ID = userid,
+                    PL_DELIVERY_ADDRESS = address,
+                    PL_USED_POINT = UsedPoint.ToString(),
+                    PL_ISSUCCESS = "",
+                    PL_DELIVERYPAY_TYPE = "1",
+                    PL_PAYMENT_PRICE = Purchase_AllPrice_label.Text.ToString().Replace(",", ""),
+                    AC_NUM = (Combo.SelectedIndex + 1).ToString(),
+                    G_PD_LIST = g_PurchasedetailInfos,
+                    PL_ACCUSER_NAME = Name_box.Text,
+                    PL_DV_NAME = MyNameLabel.Text,
+                    PL_DV_PHONE = MyPhoneLabel.Text,
+                    DELIVERY_JIBUNADDR = jibunAddr,
+                    DELIVERY_ZIPNO = zipNo,
+                    ISUSER = isuser
+                };
+            }
+            else
+            {
+                g_PurchaseInfo = new G_PurchaseInfo
+                {
+                    ID = userid,
+                    PL_DELIVERY_ADDRESS = address,
+                    PL_USED_POINT = UsedPoint.ToString(),
+                    PL_ISSUCCESS = "",
+                    PL_DELIVERYPAY_TYPE = "2",
+                    PL_PAYMENT_PRICE = Purchase_AllPrice_label.Text.ToString().Replace(",", ""),
+                    AC_NUM = (Combo.SelectedIndex + 1).ToString(),
+                    G_PD_LIST = g_PurchasedetailInfos,
+                    PL_ACCUSER_NAME = Name_box.Text,
+                    PL_DV_NAME = MyNameLabel.Text,
+                    PL_DV_PHONE = MyPhoneLabel.Text,
+                    DELIVERY_JIBUNADDR = jibunAddr,
+                    DELIVERY_ZIPNO = zipNo,
+                    ISUSER = isuser
+                };
+            }
+
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            //JObject jo = JObject.Parse(str);
+
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
+            {
+                var dataString = JsonConvert.SerializeObject(g_PurchaseInfo);
+                JObject jo = JObject.Parse(dataString);
+                UTF8Encoding encoder = new UTF8Encoding();
+
+                string str = @"{";
+                str += "g_PurchaseInfo:" + jo.ToString();  //아이디찾기에선 Name으로 
+                str += "}";
+
+                JObject jo2 = JObject.Parse(str);
+
+                byte[] data = encoder.GetBytes(jo2.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "UserAddPurchase") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        string test = JsonConvert.DeserializeObject<string>(readdata);
+                        string[] test2 = test.Split('*');
+                        if (int.Parse(test2[0].ToString()) == 1)
+                        {
+                            await ShowMessage("구매내역에서 확인해주세요.", "알림", "OK", async () =>
+                            {
+                                Global.InitOnAppearingBool("deal");
+                                Navigation.PopToRootAsync();
+                                MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
+                            });
+                        }
+                        else if (int.Parse(test2[0].ToString()) == 2)
+                        {
+                            if (test2[1] != null && test2[1] != "")
+                            {
+                                string[] proinfos = test2[1].Split('@');
+                                string[] procnts = test2[2].Split('@');
+                                string errormessage = "";
+                                for (int i = 0; i < proinfos.Length - 1; i++)
+                                {
+                                    errormessage += proinfos[i] + "가 " + procnts[i] + "개 있습니다";
+                                }
+                                DisplayAlert("알림", errormessage, "OK");
+                                Global.isPurchaseDeatailBtn_clicked = true;
+                            }
+                        }
+                        else if (int.Parse(test2[0].ToString()) == 4)
+                        {
+                            DisplayAlert("알림", "서버점검중입니다", "OK");
+                            Global.isPurchaseDeatailBtn_clicked = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                Global.isPurchaseDeatailBtn_clicked = true;
+                return;
+            }
+            #endregion
         }
 
         public async Task ShowMessage(string message, string title, string buttonText, Action afterHideCallback)
