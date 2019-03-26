@@ -12,6 +12,7 @@ using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Models.Users;
 using TicketRoom.Services;
+using TicketRoom.Views.MainTab.MyPage;
 using TicketRoom.Views.MainTab.Popup;
 using TicketRoom.Views.Users.CreateUser;
 using Xamarin.Essentials;
@@ -60,6 +61,25 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             Radio1_Clicked(prepaymentradio, null);  //선불 착불 기본값인 선불 선택해놈
             PurchaseListInit();
             ShowUserAddrlist();
+            NavigationInit();
+        }
+
+
+        private void NavigationInit()
+        {
+            NavigationButton.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    await Navigation.PushAsync(new NavagationPage());
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+                })
+            });
         }
 
         protected override void OnAppearing()

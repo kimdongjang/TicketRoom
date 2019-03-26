@@ -40,6 +40,7 @@ namespace TicketRoom.Views
             #endregion
 
             TabContent.Content = new DealTabPage(this);
+            
         }
 
         protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동

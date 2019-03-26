@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TicketRoom.Views.MainTab.MyPage;
 using TicketRoom.Views.Users.Login;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -48,6 +49,24 @@ namespace TicketRoom.Views.MainTab.Dael
             }
             
             MainTabClick();
+            NavigationInit();
+        }
+
+        private void NavigationInit()
+        {
+            NavigationButton.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    await Navigation.PushAsync(new NavagationPage());
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+                })
+            });
         }
         // 상위 탭 클릭
         private void MainTabClick()

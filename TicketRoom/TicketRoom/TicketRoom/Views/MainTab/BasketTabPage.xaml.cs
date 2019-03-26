@@ -4,6 +4,7 @@ using System.Linq;
 using TicketRoom.Models.Custom;
 using TicketRoom.Views.MainTab.Basket;
 using TicketRoom.Views.MainTab.Dael.Purchase;
+using TicketRoom.Views.MainTab.MyPage;
 using TicketRoom.Views.MainTab.Shop;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -39,8 +40,26 @@ namespace TicketRoom.Views.MainTab
             {
                 init(bsv);
             }
-            
+            NavigationInit();
         }
+
+        private void NavigationInit()
+        {
+            NavigationButton.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    await Navigation.PushAsync(new NavagationPage());
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+                })
+            });
+        }
+
         private void TapColorChange(ContentView cv)
         {
             if (cv == bgv) // 상품권이 선택되었을 경우

@@ -17,6 +17,8 @@ namespace TicketRoom.Models.Gift.PurchaseList
         public string PL_DELIVERYPAY_TYPE { get; set; } // 배송타입(1: 선불 2: 착불)
         [JsonProperty("PL_DELIVERY_ADDRESS")]
         public string PL_DELIVERY_ADDRESS { get; set; } // 배송지
+        [JsonProperty("AC_NUM")]
+        public string AC_NUM { get; set; } // 계좌번호
         [JsonProperty("PL_DV_PHONE")]
         public string PL_DV_PHONE { get; set; } // 수취인 핸드폰 
         [JsonProperty("PL_PAYMENT_PRICE")]

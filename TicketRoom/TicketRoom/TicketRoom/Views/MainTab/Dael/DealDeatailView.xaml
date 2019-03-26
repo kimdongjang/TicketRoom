@@ -35,7 +35,7 @@
             <!--#endregion-->
 
             <!--#region 2열 옵션등 이미지-->
-            <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center" Aspect="AspectFit"></Image>
+            <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center" Aspect="AspectFit" x:Name="NavigationButton"/>
             <!--#endregion-->
         </Grid>
         <!--#endregion-->

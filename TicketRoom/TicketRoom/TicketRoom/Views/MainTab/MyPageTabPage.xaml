@@ -32,7 +32,7 @@
             <!--#endregion-->
 
             <!--#region 2열 옵션등 이미지-->
-            <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center"></Image>
+            <Image Grid.Column="2" Source="sidemenu.png" VerticalOptions="Center" x:Name="NavigationButton"/>
             <!--#endregion-->
         </Grid>
         <!--#endregion-->
@@ -71,9 +71,9 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-                                <custom:CustomLabel Grid.Column="0" Size="14" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
-                                                 HeightRequest="25" WidthRequest="50" Text="ID" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                                <custom:CustomLabel Grid.Column="1" x:Name="UserIDLabel" Size="14" VerticalOptions="Center" TextColor="Black"/>
+                            <custom:CustomLabel Grid.Column="0" Size="14" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
+                                                 HeightRequest="25" WidthRequest="50" Text="ID" IsEnabled="False" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <custom:CustomLabel Grid.Column="1" x:Name="UserIDLabel" Size="14" VerticalOptions="Center" TextColor="Black"/>
                         </Grid>
                         <!--#endregion-->
                         <!--#region  1행 연락처 -->

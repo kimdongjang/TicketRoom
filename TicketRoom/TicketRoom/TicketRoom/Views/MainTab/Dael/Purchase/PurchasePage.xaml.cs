@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TicketRoom.Models.Gift;
 using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Services;
+using TicketRoom.Views.MainTab.MyPage;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -77,6 +78,26 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             }
             #endregion
 
+            NavigationInit();
+
+        }
+
+
+        private void NavigationInit()
+        {
+            NavigationButton.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    await Navigation.PushAsync(new NavagationPage());
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+                })
+            });
         }
 
         protected override void OnAppearing()

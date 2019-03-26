@@ -65,6 +65,9 @@
     <EmbeddedResource Update="Views\MainTab\MyPageTabPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainTab\MyPage\NavigationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\MainTab\MyPage\MyInfoUpdatePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -173,6 +176,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\MainTab\MyPage\NavigationPage.xaml.cs">
+      <DependentUpon>NavigationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MainTab\Popup\PopupDelivery.xaml.cs">
       <DependentUpon>PopupDelivery.xaml</DependentUpon>
     </Compile>

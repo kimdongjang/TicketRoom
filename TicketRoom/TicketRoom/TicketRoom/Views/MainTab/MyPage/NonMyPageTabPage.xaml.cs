@@ -11,7 +11,25 @@ namespace TicketRoom.Views.MainTab.MyPage
 		public NonMyPageTabPage ()
 		{
 			InitializeComponent ();
-		}
+            NavigationInit();
+        }
+
+        private void NavigationInit()
+        {
+            NavigationButton.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    await Navigation.PushAsync(new NavagationPage());
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+                })
+            });
+        }
 
         private void LoginCreate_Clicked(object sender, EventArgs e)
         {

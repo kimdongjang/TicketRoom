@@ -10,6 +10,7 @@ using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Services;
 using TicketRoom.Views.MainTab.Dael.Sale;
+using TicketRoom.Views.MainTab.MyPage;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -171,6 +172,8 @@ namespace TicketRoom.Views.MainTab.Dael
             #endregion
             TabScoll.Content = layout;
         }
+
+
 
         private void ShowPoint()
         {
