@@ -30,6 +30,7 @@ namespace TicketRoom.Views.MainTab.Basket
             InitializeComponent();
             ShowBasketlist();
             this.btp = btp;
+            Global.isgiftbastketorderbtn_clicked = true;
         }
 
         private void ShowBasketlist()
