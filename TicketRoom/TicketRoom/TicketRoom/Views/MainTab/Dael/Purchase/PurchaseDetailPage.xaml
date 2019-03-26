@@ -47,6 +47,8 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <!-- 주문 목록-->
+                    <RowDefinition Height="3"/>
+                    <!-- 배송지 그리드라인 -->
                     <RowDefinition Height="Auto"/>
                     <!-- 배송지 -->
                     <RowDefinition Height="Auto"/>
@@ -68,17 +70,18 @@
                     <Grid Grid.Row="1" x:Name="PurchaseListGrid" RowSpacing="0" Margin="10" BackgroundColor="White"/>
                 </Grid>
 
-                <Grid Grid.Row="1" x:Name="AdressListGrid" Margin="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+
+                <BoxView  Grid.Row="1" BackgroundColor="Gray" Margin="10,0,10,0"/>
+                
+                <Grid Grid.Row="2" x:Name="AdressListGrid" Margin="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                     <!-- 배송지-->
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="3"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="3"/>
                     </Grid.RowDefinitions>
-                    <BoxView  Grid.Row="0" BackgroundColor="Gray"/>
 
-                    <Grid Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <Grid Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
@@ -91,8 +94,8 @@
                         <Picker x:Name="Addr_Picker" SelectedIndexChanged="Addr_PickerChanged" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="False"/>
                     </Grid>
 
-                    <!--#region 2행 주소 Entry(Input)-->
-                    <Grid Grid.Row="2" Margin="10">
+                    <!--#region 1행 주소 Entry(Input)-->
+                    <Grid Grid.Row="1" Margin="10">
                         <BoxView  BackgroundColor="Black"/>
                         <Grid BackgroundColor="White" Margin="1">
                             <local1:CustomEntry x:Name="EntryAdress" x:FieldModifier="Public"
@@ -103,10 +106,10 @@
                     </Grid>
                     <!--#endregion-->
 
-                    <BoxView  Grid.Row="3"  BackgroundColor="Gray"/>
+                    <BoxView  Grid.Row="2"  BackgroundColor="Gray"/>
                 </Grid>
 
-                <Grid Grid.Row="2" x:Name="MyNameGrid" Margin="10,0,10,10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                <Grid Grid.Row="3" x:Name="MyNameGrid" Margin="10,0,10,10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                     <!--수취인 이름-->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -126,7 +129,7 @@
                     <BoxView  Grid.Row="2" Grid.Column="1"  BackgroundColor="Gray"/>
                 </Grid>
 
-                <Grid Grid.Row="3" x:Name="MyPhoneGrid" Margin="10,0,10,10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                <Grid Grid.Row="4" x:Name="MyPhoneGrid" Margin="10,0,10,10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                     <!-- 연락가능한번호-->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -146,7 +149,7 @@
                     <BoxView  Grid.Row="2" Grid.Column="1"  BackgroundColor="Gray"/>
                 </Grid>
 
-                <Grid Grid.Row="4" Margin="10,0,10,10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                <Grid Grid.Row="5" Margin="10,0,10,10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                     <!-- 세부사항 -->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -164,10 +167,10 @@
                         <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
 
-                    <local1:CustomLabel Grid.Row="0" Size="22" Margin="15,10,15,0" 
+                    <local1:CustomLabel Grid.Row="0" Size="22" Margin="15,10,15,0" x:Name="DV_Label"
                                         Text="배송비 결제" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
 
-                    <Grid Grid.Row="1" Margin="10,10,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+                    <Grid Grid.Row="1" Margin="10,10,0,0" x:Name="DV_Radio_Group" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="10"/>
@@ -200,7 +203,7 @@
                         </Grid>
                     </Grid>
 
-                    <local1:CustomLabel Grid.Row="2" Size="18" Margin="15,10,15,10" FontFamily="{StaticResource FontStyle}" HorizontalOptions="Start" VerticalOptions="Center">
+                    <local1:CustomLabel Grid.Row="2" Size="18" x:Name="DV_Price_Label" Margin="15,10,15,10" FontFamily="{StaticResource FontStyle}" HorizontalOptions="Start" VerticalOptions="Center">
                         <local1:CustomLabel.FormattedText>
                             <FormattedString>
                                 <Span Text="배송비: " TextColor="Black" FontSize="18">
@@ -214,7 +217,7 @@
                     </local1:CustomLabel>
 
                     <!--#region 3행 Grid라인-->
-                    <BoxView Grid.Row="3" BackgroundColor="Gray" HeightRequest="3" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+                    <BoxView Grid.Row="3" x:Name="DV_GridLine" BackgroundColor="Gray" HeightRequest="3" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
                     <!--#endregion-->
 
                     <Grid Grid.Row="4" x:Name="Point_Grid" Margin="0,15,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center" RowSpacing="0" ColumnSpacing="0">
