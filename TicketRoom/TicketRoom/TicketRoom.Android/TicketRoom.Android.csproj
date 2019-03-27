@@ -94,6 +94,7 @@
     <Compile Include="Renderer\CustomEntryRenderer.cs" />
     <Compile Include="Renderer\CustomLabelRenderer.cs" />
     <Compile Include="Renderer\CustomPickerRenderer.cs" />
+    <Compile Include="Renderer\FacebookLoginButtonRenderer.cs" />
     <Compile Include="Renderer\HybridWebViewRenderer.cs" />
     <Compile Include="Renderer\ScrollViewExRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -135,9 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\arrow_bottom.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\backbutton_icon.png" />

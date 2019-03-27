@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
+             xmlns:controls="clr-namespace:TicketRoom.Models"
              x:Class="TicketRoom.Views.Users.Login.LoginPage">
     <!--#region 전체 화면 그리드(행) - 0 액션바 1 로그인정보 2 로그인연동 3 회원가입&아디비번 찾기-->
     <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
@@ -61,7 +62,7 @@
 
             <!--#region 1행 아이디-->
             <Entry Grid.Row="1" x:Name="id_box" Margin="15,0,15,0" 
-                   Placeholder="아이디" FontSize="15" HorizontalOptions="Fill" 
+                   Placeholder="아이디" FontSize="25" HorizontalOptions="Fill" 
                    Keyboard="Email"
                    VerticalOptions="Center">
             </Entry>
@@ -69,7 +70,7 @@
 
             <!--#region 2행 비번-->
             <Entry Grid.Row="2" x:Name="pw_box" Margin="15,0,15,0" 
-                   Placeholder="비밀번호" FontSize="15" HorizontalOptions="Fill" 
+                   Placeholder="비밀번호" FontSize="25" HorizontalOptions="Fill" 
                    Keyboard="Text"
                    IsPassword="True" VerticalOptions="Center" IsTextPredictionEnabled="false" >
             </Entry>
@@ -98,7 +99,7 @@
             <custom:CustomButton Grid.Row="1" Margin="17,5,17,5" Text="구글" BackgroundColor="White"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Clicked="GoogleLogin_Clicked"  Size="18"/>
             <!--#endregion-->
-
+            
             <!--#region TEST 2행 로그인 버튼-->
             <ImageButton 
                     Source="facebook_login_button.png"

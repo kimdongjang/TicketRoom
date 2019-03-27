@@ -190,6 +190,8 @@ namespace TicketRoom.Views.Users.Login
             {
                 Global.isloginbtn_clicked = false;
                 Navigation.PushAsync(new FacebookProfileCsPage());
+                //Navigation.PushAsync(new FacebookProfilePage());
+
             }
             //App.Current.MainPage = new FacebookProfileCsPage();
         }
