@@ -1,6 +1,6 @@
-﻿using TicketRoom.Views;
+﻿using Plugin.DeviceInfo;
+using TicketRoom.Views;
 using TicketRoom.Views.MainTab.Shop;
-using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -36,24 +36,29 @@ namespace TicketRoom
         // IOS 디바이스 종류에 따른 초기화 진행
         private void GetDeviceNameInit()
         {
-            string device_name = UIDevice.CurrentDevice.Name.ToString();
+            string device_name = CrossDeviceInfo.Current.Model.ToString();
+            //string device_name = UIDevice.CurrentDevice.Name.ToString();
             // s7 -> 1440x2560
             // 대체로  1242x2688(1), 1125x2436(2), 1080x1920(2), 828x1792(3),  750x1334(3), 640x1136(4)
             if (device_name == "iPhone XS") // 1125x2436
             {
                 Global.font_size_minus_value = 2;
+                Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
             }
             else if (device_name == "iPhone XS Max") // 1242x2688
             {
                 Global.font_size_minus_value = 1;
+                Global.ios_x_model = true;
             }
             else if (device_name == "iPhone XR Max") // 828x1792
             {
                 Global.font_size_minus_value = 3;
+                Global.ios_x_model = true;
             }
             else if (device_name == "iPhone X") // 1125x2436
             {
                 Global.font_size_minus_value = 2;
+                Global.ios_x_model = true;
             }
             else if (device_name == "iPhone 8 Plus") // 1080x1920
             {

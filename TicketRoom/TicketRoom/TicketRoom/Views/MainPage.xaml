@@ -13,6 +13,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="1"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
 
         <ContentView Grid.Row="1" x:Name="TabContent" x:FieldModifier="Public" />
