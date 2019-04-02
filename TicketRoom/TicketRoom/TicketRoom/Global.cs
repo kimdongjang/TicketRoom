@@ -35,6 +35,11 @@ namespace TicketRoom
 
         public static bool ISLOGIN = true;
 
+        #region IOS 최적화 관련
+        public static int font_size_minus_value = 0; // IOS 디바이스 종류에 따라 레이블 크기 조정
+        #endregion
+
+
         // 상품권 탭 클릭시의 카테고리 번호
         public static string deal_select_category_num = "";
         // 상품권 탭 클릭시의 카테고리 종류(구매/판매)

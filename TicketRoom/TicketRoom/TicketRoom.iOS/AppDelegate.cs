@@ -26,6 +26,7 @@ namespace TicketRoom.iOS
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
+            var ignore = typeof(FFImageLoading.Svg.Forms.SvgCachedImage);
 
             return base.FinishedLaunching(app, options);
         }

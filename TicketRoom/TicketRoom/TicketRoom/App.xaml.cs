@@ -1,5 +1,6 @@
 ﻿using TicketRoom.Views;
 using TicketRoom.Views.MainTab.Shop;
+using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -8,12 +9,13 @@ namespace TicketRoom
 {
     public partial class App : Application
     {
+        public static int ScreenHeight { get; set; }
+        public static int ScreenWidth { get; set; }
+
         public App()
         {
             InitializeComponent();
             MainPage = new NavigationPage(new MainPage());
-
-
         }
 
         protected override void OnStart()
@@ -29,6 +31,67 @@ namespace TicketRoom
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+
+        // IOS 디바이스 종류에 따른 초기화 진행
+        private void GetDeviceNameInit()
+        {
+            string device_name = UIDevice.CurrentDevice.Name.ToString();
+            // s7 -> 1440x2560
+            // 대체로  1242x2688(1), 1125x2436(2), 1080x1920(2), 828x1792(3),  750x1334(3), 640x1136(4)
+            if (device_name == "iPhone XS") // 1125x2436
+            {
+                Global.font_size_minus_value = 2;
+            }
+            else if (device_name == "iPhone XS Max") // 1242x2688
+            {
+                Global.font_size_minus_value = 1;
+            }
+            else if (device_name == "iPhone XR Max") // 828x1792
+            {
+                Global.font_size_minus_value = 3;
+            }
+            else if (device_name == "iPhone X") // 1125x2436
+            {
+                Global.font_size_minus_value = 2;
+            }
+            else if (device_name == "iPhone 8 Plus") // 1080x1920
+            {
+                Global.font_size_minus_value = 2;
+            }
+            else if (device_name == "iPhone 8") // 750x1334
+            {
+                Global.font_size_minus_value = 3;
+            }
+            else if (device_name == "iPhone 7 Plus") // 1080x1920
+            {
+                Global.font_size_minus_value = 2;
+            }
+            else if (device_name == "iPhone 7") // 750x1334
+            {
+                Global.font_size_minus_value = 3;
+            }
+            else if (device_name == "iPhone 6s Plus") // 1080x1920
+            {
+                Global.font_size_minus_value = 2;
+            }
+            else if (device_name == "iPhone 6s") // 750x1334
+            {
+                Global.font_size_minus_value = 3;
+            }
+            else if (device_name == "iPhone 6 Plus") // 1080x1920
+            {
+                Global.font_size_minus_value = 2;
+            }
+            else if (device_name == "iPhone 6") //  750x1334
+            {
+                Global.font_size_minus_value = 3;
+            }
+            else if (device_name == "iPhone SE") //  640x1136
+            {
+                Global.font_size_minus_value = 3;
+            }
+            else Global.font_size_minus_value = 0; // 그외 디바이스들
         }
     }
 }

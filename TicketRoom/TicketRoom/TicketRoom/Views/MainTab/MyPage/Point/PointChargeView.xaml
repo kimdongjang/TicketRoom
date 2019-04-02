@@ -50,7 +50,7 @@
                 <Grid Grid.Row="6" x:Name="PayOptionGrid"/>
             </Grid>
             <!-- 1행 포인트 충전 버튼 -->
-            <custom:CustomButton Grid.Row="1" Text="충전하기" Size="20" BackgroundColor="LightGray" TextColor="White" x:Name="ConfirmBtn" Clicked="ConfirmBtn_ClickedAsync"/>
+            <custom:CustomButton Grid.Row="1" Text="충전하기" Size="20" BackgroundColor="Black" TextColor="White" x:Name="ConfirmBtn" Clicked="ConfirmBtn_ClickedAsync"/>
         </Grid>
     </ContentView.Content>
 </ContentView>

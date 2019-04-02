@@ -51,12 +51,17 @@ namespace TicketRoom.Views.MainTab
             }
             #endregion
 
+            LoadingInitAsync();
+        }
+
+        private async void LoadingInitAsync()
+        {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
             ImageSlideAsync();
             NavigationInit();
-
-            mclist = SH_DB.GetCategoryListAsync();
-            
-
+            mclist = SH_DB.GetCategoryListAsync(); // 메인 카테고리 리스트 초기화
             BrowsingButton.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(() =>
@@ -67,7 +72,7 @@ namespace TicketRoom.Views.MainTab
 
             Global.isOpen_ShopListPage = false; // ShopTabPage -> ShopListPage
             Global.isOpen_ShopMainPage = false; // ShopListPage -> ShopMainPage(SaleView)
-                       
+
             // 쇼핑 탭 주소 엔트리 초기화
             #region 검색 결과 찾을 수 없을 경우
             if (mclist != null)
@@ -90,7 +95,10 @@ namespace TicketRoom.Views.MainTab
             }
             #endregion
 
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
+
         private void NavigationInit()
         {
             NavigationButton.GestureRecognizers.Add(new TapGestureRecognizer()

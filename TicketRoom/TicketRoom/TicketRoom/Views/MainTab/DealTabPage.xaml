@@ -58,7 +58,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="120"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -88,7 +88,7 @@
                         <RowDefinition Height="60"/>
                     </Grid.RowDefinitions>
                     <BoxView Grid.Row="0" Color="#ebecf9" Margin="20,15,20,0"/>
-                    <custom:CustomLabel Grid.Row="0" Text="" Size="24" HorizontalTextAlignment="Center"
+                    <custom:CustomLabel Grid.Row="0" Text="0 Point" Size="24" HorizontalTextAlignment="Center"
                                         x:Name="MyPointLabel" VerticalOptions="Center" FontAttributes="Bold" TextColor="CornflowerBlue" Margin="0,15,0,0"/>
                 </Grid>
                 <!--#endregion -->

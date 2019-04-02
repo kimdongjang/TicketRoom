@@ -15,7 +15,7 @@
                             Color="Gray" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand"
                             IsRunning="true"
                             IsVisible="true" />
-                <custom:CustomLabel Size="14" Text="Loading..." TextColor = "Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <custom:CustomLabel Size="14" Text="Loading..." TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
             </StackLayout>
         </StackLayout>
     </Grid>

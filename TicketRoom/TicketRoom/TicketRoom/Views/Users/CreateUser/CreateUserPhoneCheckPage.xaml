@@ -14,9 +14,9 @@
         <!--#region 1행 커스텀 액션바 -->
         <Grid Grid.Row="1" BackgroundColor="White">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
             <!--#region 0열 백버튼 등 이미지-->
             <Image Grid.Column="0" Margin="10,0,0,0" Source="backbutton_icon.png" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
@@ -133,7 +133,7 @@
 
                     <!--#region 0행 인증 버튼-->
                     <local1:CustomButton Grid.Row="0" x:Name="CheckNumSendBtn" Clicked="CheckNumSendBtn_Clicked" Size="18" FontFamily="{StaticResource FontStyle}"
-                                         Margin="15,15.5,15,15.5" Text="인증" BackgroundColor="CornflowerBlue" HorizontalOptions="FillAndExpand" 
+                                         Margin="15,15.5,15,15.5" Text="인증" BackgroundColor="Black" HorizontalOptions="FillAndExpand" 
                                          VerticalOptions="FillAndExpand" TextColor="White"/>
                     <!--#endregion-->
 
@@ -187,7 +187,7 @@
 
                     <!--#region 5행 인증(최종확인) 버튼-->
                     <local1:CustomButton Grid.Row="5" x:Name="CheckNumCheckBtn" Clicked="CheckNumCheckBtn_Clicked" Size="18" FontFamily="{StaticResource FontStyle}"
-                                         Margin="15,0,15,0" Text="인증" BackgroundColor="CornflowerBlue" HorizontalOptions="FillAndExpand" 
+                                         Margin="15,0,15,0" Text="인증" BackgroundColor="Black" HorizontalOptions="FillAndExpand" 
                                          VerticalOptions="FillAndExpand" TextColor="White"/>
                     <!--#endregion-->
 

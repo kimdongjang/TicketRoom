@@ -19,6 +19,9 @@ namespace TicketRoom.iOS.Renderer
         {
             base.OnElementChanged(e);
 
+            if (e == null) return;
+            if (e.NewElement == null) return;
+
             var label = Control as UIButton;
             if (label != null)
             {
@@ -28,7 +31,7 @@ namespace TicketRoom.iOS.Renderer
                 //label.LineBreakMode = UILineBreakMode.Clip;
 
                 CustomButton control_label = e.NewElement as CustomButton;
-                label.Font = UIFont.FromName("NANUMSQUAREROUNDB.TTF", control_label.Size);
+                label.Font = UIFont.FromName("NANUMSQUAREROUNDB", control_label.Size - Global.font_size_minus_value);
             }
         }
     }

@@ -22,8 +22,6 @@ namespace TicketRoom.Views.MainTab
         public BasketTabPage()
         {
             InitializeComponent();
-            bgv = new BasketGiftView(this);
-            bsv = new BasketShopView(this);
 
             #region IOS의 경우 초기화
             if (Device.OS == TargetPlatform.iOS)
@@ -32,15 +30,27 @@ namespace TicketRoom.Views.MainTab
             }
             #endregion
 
-            if(Global.isBasketDeal == true)
+            LoadingInitAsync();
+        }
+
+        private async void LoadingInitAsync()
+        {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
+            bgv = new BasketGiftView(this);
+            bsv = new BasketShopView(this);
+            if (Global.isBasketDeal == true)
             {
                 init(bgv);
             }
-            else if(Global.isBasketShop == true)
+            else if (Global.isBasketShop == true)
             {
                 init(bsv);
             }
             NavigationInit();
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
         private void NavigationInit()

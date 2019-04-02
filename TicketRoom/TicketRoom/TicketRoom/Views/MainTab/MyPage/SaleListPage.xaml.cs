@@ -394,6 +394,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             if (Global.isbackbutton_clicked)
             {
                 Global.isbackbutton_clicked = false;
+                Global.ismypagebtns_clicked = true;
                 Navigation.PopAsync();
             }
         }
@@ -456,6 +457,12 @@ namespace TicketRoom.Views.MainTab.MyPage
                     ImageGrid.Children[i].BackgroundColor = Color.CornflowerBlue;
                 }
             }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Global.ismypagebtns_clicked = true;
+            return base.OnBackButtonPressed();
         }
     }
 }

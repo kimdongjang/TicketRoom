@@ -58,7 +58,7 @@
                 <custom:CustomLabel Grid.Row="13" Text="포인트 출금은 10,000 포인트 이상부터 가능합니다." Size="12" TextColor="Gray"  Margin="15,0,0,0"/>
             </Grid>
             <!-- 1행 포인트 충전 버튼 -->
-            <custom:CustomButton Grid.Row="1" Text="확인" Size="20" BackgroundColor="LightGray" TextColor="White" x:Name="ConfirmBtn" Clicked="ConfirmBtn_ClickedAsync"/>
+            <custom:CustomButton Grid.Row="1" Text="확인" Size="20" BackgroundColor="Black" TextColor="White" x:Name="ConfirmBtn" Clicked="ConfirmBtn_ClickedAsync"/>
         </Grid>
     </ContentView.Content>
 </ContentView>

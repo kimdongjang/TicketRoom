@@ -186,12 +186,14 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
+            Global.ismypagebtns_clicked = true;
             PointCheckPage.isOpenPage = false;
             Navigation.PopAsync();
         }
 
         protected override bool OnBackButtonPressed()
         {
+            Global.ismypagebtns_clicked = true;
             PointCheckPage.isOpenPage = false;
             return base.OnBackButtonPressed();
 

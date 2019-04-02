@@ -71,6 +71,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                 {
                     timer.Stop();
                 }
+                Global.ismypagebtns_clicked = true;
                 Navigation.PopAsync();
             }
         }
@@ -351,6 +352,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             {
                 timer.Stop();
             }
+            Global.ismypagebtns_clicked = true;
             return base.OnBackButtonPressed();
         }
     }

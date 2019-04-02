@@ -48,6 +48,7 @@
         <Grid BackgroundColor="White" Grid.Row="2" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
@@ -55,22 +56,22 @@
             <!--#region 0행 앱이름-->
             <custom:CustomLabel Grid.Row="0"
                     Text="상품권 거래 APP"
-                    Size="18"
+                    Size="26"
                     TextColor="Black"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
             <!--#endregion-->
 
             <!--#region 1행 아이디-->
-            <Entry Grid.Row="1" x:Name="id_box" Margin="15,0,15,0" 
-                   Placeholder="아이디" FontSize="25" HorizontalOptions="Fill" 
+            <Entry Grid.Row="2" x:Name="id_box" Margin="15,0,15,0" 
+                   Placeholder="아이디" FontSize="18" HorizontalOptions="Fill" 
                    Keyboard="Email"
                    VerticalOptions="Center">
             </Entry>
             <!--#endregion-->
 
             <!--#region 2행 비번-->
-            <Entry Grid.Row="2" x:Name="pw_box" Margin="15,0,15,0" 
-                   Placeholder="비밀번호" FontSize="25" HorizontalOptions="Fill" 
+            <Entry Grid.Row="3" x:Name="pw_box" Margin="15,0,15,0" 
+                   Placeholder="비밀번호" FontSize="18" HorizontalOptions="Fill" 
                    Keyboard="Text"
                    IsPassword="True" VerticalOptions="Center" IsTextPredictionEnabled="false" >
             </Entry>
@@ -88,26 +89,38 @@
                 <RowDefinition Height="70"/>
             </Grid.RowDefinitions>
 
-            <!--#region 0행 로그인 버튼-->
+            <!--#region 0행 로그인 버튼-->            
             <custom:CustomButton Grid.Row="0" Margin="17,5,17,5" Text="로그인" BackgroundColor="Black" 
                     Clicked="Button_Clicked"  HorizontalOptions="FillAndExpand"  Size="18"
                     VerticalOptions="FillAndExpand" TextColor="White"/>
 
             <!--#endregion-->
 
-            <!--#region TEST 1행 로그인 버튼-->
-            <custom:CustomButton Grid.Row="1" Margin="17,5,17,5" Text="구글" BackgroundColor="White"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Clicked="GoogleLogin_Clicked"  Size="18"/>
+            <!--#region TEST 1행 구글-->
+            <Grid Grid.Row="1" x:Name="googleGrid" Margin="17,5,17,5" ColumnSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="8*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="google.jpg"  Aspect="AspectFill"/>
+                <StackLayout Grid.Column="1" BackgroundColor="White" VerticalOptions="CenterAndExpand">
+                    <custom:CustomLabel Text="Google 계정으로 로그인" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18"/>
+                </StackLayout>
+            </Grid>
+
             <!--#endregion-->
-            
-            <!--#region TEST 2행 로그인 버튼-->
-            <ImageButton 
-                    Source="facebook_login_button.png"
-                    Grid.Row="2" Margin="17,5,17,5"
-                    BackgroundColor="Transparent"
-                    HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                    Clicked="LoginWithFacebook_Clicked">
-            </ImageButton>
+
+            <!--#region TEST 2행 페이스북-->
+            <Grid Grid.Row="2" x:Name="facebookGrid" Margin="17,5,17,5" ColumnSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="8*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="facebook.jpg"  Aspect="AspectFill"/>
+                <StackLayout Grid.Column="1" BackgroundColor="#3a5896" VerticalOptions="FillAndExpand" >
+                    <custom:CustomLabel Text="Facebook 계정으로 로그인" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18" Margin="0,20,0,0"/>
+                </StackLayout>
+            </Grid>
             <!--#endregion-->
 
         </Grid>
@@ -126,7 +139,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <custom:CustomLabel TextDecorations="Underline" Text="아이디/비밀번호 찾기" HorizontalOptions="FillAndExpand" Size="12"
+                <custom:CustomLabel TextDecorations="Underline" Text="아이디/비밀번호 찾기" HorizontalOptions="FillAndExpand" Size="18"
                    VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center">
                     <custom:CustomLabel.GestureRecognizers>
                         <TapGestureRecognizer Tapped="FindIDPWBtn_Clicked"/>
@@ -144,7 +157,7 @@
                 <custom:CustomLabel Grid.Column="0" Text="회원이 아니신가요?" XAlign="End" YAlign="Center" Size="12"/>
 
                 <!--#region 회원가입 label 클릭이벤트-->
-                <custom:CustomLabel Grid.Column="1" Text="회원가입" TextDecorations="Underline" XAlign="Start" YAlign="Center" Size="12">
+                <custom:CustomLabel Grid.Column="1" Text="회원가입" TextDecorations="Underline" XAlign="Start" YAlign="Center" Size="18">
                     <custom:CustomLabel.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CreateUserBtn_Clicked"/>
                     </custom:CustomLabel.GestureRecognizers>

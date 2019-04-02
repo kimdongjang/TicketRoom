@@ -33,7 +33,7 @@
                 </Grid.ColumnDefinitions>
                 <custom:CustomLabel 
                     Grid.Column="0"
-                    Text="내 정보"
+                    Text="입금내역 확인"
                     Size="18" TextColor="Black"
                      XAlign="End" YAlign="Center"/>
             </Grid>

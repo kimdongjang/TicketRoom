@@ -26,9 +26,17 @@ namespace TicketRoom.Views.MainTab
                 TabGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
+            LoadingInitAsync();
+
+        }
+        private async void LoadingInitAsync()
+        {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
             Init();
             NavigationInit();
-
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
         private void NavigationInit()
@@ -62,7 +70,7 @@ namespace TicketRoom.Views.MainTab
                 {   
                     UserIDLabel.Text = Global.ID;
                     UserPhoneLabel.Text = Global.user.PHONENUM;
-                    UserPointLabel.Text = PointDBFunc.Instance().PostSearchPointListToID(Global.ID).PT_POINT_HAVEPOINT.ToString();
+                    UserPointLabel.Text = PointDBFunc.Instance().PostSearchPointListToID(Global.ID).PT_POINT_HAVEPOINT.ToString("N0");
                                         
                     #endregion
                     IsLoginBtn.Text = "로그아웃";

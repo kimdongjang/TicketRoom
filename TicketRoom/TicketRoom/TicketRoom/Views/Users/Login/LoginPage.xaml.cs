@@ -34,6 +34,21 @@ namespace TicketRoom.Views.Users.Login
             }
             #endregion
         }
+        private void Init()
+        {
+            facebookGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    if (Global.isloginbtn_clicked)
+                    {
+                        Global.isloginbtn_clicked = false;
+                        await Navigation.PushAsync(new FacebookProfileCsPage());
+                        //Navigation.PushAsync(new FacebookProfilePage());
+                    }
+                })
+            });
+        }
 
         protected override void OnAppearing()
         {
@@ -173,27 +188,16 @@ namespace TicketRoom.Views.Users.Login
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
-            if (Global.isbackbutton_clicked)
-            {
-                Global.isbackbutton_clicked = false;
-                Navigation.PopAsync();
-            }
+            Global.isbackbutton_clicked = true;
+            Navigation.PopAsync();
         }
 
-        private void GoogleLogin_Clicked(object sender, EventArgs e)
+
+        protected override bool OnBackButtonPressed()
         {
-
+            Global.ismypagebtns_clicked = true;
+            return base.OnBackButtonPressed();
         }
-        private void LoginWithFacebook_Clicked(object sender, EventArgs e)
-        {
-            if (Global.isloginbtn_clicked)
-            {
-                Global.isloginbtn_clicked = false;
-                Navigation.PushAsync(new FacebookProfileCsPage());
-                //Navigation.PushAsync(new FacebookProfilePage());
 
-            }
-            //App.Current.MainPage = new FacebookProfileCsPage();
-        }
     }
 }
