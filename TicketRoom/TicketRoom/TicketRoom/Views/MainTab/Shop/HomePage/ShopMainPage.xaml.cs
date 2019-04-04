@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -47,6 +48,12 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 MainGrid.RowDefinitions[0].Height = 50;
             }
+            #region IOS의 경우 초기화
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                MainGrid.RowDefinitions[6].Height = 30;
+            }
+            #endregion
             #endregion
 
             LoadingInit();
@@ -57,8 +64,22 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             // 로딩 시작
             await Global.LoadingStartAsync();
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+                home = null;
+                await DisplayAlert("알림", "네트워크에 연결할 수 없습니다!", "확인");
+                return;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                home = SH_DB.PostSearchHomeToHome(home_index);
+            }
+            #endregion
 
-            home = SH_DB.PostSearchHomeToHome(home_index);
             Init();
             // 로딩 완료
             await Global.LoadingEndAsync();
@@ -133,7 +154,19 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void CallBtn_Clicked(object sender, EventArgs e)
         {
-            Device.OpenUri(new Uri("tel:010-9257-8836"));
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                if (home.SH_HOME_PHONE == "") return;
+                Device.OpenUri(new Uri(home.SH_HOME_PHONE));
+            }
+            #endregion
         }
 
         private void BasketBtn_Clicked(object sender, EventArgs e)
@@ -143,12 +176,36 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void Insta_btn_Clicked(object sender, EventArgs e)
         {
-            Device.OpenUri(instaUri);
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                if (instaUri == null) return;
+                Device.OpenUri(instaUri);
+            }
+            #endregion
         }
 
         private void MoveShop_btn_Clicked(object sender, EventArgs e)
         {
-            Device.OpenUri(webUri);
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                if (webUri == null) return;
+                Device.OpenUri(webUri);
+            }
+            #endregion
         }
 
         private void BackButton_Clicked(object sender, EventArgs e)

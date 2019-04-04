@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -23,7 +24,21 @@ namespace TicketRoom.Views.MainTab.Shop
             Device.BeginInvokeOnMainThread(async () =>
             {
                 this.home = home;
-                reviewList = SH_DB.PostSearchReviewToHome(home.SH_HOME_INDEX);
+                #region 네트워크 상태 확인
+                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+                {
+                    reviewList = null;
+                    await App.Current.MainPage.DisplayAlert("알림", "네트워크에 연결할 수 없습니다!", "확인");
+                    return;
+                }
+                #endregion
+                #region 네트워크 연결 가능
+                else
+                {
+                    reviewList = SH_DB.PostSearchReviewToHome(home.SH_HOME_INDEX);
+                }
+                #endregion
                 Init();
             });
         }
@@ -31,7 +46,20 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             ReviewGrid.Children.Clear();
 
-            if(reviewList.Count == 0)
+            if (reviewList == null)
+            {
+                CustomLabel errorLabel = new CustomLabel
+                {
+                    Text = "네트워크에 연결 할 수 없습니다!",
+                    Size = 18,
+                    TextColor = Color.Gray,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalOptions = LayoutOptions.Center,
+                };
+                ReviewGrid.Children.Add(errorLabel);
+                return;
+            }
+            if (reviewList.Count == 0)
             {
                 CustomLabel errorLabel = new CustomLabel
                 {
@@ -185,7 +213,7 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             if(Global.b_user_login == false)
             {
-               await App.Current.MainPage.DisplayAlert("알림", "비회원은 리뷰 작성을 할 수 없습니다!", "확인");
+                await App.Current.MainPage.DisplayAlert("알림", "비회원은 리뷰 작성을 할 수 없습니다!", "확인");
                 return;
             }
             if (ShopReviewView.isOpenPage == true)

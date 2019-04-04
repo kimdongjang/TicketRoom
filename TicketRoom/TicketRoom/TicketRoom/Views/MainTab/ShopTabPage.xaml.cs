@@ -61,7 +61,22 @@ namespace TicketRoom.Views.MainTab
 
             ImageSlideAsync();
             NavigationInit();
-            mclist = SH_DB.GetCategoryListAsync(); // 메인 카테고리 리스트 초기화
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+                mclist = null;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                mclist = SH_DB.GetCategoryListAsync(); // 메인 카테고리 리스트 초기화
+            }
+            #endregion
+
+
+            // 쇼핑몰 태그, 이름 검색 기능
             BrowsingButton.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(() =>
@@ -70,16 +85,30 @@ namespace TicketRoom.Views.MainTab
                 })
             });
 
+            // 쇼핑몰 더블 클릭 방지
             Global.isOpen_ShopListPage = false; // ShopTabPage -> ShopListPage
             Global.isOpen_ShopMainPage = false; // ShopListPage -> ShopMainPage(SaleView)
 
+            #region 쇼핑 메인 리스트 및 최근본 상품 초기화
             // 쇼핑 탭 주소 엔트리 초기화
-            #region 검색 결과 찾을 수 없을 경우
             if (mclist != null)
             {
-                GridUpdate();
-                RecentViewUpdate();
+                #region 네트워크 상태 확인
+                if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+                {
+                }
+                #endregion
+                #region 네트워크 연결 가능
+                else
+                {
+                    GridUpdate();
+                    RecentViewUpdate();
+                }
+                #endregion
             }
+            #endregion
+
+            #region 검색 결과 찾을 수 없을 경우
             else
             {
                 CustomLabel label = new CustomLabel
@@ -116,7 +145,7 @@ namespace TicketRoom.Views.MainTab
             });
         }
 
-
+        // 메인 이미지 슬라이드 기능
         [System.ComponentModel.TypeConverter(typeof(System.UriTypeConverter))]
         private async void ImageSlideAsync()
         {
@@ -155,7 +184,21 @@ namespace TicketRoom.Views.MainTab
         // 쇼핑몰 검색 버튼
         private void BrowsingButtonClick()
         {
-            List<SubCate> sclist = SH_DB.PostBrowsingShopListToName(BrowsingEntry.Text);
+            List<SubCate> sclist = null;
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+                sclist = null;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                sclist = SH_DB.PostBrowsingShopListToName(BrowsingEntry.Text);
+            }
+            #endregion
+
             if (sclist != null)
             {
                 Navigation.PushAsync(new BrowserShopList(sclist)); // 쇼핑몰 검색 결과 페이지 오픈

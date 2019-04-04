@@ -80,6 +80,11 @@ namespace TicketRoom.Views.MainTab.MyPage
             {
                 Command = new Command(() =>
                 {
+                    DisplayAlert("알림", "네트워크에 연결할 수 없습니다!", "확인");
+                    return;
+
+                    //
+
                     pls = new PurchaseListShop(this);
                     PurchaseListContentView.Content = pls;
                     TapColorChangeAsync(pls);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.ShopData;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -36,6 +37,12 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 MainGrid.RowDefinitions[0].Height = 50;
             }
+            
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                MainGrid.RowDefinitions[3].Height = 30;
+            }
+            
             #endregion
 
             Grade_Grid.Add(OneGrade);
@@ -120,18 +127,32 @@ namespace TicketRoom.Views.MainTab.Shop
 
             if(Global.b_user_login == true)
             {
-                if (SH_DB.PostInsertReviewTohome(home.SH_HOME_INDEX, Math.Round(gradeScore, 1).ToString(), Global.ID, InputReview.Text))
+                #region 네트워크 상태 확인
+                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                 {
-                    await DisplayAlert("알림", "성공적으로 작성되었습니다!", "확인");
-                    wrv.reviewList = SH_DB.PostSearchReviewToHome(home.SH_HOME_INDEX);
-                    wrv.Init();
-                    ShopReviewView.isOpenPage = false;
-                    Navigation.PopAsync();
+                    await DisplayAlert("알림", "네트워크에 연결 할 수 없습니다!", "확인");
+                    return;
                 }
+                #endregion
+                #region 네트워크 연결 가능
                 else
                 {
-                    await DisplayAlert("알림", "리뷰 작성에 실패했습니다. 다시 시도해 주십시오!", "확인");
+
+                    if (SH_DB.PostInsertReviewTohome(home.SH_HOME_INDEX, Math.Round(gradeScore, 1).ToString(), Global.ID, InputReview.Text))
+                    {
+                        await DisplayAlert("알림", "성공적으로 작성되었습니다!", "확인");
+                        wrv.reviewList = SH_DB.PostSearchReviewToHome(home.SH_HOME_INDEX);
+                        wrv.Init();
+                        ShopReviewView.isOpenPage = false;
+                        Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        await DisplayAlert("알림", "리뷰 작성에 실패했습니다. 다시 시도해 주십시오!", "확인");
+                    }
                 }
+                #endregion
             }
         }
 

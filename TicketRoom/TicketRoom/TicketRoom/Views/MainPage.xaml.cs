@@ -353,6 +353,11 @@ namespace TicketRoom.Views
             {
                 Command = new Command(() =>
                 {
+                    DisplayAlert("알림", "준비 중입니다!", "확인");
+                    return;
+
+                    //
+
                     TabContent.Content = new ShopTabPage();
                     Global.InitOnAppearingBool("shop");
 

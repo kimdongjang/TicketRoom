@@ -4,8 +4,7 @@
              xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.Shop.ShopListPage">
     <ContentPage.Content>
-        <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0"
-          x:Name="MainGrid">
+        <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0"/>
                 <RowDefinition Height="50"/>
@@ -13,6 +12,7 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="0"/>
             </Grid.RowDefinitions>
 
             <!--#region 1행 커스텀 액션바 -->

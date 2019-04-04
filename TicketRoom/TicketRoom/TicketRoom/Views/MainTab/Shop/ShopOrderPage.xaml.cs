@@ -13,6 +13,7 @@ using TicketRoom.Models.ShopData;
 using TicketRoom.Models.Users;
 using TicketRoom.Views.MainTab.Popup;
 using TicketRoom.Views.Users.CreateUser;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.Xaml;
@@ -109,12 +110,25 @@ namespace TicketRoom.Views.MainTab.Shop
             }
             else if (Global.b_user_login == true) // 로그인이 되어있을 경우
             {
-                ShopOrderPage_ID = Global.ID;
-                MyPoint = PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_HAVEPOINT;
+                #region 네트워크 상태 확인
+                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+                {
+                    MyPoint = 0;
+                }
+                #endregion
+                #region 네트워크 연결 가능
+                else
+                {
 
-                AdressLabel.Text = Global.adress.ROADADDR; // 도로명 주소
-                MyNameLabel.Text = Global.user.NAME; // 유저 이름
-                MyPhoneLabel.Text = Global.user.PHONENUM; // 폰 넘버 초기화
+                    ShopOrderPage_ID = Global.ID;
+                    MyPoint = PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_HAVEPOINT;
+
+                    AdressLabel.Text = Global.adress.ROADADDR; // 도로명 주소
+                    MyNameLabel.Text = Global.user.NAME; // 유저 이름
+                    MyPhoneLabel.Text = Global.user.PHONENUM; // 폰 넘버 초기화
+                }
+                #endregion
             }
 
 
@@ -133,47 +147,62 @@ namespace TicketRoom.Views.MainTab.Shop
 
         private void PurchaseListInit() // 구매할 목록 초기화
         {
-            int row = 0;
-            for (int i = 0; i < basketList.Count; i++)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
-                PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = 3 });
-                Grid inGrid = new Grid
+                return;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                if(basketList == null)
                 {
-                    ColumnDefinitions =
+                    return;
+                }
+
+                int row = 0;
+                for (int i = 0; i < basketList.Count; i++)
+                {
+                    PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+                    PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = 3 });
+                    Grid inGrid = new Grid
+                    {
+                        ColumnDefinitions =
                     {
                         new ColumnDefinition { Width = 100 },
                         new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                         new ColumnDefinition { Width = 30 }
                     },
-                    VerticalOptions = LayoutOptions.Center,
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Margin = new Thickness(20,0,20,0),
-                    RowSpacing = 0,
-                    ColumnSpacing = 0,
-                };
+                        VerticalOptions = LayoutOptions.Center,
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                        Margin = new Thickness(20, 0, 20, 0),
+                        RowSpacing = 0,
+                        ColumnSpacing = 0,
+                    };
 
-                #region 장바구니 상품 이미지
-                CachedImage product_image = new CachedImage
-                {
-                    LoadingPlaceholder = Global.LoadingImagePath,
-                    ErrorPlaceholder = Global.NotFoundImagePath,
-                    Source = basketList[i].SH_BASKET_IMAGE,
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                    HorizontalOptions = LayoutOptions.CenterAndExpand,
-                    Aspect = Aspect.AspectFill,
-                };
-                #endregion
+                    #region 장바구니 상품 이미지
+                    CachedImage product_image = new CachedImage
+                    {
+                        LoadingPlaceholder = Global.LoadingImagePath,
+                        ErrorPlaceholder = Global.NotFoundImagePath,
+                        Source = basketList[i].SH_BASKET_IMAGE,
+                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                        HorizontalOptions = LayoutOptions.CenterAndExpand,
+                        Aspect = Aspect.AspectFill,
+                    };
+                    #endregion
 
-                #region 상품 설명 Labellist 그리드
-                Grid product_label_grid = new Grid
-                {
-                    Margin = new Thickness(10, 0, 0, 0),
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    RowSpacing = 0,
-                    ColumnSpacing = 0,
-                    RowDefinitions =
+                    #region 상품 설명 Labellist 그리드
+                    Grid product_label_grid = new Grid
+                    {
+                        Margin = new Thickness(10, 0, 0, 0),
+                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                        RowSpacing = 0,
+                        ColumnSpacing = 0,
+                        RowDefinitions =
                     {
                         new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = GridLength.Auto },
@@ -181,62 +210,64 @@ namespace TicketRoom.Views.MainTab.Shop
                         new RowDefinition { Height = GridLength.Auto }
                     },
 
-                };
+                    };
 
-                #region 상품 제목 Label
-                CustomLabel pro_label = new CustomLabel
-                {
-                    Text = basketList[i].SH_BASKET_NAME,
-                    Size = 18,
-                    TextColor = Color.Black,
-                };
-                #endregion
+                    #region 상품 제목 Label
+                    CustomLabel pro_label = new CustomLabel
+                    {
+                        Text = basketList[i].SH_BASKET_NAME,
+                        Size = 18,
+                        TextColor = Color.Black,
+                    };
+                    #endregion
 
-                #region 상품 종류 Label (사이즈, 색상, 추가옵션)
-                CustomLabel type_label = new CustomLabel
-                {
-                    Text = "색상 : " + basketList[i].SH_BASKET_COLOR + ", 사이즈 : " + basketList[i].SH_BASKET_SIZE + ", " + basketList[i].SH_BASKET_COUNT + "개",
-                    Size = 14,
-                    TextColor = Color.DarkGray,
-                };
-                #endregion
+                    #region 상품 종류 Label (사이즈, 색상, 추가옵션)
+                    CustomLabel type_label = new CustomLabel
+                    {
+                        Text = "색상 : " + basketList[i].SH_BASKET_COLOR + ", 사이즈 : " + basketList[i].SH_BASKET_SIZE + ", " + basketList[i].SH_BASKET_COUNT + "개",
+                        Size = 14,
+                        TextColor = Color.DarkGray,
+                    };
+                    #endregion
 
-                #region 가격 내용 Label 및 장바구니 담은 날짜
-                CustomLabel price_label = new CustomLabel
-                {
-                    Text = basketList[i].SH_BASKET_PRICE.ToString("N0") + "원",
-                    Size = 14,
-                    TextColor = Color.Gray,
-                };
-                #endregion
+                    #region 가격 내용 Label 및 장바구니 담은 날짜
+                    CustomLabel price_label = new CustomLabel
+                    {
+                        Text = basketList[i].SH_BASKET_PRICE.ToString("N0") + "원",
+                        Size = 14,
+                        TextColor = Color.Gray,
+                    };
+                    #endregion
 
-                //상품 설명 라벨 그리드에 추가
-                product_label_grid.Children.Add(pro_label, 0, 0);
-                product_label_grid.Children.Add(type_label, 0, 1);
-                product_label_grid.Children.Add(price_label, 0, 3);
-                #endregion
+                    //상품 설명 라벨 그리드에 추가
+                    product_label_grid.Children.Add(pro_label, 0, 0);
+                    product_label_grid.Children.Add(type_label, 0, 1);
+                    product_label_grid.Children.Add(price_label, 0, 3);
+                    #endregion
 
-                #region 상품권 그리드 자식 추가
-                inGrid.Children.Add(product_image, 0, 0);
-                inGrid.Children.Add(product_label_grid, 1, 0);
-                #endregion
-
-
-                //장바구니 리스트 그리드에 추가 
-                PurchaseListGrid.Children.Add(inGrid, 0, row);
-                row++;
+                    #region 상품권 그리드 자식 추가
+                    inGrid.Children.Add(product_image, 0, 0);
+                    inGrid.Children.Add(product_label_grid, 1, 0);
+                    #endregion
 
 
-                #region 구분선
-                BoxView gridline = new BoxView
-                {
-                    BackgroundColor = Color.FromHex("#f4f2f2"),
-                    VerticalOptions = LayoutOptions.End,
-                    HorizontalOptions = LayoutOptions.FillAndExpand
-                };
-                //구분선 그리드에 추가 
-                PurchaseListGrid.Children.Add(gridline, 0, row);
-                row++;
+                    //장바구니 리스트 그리드에 추가 
+                    PurchaseListGrid.Children.Add(inGrid, 0, row);
+                    row++;
+
+
+                    #region 구분선
+                    BoxView gridline = new BoxView
+                    {
+                        BackgroundColor = Color.FromHex("#f4f2f2"),
+                        VerticalOptions = LayoutOptions.End,
+                        HorizontalOptions = LayoutOptions.FillAndExpand
+                    };
+                    //구분선 그리드에 추가 
+                    PurchaseListGrid.Children.Add(gridline, 0, row);
+                    row++;
+                    #endregion
+                }
                 #endregion
             }
         }
@@ -355,199 +386,6 @@ namespace TicketRoom.Views.MainTab.Shop
             card_picker.Items.Add("삼성카드");
             #endregion
         }
-        /*
-        private void CashOptionEnable()
-        {
-            PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            CustomLabel label = new CustomLabel
-            {
-                Text = "은행명",
-                Size = 18,
-            };
-            cash_picker = new CustomPicker
-            {
-                Title = "은행을 선택해주세요.",
-                FontSize = 18,
-            };
-            PhoneOptionGrid.Children.Add(label, 0, 0);
-            PhoneOptionGrid.Children.Add(cash_picker, 0, 1);
-
-            #region 결제 피커 초기화
-            cash_picker.Items.Add("농협");
-            cash_picker.Items.Add("신한은행");
-            cash_picker.Items.Add("하나은행");
-            cash_picker.Items.Add("국민은행");
-            cash_picker.Items.Add("기업은행");
-            #endregion
-
-            #region 발급정보
-            PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            CustomLabel label2 = new CustomLabel
-            {
-                Text = "발급정보",
-                Size = 18,
-            };
-            PhoneOptionGrid.Children.Add(label2, 0, 2);
-            #endregion
-
-            PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            Grid inGrid = new Grid
-            {
-                ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                    },
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                Margin = new Thickness(15, 0, 0, 0),
-                RowSpacing = 0,
-                ColumnSpacing = 0,
-            };
-
-            #region 현금영수증 개인 선택 라디오
-            Grid perGrid = new Grid
-            {
-                ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = 20 },
-                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                    },
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                RowSpacing = 0,
-                ColumnSpacing = 0,
-            };
-            CachedImage perImage = new CachedImage
-            {
-                LoadingPlaceholder = Global.LoadingImagePath,
-                ErrorPlaceholder = Global.LoadingImagePath,
-                Source = "radio_checked_icon.png",
-                VerticalOptions= LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.Center,
-                Aspect = Aspect.AspectFit,
-                HeightRequest = 40,
-                WidthRequest = 40,
-            };
-            CustomLabel perLabel = new CustomLabel
-            {
-                Text = "개인소득공제",
-                Size = 18,
-                VerticalOptions = LayoutOptions.Center,
-            };
-            perGrid.Children.Add(perImage, 0, 0);
-            perGrid.Children.Add(perLabel, 1, 0);
-
-            #endregion
-            #region 현금영수증 사업자 선택 라디오
-            Grid busGrid = new Grid
-            {
-                ColumnDefinitions =
-                    {
-                        new ColumnDefinition { Width = 20 },
-                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                    },
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                RowSpacing = 0,
-                ColumnSpacing = 0,
-            };
-            CachedImage busImage = new CachedImage
-            {
-                LoadingPlaceholder = Global.LoadingImagePath,
-                ErrorPlaceholder = Global.LoadingImagePath,
-                Source = "radio_unchecked_icon.png",
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.Center,
-                Aspect = Aspect.AspectFit,
-                HeightRequest = 40,
-                WidthRequest = 40,
-            };
-            CustomLabel busLabel = new CustomLabel
-            {
-                Text = "사업자 지출증빙",
-                Size = 18,
-                VerticalOptions = LayoutOptions.Center,
-            };
-            busGrid.Children.Add(busImage, 0, 0);
-            busGrid.Children.Add(busLabel, 1, 0);
-
-            #endregion
-
-            #region 라디오 선택 이벤트
-            perGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-            {
-                Command = new Command(() =>
-                {
-                    perImage.Source = "radio_checked_icon.png";
-                    busImage.Source = "radio_unchecked_icon.png";
-                    payOption = "Personal";
-                    b_Business = false;
-                    b_Personal = true;
-                })
-            });
-            inGrid.Children.Add(perGrid, 0, 0);
-            busGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-            {
-                Command = new Command(() =>
-                {
-                    busImage.Source = "radio_checked_icon.png";
-                    perImage.Source = "radio_unchecked_icon.png";
-                    payOption = "Business";
-                    b_Business = true;
-                    b_Personal = false;
-                })
-            });
-            inGrid.Children.Add(busGrid, 1, 0);
-            PhoneOptionGrid.Children.Add(inGrid, 0, 3);
-            #endregion
-
-            #region 현금영수증 레이블
-            PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            PhoneOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-            CustomLabel phoneLabel = new CustomLabel
-            {
-                Size = 18,
-            };
-
-            PhoneOptionGrid.Children.Add(phoneLabel, 0, 4);
-            phoneEntry = new Xamarin.Forms.Entry
-            {
-                FontSize = 18,
-            };
-            phoneEntry.Keyboard = Keyboard.Numeric;
-
-            PhoneOptionGrid.Children.Add(phoneEntry, 0, 5);
-            CustomLabel nameLabel = new CustomLabel
-            {
-                Size = 18,
-            };
-            PhoneOptionGrid.Children.Add(nameLabel, 0, 6);
-            nameEntry = new Xamarin.Forms.Entry
-            {
-                FontSize = 18,
-            };
-            PhoneOptionGrid.Children.Add(nameEntry, 0, 7);
-            if (b_Personal == true) // 현금 영수증 개인이 선택되었을 경우
-            {
-                phoneLabel.Text = "휴대폰(- 빼고 입력 해 주세요)";
-                phoneEntry.Placeholder = "ex) 01012340000";
-                nameLabel.Text = "이름";
-                nameEntry.Placeholder = "ex) 홍길동";
-            }
-            else if (b_Business == true) // 현금 영수증 사업자가 선택되었을 경우
-            {
-                phoneLabel.Text = "사업자 등록 번호(- 빼고 입력 해 주세요)";
-                phoneEntry.Placeholder = "ex) 1113330000";
-                nameLabel.Text = "사업자 이름";
-                nameEntry.Placeholder = "ex) 홍길동";
-            }
-            #endregion
-        }
-        */
         private void PhoneEntry_TextChanged(object sender, TextChangedEventArgs e)
         {
             throw new NotImplementedException();
@@ -559,7 +397,20 @@ namespace TicketRoom.Views.MainTab.Shop
             DeliveryPrice = 0;
             for (int i = 0; i < basketList.Count; i++)
             {
-                SH_Home home = SH_DB.PostSearchHomeToHome(basketList[i].SH_HOME_INDEX);
+                SH_Home home;
+                #region 네트워크 상태 확인
+                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+                {
+                    home = null;
+                }
+                #endregion
+                #region 네트워크 연결 가능
+                else
+                {
+                    home = SH_DB.PostSearchHomeToHome(basketList[i].SH_HOME_INDEX);
+                }
+                #endregion
                 if (home != null)
                 {
                     homeList.Add(home);
@@ -755,24 +606,37 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 //장바구니로 이동
                 var answer = await DisplayAlert("결제금액 : " + PriceLabel.Text, "결제 정보가 맞습니까?", "확인", "취소");
-                if (answer)
+                #region 네트워크 상태 확인
+                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                 {
-                    IMPParam impparam = new IMPParam
-                    {
-                        pg = "inicis",
-                        pay_method = "card",
-                        merchant_uid = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"),
-                        name = basketList[0].SH_BASKET_NAME + "외 " + basketList.Count + "개 상품",
-                        amount = 200, // AmountOfPay + DeliveryPrice - MyUsePoint,
-                        buyer_email = "",
-                        buyer_name = ShopOrderPage_ID/*아이디*/,
-                        buyer_tel = MyPhoneLabel.Text/*휴대폰번호*/,
-                        buyer_addr = AdressLabel.Text/*배송지*/,
-                        buyer_postcode = myAdress.ZIPNO.ToString()/*우편번호*/
-                    };
-
-                    await Navigation.PushAsync(new IMPHybridWebView(impparam, this)); //
+                    await DisplayAlert("알림", "네트워크에 연결할 수 없습니다!", "확인");
+                    return;
                 }
+                #endregion
+                #region 네트워크 연결 가능
+                else
+                {
+                    if (answer)
+                    {
+                        IMPParam impparam = new IMPParam
+                        {
+                            pg = "inicis",
+                            pay_method = "card",
+                            merchant_uid = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"),
+                            name = basketList[0].SH_BASKET_NAME + "외 " + basketList.Count + "개 상품",
+                            amount = 200, // AmountOfPay + DeliveryPrice - MyUsePoint,
+                            buyer_email = "",
+                            buyer_name = ShopOrderPage_ID/*아이디*/,
+                            buyer_tel = MyPhoneLabel.Text/*휴대폰번호*/,
+                            buyer_addr = AdressLabel.Text/*배송지*/,
+                            buyer_postcode = myAdress.ZIPNO.ToString()/*우편번호*/
+                        };
+
+                        await Navigation.PushAsync(new IMPHybridWebView(impparam, this)); //
+                    }
+                }
+                #endregion
             }
         }
         
@@ -829,7 +693,8 @@ namespace TicketRoom.Views.MainTab.Shop
 
         // 포인트를 입력했을시 포인트 변경 이벤트
         private void InputPointEntry_TextChanged(object sender, TextChangedEventArgs e)
-        {
+        { 
+            /*
             try
             {
                 InputPointEntry.Text = int.Parse(Regex.Replace(InputPointEntry.Text, @"\D", "")).ToString();
@@ -865,6 +730,7 @@ namespace TicketRoom.Views.MainTab.Shop
             {
 
             }
+            */
         }
 
         private void ChangePhoneBtn_Clicked(object sender, EventArgs e)

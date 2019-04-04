@@ -112,6 +112,12 @@ namespace TicketRoom.Views.MainTab
             {
                 Command = new Command(() =>
                 {
+                    App.Current.MainPage.DisplayAlert("알림", "준비 중입니다!", "확인");
+                    return;
+
+                    //
+
+
                     bsv = new BasketShopView(this);
                     BasketContentView.Content = bsv;
 
