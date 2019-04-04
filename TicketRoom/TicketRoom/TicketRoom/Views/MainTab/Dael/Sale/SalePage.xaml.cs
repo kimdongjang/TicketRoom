@@ -39,6 +39,10 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
             {
                 MainGrid.RowDefinitions[0].Height = 50;
             }
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                MainGrid.RowDefinitions[4].Height = 30;
+            }
             #endregion
             this.productInfo = productInfo;
             Pro_imgae.Source = ImageSource.FromUri(new Uri(productInfo.PRODUCTIMAGE));

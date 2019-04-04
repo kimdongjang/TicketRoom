@@ -29,9 +29,13 @@ namespace TicketRoom.Views.MainTab.Dael
             {
                 TabGrid.RowDefinitions[0].Height = 50;
             }
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                TabGrid.RowDefinitions[3].Height = 30;
+            }
             #endregion
-            
-            if(Global.deal_select_category_value == "구매")
+
+            if (Global.deal_select_category_value == "구매")
             {
                 PurchaseTab.TextColor = Color.CornflowerBlue;
                 PurchaseLine.BackgroundColor = Color.CornflowerBlue;

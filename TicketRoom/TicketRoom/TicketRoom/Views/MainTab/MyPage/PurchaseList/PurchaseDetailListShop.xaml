@@ -12,6 +12,7 @@
                 <RowDefinition Height="1"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="0"/>
             </Grid.RowDefinitions>
 
             <!--#region 1행 커스텀 액션바 -->
@@ -57,7 +58,7 @@
                 </Grid>
             </ScrollView>
 
-            <!--#region 4행 결제하기 -->
+            <!--#region 4행 확인 -->
             <Grid Grid.Row="4">
                 <local1:CustomButton Size="26" FontFamily="{StaticResource FontStyle}" Text="확인"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"

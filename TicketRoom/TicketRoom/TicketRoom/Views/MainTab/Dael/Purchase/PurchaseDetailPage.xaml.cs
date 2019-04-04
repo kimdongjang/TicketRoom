@@ -53,8 +53,12 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             {
                 MainGrid.RowDefinitions[0].Height = 50;
             }
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                MainGrid.RowDefinitions[4].Height = 30;
+            }
             #endregion
-            
+
             this.g_PurchasedetailInfos = g_PurchasedetailInfos;
             DeliveryPrice_label.Text = (deliveryprice).ToString("N0");
             ShowUserInfo();

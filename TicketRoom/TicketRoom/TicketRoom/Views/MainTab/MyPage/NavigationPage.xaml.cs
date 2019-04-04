@@ -32,6 +32,10 @@ namespace TicketRoom.Views.MainTab.MyPage
             {
                 TabGrid.RowDefinitions[0].Height = 50;
             }
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                TabGrid.RowDefinitions[3].Height = 30;
+            }
             #endregion
             Init();
         }

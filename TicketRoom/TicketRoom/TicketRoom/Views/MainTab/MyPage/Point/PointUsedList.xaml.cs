@@ -28,6 +28,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 			InitializeComponent ();
             this.pcp = pcp;
             this.pp = pp;
+
             #region 네트워크 상태 확인
             var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
             if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가

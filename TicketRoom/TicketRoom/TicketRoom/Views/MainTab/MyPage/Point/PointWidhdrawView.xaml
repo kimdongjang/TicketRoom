@@ -4,7 +4,6 @@
              xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.MyPage.Point.PointWidhdrawView">
   <ContentView.Content>
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>

@@ -29,7 +29,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 TabGrid.RowDefinitions[0].Height = 50;
             }
-            #endregion
+            #endregion if(Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                TabGrid.RowDefinitions[5].Height = 30;
+            }
             this.purchaseList = purchaseList;
 
             // 구매 목록 인덱스를 통해 배송 관련 리스트 가져오기
