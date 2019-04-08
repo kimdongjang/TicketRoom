@@ -27,8 +27,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <custom:CustomLabel Grid.Row="0" Text="보유 포인트" Size="18" TextColor="Black" Margin="15,0,0,0"/>
-                <custom:CustomLabel Grid.Row="1" Text="1,000 포인트" Size="16" TextColor="Black"  Margin="15,0,0,0" x:Name="MyPointLabel"/>
+                <custom:CustomLabel Grid.Row="0" Text="보유 포인트" Size="22" TextColor="Black" Margin="15,0,0,0"/>
+                <custom:CustomLabel Grid.Row="1" Text="1,000 포인트" Size="16" TextColor="Orange"  Margin="15,0,0,0" x:Name="MyPointLabel"/>
 
                 <!-- 2행 구분선 -->
                 <BoxView Grid.Row="2" BackgroundColor="LightGray"/>

@@ -4,7 +4,7 @@
              xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.MyPage.Point.PointUsedList">
     <ContentView.Content>
-        <Grid x:Name="TabGrid">
+        <Grid x:Name="TabGrid" BackgroundColor="#f5f5f5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="1"/>

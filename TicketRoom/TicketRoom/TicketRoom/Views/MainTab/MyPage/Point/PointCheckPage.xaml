@@ -52,21 +52,57 @@
         <!--#region 2행 탭매뉴-->
         <Grid Grid.Row="2" BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <!--#region 0행 주기 탭 이미지 라벨-->
-            <Grid Grid.Row="0" BackgroundColor="CornflowerBlue" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="ImageGrid">
+            <Grid Grid.Row="0" BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="ImageGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="point_addlist_h.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="AddImage"/>
-                <Image Grid.Column="1" Source="point_uselist_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="UsedImage"/>
-                <Image Grid.Column="2" Source="point_charge_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="ChargeImage"/>
-                <Image Grid.Column="3" Source="point_withdraw_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="WidhdrawImage"/>
+
+                <Grid Grid.Column="0"  x:Name="AddGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <custom:CustomLabel Grid.Row="0" Text="적립내역" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="CornflowerBlue"
+                                                        BackgroundColor="White"/>
+                    <BoxView Grid.Row="1" BackgroundColor="CornflowerBlue" Margin="15,0,15,0" VerticalOptions="Center" />
+                </Grid>
+
+                <Grid Grid.Column="1" x:Name="UsedGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <custom:CustomLabel Grid.Row="0" Text="사용내역" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
+                                                        BackgroundColor="White" />
+                    <BoxView Grid.Row="1" BackgroundColor="White" Margin="15,0,15,0" VerticalOptions="Center" />
+                </Grid>
+
+                <Grid Grid.Column="2" x:Name="ChargeGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <custom:CustomLabel Grid.Row="0" Text="충전하기" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
+                                                        BackgroundColor="White" />
+                    <BoxView Grid.Row="1" BackgroundColor="White" Margin="15,0,15,0"/>
+                </Grid>
+
+                <Grid Grid.Column="3" x:Name="WidhdrawGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <custom:CustomLabel Grid.Row="0" Text="출금하기" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
+                                                        BackgroundColor="White" />
+                    <BoxView Grid.Row="1" BackgroundColor="White" Margin="15,0,15,0"/>
+                </Grid>
             </Grid>
             <!--#endregion-->
 
@@ -81,7 +117,6 @@
                     <ColumnDefinition Width="30"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <BoxView Grid.Row="1" Grid.ColumnSpan="3" BackgroundColor="White" />
                 <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Source="index_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
             </Grid>
             <!--#endregion-->

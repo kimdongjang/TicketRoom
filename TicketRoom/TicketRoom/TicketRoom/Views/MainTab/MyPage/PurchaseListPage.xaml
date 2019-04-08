@@ -54,7 +54,7 @@
         <!--#region 2행 탭매뉴-->
         <Grid Grid.Row="2" BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <!--#region 1행 주기 탭 이미지 라벨-->
@@ -65,14 +65,46 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="list_all_h.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="list_all_image" BackgroundColor="White"/>
 
-                <Image Grid.Column="1" Source="list_week_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="list_week_image"/>
+                <Grid Grid.Column="0"  x:Name="ListAllGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <custom:CustomLabel Grid.Row="0" Text="전체보기" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="CornflowerBlue"
+                                                        BackgroundColor="White"/>
+                    <BoxView Grid.Row="1" BackgroundColor="CornflowerBlue" Margin="15,0,15,0" VerticalOptions="Center" />
+                </Grid>
 
-                <Image Grid.Column="2" Source="list_month_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="list_month_image"/>
+                <Grid Grid.Column="1" x:Name="ListYearGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <custom:CustomLabel Grid.Row="0" Text="년간조회" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
+                                                        BackgroundColor="White" />
+                    <BoxView Grid.Row="1" BackgroundColor="White" Margin="15,0,15,0" VerticalOptions="Center" />
+                </Grid>
 
-                <Image Grid.Column="3" Source="list_year_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="list_year_image"/>
+                <Grid Grid.Column="2" x:Name="ListMonthGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <custom:CustomLabel Grid.Row="0" Text="월간조회" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
+                                                        BackgroundColor="White" />
+                    <BoxView Grid.Row="1" BackgroundColor="White" Margin="15,0,15,0"/>
+                </Grid>
 
+                <Grid Grid.Column="3" x:Name="ListDayGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <custom:CustomLabel Grid.Row="0" Text="주간조회" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
+                                                        BackgroundColor="White" />
+                    <BoxView Grid.Row="1" BackgroundColor="White" Margin="15,0,15,0"/>
+                </Grid>
             </Grid>
             <!--#endregion-->
 
@@ -87,7 +119,6 @@
                     <ColumnDefinition Width="30"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <BoxView Grid.Row="1" Grid.ColumnSpan="3" BackgroundColor="White" />
                 <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Source="index_icon.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
             </Grid>
             <!--#endregion-->
@@ -95,7 +126,7 @@
         <!--#endregion-->
 
         <!--#region 구매 목록 페이지 상품권, 쇼핑몰-->
-        <ContentView Grid.Row="3" x:Name="PurchaseListContentView"/>
+        <ContentView Grid.Row="3" x:Name="PurchaseListContentView" BackgroundColor="#f5f5f5"/>
         <!--#endregion-->
 
 

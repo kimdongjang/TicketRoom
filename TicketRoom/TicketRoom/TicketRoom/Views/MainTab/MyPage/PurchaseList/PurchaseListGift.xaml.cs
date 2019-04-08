@@ -38,8 +38,6 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             {
                 PostSearchPurchaseListToIDAsync(Global.non_user_id, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
             }
-            
-            Init();
         }
 
         // 유저 아이디를 통해 상품권 구매리스트 가져오기
@@ -80,10 +78,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     VerticalTextAlignment = TextAlignment.Center,
                     HorizontalTextAlignment = TextAlignment.Center
                 };
-                RootGird.RowDefinitions.Clear();
-                RootGird.Children.Clear();
-                RootGird.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                RootGird.Children.Add(error_label, 0, 0);
+                MainGrid.RowDefinitions.Clear();
+                MainGrid.Children.Clear();
+                MainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MainGrid.Children.Add(error_label, 0, 0);
                 return;
             }
             #endregion
@@ -101,10 +99,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     VerticalTextAlignment = TextAlignment.Center,
                     HorizontalTextAlignment = TextAlignment.Center
                 };
-                RootGird.RowDefinitions.Clear();
-                RootGird.Children.Clear();
-                RootGird.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                RootGird.Children.Add(nonpurchase_label,0,0);
+                MainGrid.RowDefinitions.Clear();
+                MainGrid.Children.Clear();
+                MainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MainGrid.Children.Add(nonpurchase_label,0,0);
                 return;
             }
             #endregion

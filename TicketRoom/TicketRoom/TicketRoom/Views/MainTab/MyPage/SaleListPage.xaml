@@ -51,7 +51,7 @@
         <!--#region 2행 탭매뉴-->
         <Grid Grid.Row="2" BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <!--#region 1행 주기 탭 이미지 라벨-->
@@ -62,26 +62,45 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="list_all_h.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="allbtn_clicked"/>
-                    </Image.GestureRecognizers>
-                </Image>
-                <Image Grid.Column="1" Source="list_week_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="weekbtn_clicked"/>
-                    </Image.GestureRecognizers>
-                </Image>
-                <Image Grid.Column="2" Source="list_month_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="monthbtn_clicked"/>
-                    </Image.GestureRecognizers>
-                </Image>
-                <Image Grid.Column="3" Source="list_year_non.png" Aspect="AspectFit" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="yearbtn_clicked"/>
-                    </Image.GestureRecognizers>
-                </Image>
+                <Grid Grid.Column="0"  x:Name="ListAllGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <local1:CustomLabel Grid.Row="0" Text="전체보기" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="CornflowerBlue"
+                                                        BackgroundColor="White"/>
+                    <BoxView Grid.Row="1" BackgroundColor="CornflowerBlue" Margin="15,0,15,0" VerticalOptions="Center" />
+                </Grid>
+
+                <Grid Grid.Column="1" x:Name="ListYearGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <local1:CustomLabel Grid.Row="0" Text="년간조회" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
+                                                        BackgroundColor="White" />
+                    <BoxView Grid.Row="1" BackgroundColor="White" Margin="15,0,15,0" VerticalOptions="Center" />
+                </Grid>
+
+                <Grid Grid.Column="2" x:Name="ListMonthGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <local1:CustomLabel Grid.Row="0" Text="월간조회" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
+                                                        BackgroundColor="White" />
+                    <BoxView Grid.Row="1" BackgroundColor="White" Margin="15,0,15,0"/>
+                </Grid>
+
+                <Grid Grid.Column="3" x:Name="ListDayGrid" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                    </Grid.RowDefinitions>
+                    <local1:CustomLabel Grid.Row="0" Text="주간조회" Size="16" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"
+                                                        BackgroundColor="White" />
+                    <BoxView Grid.Row="1" BackgroundColor="White" Margin="15,0,15,0"/>
+                </Grid>
             </Grid>
             <!--#endregion-->
 
@@ -103,14 +122,14 @@
         </Grid>
         <!--#endregion-->
 
-        <ScrollView Grid.Row="3" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="MainScroll">
+        <ScrollView Grid.Row="3" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="MainScroll" BackgroundColor="#f5f5f5">
             <Grid Margin="10" x:Name="RootGird">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <!-- 스크롤뷰 전체 구분선 -->
                 <BoxView Grid.Row="0" BackgroundColor="LightGray"/>
-                <Grid Grid.Row="0" x:Name="MainGrid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White" Margin="3"/>
+                <Grid Grid.Row="0" x:Name="MainGrid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="#f5f5f5" Margin="3"/>
             </Grid>
         </ScrollView>
     </Grid>

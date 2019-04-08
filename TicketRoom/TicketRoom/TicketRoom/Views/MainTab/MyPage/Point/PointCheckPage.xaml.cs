@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TicketRoom.Models.Custom;
 using TicketRoom.Models.PointData;
 using TicketRoom.Views.MainTab.MyPage.Point;
 using Xamarin.Essentials;
@@ -62,7 +63,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
         private async void LoadingInitAsync()
         {
-            TabColorChanged(0);
 
             // 로딩 시작
             await Global.LoadingStartAsync();
@@ -101,7 +101,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             PointContentView.Content = cv;
 
             // 적립 내역 이벤트
-            AddImage.GestureRecognizers.Add(new TapGestureRecognizer()
+            AddGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>
                 {
@@ -110,18 +110,22 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
                     pal = new PointAddList(this, pp);
                     PointContentView.Content = pal;
-                    TabColorChanged(0);
-                    AddImage.Source = "point_addlist_h.png";
-                    UsedImage.Source = "point_uselist_non.png";
-                    ChargeImage.Source = "point_charge_non.png";
-                    WidhdrawImage.Source = "point_withdraw_non.png";
+
+                    ((CustomLabel)AddGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)AddGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                    ((CustomLabel)UsedGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)UsedGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ChargeGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ChargeGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)WidhdrawGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)WidhdrawGrid.Children[1]).BackgroundColor = Color.White;
 
                     // 로딩 완료
                     await Global.LoadingEndAsync();
                 })
             });
             // 사용 내역 이벤트
-            UsedImage.GestureRecognizers.Add(new TapGestureRecognizer()
+            UsedGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>
                 {
@@ -130,11 +134,15 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
                     pul = new PointUsedList(this, pp);
                     PointContentView.Content = pul;
-                    TabColorChanged(1);
-                    AddImage.Source = "point_addlist_non.png";
-                    UsedImage.Source = "point_uselist_h.png";
-                    ChargeImage.Source = "point_charge_non.png";
-                    WidhdrawImage.Source = "point_withdraw_non.png";
+
+                    ((CustomLabel)AddGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)AddGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)UsedGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)UsedGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                    ((CustomLabel)ChargeGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ChargeGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)WidhdrawGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)WidhdrawGrid.Children[1]).BackgroundColor = Color.White;
 
                     // 로딩 완료
                     await Global.LoadingEndAsync();
@@ -142,51 +150,44 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 })
             });
             // 포인트 충전 이벤트
-            ChargeImage.GestureRecognizers.Add(new TapGestureRecognizer()
+            ChargeGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(() =>
                 {
                     pcv = new PointChargeView(this, pp);
                     PointContentView.Content = pcv;
-                    TabColorChanged(2);
-                    AddImage.Source = "point_addlist_non.png";
-                    UsedImage.Source = "point_uselist_non.png";
-                    ChargeImage.Source = "point_charge_h.png";
-                    WidhdrawImage.Source = "point_withdraw_non.png";
+
+                    ((CustomLabel)AddGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)AddGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)UsedGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)UsedGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ChargeGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)ChargeGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                    ((CustomLabel)WidhdrawGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)WidhdrawGrid.Children[1]).BackgroundColor = Color.White;
 
                 })
             });
             // 포인트 출금 이벤트
-            WidhdrawImage.GestureRecognizers.Add(new TapGestureRecognizer()
+            WidhdrawGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(() =>
                 {
                     pwv = new PointWidhdrawView(this, pp);
                     PointContentView.Content = pwv;
-                    TabColorChanged(3);
-                    AddImage.Source = "point_addlist_non.png";
-                    UsedImage.Source = "point_uselist_non.png";
-                    ChargeImage.Source = "point_charge_non.png";
-                    WidhdrawImage.Source = "point_withdraw_h.png";
+                    ((CustomLabel)AddGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)AddGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)UsedGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)UsedGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ChargeGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ChargeGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)WidhdrawGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)WidhdrawGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
 
                 })
             });
         }
 
-        private void TabColorChanged(int n)
-        {
-            for (int i = 0; i < ImageGrid.Children.Count; i++)
-            {
-                if (i == n)
-                {
-                    ImageGrid.Children[i].BackgroundColor = Color.White;
-                }
-                else
-                {
-                    ImageGrid.Children[i].BackgroundColor = Color.CornflowerBlue;
-                }
-            }
-        }
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {

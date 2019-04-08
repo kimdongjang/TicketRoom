@@ -159,6 +159,8 @@
                         <RowDefinition Height="3"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="3"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="3"/>
                         <RowDefinition Height="Auto"/>
@@ -231,58 +233,55 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <local1:CustomLabel Size="22" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Grid.Row="0" Text="포인트 사용"
+                        <local1:CustomLabel Size="22" Grid.Column="0" Grid.Row="0" Text="포인트 사용"
                                             TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center" Margin="15,10,15,0"/>
 
-                        <local1:CustomLabel Margin="15,5,15,0" FontFamily="{StaticResource FontStyle}" Grid.Column="0" Grid.Row="1" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center">
+                        <local1:CustomLabel Margin="15,5,15,0" Grid.Column="0" Grid.Row="1" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center">
                             <local1:CustomLabel.FormattedText>
                                 <FormattedString>
                                     <Span Text="잔여 포인트: " TextColor="Black" FontSize="18">
                                     </Span>
-                                    <Span x:Name="Point_label" TextColor="Black" FontSize="18">
+                                    <Span x:Name="Point_label" TextColor="Red" FontSize="18">
                                     </Span>
                                 </FormattedString>
                             </local1:CustomLabel.FormattedText>
                         </local1:CustomLabel>
-                        <local1:CustomButton Grid.Column="1" Size="20" FontFamily="{StaticResource FontStyle}" Text="포인트 적용" HorizontalOptions="Center" VerticalOptions="Center"
+                        <local1:CustomButton Grid.Column="1" Size="20" Text="포인트 적용" HorizontalOptions="Center" VerticalOptions="Center"
                                                     BackgroundColor="Black" TextColor="White" HeightRequest="30" WidthRequest="120" Margin="0,10,15,10"
                                                     Clicked="UsedPointBtn_Clicked"/>
-
-                        <!--#region 5행 포인트 Entry(Input)-->
-                        <Entry Grid.Row="2" Grid.ColumnSpan="2" x:Name="Point_box"
+                        
+                    </Grid>
+                    
+                    <!--#region 5행 포인트 Entry(Input)-->
+                    <Entry Grid.Row="5" x:Name="Point_box"  Margin="15"
                            TextChanged="Point_box_TextChanged"
                            Focused="Point_box_Focused"
                            Placeholder="사용할 포인트 입력 ex) 1000" FontSize="16" 
                            Keyboard="Numeric"
                            HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null" TextColor="Black"
                            >
-                        </Entry>
-                        <!--#endregion-->
-                    </Grid>
-
-                    <local1:CustomLabel Grid.Row="5" Size="20" Margin="15,10,15,0" FontFamily="{StaticResource FontStyle}" Text="결제하실 금액" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
-
-                    <!--#region 6행 총 결제금액 Label-->
-                    <Label Grid.Row="6" Margin="15,10,15,10" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span x:Name="Purchase_AllPrice_label" TextColor="Red" FontSize="18">
-                                </Span>
-                                <Span Text=" 원" TextColor="Red" FontSize="18">
-                                </Span>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                    </Entry>
+                    <!--#endregion-->
+                    
+                    <!--#region 6행 Grid라인-->
+                    <BoxView Grid.Row="6" BackgroundColor="Gray" HeightRequest="3" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
                     <!--#endregion-->
 
-                    <!--#region 7행 Grid라인-->
-                    <BoxView Grid.Row="7" BackgroundColor="Gray" HeightRequest="3" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+                    <local1:CustomLabel Grid.Row="7" Size="20" Margin="15,15,15,0" FontFamily="{StaticResource FontStyle}" Text="결제하실 금액" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                    <!--#region 8행 총 결제금액 Label-->
+                    <local1:CustomLabel  Grid.Row="8" Margin="15,15,15,15" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"  x:Name="Purchase_AllPrice_label" TextColor="Red"
+                                         Size="18"/>
                     <!--#endregion-->
 
-                    <local1:CustomLabel Grid.Row="8" Size="20" Margin="15,15,15,0" TextColor="Black" FontFamily="{StaticResource FontStyle}" Text="입금예정인" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    <!--#region 9행 Grid라인-->
+                    <BoxView Grid.Row="9" BackgroundColor="Gray" HeightRequest="3" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+                    <!--#endregion-->
 
-                    <!--#region 9행 입금 예정인 Entry(Input)-->
-                    <Entry Grid.Row="9" x:Name="Name_box" Margin="0,0,0,0"
+                    <local1:CustomLabel Grid.Row="10" Size="20" Margin="15,15,15,0" TextColor="Black" FontFamily="{StaticResource FontStyle}" Text="입금예정인" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                    <!--#region 11행 입금 예정인 Entry(Input)-->
+                    <Entry Grid.Row="11" x:Name="Name_box" Margin="15,15,15,0"
                            Placeholder="ex) 홍길동" FontSize="18" 
                            Keyboard="Text"
                            TextColor="Black"
@@ -291,9 +290,11 @@
                     </Entry>
                     <!--#endregion-->
                     
-                    <local1:CustomLabel Grid.Row="10" Size="20" Margin="15,15,15,0" TextColor="Black" FontFamily="{StaticResource FontStyle}" Text="입금계좌" HorizontalOptions="Start" VerticalOptions="Center"/>
-                    
-                    <local1:CustomPicker Grid.Row="11" x:Name="Combo" Title="입금 계좌 선택" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectedIndexChanged="Picker_SelectedIndexChanged"/>
+                    <local1:CustomLabel Grid.Row="12" Size="20" Margin="15,30,15,0" TextColor="Black" FontFamily="{StaticResource FontStyle}" Text="입금계좌" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                    <local1:CustomPicker Grid.Row="13" x:Name="Combo" Margin="15,15,15,0" 
+                                         Title="입금 계좌 선택" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                         SelectedIndexChanged="Picker_SelectedIndexChanged"/>
                 </Grid>
             </Grid>
         </ScrollView>

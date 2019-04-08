@@ -335,7 +335,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             prepaymentradio.Source = "radio_checked_icon.png";
             Cashondeliveryradio.Source = "radio_unchecked_icon.png";
             tempdeliveryprice = deliveryprice;
-            Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0");
+            Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0") + " 원";
         }
 
         private void Radio2_Clicked(object sender, EventArgs e)
