@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -99,7 +100,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.NotFoundImagePath,
-                    Source = ImageSource.FromUri(new Uri(sclist[i].SH_SUBCATE_IMAGE)),
+                    Source = ImageSource.FromUri(new Uri(Global.server_ipadress + sclist[i].SH_SUBCATE_IMAGE)),
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
                     Margin = new Thickness(20, 10, 0, 10),
@@ -178,47 +179,61 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     Command = new Command(() =>
                     {
-                        // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
-                        if (Global.isOpen_ShopMainPage == true)
+                        #region 네트워크 상태 확인
+                        var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                        if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                         {
+                            DisplayAlert("알림", "네트워크에 연결할 수 없습니다!", "확인");
                             return;
                         }
-                        Global.isOpen_ShopMainPage = true;
-
-                        if (SelectList_Queue.Count < 2)
+                        #endregion
+                        #region 네트워크 연결 가능
+                        else
                         {
-                            if (SelectList_Queue.Count != 0)
+
+                            // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
+                            if (Global.isOpen_ShopMainPage == true)
                             {
-                                Grid temp = SelectList_Queue.Dequeue();
-                                temp.BackgroundColor = Color.White;
-                                temp.Opacity = 1;
+                                return;
                             }
-                            best_rowGrid.BackgroundColor = Color.CornflowerBlue;
-                            best_rowGrid.Opacity = 0.5;
-                            SelectList_Queue.Enqueue(best_rowGrid);
+                            Global.isOpen_ShopMainPage = true;
 
-                        }
-
-                        int tempIndex = 0;
-                        for (int j = 0; j < sclist.Count; j++)
-                        {
-                            if (bestHome.Text == sclist[j].SH_SUBCATE_NAME)
+                            if (SelectList_Queue.Count < 2)
                             {
-                                tempIndex = sclist[j].SH_HOME_INDEX; // 홈 인덱스로 변경
-                            }
-                        }
-                        Global.OtherIndexUpdate(tempIndex); // 다른 고객이 함께본 상품 초기화를 위한 처리
-                        SH_DB.PostUpdateViewsOtherViewToIndex(Global.g_main_index, Global.g_other_index); // main인덱스와 other인덱스 서버로 전달
+                                if (SelectList_Queue.Count != 0)
+                                {
+                                    Grid temp = SelectList_Queue.Dequeue();
+                                    temp.BackgroundColor = Color.White;
+                                    temp.Opacity = 1;
+                                }
+                                best_rowGrid.BackgroundColor = Color.CornflowerBlue;
+                                best_rowGrid.Opacity = 0.5;
+                                SelectList_Queue.Enqueue(best_rowGrid);
 
-                        if (Global.b_user_login == true) // 회원인 상태로 로그인이 되어있다면
-                        {
-                            SH_DB.PostUpdateRecentViewToID(Global.ID, tempIndex.ToString()); // 최근 본 상품 목록 갱신
+                            }
+
+                            int tempIndex = 0;
+                            for (int j = 0; j < sclist.Count; j++)
+                            {
+                                if (bestHome.Text == sclist[j].SH_SUBCATE_NAME)
+                                {
+                                    tempIndex = sclist[j].SH_HOME_INDEX; // 홈 인덱스로 변경
+                                }
+                            }
+                            Global.OtherIndexUpdate(tempIndex); // 다른 고객이 함께본 상품 초기화를 위한 처리
+                            SH_DB.PostUpdateViewsOtherViewToIndex(Global.g_main_index, Global.g_other_index); // main인덱스와 other인덱스 서버로 전달
+
+                            if (Global.b_user_login == true) // 회원인 상태로 로그인이 되어있다면
+                            {
+                                SH_DB.PostUpdateRecentViewToID(Global.ID, tempIndex.ToString()); // 최근 본 상품 목록 갱신
+                            }
+                            else // 비회원 상태
+                            {
+                                SH_DB.PostUpdateRecentViewToID(Global.non_user_id, tempIndex.ToString()); // 최근 본 상품 목록 갱신
+                            }
+                            Navigation.PushAsync(new ShopMainPage(tempIndex));
                         }
-                        else // 비회원 상태
-                        {
-                            SH_DB.PostUpdateRecentViewToID(Global.non_user_id, tempIndex.ToString()); // 최근 본 상품 목록 갱신
-                        }
-                        Navigation.PushAsync(new ShopMainPage(tempIndex));
+                        #endregion
                     })
                 });
                 #endregion

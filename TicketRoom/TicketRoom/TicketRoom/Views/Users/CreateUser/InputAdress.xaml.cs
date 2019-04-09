@@ -86,8 +86,12 @@ namespace TicketRoom.Views.Users.CreateUser
             {
                 MainGrid.RowDefinitions[0].Height = 50;
             }
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                MainGrid.RowDefinitions[4].Height = 30;
+            }
             #endregion
-            BackButtonImage.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/backbutton_icon.png"));
+            BackButtonImage.Source = "backbutton_icon.png";
 
 
             

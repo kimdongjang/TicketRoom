@@ -15,6 +15,7 @@ using TicketRoom.Views.MainTab.Dael;
 using TicketRoom.Models.ShopData;
 using System.Net;
 using Xamarin.Essentials;
+using Plugin.DeviceInfo;
 
 namespace TicketRoom.Views
 {
@@ -33,20 +34,28 @@ namespace TicketRoom.Views
 
             #region IOS의 경우 초기화
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
-            if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
+            if(Global.ios_x_model == true) // ios X 이상의 모델일 경우
             {
-                MainGrid.RowDefinitions[0].Height = 50;
+                MainGrid.RowDefinitions[4].Height = 30;
             }
             #endregion
 
-            TabContent.Content = new DealTabPage(this);
-            
+            GetDeviceName();
+            AppInit();
+            TabInit();
+            ChangeTabInitAsync();
+
+        }
+
+        private void GetDeviceName()
+        {
+            var device = CrossDeviceInfo.Current.Model;
+            string s = device.ToString();
         }
 
         protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
         {
-            Init();
-            TabInit();
+            AppInit();
             // 사용중인 탭으로 되돌리기
             ChangeTabInitAsync();
             // 최근 본 상품 로우 유저 아이디에 따른 생성
@@ -56,11 +65,8 @@ namespace TicketRoom.Views
             base.OnAppearing();
         }
 
-        private async void ChangeTabInitAsync()
+        private void ChangeTabInitAsync()
         {
-            // 로딩 시작
-            await Global.LoadingStartAsync();
-
             DealTabPage dtp;
             ShopTabPage stp;
             BasketTabPage btp;
@@ -105,9 +111,6 @@ namespace TicketRoom.Views
                 ShowDealDetailAsync(Global.deal_select_category_num);
             }
             #endregion
-
-            // 로딩 완료
-            await Global.LoadingEndAsync();
         }
 
         #region 최근 본 상품 로우 유저 아이디에 따른 생성
@@ -132,7 +135,7 @@ namespace TicketRoom.Views
         }
         #endregion
 
-        private void Init()
+        private void AppInit()
         {
             try
             {
@@ -219,20 +222,40 @@ namespace TicketRoom.Views
 
         public void AddVisitors()
         {
-            //request.Method = "GET";
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "AddVisitors") as HttpWebRequest;
-            request.Method = "GET";
-
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                if (response.StatusCode != HttpStatusCode.OK)
-                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                return;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                try
                 {
-                    var readdata = reader.ReadToEnd();
-                    //예외처리 (방문자수 올리기 실패) 일부러 비워놓음
+                    //request.Method = "GET";
+                    HttpWebRequest request = WebRequest.Create(Global.WCFURL + "AddVisitors") as HttpWebRequest;
+                    request.Method = "GET";
+
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    {
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            var readdata = reader.ReadToEnd();
+                            //예외처리 (방문자수 올리기 실패) 일부러 비워놓음
+                        }
+                    }
+                }
+                catch
+                {
+                    DisplayAlert("알림", "서버에 연결할 수 없습니다!", "확인");
+                    return;
                 }
             }
+            #endregion
         }
 
         private bool IsBoolCheckFunc(string s)
@@ -315,74 +338,53 @@ namespace TicketRoom.Views
 
         private void TabInit()
         {
-
             GiftTab.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = new Command(async () =>
+                Command = new Command(() =>
                 {
-                    // 로딩 시작
-                    await Global.LoadingStartAsync();
-
                     TabContent.Content = new DealTabPage(this);
                     Global.InitOnAppearingBool("deal");
 
                     TabColorChanged("deal");
-
-                    // 로딩 완료
-                    await Global.LoadingEndAsync();
                 })
             });
 
             ShopTab.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = new Command(async () =>
+                Command = new Command(() =>
                 {
-                    // 로딩 시작
-                    await Global.LoadingStartAsync();
+                    DisplayAlert("알림", "준비 중입니다!", "확인");
+                    return;
+
+                    //
 
                     TabContent.Content = new ShopTabPage();
                     Global.InitOnAppearingBool("shop");
 
                     TabColorChanged("shop");
-
-                    // 로딩 완료
-                    await Global.LoadingEndAsync();
                 })
             });
 
             BasketTab.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = new Command(async () =>
+                Command = new Command(() =>
                 {
-                    // 로딩 시작
-                    await Global.LoadingStartAsync();
-
                     TabContent.Content = new BasketTabPage();
                     Global.InitOnAppearingBool("basket");
 
                     TabColorChanged("basket");
-
-                    // 로딩 완료
-                    await Global.LoadingEndAsync();
-
                 })
             });
 
 
             UserTab.GestureRecognizers.Add(new TapGestureRecognizer()
             {
-                Command = new Command(async () =>
+                Command = new Command(() =>
                 {
-                    // 로딩 시작
-                    await Global.LoadingStartAsync();
-
                     TabContent.Content = new MyPageTabPage(this);
                     Global.InitOnAppearingBool("myinfo");
 
                     TabColorChanged("myinfo");
-
-                    // 로딩 완료
-                    await Global.LoadingEndAsync();
                 })
             });
         }
@@ -390,15 +392,10 @@ namespace TicketRoom.Views
 
         public async void ShowDealDetailAsync(string categorynum)
         {
-            // 로딩 시작
-            await Global.LoadingStartAsync();
-
             Global.deal_select_category_num = categorynum;
             TabContent.Content = new DealDeatailView(this, Global.deal_select_category_num);
             Global.InitOnAppearingBool("dealdetail");
 
-            // 로딩 완료
-            await Global.LoadingEndAsync();
         }
 
         public void ShowDeal()

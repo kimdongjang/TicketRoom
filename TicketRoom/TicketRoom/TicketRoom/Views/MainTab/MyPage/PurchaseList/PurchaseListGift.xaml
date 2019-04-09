@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TicketRoom.Views.MainTab.MyPage.PurchaseList.PurchaseListGift">
     <ContentView.Content>
-        
-        <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="MainScroll">
+
+        <ScrollView VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="MainScroll" BackgroundColor="#f5f5f5">
             <Grid Margin="10" x:Name="RootGird">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

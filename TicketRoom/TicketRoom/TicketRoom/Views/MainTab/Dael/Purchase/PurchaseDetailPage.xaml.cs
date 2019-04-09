@@ -53,8 +53,12 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             {
                 MainGrid.RowDefinitions[0].Height = 50;
             }
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                MainGrid.RowDefinitions[4].Height = 30;
+            }
             #endregion
-            
+
             this.g_PurchasedetailInfos = g_PurchasedetailInfos;
             DeliveryPrice_label.Text = (deliveryprice).ToString("N0");
             ShowUserInfo();
@@ -117,7 +121,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.NotFoundImagePath,
-                    Source = ImageSource.FromUri(new Uri(g_PurchasedetailInfos[i].PRODUCT_IMAGE)),
+                    Source = ImageSource.FromUri(new Uri(Global.server_ipadress + g_PurchasedetailInfos[i].PRODUCT_IMAGE)),
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                     Aspect = Aspect.AspectFill,
@@ -331,7 +335,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             prepaymentradio.Source = "radio_checked_icon.png";
             Cashondeliveryradio.Source = "radio_unchecked_icon.png";
             tempdeliveryprice = deliveryprice;
-            Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0");
+            Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0") + " 원";
         }
 
         private void Radio2_Clicked(object sender, EventArgs e)

@@ -18,8 +18,12 @@ namespace TicketRoom.iOS.Renderer
         protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
         {
             base.OnElementChanged(e);
-            
+
+            if (e == null) return;
+            if (e.NewElement == null) return;
+
             var label = Control as UILabel;
+
             if (label != null)
             {
                 //label.AdjustsFontSizeToFitWidth = true;
@@ -28,7 +32,7 @@ namespace TicketRoom.iOS.Renderer
                 label.LineBreakMode = UILineBreakMode.Clip;
 
                 CustomLabel control_label = e.NewElement as CustomLabel;
-                label.Font = UIFont.FromName("NANUMSQUAREROUNDB.TTF", control_label.Size);
+                label.Font = UIFont.FromName("NANUMSQUAREROUNDB", control_label.Size - Global.font_size_minus_value);
             }
         }
     }

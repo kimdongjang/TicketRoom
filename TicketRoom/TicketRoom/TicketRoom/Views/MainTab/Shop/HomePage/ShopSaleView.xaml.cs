@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -30,7 +31,20 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             InitializeComponent();
             this.home = home;
-            productList = SH_DB.PostSearchProductToHome(home.SH_HOME_INDEX);
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+                productList = null;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                productList = SH_DB.PostSearchProductToHome(home.SH_HOME_INDEX);
+
+            }
+            #endregion
             Init();
 
             myShopName = titleName;
@@ -56,8 +70,25 @@ namespace TicketRoom.Views.MainTab.Shop
             ///
             #endregion
 
-            #region 쇼핑 메인 홈 중 베스트 리스트
             Grid bestGrid = new Grid();
+
+            #region 쇼핑 메인 홈 중 베스트 리스트
+            #region 네트워크 연결 불가
+            if (productList == null)
+            {
+                bestGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                CustomLabel best_error = new CustomLabel
+                {
+                    Text = "네트워크에 연결 할 수 없습니다!",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
+                };
+                bestGrid.Children.Add(best_error, 0, 0);
+                return;
+            }
+            #endregion
             if (productList.Count == 0) // 등록된 상품이 없을 경우
             {
                 bestGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
@@ -70,6 +101,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     VerticalOptions = LayoutOptions.Center,
                 };
                 bestGrid.Children.Add(best_error, 0, 0);
+                return;
             }
             for (int i = 0; i < productList.Count; i++)
             {
@@ -92,7 +124,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
                         ErrorPlaceholder = Global.NotFoundImagePath,
-                        Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
+                        Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productList[i].SH_PRODUCT_MAINIMAGE)),
                         Aspect = Aspect.AspectFit,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Center,
@@ -182,6 +214,22 @@ namespace TicketRoom.Views.MainTab.Shop
 
             #region 쇼핑 메인 홈 중 일반 리스트
             Grid naturalGrid = new Grid();
+            #region 네트워크 연결 불가
+            if (productList == null)
+            {
+                naturalGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                CustomLabel natural_error = new CustomLabel
+                {
+                    Text = "네트워크에 연결 할 수 없습니다!",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
+                };
+                naturalGrid.Children.Add(natural_error, 0, 0);
+                return;
+            }
+            #endregion
             if (productList.Count == 0) // 등록된 상품이 없을 경우
             {
                 naturalGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
@@ -194,6 +242,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     VerticalOptions = LayoutOptions.Center,
                 };
                 naturalGrid.Children.Add(natural_error, 0, 0);
+                return;
             }
             for (int i = 0; i < productList.Count; i++)
             {
@@ -213,7 +262,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.NotFoundImagePath,
-                    Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
+                    Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productList[i].SH_PRODUCT_MAINIMAGE)),
                     Aspect = Aspect.AspectFit,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,

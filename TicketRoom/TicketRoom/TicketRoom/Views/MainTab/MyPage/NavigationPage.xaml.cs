@@ -32,6 +32,10 @@ namespace TicketRoom.Views.MainTab.MyPage
             {
                 TabGrid.RowDefinitions[0].Height = 50;
             }
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                TabGrid.RowDefinitions[3].Height = 30;
+            }
             #endregion
             Init();
         }
@@ -184,7 +188,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
                         ErrorPlaceholder = Global.NotFoundImagePath,
-                        Source = productlist[0].PRODUCTIMAGE,
+                        Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productlist[0].PRODUCTIMAGE)),
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                         Aspect = Aspect.AspectFit,

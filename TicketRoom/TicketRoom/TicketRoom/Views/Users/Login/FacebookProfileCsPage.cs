@@ -15,7 +15,6 @@ namespace TicketRoom.Views.Users.Login
 
         public FacebookProfileCsPage()
         {
-
             BindingContext = new FacebookViewModel();
 
             Title = "Facebook Profile";
@@ -25,6 +24,7 @@ namespace TicketRoom.Views.Users.Login
                 "https://www.facebook.com/v3.2/dialog/oauth?client_id="
                 + ClientId
                 + "&display=popup&response_type=token&redirect_uri=https://www.facebook.com/connect/login_success.html";
+
 
             var webView = new WebView
             {
@@ -82,8 +82,6 @@ namespace TicketRoom.Views.Users.Login
             {
                 var at = url.Replace("https://www.facebook.com/connect/login_success.html#access_token=", "");
 
-                #pragma warning disable CS0618 // 형식 또는 멤버는 사용되지 않습니다.
-                #pragma warning disable CS0612 // 형식 또는 멤버는 사용되지 않습니다.
                 if (Device.OS == TargetPlatform.WinPhone || Device.OS == TargetPlatform.Windows)
                 {
                     at = url.Replace("http://www.facebook.com/connect/login_success.html#access_token=", "");

@@ -12,6 +12,7 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="0"/>
             </Grid.RowDefinitions>
 
             <!--#region 1행 커스텀 액션바 -->

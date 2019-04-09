@@ -8,6 +8,7 @@
             <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
@@ -33,7 +34,7 @@
                 </Grid.ColumnDefinitions>
                 <custom:CustomLabel 
                     Grid.Column="0"
-                    Text="내 정보"
+                    Text="입금내역 확인"
                     Size="18" TextColor="Black"
                      XAlign="End" YAlign="Center"/>
             </Grid>

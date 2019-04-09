@@ -11,6 +11,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
 
         <!--#region 1행 커스텀 액션바 -->
@@ -248,7 +249,7 @@
                         <!--#endregion-->
 
                         <!--#region 1행 은행명 피커-->
-                        <Picker Grid.Row="1" Margin="15,0,15,0" x:Name="BankName_picker" Title="은행 선택" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectedIndexChanged="Picker_SelectedIndexChanged">
+                        <custom:CustomPicker Grid.Row="1" Margin="15,0,15,0" x:Name="BankName_picker" Title="은행 선택" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectedIndexChanged="Picker_SelectedIndexChanged">
                             <Picker.Items>
                                 <x:String>신한</x:String>
                                 <x:String>농협</x:String>
@@ -267,7 +268,7 @@
                                 <x:String>추가예정</x:String>
                                 <x:String>추가예정</x:String>
                             </Picker.Items>
-                        </Picker>
+                        </custom:CustomPicker>
                         <!--#endregion-->
                     </Grid>
                     <!--#endregion-->
@@ -522,7 +523,7 @@
                         <!--#endregion-->
 
                         <!--#region 1행 은행명 피커-->
-                        <Picker Grid.Row="1" Margin="15,0,15,0" x:Name="BankName_picker2" Title="은행 선택" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectedIndexChanged="Picker_SelectedIndexChanged">
+                        <custom:CustomPicker Grid.Row="1" Margin="15,0,15,0" x:Name="BankName_picker2" Title="은행 선택" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectedIndexChanged="Picker_SelectedIndexChanged">
                             <Picker.Items>
                                 <x:String>신한</x:String>
                                 <x:String>농협</x:String>
@@ -541,7 +542,7 @@
                                 <x:String>추가예정</x:String>
                                 <x:String>추가예정</x:String>
                             </Picker.Items>
-                        </Picker>
+                        </custom:CustomPicker>
                         <!--#endregion-->
                     </Grid>
                     <!--#endregion-->

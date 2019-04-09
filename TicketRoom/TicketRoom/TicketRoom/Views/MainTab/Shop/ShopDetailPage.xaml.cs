@@ -13,6 +13,7 @@ using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
 using TicketRoom.Views.MainTab.Basket;
 using TicketRoom.Views.MainTab.Shop.GridImage;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -49,6 +50,10 @@ namespace TicketRoom.Views.MainTab.Shop
             {
                 MainGrid.RowDefinitions[0].Height = 50;
             }
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                MainGrid.RowDefinitions[4].Height = 30;
+            }            
             #endregion
             myShopName = titleName;
             this.productIndex = productIndex;
@@ -64,11 +69,25 @@ namespace TicketRoom.Views.MainTab.Shop
         {
             // 로딩 시작
             await Global.LoadingStartAsync();
-
-            imageList = SH_DB.PostSearchImageListToProductAsync(productIndex);
-            otherList = SH_DB.PostSearchOtherViewToHome(home.SH_HOME_INDEX);
-            optionList = SH_DB.PostSearchProOptionToProductAsync(productIndex);
-            product = SH_DB.PostSearchProductToProduct(productIndex);
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+                imageList = null;
+                otherList = null;
+                optionList = null;
+                product = null;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                imageList = SH_DB.PostSearchImageListToProductAsync(productIndex);
+                otherList = SH_DB.PostSearchOtherViewToHome(home.SH_HOME_INDEX);
+                optionList = SH_DB.PostSearchProOptionToProductAsync(productIndex);
+                product = SH_DB.PostSearchProductToProduct(productIndex);
+            }
+            #endregion
 
             if (otherList.Count != 0)
             {
@@ -78,7 +97,17 @@ namespace TicketRoom.Views.MainTab.Shop
                     {
                         break;
                     }
-                    otherHomeList.Add(SH_DB.PostSearchHomeToHome(otherList[i].SH_OTHERHOME_INDEX)); // 다른 고객이 본 상품 목록을 리스트에 추가
+                    #region 네트워크 상태 확인
+                    if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+                    {
+                    }
+                    #endregion
+                    #region 네트워크 연결 가능
+                    else
+                    {
+                        otherHomeList.Add(SH_DB.PostSearchHomeToHome(otherList[i].SH_OTHERHOME_INDEX)); // 다른 고객이 본 상품 목록을 리스트에 추가
+                    }
+                    #endregion
                 }
             }
 
@@ -116,32 +145,45 @@ namespace TicketRoom.Views.MainTab.Shop
                         "주문 정보가 맞습니까?", "확인", "취소");
                     if (answer)
                     {
-                        // DB 장바구니 테이블에 데이터 삽입
-                        if (SH_DB.PostInsertBasketListToHome(
-                            home.SH_HOME_INDEX.ToString(), // 홈 페이지 인덱스
-                            ClothesPriceLabel.Text.Replace("원", "").Replace(",", ""), // 가격
-                            ClothesCountLabel.Text, // 수량
-                            optionList[selectedIndex].SH_PRO_OPTION_COLOR, // 색상
-                            optionList[selectedIndex].SH_PRO_OPTION_SIZE, // 사이즈
-                            shopDetailPage_ID, // 아이디
-                            product.SH_PRODUCT_NAME, // 상품이름
-                            System.DateTime.Now.ToString(),
-                            product.SH_PRODUCT_MAINIMAGE,
-                            product.SH_PRODUCT_INDEX.ToString()) == true)
+                        #region 네트워크 상태 확인
+                        var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                        if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                         {
-                            var basket_answer = await DisplayAlert("주문 완료", "장바구니로 이동하시겠습니까?", "확인", "취소");
-                            if (basket_answer)
-                            {
-                                Navigation.PopToRootAsync();
-                                Global.InitOnAppearingBool("basket");
-                                Global.InitBasketOnAppearingBool("shop");
-                                MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
-                            }
+                            await DisplayAlert("알림", "네트워크에 연결 할 수 없습니다!", "확인");
+                            return;
                         }
+                        #endregion
+                        #region 네트워크 연결 가능
                         else
                         {
-                            await DisplayAlert("주문 실패", "다시 한 번 시도해주십시오.", "확인");
+                            // DB 장바구니 테이블에 데이터 삽입
+                            if (SH_DB.PostInsertBasketListToHome(
+                                home.SH_HOME_INDEX.ToString(), // 홈 페이지 인덱스
+                                ClothesPriceLabel.Text.Replace("원", "").Replace(",", ""), // 가격
+                                ClothesCountLabel.Text, // 수량
+                                optionList[selectedIndex].SH_PRO_OPTION_COLOR, // 색상
+                                optionList[selectedIndex].SH_PRO_OPTION_SIZE, // 사이즈
+                                shopDetailPage_ID, // 아이디
+                                product.SH_PRODUCT_NAME, // 상품이름
+                                System.DateTime.Now.ToString(),
+                                product.SH_PRODUCT_MAINIMAGE,
+                                product.SH_PRODUCT_INDEX.ToString()) == true)
+                            {
+                                var basket_answer = await DisplayAlert("주문 완료", "장바구니로 이동하시겠습니까?", "확인", "취소");
+                                if (basket_answer)
+                                {
+                                    Navigation.PopToRootAsync();
+                                    Global.InitOnAppearingBool("basket");
+                                    Global.InitBasketOnAppearingBool("shop");
+                                    MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
+                                }
+                            }
+                            else
+                            {
+                                await DisplayAlert("주문 실패", "다시 한 번 시도해주십시오.", "확인");
+                            }
                         }
+                        #endregion
                     }
                 }
             }
@@ -242,31 +284,45 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     Command = new Command(() =>
                     {
-                        // 다른 고객이 본 상품 -> 홈 메인 페이지로 이동하는데 더블 클릭 제어
-                        if(Global.isOpen_ShopOtherPage == true)
+                        #region 네트워크 상태 확인
+                        var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                        if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                         {
+                            DisplayAlert("알림", "네트워크에 연결할 수 없습니다!", "확인");
                             return;
                         }
-                        Global.isOpen_ShopOtherPage = true;
-
-                        for (int j = 0; j < otherHomeList.Count; j++)
+                        #endregion
+                        #region 네트워크 연결 가능
+                        else
                         {
-                            if(label.Text == otherHomeList[j].SH_HOME_NAME)
-                            {
-                                Global.OtherIndexUpdate(otherHomeList[j].SH_HOME_INDEX); // 다른 고객이 함께본 상품 초기화를 위한 처리
-                                SH_DB.PostUpdateViewsOtherViewToIndex(Global.g_main_index, Global.g_other_index); // main인덱스와 other인덱스 서버로 전달
-                                SH_DB.PostUpdateRecentViewToID(Global.ID, otherHomeList[j].SH_HOME_INDEX.ToString()); // 최근 본 상품 목록 갱신
 
-                                var nav = Navigation.NavigationStack;
-                                this.Navigation.RemovePage(nav[nav.Count-1]);
-                                this.Navigation.RemovePage(nav[nav.Count-2]);
-                                Navigation.PushAsync(new ShopMainPage(otherHomeList[j].SH_HOME_INDEX)); 
+                            // 다른 고객이 본 상품 -> 홈 메인 페이지로 이동하는데 더블 클릭 제어
+                            if (Global.isOpen_ShopOtherPage == true)
+                            {
+                                return;
+                            }
+                            Global.isOpen_ShopOtherPage = true;
+
+                            for (int j = 0; j < otherHomeList.Count; j++)
+                            {
+                                if (label.Text == otherHomeList[j].SH_HOME_NAME)
+                                {
+                                    Global.OtherIndexUpdate(otherHomeList[j].SH_HOME_INDEX); // 다른 고객이 함께본 상품 초기화를 위한 처리
+                                    SH_DB.PostUpdateViewsOtherViewToIndex(Global.g_main_index, Global.g_other_index); // main인덱스와 other인덱스 서버로 전달
+                                    SH_DB.PostUpdateRecentViewToID(Global.ID, otherHomeList[j].SH_HOME_INDEX.ToString()); // 최근 본 상품 목록 갱신
+
+                                    var nav = Navigation.NavigationStack;
+                                    this.Navigation.RemovePage(nav[nav.Count - 1]);
+                                    this.Navigation.RemovePage(nav[nav.Count - 2]);
+                                    Navigation.PushAsync(new ShopMainPage(otherHomeList[j].SH_HOME_INDEX));
+                                }
+                            }
+                            if (otherHomeList.Count == 0)
+                            {
+                                Global.isOpen_ShopOtherPage = false;
                             }
                         }
-                        if(otherHomeList.Count == 0)
-                        {
-                            Global.isOpen_ShopOtherPage = false;
-                        }
+                        #endregion
                     })
                 });
             }
@@ -292,16 +348,21 @@ namespace TicketRoom.Views.MainTab.Shop
                         ErrorPlaceholder = Global.NotFoundImagePath,
                         Aspect = Aspect.AspectFill,
                     };
-                    if (imageList.Count <= i)
+                    if(imageList != null)
                     {
-                        image.Source = ImageSource.FromUri(new Uri("http://221.141.58.49:8088/img/default/no_image.png"));
-                    }
-                    else
-                    {
+                        if (imageList.Count <= i)
+                        {
+                            image.Source = ImageSource.FromUri(new Uri("no_image.png"));
+                        }
                         image.Source = ImageSource.FromUri(new Uri(imageList[i].SH_IMAGELIST_SOURCE));
                     }
+                    else // 네트워크 연결 불가
+                    {
+                        image.Source = ImageSource.FromUri(new Uri("no_image.png"));
+                    }
                     ImageListGrid.Children.Add(image, i, 0);
-                }
+                }                
+
                 // 3장 이상의 사진이 있을 경우
                 if (imageList.Count > 3)
                 {
@@ -331,12 +392,26 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     Command = new Command(() =>
                     {
-                        if(Global.isOpen_PictureList == true)
+                        #region 네트워크 상태 확인
+                        var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                        if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                         {
+                            DisplayAlert("알림", "네트워크에 연결할 수 없습니다!", "확인");
                             return;
                         }
-                        Global.isOpen_PictureList = true;
-                        Navigation.PushAsync(new PictureList(imageList));
+                        #endregion
+                        #region 네트워크 연결 가능
+                        else
+                        {
+
+                            if (Global.isOpen_PictureList == true)
+                            {
+                                return;
+                            }
+                            Global.isOpen_PictureList = true;
+                            Navigation.PushAsync(new PictureList(imageList));
+                        }
+                        #endregion
                     })
                 });
                 #endregion

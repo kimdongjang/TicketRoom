@@ -31,7 +31,6 @@ namespace TicketRoom.Views.MainTab.MyPage
         public SaleListPage()
         {
             InitializeComponent();
-            TabListColorChange(0);
             #region IOS의 경우 초기화
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
             if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
@@ -82,6 +81,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             // 로딩 시작
             await Global.LoadingStartAsync();
 
+            ListUpdate();
             Init();
 
             // 로딩 완료
@@ -112,7 +112,112 @@ namespace TicketRoom.Views.MainTab.MyPage
 
         private async void Init()
         {
-            
+
+            #region 전체 목록 보기 클릭 이벤트
+            ListAllGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    PostSearchSaleListToID(Global.ID, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
+                    ListUpdate();
+
+                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
+                    // 로딩 시작
+                    await Global.LoadingEndAsync();
+                })
+            });
+            #endregion
+
+            #region 일주일 목록 보기 클릭 이벤트
+            ListYearGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    PostSearchSaleListToID(Global.ID, -1, 0, 0);// 사용자 아이디로 구매 목록 가져옴
+                    ListUpdate();
+
+                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
+
+                    // 로딩 시작
+                    await Global.LoadingEndAsync();
+                })
+            });
+            #endregion
+
+            #region 달 목록 보기 클릭 이벤트
+            ListMonthGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    PostSearchSaleListToID(Global.ID, 0, -1, 0);// 사용자 아이디로 구매 목록 가져옴
+                    ListUpdate();
+
+                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
+
+                    // 로딩 시작
+                    await Global.LoadingEndAsync();
+                })
+            });
+            #endregion
+
+            #region 년 목록 보기 클릭 이벤트
+            ListDayGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+
+                    PostSearchSaleListToID(Global.ID, 0, 0, -7);// 사용자 아이디로 구매 목록 가져옴
+                    ListUpdate();
+
+                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+
+                    // 로딩 시작
+                    await Global.LoadingEndAsync();
+                })
+            });
+            #endregion
+        }
+        private void ListUpdate() { 
             MainGrid.Children.Clear();
             MainGrid.RowDefinitions.Clear();
 
@@ -275,7 +380,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
                         ErrorPlaceholder = Global.NotFoundImagePath,
-                        Source = ImageSource.FromUri(new Uri(salelist[i].PRODUCTIMAGE)),
+                        Source = ImageSource.FromUri(new Uri(Global.server_ipadress + salelist[i].PRODUCTIMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -394,68 +499,15 @@ namespace TicketRoom.Views.MainTab.MyPage
             if (Global.isbackbutton_clicked)
             {
                 Global.isbackbutton_clicked = false;
+                Global.ismypagebtns_clicked = true;
                 Navigation.PopAsync();
             }
         }
 
-        private void allbtn_clicked(object sender, EventArgs e)
+        protected override bool OnBackButtonPressed()
         {
-            TabListColorChange(0);
-            ((Image)ImageGrid.Children[0]).Source = "list_all_h.png";
-            ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
-            ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
-            ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
-            PostSearchSaleListToID(Global.ID, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
-            Init();
-        }
-
-        private void weekbtn_clicked(object sender, EventArgs e)
-        {
-            TabListColorChange(1);
-            ((Image)ImageGrid.Children[0]).Source = "list_all_non.png";
-            ((Image)ImageGrid.Children[1]).Source = "list_week_h.png";
-            ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
-            ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
-            PostSearchSaleListToID(Global.ID, 0, 0, -7);// 사용자 아이디로 구매 목록 가져옴
-            Init();
-        }
-
-        private void monthbtn_clicked(object sender, EventArgs e)
-        {
-            TabListColorChange(2);
-            ((Image)ImageGrid.Children[0]).Source = "list_all_non.png";
-            ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
-            ((Image)ImageGrid.Children[2]).Source = "list_month_h.png";
-            ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
-            PostSearchSaleListToID(Global.ID, 0, -1, 0);// 사용자 아이디로 구매 목록 가져옴
-            Init();
-        }
-
-        private void yearbtn_clicked(object sender, EventArgs e)
-        {
-            TabListColorChange(3);
-            ((Image)ImageGrid.Children[0]).Source = "list_all_non.png";
-            ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
-            ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
-            ((Image)ImageGrid.Children[3]).Source = "list_year_h.png";
-            PostSearchSaleListToID(Global.ID, -1, 0, 0);// 사용자 아이디로 구매 목록 가져옴
-            Init();
-        }
-
-        // 이미지 클릭시 색상 변경
-        private void TabListColorChange(int n)
-        {
-            for (int i = 0; i < ImageGrid.Children.Count; i++)
-            {
-                if (i == n)
-                {
-                    ImageGrid.Children[i].BackgroundColor = Color.White;
-                }
-                else
-                {
-                    ImageGrid.Children[i].BackgroundColor = Color.CornflowerBlue;
-                }
-            }
+            Global.ismypagebtns_clicked = true;
+            return base.OnBackButtonPressed();
         }
     }
 }

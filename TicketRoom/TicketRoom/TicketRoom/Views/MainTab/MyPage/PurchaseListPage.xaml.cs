@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TicketRoom.Models.Custom;
 using TicketRoom.Models.ShopData;
 using TicketRoom.Views.MainTab.MyPage.PurchaseList;
 using Xamarin.Forms;
@@ -28,10 +29,13 @@ namespace TicketRoom.Views.MainTab.MyPage
             {
                 MainGrid.RowDefinitions[0].Height = 50;
             }
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                MainGrid.RowDefinitions[5].Height = 30;
+            }
             #endregion
 
-            plg = new PurchaseListGift(this);
-            Init(plg);
+            Init();
             NavigationInit();
         }
 
@@ -52,11 +56,12 @@ namespace TicketRoom.Views.MainTab.MyPage
             });
         }
 
-        public void Init(ContentView cv)
+        public void Init()
         {
-            PurchaseListContentView.Content = cv;
+            plg = new PurchaseListGift(this);
+            PurchaseListContentView.Content = plg;
 
-            TapColorChangeAsync(cv);
+            TapColorChangeAsync(plg);
 
             #region 상품권 탭 클릭 이벤트
             // 상품권 탭을 선택할 경우 상품권 컨텐츠 뷰를 보여줌
@@ -76,6 +81,11 @@ namespace TicketRoom.Views.MainTab.MyPage
             {
                 Command = new Command(() =>
                 {
+                    DisplayAlert("알림", "준비 중입니다!", "확인");
+                    return;
+
+                    //
+
                     pls = new PurchaseListShop(this);
                     PurchaseListContentView.Content = pls;
                     TapColorChangeAsync(pls);
@@ -84,7 +94,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             #endregion
 
             #region 전체 목록 보기 클릭 이벤트
-            list_all_image.GestureRecognizers.Add(new TapGestureRecognizer()
+            ListAllGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>
                 {
@@ -98,12 +108,12 @@ namespace TicketRoom.Views.MainTab.MyPage
                         if (Global.b_user_login)
                         {
                             plg.PostSearchPurchaseListToIDAsync(Global.ID, -99, 0, 0);
-                            plg.Init();
+                            await plg.Init();
                         }
                         else
                         {
                             plg.PostSearchPurchaseListToIDAsync(Global.ID, -99, 0, 0);
-                            plg.Init();
+                            await plg.Init();
                         }
                     }
                     else // 쇼핑몰 전체 목록
@@ -119,11 +129,14 @@ namespace TicketRoom.Views.MainTab.MyPage
                             pls.Init();
                         }
                     }
-                    ((Image)ImageGrid.Children[0]).Source = "list_all_h.png";
-                    ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
-                    ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
-                    ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
-
+                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
                     // 로딩 시작
                     await Global.LoadingEndAsync();
                 })
@@ -131,7 +144,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             #endregion
 
             #region 일주일 목록 보기 클릭 이벤트
-            list_week_image.GestureRecognizers.Add(new TapGestureRecognizer()
+            ListYearGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>
                 {
@@ -143,32 +156,36 @@ namespace TicketRoom.Views.MainTab.MyPage
                     {
                         if (Global.b_user_login)
                         {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, 0, -7);
-                            plg.Init();
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -1, 0, 0);
+                            await plg.Init();
                         }
                         else
                         {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, 0, -7);
-                            plg.Init();
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -1, 0, 0);
+                            await plg.Init();
                         }
                     }
                     else // 쇼핑몰 일주일 단위 목록
                     {
                         if (Global.b_user_login) // 로그인 상태인 경우
                         {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, 0, 0, -7); // 사용자 아이디로 구매 목록 가져옴
+                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, -1, 0, 0); // 사용자 아이디로 구매 목록 가져옴
                             pls.Init();
                         }
                         else
                         {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, 0, 0, -7); // 사용자 아이디로 구매 목록 가져옴
+                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, -1, 0, 0); // 사용자 아이디로 구매 목록 가져옴
                             pls.Init();
                         }
                     }
-                    ((Image)ImageGrid.Children[0]).Source = "list_all_non.png";
-                    ((Image)ImageGrid.Children[1]).Source = "list_week_h.png";
-                    ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
-                    ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
+                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
 
 
                     // 로딩 시작
@@ -178,7 +195,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             #endregion
 
             #region 달 목록 보기 클릭 이벤트
-            list_month_image.GestureRecognizers.Add(new TapGestureRecognizer()
+            ListMonthGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>
                 {
@@ -212,10 +229,14 @@ namespace TicketRoom.Views.MainTab.MyPage
                             pls.Init();
                         }
                     }
-                    ((Image)ImageGrid.Children[0]).Source = "list_all_non.png";
-                    ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
-                    ((Image)ImageGrid.Children[2]).Source = "list_month_h.png";
-                    ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
+                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
 
 
                     // 로딩 시작
@@ -225,7 +246,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             #endregion
 
             #region 년 목록 보기 클릭 이벤트
-            list_year_image.GestureRecognizers.Add(new TapGestureRecognizer()
+            ListDayGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>
                 {
@@ -238,32 +259,36 @@ namespace TicketRoom.Views.MainTab.MyPage
                     {
                         if (Global.b_user_login)
                         {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -1, 0, 0);
-                            plg.Init();
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, 0, -7);
+                            await plg.Init();
                         }
                         else
                         {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -1, 0, 0);
-                            plg.Init();
+                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, 0, -7);
+                            await plg.Init();
                         }
                     }
                     else // 쇼핑몰 1년 단위 목록
                     {
                         if (Global.b_user_login) // 로그인 상태인 경우
                         {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, -1, 0, 0); // 사용자 아이디로 구매 목록 가져옴
+                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, 0, 0, -7); // 사용자 아이디로 구매 목록 가져옴
                             pls.Init();
                         }
                         else
                         {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, -1, 0, 0); // 사용자 아이디로 구매 목록 가져옴
+                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, 0, 0, -7); // 사용자 아이디로 구매 목록 가져옴
                             pls.Init();
                         }
                     }
-                    ((Image)ImageGrid.Children[0]).Source = "list_all_non.png";
-                    ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
-                    ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
-                    ((Image)ImageGrid.Children[3]).Source = "list_year_h.png";
+                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
+                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
+                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
 
 
                     // 로딩 시작
@@ -317,10 +342,14 @@ namespace TicketRoom.Views.MainTab.MyPage
                     pls.Init();
                 }
             }
-            ((Image)ImageGrid.Children[0]).Source = "list_all_h.png";
-            ((Image)ImageGrid.Children[1]).Source = "list_week_non.png";
-            ((Image)ImageGrid.Children[2]).Source = "list_month_non.png";
-            ((Image)ImageGrid.Children[3]).Source = "list_year_non.png";
+            ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.CornflowerBlue;
+            ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+            ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
+            ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
+            ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
+            ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
+            ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
+            ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
 
             // 로딩완료
             await Global.LoadingEndAsync();
@@ -328,6 +357,7 @@ namespace TicketRoom.Views.MainTab.MyPage
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
+            Global.ismypagebtns_clicked = true;
             Navigation.PopAsync();
         }
 
@@ -342,9 +372,15 @@ namespace TicketRoom.Views.MainTab.MyPage
                 }
                 else
                 {
-                    ImageGrid.Children[i].BackgroundColor = Color.CornflowerBlue;
+                    ImageGrid.Children[i].BackgroundColor = Color.White;
                 }
             }
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            Global.ismypagebtns_clicked = true;
+            return base.OnBackButtonPressed();
         }
     }
 }

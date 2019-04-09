@@ -14,12 +14,11 @@ namespace TicketRoom
 {
     public class Global
     {
-        public static string WCFURL = @"http://124.62.109.164:8088/Service1.svc/";
+        public static string WCFURL = @"http://124.62.117.16:8088/Service1.svc/";
+        public static string server_ipadress = @"http://124.62.117.16:8088/";
+
         //public static string WCFURL = @"http://52.231.66.251/Service1.svc/";
-        
-        //public static string WCFURL = @"http://52.231.66.251/Service1.svc/";
-        //public static string WCFURL = @"http://220.90.190.218/Service1.svc/";
-        //public static string WCFURL = @"http://localhost:65192/Service1.svc/";
+
         //운기 로컬 Services
         //public static string WCFURL = @"http://220.90.190.218:8081/Service1.svc/";
 
@@ -34,6 +33,12 @@ namespace TicketRoom
         public static string NotFoundImagePath = "not_image.png";
 
         public static bool ISLOGIN = true;
+
+        #region IOS 최적화 관련
+        public static int font_size_minus_value = 0; // IOS 디바이스 종류에 따라 레이블 크기 조정
+        public static bool ios_x_model = false;
+        #endregion
+
 
         // 상품권 탭 클릭시의 카테고리 번호
         public static string deal_select_category_num = "";

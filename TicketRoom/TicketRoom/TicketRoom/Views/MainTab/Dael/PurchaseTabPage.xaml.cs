@@ -354,7 +354,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
                         ErrorPlaceholder = Global.NotFoundImagePath,
-                        Source = "SClture_pro.png",
+                        Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productlist[i].PRODUCTIMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.Center,
                         Aspect = Aspect.AspectFit
@@ -368,7 +368,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
                         ErrorPlaceholder = Global.NotFoundImagePath,
-                        Source = ImageSource.FromUri(new Uri(productlist[i].PRODUCTIMAGE)),
+                        Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productlist[i].PRODUCTIMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.Center,
                         Aspect = Aspect.AspectFit

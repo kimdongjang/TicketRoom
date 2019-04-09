@@ -30,8 +30,17 @@ namespace TicketRoom.Views.MainTab.Dael
                 TabGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
-            
-            if(Global.deal_select_category_value == "구매")
+
+            LoadingInitAsync();
+
+        }
+        private async void LoadingInitAsync()
+        {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
+
+            if (Global.deal_select_category_value == "구매")
             {
                 PurchaseTab.TextColor = Color.CornflowerBlue;
                 PurchaseLine.BackgroundColor = Color.CornflowerBlue;
@@ -47,9 +56,12 @@ namespace TicketRoom.Views.MainTab.Dael
                 SaleLine.BackgroundColor = Color.CornflowerBlue;
                 TabContent.Content = new SaleTabPage(categorynum);
             }
-            
+
             MainTabClick();
             NavigationInit();
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
         private void NavigationInit()

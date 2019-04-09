@@ -315,7 +315,7 @@ namespace TicketRoom.Views.MainTab.Dael
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.NotFoundImagePath,
-                    Source = ImageSource.FromUri(new Uri(salelist[i].PRODUCTIMAGE)),
+                    Source = ImageSource.FromUri(new Uri(Global.server_ipadress +  salelist[i].PRODUCTIMAGE)),
                     BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.Center
                 };

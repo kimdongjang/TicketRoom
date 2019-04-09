@@ -59,7 +59,7 @@ namespace TicketRoom.Views.MainTab.Shop.GridImage
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.NotFoundImagePath,
-                    Source = ImageSource.FromUri(new Uri(imageList[i].SH_IMAGELIST_SOURCE)),
+                    Source = ImageSource.FromUri(new Uri(Global.server_ipadress + imageList[i].SH_IMAGELIST_SOURCE)),
                     Aspect = Aspect.AspectFill,
                 };
 

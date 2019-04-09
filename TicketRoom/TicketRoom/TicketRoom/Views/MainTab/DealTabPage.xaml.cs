@@ -38,14 +38,18 @@ namespace TicketRoom.Views.MainTab
             #endregion
 
             ScrollRefresh();
-            Init();
+            LoadingInitAsync();
         }
-        private void Init()
+        private async void LoadingInitAsync()
         {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
             NavigationInit();
             Showdeal();
             ShowPoint();
             Showimge();
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
         private void NavigationInit()
@@ -80,17 +84,12 @@ namespace TicketRoom.Views.MainTab
 
             TabGrid.Children.Add(refreshView, 0, 3);
 
-            refreshView.RefreshCommand = new Command(async () =>
+            refreshView.RefreshCommand = new Command(() =>
             {
                 refreshView.IsRefreshing = false;
+                
+                LoadingInitAsync();
 
-                // 로딩 시작
-                await Global.LoadingStartAsync();
-
-                Init();
-
-                // 로딩 완료
-                await Global.LoadingEndAsync();
             });
         }
 
@@ -418,8 +417,8 @@ namespace TicketRoom.Views.MainTab
                     HorizontalOptions = LayoutOptions.Start,
                     Aspect = Aspect.AspectFill,
                     Margin = new Thickness(15,0,0,0),
-                    //Source = categories[i].Image,
-                    Source = "test_icon.png",
+                    Source = ImageSource.FromUri(new Uri(Global.server_ipadress + categories[i].Image)),
+                    //Source = "test_icon.png",
                 };
                 inGrid.Children.Add(image, 0, 0);
 

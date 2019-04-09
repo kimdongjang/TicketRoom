@@ -111,7 +111,7 @@ namespace TicketRoom.Views.Users.CreateUser
                                         users.Name = Name_box.Text;
                                         users.Phone = Phone_box.Text;
                                         #region 남은시간 타이머 
-                                        await ShowMessage(String.Format("{0:D8}", random) + "인증번호가 발송 되었습니다.", "알림", "OK", async () =>
+                                        await ShowMessage("인증번호가 발송 되었습니다.", "알림", "OK", async () =>
                                         {
                                             // 타이머 생성 및 시작
                                             test = 300;

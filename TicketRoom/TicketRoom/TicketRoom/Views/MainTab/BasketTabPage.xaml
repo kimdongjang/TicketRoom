@@ -61,7 +61,7 @@
                     <RowDefinition Height="5*"/>
                     <RowDefinition Height="5*"/>
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" x:Name="GiftSelectImage" Aspect="AspectFill" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <Image Grid.Row="0" x:Name="GiftSelectImage" Aspect="AspectFill" HorizontalOptions="Center" VerticalOptions="Center" Source="main_gift_h.png"/>
                 <models:CustomLabel Grid.Row="1" Text="상품권" Size="14" x:Name="GiftSelect" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
             </Grid>
             <Grid Grid.Column="1" BackgroundColor="White" Margin="0.5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="ShopSelectGrid">
@@ -69,7 +69,7 @@
                     <RowDefinition Height="5*"/>
                     <RowDefinition Height="5*"/>
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" x:Name="ShopSelectImage" Aspect="AspectFill" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <Image Grid.Row="0" x:Name="ShopSelectImage" Aspect="AspectFill" HorizontalOptions="Center" VerticalOptions="Center" Source="main_shop_non.png"/>
                 <models:CustomLabel Grid.Row="1" Text="쇼핑몰" Size="14" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ShopSelect" TextColor="Black"/>
             </Grid>
         </Grid>

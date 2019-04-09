@@ -47,7 +47,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
         private void Init()
         {
-            MyPointLabel.Text = pp.PT_POINT_HAVEPOINT.ToString("N0") + "포인트";
+            MyPointLabel.Text = pp.PT_POINT_HAVEPOINT.ToString("N0") + " 포인트";
 
             PayOptionGrid.Children.Clear();
             
