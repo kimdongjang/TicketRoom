@@ -229,7 +229,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
                         ErrorPlaceholder = Global.NotFoundImagePath,
-                        Source = ImageSource.FromUri(new Uri(productlist[j].PRODUCTIMAGE)),
+                        Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productlist[j].PRODUCTIMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,

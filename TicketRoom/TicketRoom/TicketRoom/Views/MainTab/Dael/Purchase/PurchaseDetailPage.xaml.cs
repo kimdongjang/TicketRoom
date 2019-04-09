@@ -121,7 +121,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.NotFoundImagePath,
-                    Source = ImageSource.FromUri(new Uri(g_PurchasedetailInfos[i].PRODUCT_IMAGE)),
+                    Source = ImageSource.FromUri(new Uri(Global.server_ipadress + g_PurchasedetailInfos[i].PRODUCT_IMAGE)),
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
                     Aspect = Aspect.AspectFill,

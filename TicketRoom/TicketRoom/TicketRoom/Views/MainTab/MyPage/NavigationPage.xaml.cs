@@ -188,7 +188,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
                         ErrorPlaceholder = Global.NotFoundImagePath,
-                        Source = productlist[0].PRODUCTIMAGE,
+                        Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productlist[0].PRODUCTIMAGE)),
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                         Aspect = Aspect.AspectFit,

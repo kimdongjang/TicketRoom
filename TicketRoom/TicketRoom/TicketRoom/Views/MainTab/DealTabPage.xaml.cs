@@ -417,7 +417,7 @@ namespace TicketRoom.Views.MainTab
                     HorizontalOptions = LayoutOptions.Start,
                     Aspect = Aspect.AspectFill,
                     Margin = new Thickness(15,0,0,0),
-                    Source = ImageSource.FromUri(new Uri(categories[i].Image)),
+                    Source = ImageSource.FromUri(new Uri(Global.server_ipadress + categories[i].Image)),
                     //Source = "test_icon.png",
                 };
                 inGrid.Children.Add(image, 0, 0);

@@ -380,7 +380,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
                         ErrorPlaceholder = Global.NotFoundImagePath,
-                        Source = ImageSource.FromUri(new Uri(salelist[i].PRODUCTIMAGE)),
+                        Source = ImageSource.FromUri(new Uri(Global.server_ipadress + salelist[i].PRODUCTIMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,

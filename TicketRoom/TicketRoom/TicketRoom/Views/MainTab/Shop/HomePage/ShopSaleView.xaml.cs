@@ -124,7 +124,7 @@ namespace TicketRoom.Views.MainTab.Shop
                     {
                         LoadingPlaceholder = Global.LoadingImagePath,
                         ErrorPlaceholder = Global.NotFoundImagePath,
-                        Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
+                        Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productList[i].SH_PRODUCT_MAINIMAGE)),
                         Aspect = Aspect.AspectFit,
                         VerticalOptions = LayoutOptions.Center,
                         HorizontalOptions = LayoutOptions.Center,
@@ -262,7 +262,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.NotFoundImagePath,
-                    Source = ImageSource.FromUri(new Uri(productList[i].SH_PRODUCT_MAINIMAGE)),
+                    Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productList[i].SH_PRODUCT_MAINIMAGE)),
                     Aspect = Aspect.AspectFit,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,

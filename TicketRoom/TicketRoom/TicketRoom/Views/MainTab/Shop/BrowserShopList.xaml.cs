@@ -100,7 +100,7 @@ namespace TicketRoom.Views.MainTab.Shop
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.NotFoundImagePath,
-                    Source = ImageSource.FromUri(new Uri(sclist[i].SH_SUBCATE_IMAGE)),
+                    Source = ImageSource.FromUri(new Uri(Global.server_ipadress + sclist[i].SH_SUBCATE_IMAGE)),
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.Center,
                     Margin = new Thickness(20, 10, 0, 10),

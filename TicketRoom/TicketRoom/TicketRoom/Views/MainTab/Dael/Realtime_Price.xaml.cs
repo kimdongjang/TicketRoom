@@ -30,6 +30,16 @@ namespace TicketRoom.Views.MainTab.Dael
             }
             #endregion
 
+            LoadingInitAsync();
+        }
+
+        private async void LoadingInitAsync()
+        {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
+
+
             #region 네트워크 상태 확인
             var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
             if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
@@ -44,7 +54,7 @@ namespace TicketRoom.Views.MainTab.Dael
             #endregion
 
             #region 네트워크 검색 불가
-            if(categoryInfoList == null) // 검색 불가일 경우
+            if (categoryInfoList == null) // 검색 불가일 경우
             {
                 CustomLabel label = new CustomLabel
                 {
@@ -67,7 +77,11 @@ namespace TicketRoom.Views.MainTab.Dael
             #endregion
 
             NavigationInit();
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
+
         private void NavigationInit()
         {
             NavigationButton.GestureRecognizers.Add(new TapGestureRecognizer()

@@ -165,7 +165,7 @@ namespace TicketRoom.Views.MainTab.Basket
                 {
                     LoadingPlaceholder = Global.LoadingImagePath,
                     ErrorPlaceholder = Global.NotFoundImagePath,
-                    Source = ImageSource.FromUri(new Uri(BasketList[i].BK_PRODUCT_IMAGE)),
+                    Source = ImageSource.FromUri(new Uri(Global.server_ipadress + BasketList[i].BK_PRODUCT_IMAGE)),
                     BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
