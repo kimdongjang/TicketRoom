@@ -98,7 +98,7 @@
                 <!--#endregion -->
                 
                 <!--#region 6행 실시간 거래-->
-                <Grid Grid.Row="6" x:Name="RealTimeGrid" Margin="40,15,0,0" RowSpacing="3"/>
+                <Grid Grid.Row="6" x:Name="RealTimeGrid" Margin="20,15,0,0" RowSpacing="3"/>
                 <!--#endregion -->
 
 
