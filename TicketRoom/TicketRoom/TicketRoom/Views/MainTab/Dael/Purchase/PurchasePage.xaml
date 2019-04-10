@@ -92,23 +92,6 @@
                     </local1:CustomLabel>
                     <!--#endregion-->
 
-                    <!--#region 4행 상품 수량 Label-->
-                    <local1:CustomLabel Grid.Row="4" Size="10" HorizontalOptions="StartAndExpand"
-                           VerticalOptions="CenterAndExpand" XAlign="Start" YAlign="Center">
-                        <local1:CustomLabel.FormattedText>
-                            <FormattedString>
-                                <Span Text="지류 : " FontSize="10" TextColor="Gray">
-                                </Span>
-                                <Span x:Name="Purchase_Count_span" TextColor="#ef7d1a" FontSize="10">
-                                </Span>
-                                <Span Text=" 핀번호 : " FontSize="10" TextColor="Gray">
-                                </Span>
-                                <Span x:Name="Pin_Count_span" TextColor="#ef7d1a" FontSize="10">
-                                </Span>
-                            </FormattedString>
-                        </local1:CustomLabel.FormattedText>
-                    </local1:CustomLabel>
-                    <!--#endregion-->
                 </Grid>
                 <!--#endregion-->
 
@@ -274,9 +257,9 @@
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
-            <local1:CustomButton Grid.Column="0" Text="장바구니" Clicked="AddBasketBtn_Clicked" Size="26"
+            <local1:CustomButton Grid.Column="0" Text="장바구니" Clicked="AddBasketBtn_Clicked" Size="20"
                                  FontFamily="{StaticResource FontStyle}" TextColor="White" BackgroundColor="Gray" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
-            <local1:CustomButton Grid.Column="1" Text="구매하기" Clicked="DoPurchase_Clicked" Size="26" x:Name="DoPurchaseBtn"
+            <local1:CustomButton Grid.Column="1" Text="구매하기" Clicked="DoPurchase_Clicked" Size="20" x:Name="DoPurchaseBtn"
                                  FontFamily="{StaticResource FontStyle}" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
         </Grid>
     </Grid>

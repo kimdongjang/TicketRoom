@@ -14,8 +14,8 @@ namespace TicketRoom
 {
     public class Global
     {
-        public static string WCFURL = @"http://124.62.117.16:8088/Service1.svc/";
-        public static string server_ipadress = @"http://124.62.117.16:8088/";
+        public static string WCFURL = @"http://124.62.109.137:8088/Service1.svc/";
+        public static string server_ipadress = @"http://124.62.109.137:8088/";
 
         //public static string WCFURL = @"http://52.231.66.251/Service1.svc/";
 

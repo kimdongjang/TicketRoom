@@ -158,7 +158,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     Margin = new Thickness(15, 0, 0, 0),
                 };
-                BoxView orderBtnLine = new BoxView { BackgroundColor = Color.Black };
+                BoxView orderBtnLine = new BoxView { BackgroundColor = Color.LightGray };
                 CustomButton orderBtn = new CustomButton
                 {
                     Text = "상세보기",

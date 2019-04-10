@@ -64,8 +64,6 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
             {
                 g_count = giftDBFunc.Get_Product_Ccount(productInfo.PRONUM);
-                Purchase_Count_span.Text = g_count.PAPER_GC_COUNT + " 개";
-                Pin_Count_span.Text = g_count.PIN_GC_COUNT + " 개";
             }
             else
             {
@@ -76,8 +74,6 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             #region 네트워크 연결 불가
             if (g_count == null) // 네트워크 연결 불가
             {
-                Purchase_Count_span.Text = "0개";
-                Pin_Count_span.Text = "0개";
                 return;
             }
             #endregion

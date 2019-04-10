@@ -679,7 +679,7 @@
             </custom:CustomLabel>
             <!--#endregion-->
 
-            <custom:CustomButton Grid.Row="1" Text="판매하기" Size="18" TextColor="White" BackgroundColor="Black" Clicked="SaleBtn_Cliecked"/>
+            <custom:CustomButton Grid.Row="1" Text="판매하기" Size="20" TextColor="White" BackgroundColor="Black" Clicked="SaleBtn_Cliecked"/>
         </Grid>
         
     </Grid>

@@ -45,7 +45,7 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
             }
             #endregion
             this.productInfo = productInfo;
-            Pro_imgae.Source = ImageSource.FromUri(new Uri(productInfo.PRODUCTIMAGE));
+            Pro_imgae.Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productInfo.PRODUCTIMAGE));
             Pro_Name.Text = productInfo.PRODUCTTYPE + " " + productInfo.PRODUCTVALUE;
             Pro_price.Text = productInfo.SALEDISCOUNTPRICE + "[" + productInfo.SALEDISCOUNTRATE + "%]";
             ShowPinAddForm(productInfo);

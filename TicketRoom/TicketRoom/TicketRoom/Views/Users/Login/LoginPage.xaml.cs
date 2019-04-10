@@ -33,9 +33,29 @@ namespace TicketRoom.Views.Users.Login
                 MainGrid.RowDefinitions[0].Height = 50;
             }
             #endregion
+
+            Init();
         }
         private void Init()
         {
+
+            googleGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    if (Global.isloginbtn_clicked)
+                    {
+                        Global.isloginbtn_clicked = false;
+                        await DisplayAlert("알림", "준비중입니다!", "확인");
+                        Global.isloginbtn_clicked = true;
+                        return;
+
+                        await Navigation.PushAsync(new FacebookProfileCsPage());
+                        //Navigation.PushAsync(new FacebookProfilePage());
+                    }
+                })
+            });
+
             facebookGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>
@@ -43,9 +63,27 @@ namespace TicketRoom.Views.Users.Login
                     if (Global.isloginbtn_clicked)
                     {
                         Global.isloginbtn_clicked = false;
+                        await DisplayAlert("알림", "준비중입니다!", "확인");
+                        Global.isloginbtn_clicked = true;
+                        return;
+
                         await Navigation.PushAsync(new FacebookProfileCsPage());
                         //Navigation.PushAsync(new FacebookProfilePage());
                     }
+                })
+            });
+
+            LoginButton.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+                    Login();
+
+                    // 로딩 완료
+                    await  Global.LoadingEndAsync();
                 })
             });
         }
@@ -57,7 +95,7 @@ namespace TicketRoom.Views.Users.Login
             Global.isbackbutton_clicked = true;
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private void Login()
         {
             #region 네트워크 상태 확인
             var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태

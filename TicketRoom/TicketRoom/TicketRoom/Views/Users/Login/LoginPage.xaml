@@ -89,10 +89,10 @@
                 <RowDefinition Height="70"/>
             </Grid.RowDefinitions>
 
-            <!--#region 0행 로그인 버튼-->            
-            <custom:CustomButton Grid.Row="0" Margin="17,5,17,5" Text="로그인" BackgroundColor="Black" 
-                    Clicked="Button_Clicked"  HorizontalOptions="FillAndExpand"  Size="18"
-                    VerticalOptions="FillAndExpand" TextColor="White"/>
+            <!--#region 0행 로그인 버튼-->
+            <Grid Grid.Row="0" x:Name="LoginButton" Margin="17,5,17,5" ColumnSpacing="0"  BackgroundColor="Black">
+                <custom:CustomLabel Text="로그인" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18"/>
+            </Grid>
 
             <!--#endregion-->
 
