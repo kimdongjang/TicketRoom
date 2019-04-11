@@ -148,6 +148,7 @@ namespace TicketRoom.Views.MainTab.Basket
                     Margin = new Thickness(0, 10, 0, 10),
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalOptions = LayoutOptions.FillAndExpand,
+                    BackgroundColor = Color.White,
                     RowSpacing = 0,
                     ColumnSpacing = 0,
                     ColumnDefinitions =

@@ -4,7 +4,7 @@
              xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.MyPageTabPage">
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
-    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="TabGrid">
+    <Grid BackgroundColor="#f5f5f5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="TabGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>

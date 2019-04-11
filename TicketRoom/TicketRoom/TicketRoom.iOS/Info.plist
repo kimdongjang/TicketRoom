@@ -34,8 +34,6 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>TicketRoom</string>
-	<key>XSAppIconAssets</key>
-	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>

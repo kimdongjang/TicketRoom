@@ -102,7 +102,7 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="google.jpg"  Aspect="AspectFill"/>
+                <Image Grid.Column="0" Source="google.jpg"  Aspect="AspectFit"/>
                 <StackLayout Grid.Column="1" BackgroundColor="White" VerticalOptions="CenterAndExpand">
                     <custom:CustomLabel Text="Google 계정으로 로그인" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18"/>
                 </StackLayout>
@@ -116,7 +116,7 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="facebook.jpg"  Aspect="AspectFill"/>
+                <Image Grid.Column="0" Source="facebook.jpg"  Aspect="AspectFit"/>
                 <StackLayout Grid.Column="1" BackgroundColor="#3a5896" VerticalOptions="FillAndExpand" >
                     <custom:CustomLabel Text="Facebook 계정으로 로그인" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18" Margin="0,20,0,0"/>
                 </StackLayout>
@@ -154,7 +154,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <custom:CustomLabel Grid.Column="0" Text="회원이 아니신가요?" XAlign="End" YAlign="Center" Size="12"/>
+                <custom:CustomLabel Grid.Column="0" Text="회원이 아니신가요?" XAlign="End" YAlign="Center" Size="18"/>
 
                 <!--#region 회원가입 label 클릭이벤트-->
                 <custom:CustomLabel Grid.Column="1" Text="회원가입" TextDecorations="Underline" XAlign="Start" YAlign="Center" Size="18">
