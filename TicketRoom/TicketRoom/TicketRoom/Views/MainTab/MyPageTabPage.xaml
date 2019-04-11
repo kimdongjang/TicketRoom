@@ -57,7 +57,7 @@
                         <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Source="iconmonstr_user.png" Aspect="AspectFit" HorizontalOptions="Center" VerticalOptions="Center"/>
-                    <Grid Grid.Column="1" BackgroundColor="White"  VerticalOptions="Center">
+                    <Grid Grid.Column="1" BackgroundColor="White"  VerticalOptions="Center" Margin="0,20,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -71,7 +71,8 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-                            <custom:CustomLabel Grid.Column="0" Size="14" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
+                            <BoxView  Grid.Column="0" BackgroundColor="CornflowerBlue" Margin="0,2,0,2"/>
+                            <custom:CustomLabel Grid.Column="0" Size="14" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"
                                                  HeightRequest="25" WidthRequest="50" Text="ID" IsEnabled="False" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                             <custom:CustomLabel Grid.Column="1" x:Name="UserIDLabel" Size="14" VerticalOptions="Center" TextColor="Black"/>
                         </Grid>
@@ -82,7 +83,8 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-                                <custom:CustomLabel Grid.Column="0" Size="14" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
+                            <BoxView  Grid.Column="0" BackgroundColor="CornflowerBlue"  Margin="0,2,0,2"/>
+                            <custom:CustomLabel Grid.Column="0" Size="14" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"
                                                  HeightRequest="25" WidthRequest="50" Text="연락처" IsEnabled="False" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                                 <custom:CustomLabel Grid.Column="1" x:Name="UserPhoneLabel" Size="14"  VerticalOptions="Center" TextColor="Black"/>
                         </Grid>
@@ -93,13 +95,15 @@
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
-                                <custom:CustomLabel Grid.Column="0" Size="14" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
+                            <BoxView  Grid.Column="0" BackgroundColor="CornflowerBlue"  Margin="0,2,0,2"/>
+                            <custom:CustomLabel Grid.Column="0" Size="14" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"
                                                  HeightRequest="25" WidthRequest="50" Text="포인트" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                             <custom:CustomLabel Grid.Column="1" x:Name="UserPointLabel" Size="14" VerticalOptions="Center" TextColor="Black"/>
                         </Grid>
                         <!--#endregion-->
-                        <custom:CustomButton Grid.Row="3" x:Name="IsLoginBtn" Clicked="IsLoginBtn_ClickedAsync" Size="14" BackgroundColor="CornflowerBlue" TextColor="White"
-                                             HorizontalOptions="Center" VerticalOptions="Center"  HeightRequest="30" WidthRequest="250" Margin="15,0,15,0" FontFamily="{StaticResource FontStyle}"/>
+                        <BoxView  Grid.Row="3" BackgroundColor="CornflowerBlue" Margin="0,10,0,10" x:Name="IsLoginEvent" />
+                        <custom:CustomLabel Grid.Row="3" Size="14" TextColor="White" x:Name="IsLoginBtn" 
+                                             HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"  Margin="15,0,15,0" FontFamily="{StaticResource FontStyle}"/>
                     </Grid>
                 </Grid>
                 <!--#endregion-->

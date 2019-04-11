@@ -33,7 +33,7 @@ namespace TicketRoom.Views.MainTab
             #region IOS의 경우 초기화
             if (Device.OS == TargetPlatform.iOS)
             {
-                TabGrid.RowDefinitions[0].Height = 50;
+                TabGrid.RowDefinitions[0].Height = Global.title_size_value;
             }
             #endregion
 
@@ -234,11 +234,11 @@ namespace TicketRoom.Views.MainTab
                         new ColumnDefinition { Width = new GridLength(8, GridUnitType.Star) },
                     },
                 };
-                StackLayout sl = new StackLayout
+
+                BoxView statusLine = new BoxView
                 {
                     BackgroundColor = Color.CornflowerBlue,
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center,
+                    Margin = 2,
                 };
                 // 결제 상태 레이블
                 CustomLabel statusLabel = new CustomLabel
@@ -248,14 +248,12 @@ namespace TicketRoom.Views.MainTab
                     Text = "구매완료",
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
-                    HeightRequest = 30,
-                    WidthRequest = 80,
                     HorizontalTextAlignment = TextAlignment.Center,
                     VerticalTextAlignment = TextAlignment.Center,
 
                 };
-                sl.Children.Add(statusLabel);
-                inGrid.Children.Add(sl, 0, 0);
+                inGrid.Children.Add(statusLine, 0, 0);
+                inGrid.Children.Add(statusLabel, 0, 0);
 
                 string name = "";
                 string title = g_DealInfolist[i].TITLE;

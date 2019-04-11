@@ -15,6 +15,7 @@ namespace TicketRoom
         public App()
         {
             InitializeComponent();
+            GetDeviceNameInit();
             MainPage = new NavigationPage(new MainPage());
         }
 
@@ -40,6 +41,40 @@ namespace TicketRoom
             //string device_name = UIDevice.CurrentDevice.Name.ToString();
             // s7 -> 1440x2560
             // 대체로  1242x2688(1), 1125x2436(2), 1080x1920(2), 828x1792(3),  750x1334(3), 640x1136(4)
+            if (device_name == "iPad Pro (12.9-inch) (3rd generation)") // 아이패드
+            {
+                Global.font_size_minus_value = -5;
+                Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+            }
+            if (device_name == "iPad Pro (12.9-inch) (2nd generation)") // 아이패드
+            {
+                Global.font_size_minus_value = -5;
+                Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+            }
+
+            if (device_name == "iPad Pro (12.9-inch)") // 아이패드
+            {
+                Global.font_size_minus_value = -5;
+                Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+            }
+
+            if (device_name == "iPad Pro (11-inch)") // 아이패드
+            {
+                Global.font_size_minus_value = -4;
+                Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+            }
+
+            if (device_name == "iPad Pro (10.5-inch)") // 아이패드
+            {
+                Global.font_size_minus_value = -4;
+                Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+            }
+
+            if (device_name == "iPad Pro (9.7-inch)") // 아이패드
+            {
+                Global.font_size_minus_value = -4;
+                Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+            }
             if (device_name == "iPhone XS") // 1125x2436
             {
                 Global.font_size_minus_value = 2;
@@ -63,38 +98,47 @@ namespace TicketRoom
             else if (device_name == "iPhone 8 Plus") // 1080x1920
             {
                 Global.font_size_minus_value = 2;
+                Global.title_size_value = 30;
             }
             else if (device_name == "iPhone 8") // 750x1334
             {
                 Global.font_size_minus_value = 3;
+                Global.title_size_value = 30;
             }
             else if (device_name == "iPhone 7 Plus") // 1080x1920
             {
                 Global.font_size_minus_value = 2;
+                Global.title_size_value = 30;
             }
             else if (device_name == "iPhone 7") // 750x1334
             {
                 Global.font_size_minus_value = 3;
+                Global.title_size_value = 30;
             }
             else if (device_name == "iPhone 6s Plus") // 1080x1920
             {
                 Global.font_size_minus_value = 2;
+                Global.title_size_value = 30;
             }
             else if (device_name == "iPhone 6s") // 750x1334
             {
                 Global.font_size_minus_value = 3;
+                Global.title_size_value = 30;
             }
             else if (device_name == "iPhone 6 Plus") // 1080x1920
             {
                 Global.font_size_minus_value = 2;
+                Global.title_size_value = 30;
             }
             else if (device_name == "iPhone 6") //  750x1334
             {
                 Global.font_size_minus_value = 3;
+                Global.title_size_value = 30;
             }
             else if (device_name == "iPhone SE") //  640x1136
             {
                 Global.font_size_minus_value = 3;
+                Global.title_size_value = 30;
             }
             else Global.font_size_minus_value = 0; // 그외 디바이스들
         }

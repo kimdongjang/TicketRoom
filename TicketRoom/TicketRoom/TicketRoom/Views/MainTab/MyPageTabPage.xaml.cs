@@ -23,7 +23,7 @@ namespace TicketRoom.Views.MainTab
             #region IOS의 경우 초기화
             if (Device.OS == TargetPlatform.iOS)
             {
-                TabGrid.RowDefinitions[0].Height = 50;
+                TabGrid.RowDefinitions[0].Height = Global.title_size_value;
             }
             #endregion
             LoadingInitAsync();
@@ -72,7 +72,6 @@ namespace TicketRoom.Views.MainTab
                     UserPhoneLabel.Text = Global.user.PHONENUM;
                     UserPointLabel.Text = PointDBFunc.Instance().PostSearchPointListToID(Global.ID).PT_POINT_HAVEPOINT.ToString("N0");
                                         
-                    #endregion
                     IsLoginBtn.Text = "로그아웃";
                 }
                 else if (Global.b_user_login == false)
@@ -83,6 +82,7 @@ namespace TicketRoom.Views.MainTab
                     IsLoginBtn.Text = "로그인";
                 }
             }
+            #endregion
             #region 네트워크 연결 불가
             else
             {
@@ -92,6 +92,42 @@ namespace TicketRoom.Views.MainTab
                 IsLoginBtn.Text = "로그인";
             }
             #endregion
+
+            IsLoginEvent.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    if (Global.ismypagebtns_clicked)
+                    {
+                        Global.ismypagebtns_clicked = false;
+                        if (Global.b_user_login == true) // 로그아웃 버튼
+                        {
+                            if (await App.Current.MainPage.DisplayAlert("알림", "로그아웃 하시겠습니까?", "확인", "취소") == true)
+                            {
+                                Global.b_user_login = false;
+                                Global.b_auto_login = false;
+                                Global.ID = "";
+
+                                // config파일 재설정
+                                File.WriteAllText(Global.localPath + "app.config",
+                                    "NonUserID=" + Global.non_user_id + "\n" +
+                                    "IsLogin=" + Global.b_user_login.ToString() + "\n" + // 회원 로그인 false
+                                    "AutoLogin=" + Global.b_auto_login.ToString() + "\n" + // 자동 로그인 false
+                                    "UserID=" + Global.ID + "\n");
+
+                                await App.Current.MainPage.DisplayAlert("알림", "성공적으로 로그아웃 되었습니다.", "확인");
+                                Init();
+                            }
+                            Global.ismypagebtns_clicked = true;
+                        }
+                        else if (Global.b_user_login == false)
+                        {
+                            Navigation.PushAsync(new LoginPage()); // 로그인 페이지로 이동
+                        }
+                    }
+                })
+            });
+
             MyInfoGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>
@@ -160,37 +196,6 @@ namespace TicketRoom.Views.MainTab
         }
 
 
-        private async void IsLoginBtn_ClickedAsync(object sender, EventArgs e)
-        {
-            if (Global.ismypagebtns_clicked)
-            {
-                Global.ismypagebtns_clicked = false;
-                if (Global.b_user_login == true) // 로그아웃 버튼
-                {
-                    if (await App.Current.MainPage.DisplayAlert("알림", "로그아웃 하시겠습니까?", "확인", "취소") == true)
-                    {
-                        Global.b_user_login = false;
-                        Global.b_auto_login = false;
-                        Global.ID = "";
-
-                        // config파일 재설정
-                        File.WriteAllText(Global.localPath + "app.config",
-                            "NonUserID=" + Global.non_user_id + "\n" +
-                            "IsLogin=" + Global.b_user_login.ToString() + "\n" + // 회원 로그인 false
-                            "AutoLogin=" + Global.b_auto_login.ToString() + "\n" + // 자동 로그인 false
-                            "UserID=" + Global.ID + "\n");
-
-                        await App.Current.MainPage.DisplayAlert("알림", "성공적으로 로그아웃 되었습니다.", "확인");
-                        Init();
-                    }
-                    Global.ismypagebtns_clicked = true;
-                }
-                else if (Global.b_user_login == false)
-                {
-                    Navigation.PushAsync(new LoginPage()); // 로그인 페이지로 이동
-                }
-            }
-        }
 
         private void IsLoginBtn_Clicked(object sender, EventArgs e)
         {

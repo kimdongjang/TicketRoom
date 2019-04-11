@@ -36,6 +36,7 @@ namespace TicketRoom
 
         #region IOS 최적화 관련
         public static int font_size_minus_value = 0; // IOS 디바이스 종류에 따라 레이블 크기 조정
+        public static int title_size_value = 50; // 타이틀 사이즈 IOS 디바이스 종류에 따라 조정 기본 50
         public static bool ios_x_model = false;
         #endregion
 

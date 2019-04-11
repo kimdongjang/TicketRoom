@@ -26,7 +26,7 @@ namespace TicketRoom.Views.MainTab
             #region IOS의 경우 초기화
             if (Device.OS == TargetPlatform.iOS)
             {
-                TabGrid.RowDefinitions[0].Height = 50;
+                TabGrid.RowDefinitions[0].Height = Global.title_size_value;
             }
             #endregion
 

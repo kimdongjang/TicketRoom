@@ -82,7 +82,7 @@
                     <Entry Grid.Row="1" x:Name="NewPW_box"
                            Placeholder="ex) 12345678" FontSize="15" 
                            Keyboard="Text"
-                           HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null"/>
+                           HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null" Margin="0,20,0,0"/>
 
                     <!--#endregion-->
                 </Grid>
@@ -107,7 +107,10 @@
                     <Entry Grid.Row="1" x:Name="NewPWCheck_box"
                            Placeholder="ex) 12345678" FontSize="15" 
                            Keyboard="Text"
-                           HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null"/>
+                           HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null" Margin="0,20,0,0">
+                        
+                    </Entry>
+                           
                     <!--#endregion-->
                 </Grid>
                 <!--#endregion-->
@@ -128,7 +131,7 @@
                     <Entry Grid.Row="1" x:Name="Phone_box" 
                            Placeholder="ex) 01012345678" FontSize="15" 
                            Keyboard="Telephone"
-                           HorizontalOptions="Fill" VerticalOptions="Center" Style="null">
+                           HorizontalOptions="Fill" VerticalOptions="Center" Style="null" Margin="0,20,0,0">
                     </Entry>
                     <!--#endregion-->
                 </Grid>
@@ -167,11 +170,10 @@
                     <!--#endregion-->
 
                     <!--#region 2행 인증번호 Entry(Input)-->
-                    <Entry Grid.Row="2" x:Name="CheckNum_box" 
+                                <Entry Grid.Row="2" x:Name="CheckNum_box" 
                            FontSize="15" HorizontalOptions="FillAndExpand" 
                            Keyboard="Numeric"
-                           VerticalOptions="Center" Style="null">
-                    </Entry>
+                           VerticalOptions="Center" Style="null" Margin="0,20,0,0" />
                     <!--#endregion-->
 
                     <!--#region 3행 남은시간 label-->
