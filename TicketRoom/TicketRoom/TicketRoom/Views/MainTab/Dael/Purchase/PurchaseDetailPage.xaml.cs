@@ -60,7 +60,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             #endregion
 
             this.g_PurchasedetailInfos = g_PurchasedetailInfos;
-            DeliveryPrice_label.Text = (deliveryprice).ToString("N0");
+            DeliveryPrice_label.Text = "배송비 : " + (deliveryprice).ToString("N0") + "원";
             ShowUserInfo();
             ShowPrice();
             SelectAllAccount();
@@ -253,7 +253,6 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             else
             {
                 Point_label.Text = int.Parse("0").ToString("N0");
-                Point_Grid.IsVisible = false;
                 MyNameLabel.Text = "이름을 입력하세요";
                 MyPhoneLabel.Text = "연락처를 입력해주세요";
                 RecentAdress.IsVisible = false;
@@ -292,7 +291,8 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 AdressListGrid.IsVisible = false;
                 DV_Label.IsVisible = false;
                 DV_Radio_Group.IsVisible = false;
-                DV_Price_Label.IsVisible = false;
+                DeliveryPrice_label.Text = "배송비 : " + "0원";
+                //DeliveryPrice_label.IsVisible = false;
                 DV_GridLine.IsVisible = false;
             }
         }

@@ -80,15 +80,8 @@
                     <!--#endregion-->
 
                     <!--#region 1행 할인율 Label-->
-                    <local1:CustomLabel Grid.Row="2" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-                        <local1:CustomLabel.FormattedText>
-                            <FormattedString>
-                                <Span Text="고객 구매가(할인율) : " FontSize="12" TextColor="Black">
-                                </Span>
-                                <Span x:Name="Pro_price" TextColor="Red" FontSize="12">
-                                </Span>
-                            </FormattedString>
-                        </local1:CustomLabel.FormattedText>
+                    <local1:CustomLabel Grid.Row="2" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" Text="고객 구매가(할인율) : 0" 
+                                        x:Name="Pro_price" Size="18" TextColor="Red">
                     </local1:CustomLabel>
                     <!--#endregion-->
 
@@ -206,7 +199,7 @@
                 </Grid>
             </ScrollView>
 
-            <Grid Grid.Row="3" Margin="15,0,0,10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
+            <Grid Grid.Row="3" Margin="15,10,0,10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -222,30 +215,14 @@
                 <!--#endregion-->
 
                 <!--#region 0행 1열 할인전 가격 Label-->
-                <local1:CustomLabel Grid.Row="0" Margin="15,0,0,0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-                    <local1:CustomLabel.FormattedText>
-                        <FormattedString>
-                            <Span Text="합계 :  " FontSize="18" TextColor="Gray">
-                            </Span>
-                            <Span x:Name="Purchase_Price_span" TextColor="Gray" FontSize="18" TextDecorations="Strikethrough">
-                            </Span>
-                        </FormattedString>
-                    </local1:CustomLabel.FormattedText>
+                <local1:CustomLabel Grid.Row="0" Margin="15,0,0,0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" 
+                                    x:Name="Purchase_Price_span" TextColor="Gray" Size="18" Text="합계 : 0" TextDecorations="Strikethrough">
                 </local1:CustomLabel>
                 <!--#endregion-->
 
                 <!--#region 1행 1열 할인전 가격 Label-->
-                <local1:CustomLabel Grid.Row="1" Margin="15,0,0,0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
-                    <local1:CustomLabel.FormattedText>
-                        <FormattedString>
-                            <Span Text="할인 금액 :  " FontSize="18" TextColor="Black">
-                            </Span>
-                            <Span x:Name="Purchase_DiscountPrice_span" TextColor="Black" FontSize="18">
-                            </Span>
-                            <Span Text=" 원" TextColor="Black" FontSize="18">
-                            </Span>
-                        </FormattedString>
-                    </local1:CustomLabel.FormattedText>
+                <local1:CustomLabel Grid.Row="1" Margin="15,0,0,0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"
+                                    Text="할인 금액 : " Size="18" x:Name="Purchase_DiscountPrice_span"  TextColor="Black" >
                 </local1:CustomLabel>
                 <!--#endregion-->
             </Grid>

@@ -206,17 +206,8 @@
                         </Grid>
                     </Grid>
 
-                    <local1:CustomLabel Grid.Row="2" Size="18" x:Name="DV_Price_Label" Margin="15,10,15,10" FontFamily="{StaticResource FontStyle}" HorizontalOptions="Start" VerticalOptions="Center">
-                        <local1:CustomLabel.FormattedText>
-                            <FormattedString>
-                                <Span Text="배송비: " TextColor="Black" FontSize="18">
-                                </Span>
-                                <Span x:Name="DeliveryPrice_label" TextColor="Black" FontSize="18">
-                                </Span>
-                                <Span Text=" 원" TextColor="Black" FontSize="18">
-                                </Span>
-                            </FormattedString>
-                        </local1:CustomLabel.FormattedText>
+                    <local1:CustomLabel Grid.Row="2" Size="18" x:Name="DeliveryPrice_label" Margin="15,10,15,10" FontFamily="{StaticResource FontStyle}" HorizontalOptions="Start" VerticalOptions="Center"
+                                        Text="배송비: "  TextColor="Black" >
                     </local1:CustomLabel>
 
                     <!--#region 3행 Grid라인-->
@@ -235,18 +226,19 @@
                         </Grid.RowDefinitions>
                         <local1:CustomLabel Size="22" Grid.Column="0" Grid.Row="0" Text="포인트 사용"
                                             TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center" Margin="15,10,15,0"/>
+                        <Grid  Grid.Column="0" Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <local1:CustomLabel Margin="15,5,15,0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"
+                                            Text="잔여 포인트: " TextColor="Orange" Size="18"/>
+                            <local1:CustomLabel Margin="15,5,15,0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"
+                                            x:Name="Point_label" TextColor="Orange" Size="18"/>
 
-                        <local1:CustomLabel Margin="15,5,15,0" Grid.Column="0" Grid.Row="1" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center">
-                            <local1:CustomLabel.FormattedText>
-                                <FormattedString>
-                                    <Span Text="잔여 포인트: " TextColor="Black" FontSize="18">
-                                    </Span>
-                                    <Span x:Name="Point_label" TextColor="Red" FontSize="18">
-                                    </Span>
-                                </FormattedString>
-                            </local1:CustomLabel.FormattedText>
-                        </local1:CustomLabel>
-                        <local1:CustomButton Grid.Column="1" Size="20" Text="포인트 적용" HorizontalOptions="Center" VerticalOptions="Center"
+                        </Grid>
+
+                        <local1:CustomButton Grid.Column="1" Grid.Row="1" Size="20" Text="포인트 적용" HorizontalOptions="Center" VerticalOptions="Center"
                                                     BackgroundColor="Black" TextColor="White" HeightRequest="30" WidthRequest="120" Margin="0,10,15,10"
                                                     Clicked="UsedPointBtn_Clicked"/>
                         
