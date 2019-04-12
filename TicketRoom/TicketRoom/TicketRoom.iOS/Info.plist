@@ -5,7 +5,6 @@
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
-		<integer>2</integer>
 	</array>
 	<key>UIAppFonts</key>
 	<array>
@@ -17,6 +16,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UISupportsDocumentBrowser</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -41,5 +44,7 @@
 			<string>문서 종류 1</string>
 		</dict>
 	</array>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/AppIcons.appiconset</string>
 </dict>
 </plist>

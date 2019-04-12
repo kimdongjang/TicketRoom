@@ -185,6 +185,21 @@
     <ImageAsset Include="Assets.xcassets\Images.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImages.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets1.xcassets\AppIcons.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets1.xcassets\LaunchImages.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets2.xcassets\AppIcons.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets2.xcassets\LaunchImages.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
@@ -349,9 +364,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\move_vector.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\NexusFileSetup5.3.3.exe" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\no_image.png" />

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 
+
 namespace TicketRoom.Models.Gift
 {
     public class G_CategoryInfo
