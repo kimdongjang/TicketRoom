@@ -279,9 +279,6 @@
     <BundleResource Include="Resources\uniform_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\load.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\backbutton_icon.png" />
   </ItemGroup>
   <ItemGroup>
@@ -306,9 +303,6 @@
     <BundleResource Include="Resources\department.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\facebook.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\facebook_login_button.png" />
   </ItemGroup>
   <ItemGroup>
@@ -316,9 +310,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\gift_icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\google.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\home.png" />
@@ -340,30 +331,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\index_icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\list_all_h.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\list_all_non.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\list_month_h.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\list_month_non.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\list_week_h.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\list_week_non.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\list_year_h.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\list_year_non.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\load.png" />
@@ -420,31 +387,7 @@
     <BundleResource Include="Resources\plus.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\point_addlist_h.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\point_addlist_non.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\point_charge_h.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\point_charge_non.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\point_icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\point_uselist_h.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\point_uselist_non.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\point_withdraw_h.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\point_withdraw_non.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\productimage.png" />
@@ -499,5 +442,11 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\facebook.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\google.png" />
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:TicketRoom.Models"
              x:Class="TicketRoom.Views.Users.Login.LoginPage">
     <!--#region 전체 화면 그리드(행) - 0 액션바 1 로그인정보 2 로그인연동 3 회원가입&아디비번 찾기-->
-    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
+    <Grid  BackgroundColor="#f5f5f5"  VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
@@ -102,7 +102,7 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="google.jpg"  Aspect="AspectFit" BackgroundColor="White"/>
+                <Image Grid.Column="0" Source="google.png"  Aspect="AspectFit" BackgroundColor="White"/>
                 <StackLayout Grid.Column="1" BackgroundColor="White" VerticalOptions="CenterAndExpand">
                     <custom:CustomLabel Text="Google 계정으로 로그인" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18"/>
                 </StackLayout>
@@ -116,7 +116,7 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="facebook.jpg"  Aspect="AspectFit" BackgroundColor="#3a5896"/>
+                <Image Grid.Column="0" Source="facebook.png"  Aspect="AspectFit" BackgroundColor="#3a5896"/>
                 <StackLayout Grid.Column="1" BackgroundColor="#3a5896" VerticalOptions="FillAndExpand" >
                     <custom:CustomLabel Text="Facebook 계정으로 로그인" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18" Margin="0,20,0,0"/>
                 </StackLayout>
