@@ -84,7 +84,7 @@ namespace TicketRoom.Views.Users.CreateUser
             #region IOS의 경우 초기화
             if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
             {
-                MainGrid.RowDefinitions[0].Height = 50;
+                MainGrid.RowDefinitions[0].Height = Global.title_size_value;
             }
             if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
             {

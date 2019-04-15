@@ -33,7 +33,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
             if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
             {
-                MainGrid2.RowDefinitions[0].Height = 50;
+                MainGrid2.RowDefinitions[0].Height = Global.title_size_value;
             }
             if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
             {
@@ -191,6 +191,27 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 CustomLabel error_label = new CustomLabel
                 {
                     Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
+                    Size = 18,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.CenterAndExpand,
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    VerticalTextAlignment = TextAlignment.Center,
+                    HorizontalTextAlignment = TextAlignment.Center
+                };
+                MainGrid.RowDefinitions.Clear();
+                MainGrid.Children.Clear();
+                MainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                MainGrid.Children.Add(error_label, 0, 0);
+                return;
+            }
+            #endregion
+
+            #region 네트워크 연결 불가
+            if (productlist.Count == 0)
+            {
+                CustomLabel error_label = new CustomLabel
+                {
+                    Text = "상세 구매 내역이 없습니다!",
                     Size = 18,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.CenterAndExpand,

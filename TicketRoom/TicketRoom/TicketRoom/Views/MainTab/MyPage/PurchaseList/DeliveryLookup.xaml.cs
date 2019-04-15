@@ -23,7 +23,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 
             if (Xamarin.Forms.Device.OS == TargetPlatform.iOS)
             {
-                TabGrid.RowDefinitions[0].Height = 50;
+                TabGrid.RowDefinitions[0].Height = Global.title_size_value;
             }
             #endregion
             this.track_id = track_id;

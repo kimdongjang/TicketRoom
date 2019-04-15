@@ -46,7 +46,7 @@ namespace TicketRoom.Views.MainTab.Shop
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
             if (Device.OS == TargetPlatform.iOS)
             {
-                MainGrid.RowDefinitions[0].Height = 50;
+                MainGrid.RowDefinitions[0].Height = Global.title_size_value;
             }
             #region IOS의 경우 초기화
             if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
