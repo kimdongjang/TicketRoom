@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
@@ -103,7 +103,7 @@
                     <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0" Source="google.png"  Aspect="AspectFit" BackgroundColor="White"/>
-                <StackLayout Grid.Column="1" BackgroundColor="White" VerticalOptions="CenterAndExpand">
+                <StackLayout Grid.Column="1" BackgroundColor="White" VerticalOptions="FillAndExpand">
                     <custom:CustomLabel Text="Google 계정으로 로그인" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18"/>
                 </StackLayout>
             </Grid>
