@@ -433,7 +433,7 @@ namespace TicketRoom.Views.MainTab.Basket
 
                 BoxView gridline = new BoxView
                 {
-                    BackgroundColor = Color.FromHex("#f4f2f2"),
+                    BackgroundColor = Color.LightGray,
                     HeightRequest = 1,
                     VerticalOptions = LayoutOptions.End,
                     HorizontalOptions = LayoutOptions.FillAndExpand

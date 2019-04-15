@@ -37,7 +37,7 @@ namespace TicketRoom
         // IOS 디바이스 종류에 따른 초기화 진행
         private void GetDeviceNameInit()
         {
-            string device_name = CrossDeviceInfo.Current.Model.ToString();
+            string device_name = CrossDeviceInfo.Current.DeviceName.ToString();
             //string device_name = UIDevice.CurrentDevice.Name.ToString();
             // s7 -> 1440x2560
             // 대체로  1242x2688(1), 1125x2436(2), 1080x1920(2), 828x1792(3),  750x1334(3), 640x1136(4)
