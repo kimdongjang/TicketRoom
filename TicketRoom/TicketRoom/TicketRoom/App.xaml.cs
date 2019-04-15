@@ -113,12 +113,12 @@ namespace TicketRoom
             else if (device_name == "iPhone 7 Plus") // 1080x1920
             {
                 Global.font_size_minus_value = 2;
-                Global.title_size_value = 30;
+                Global.title_size_value = 20;
             }
             else if (device_name == "iPhone 7") // 750x1334
             {
                 Global.font_size_minus_value = 3;
-                Global.title_size_value = 30;
+                Global.title_size_value = 20;
             }
             else if (device_name == "iPhone 6s Plus") // 1080x1920
             {
