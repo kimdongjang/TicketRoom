@@ -561,7 +561,8 @@ namespace TicketRoom.Views.MainTab.Shop
                             "",/*예금주*/
                             ShopOrderPage_ID,/*아이디*/
                             MyUsePoint.ToString(),/*사용포인트*/
-                            PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/
+                            PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/,
+                            "출금완료"
                             );
                     }
                     else
@@ -572,7 +573,8 @@ namespace TicketRoom.Views.MainTab.Shop
                             "",/*예금주*/
                             ShopOrderPage_ID,/*아이디*/
                             MyUsePoint.ToString(),/*사용포인트*/
-                            PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/
+                            PT_DB.PostSearchPointListToID(ShopOrderPage_ID).PT_POINT_INDEX.ToString()/*포인트 리스트의 인덱스*/,
+                            "출금완료"
                             );
                     }
                 }

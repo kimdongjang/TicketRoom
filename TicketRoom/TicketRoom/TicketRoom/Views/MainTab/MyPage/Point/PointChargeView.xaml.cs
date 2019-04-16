@@ -233,7 +233,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
                 IMP_RValue rvalue = new IMP_RValue
                 {
-                    SH_BANK_NAME = account_picker.SelectedIndex.ToString(),
                     SH_BUYER_EMAIL = Global.user.EMAIL/*이메일*/,
                     SH_BUYER_NAME = Global.ID/*아이디*/,
                     SH_BUYER_TEL = Global.user.PHONENUM/*휴대폰번호*/,
@@ -245,6 +244,8 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                     SH_AMOUNT = priceEntry.Text /*충전포인트(입금금액)*/,
                     SH_STATUS = "입금대기",
                     SH_POINT_INDEX = pp.PT_POINT_INDEX.ToString(), // 포인트 인덱스
+                    SH_BANK_ACC_NUM = (account_picker.SelectedIndex + 1).ToString(), // 등록된 계좌 넘버 저장
+                    SH_FAIL_DETAIL = "", // 실패사유
                 };
                 #region 네트워크 상태 확인
                 var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태

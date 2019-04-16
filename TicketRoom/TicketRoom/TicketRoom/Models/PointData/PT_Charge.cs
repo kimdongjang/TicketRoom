@@ -23,5 +23,11 @@ namespace TicketRoom.Models.PointData
         public string PT_CHARGE_DATE { get; set; } // 적립 날짜
         [JsonProperty("PT_POINT_INDEX")]
         public int PT_POINT_INDEX { get; set; } // 포인트 리스트 인덱스
+        [JsonProperty("PT_CHARGE_STATUS")]
+        public string PT_CHARGE_STATUS { get; set; } // 입금 상태
+        [JsonProperty("PT_BANK_ACC_NUM")]
+        public string PT_BANK_ACC_NUM { get; set; } // 계좌 등록번호
+        [JsonProperty("PT_FAIL_DETAIL")]
+        public string PT_FAIL_DETAIL { get; set; } // 충전 실패 사유
     }
 }

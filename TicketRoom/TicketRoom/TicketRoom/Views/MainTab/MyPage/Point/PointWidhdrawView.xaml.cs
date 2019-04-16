@@ -84,7 +84,8 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                     NameEntry.Text, // 예금주
                     pp.USER_ID, // 유저아이디
                     usepoint.ToString(), // 출금금액
-                    pp.PT_POINT_INDEX.ToString()) == false)  // 포인트 인덱스
+                    pp.PT_POINT_INDEX.ToString()
+                    ,"출금대기") == false)  // 포인트 인덱스
                 {
                     await App.Current.MainPage.DisplayAlert("알림", "포인트 출금에 실패했습니다. 다시 한번 시도해주십시오.", "확인");
                     return;
@@ -92,7 +93,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             }
             #endregion
             
-            await App.Current.MainPage.DisplayAlert("알림", "포인트 출금에 성공했습니다.", "확인");
+            await App.Current.MainPage.DisplayAlert("알림", "포인트 출금 신청에 성공했습니다.", "확인");
             await Navigation.PopAsync();
         }
 

@@ -83,7 +83,7 @@ namespace TicketRoom.Models.PointData
         }
 
         // 포인트 출금 및 사용하는 프로시저
-        public bool PostInsertPointWithDrawToID(string p_content, string p_bank, string p_account, string p_name, string p_id, string p_point, string pl_index)
+        public bool PostInsertPointWithDrawToID(string p_content, string p_bank, string p_account, string p_name, string p_id, string p_point, string pl_index, string pl_status)
         {
             bool isbool = false;
             string str = @"{";
@@ -94,6 +94,7 @@ namespace TicketRoom.Models.PointData
             str += "',p_id:'" + p_id;
             str += "',p_point:'" + p_point;
             str += "',pl_index:'" + pl_index;
+            str += "',pl_status:'" + pl_status;
             str += "'}";
 
 

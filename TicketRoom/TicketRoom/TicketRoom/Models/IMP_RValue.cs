@@ -39,5 +39,9 @@ namespace TicketRoom.Models
         public string SH_DATE;
         [JsonProperty("SH_POINT_INDEX")]
         public string SH_POINT_INDEX;
+        [JsonProperty("SH_BANK_ACC_NUM")]
+        public string SH_BANK_ACC_NUM;
+        [JsonProperty("SH_FAIL_DETAIL")]
+        public string SH_FAIL_DETAIL;
     }
 }

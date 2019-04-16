@@ -103,7 +103,18 @@
                 <!--#endregion-->
 
                 <!--#region 2행 입금해야할내역 -->
-                <custom:CustomLabel Grid.Row="1" Margin="15,15,0,0" Text="입금해야할내역" Size="18"  TextColor="Gray"/>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <custom:CustomLabel Grid.Column="0" Margin="15,15,0,0" Text="입출금내역조회" Size="18"  TextColor="Gray" x:Name="StatusLabel"
+                                        HorizontalOptions="Start"/>
+                    <custom:CustomPicker Grid.Column="2" Margin="0,15,15,0" Title="선택" FontSize="18" TextColor="Gray" x:Name="StatusPicker" VerticalOptions="Center"
+                                        HorizontalOptions="End" SelectedIndexChanged="StatusPicker_SelectedIndexChanged"/>
+                </Grid>
+                
                 <!--#endregion-->
                 
                 <!--#region 2행 거래중인 내역 -->
