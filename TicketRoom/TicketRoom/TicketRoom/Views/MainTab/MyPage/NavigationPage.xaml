@@ -50,15 +50,17 @@
         <ScrollView Grid.Row="2" Margin="5">
             <Grid BackgroundColor="#f5f5f5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="215"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
                 <!--#region  0행 내정보 네임카드 -->
-                <Grid Grid.Row="0" Margin="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                <Grid Grid.Row="0" Margin="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White" RowSpacing="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -73,7 +75,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <custom:CustomLabel Grid.Column="0" x:Name="UserIDLabel" Size="18"  TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <custom:CustomLabel Grid.Column="0" x:Name="UserIDLabel" Size="16"  TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                     </Grid>
                     <!--#endregion-->
 
@@ -97,6 +99,22 @@
                         <custom:CustomLabel Grid.Column="0" Size="14" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
                                                  HeightRequest="25" WidthRequest="50" Text="포인트" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         <custom:CustomLabel Grid.Column="1" x:Name="UserPointLabel" Size="14" VerticalOptions="Center" TextColor="Black"/>
+                    </Grid>
+                    <!--#endregion-->
+                    <!--#region  4행 고객센터 -->
+                    <Grid Grid.Row="4" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <custom:CustomLabel Grid.Column="0" Size="16"  TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                                            Text="문의사항은 아래 번호로 부탁드립니다"/>
+                    </Grid>
+                    <Grid Grid.Row="5" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <custom:CustomLabel Grid.Column="0" Size="16"  TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                                            Text="고객센터 1688-1522"/>
                     </Grid>
                     <!--#endregion-->
                 </Grid>

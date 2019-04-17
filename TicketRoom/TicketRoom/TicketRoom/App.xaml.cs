@@ -152,7 +152,11 @@ namespace TicketRoom
                 Global.font_size_minus_value = 3;
                 Global.title_size_value = 30;
             }
-            else Global.font_size_minus_value = 0; // 그외 디바이스들
+            else // 그외 디바이스들
+            {
+                Global.font_size_minus_value = 0;
+                Global.title_size_value = 0;
+            }
         }
     }
 }

@@ -97,7 +97,7 @@
             <!--#endregion-->
 
             <!--#region TEST 1행 구글-->
-            <Grid Grid.Row="1" x:Name="googleGrid" Margin="17,5,17,5" ColumnSpacing="0">
+            <Grid Grid.Row="1" x:Name="googleGrid" Margin="17,5,17,5" ColumnSpacing="0" IsVisible="False">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="8*"/>
@@ -111,7 +111,7 @@
             <!--#endregion-->
 
             <!--#region TEST 2행 페이스북-->
-            <Grid Grid.Row="2" x:Name="facebookGrid" Margin="17,5,17,5" ColumnSpacing="0">
+            <Grid Grid.Row="2" x:Name="facebookGrid" Margin="17,5,17,5" ColumnSpacing="0" IsVisible="False">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="8*"/>
@@ -129,6 +129,7 @@
         <!--#region 4행 아디 비번 찾기 & 회원가입-->
         <Grid Grid.Row="4" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -165,6 +166,15 @@
                 <!--#endregion-->
             </Grid>
             <!--#endregion-->
+
+            <!--#region 2행 고객센터-->
+            <Grid  Grid.Row="2" HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <custom:CustomLabel Text="고객센터 1588-1682" HorizontalOptions="FillAndExpand" Size="18"
+                   VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
+            </Grid>
         </Grid>
         <!--#endregion-->
     </Grid>

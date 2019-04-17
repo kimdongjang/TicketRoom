@@ -187,6 +187,9 @@
     <Compile Update="Views\MainTab\MyPage\NavigationPage.xaml.cs">
       <DependentUpon>NavigationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\MainTab\Popup\PopupTermsList.xaml.cs">
+      <DependentUpon>PopupTermsList.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MainTab\Popup\PopupDelivery.xaml.cs">
       <DependentUpon>PopupDelivery.xaml</DependentUpon>
     </Compile>

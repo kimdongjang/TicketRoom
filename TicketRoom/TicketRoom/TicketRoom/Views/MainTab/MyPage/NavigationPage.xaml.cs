@@ -939,7 +939,6 @@ namespace TicketRoom.Views.MainTab.MyPage
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }, // 결제 은행 , 결제 계좌
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }, // 입금명
                         },
-                        RowSpacing = 0,
                         VerticalOptions = LayoutOptions.Center,
                     };
                     inGrid.Children.Add(product_label_grid, 1, 0);
@@ -1137,7 +1136,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                     account_name_Grid.Children.Add(account_name_label, 1, 0);
                     product_label_grid.Children.Add(account_name_Grid, 0, 4);
                     #endregion
-                }                  
+                }
             }
 
             // 입금대기중인 결제건이 없을 경우

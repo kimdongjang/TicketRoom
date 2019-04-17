@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Rg.Plugins.Popup.Services;
+using System;
 using System.IO;
 using TicketRoom.Models.PointData;
 using TicketRoom.Views.MainTab.MyPage;
 using TicketRoom.Views.MainTab.MyPage.Point;
+using TicketRoom.Views.MainTab.Popup;
 using TicketRoom.Views.Users.Login;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -191,6 +193,15 @@ namespace TicketRoom.Views.MainTab
                         }
                         await Navigation.PushAsync(new PointCheckPage());
                     }
+                })
+            });
+
+
+            TermsListBtn.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(() =>
+                {
+                    PopupNavigation.PushAsync(new PopupTermsList());
                 })
             });
         }
