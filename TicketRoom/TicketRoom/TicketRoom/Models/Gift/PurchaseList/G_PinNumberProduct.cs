@@ -29,7 +29,5 @@ namespace TicketRoom.Models.Gift.PurchaseList
         public string PIN_GC_ISUSED { get; set; } // 사용여부(1:사용안함, 2: 사용함 , 3: 사용대기 
         [JsonProperty("PL_NUM")]
         public string PL_NUM { get; set; } // 구매리스트번호
-        [JsonProperty("PIN_STATE")]
-        public string PIN_STATE { get; set; } // 1: 구매 대기 2:배송/발송 완료 3: 구매실패(시스템에러)
     }
 }

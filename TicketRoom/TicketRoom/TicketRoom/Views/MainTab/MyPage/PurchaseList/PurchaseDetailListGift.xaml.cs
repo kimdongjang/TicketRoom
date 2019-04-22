@@ -24,6 +24,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
         string pl_index = "";
         G_PinNumberProduct pinData = null;
+        G_PurchaseListDetail p_detail = null;
         private object purchaseList;
         int delivery_pay = 3000; //배송비
 
@@ -34,11 +35,12 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             Init();
         }
 
-        public PurchaseDetailListGift(string pl_index, G_PinNumberProduct pinData) // 핀번호 생성자
+        public PurchaseDetailListGift(string pl_index, G_PurchaseListDetail p_detail) // 핀번호 생성자
         {
             InitializeComponent();
             this.pl_index = pl_index;
-            this.pinData = pinData;
+            this.p_detail = p_detail;
+            //this.pinData = pinData;
             Init();
 
         }
@@ -694,8 +696,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             // 핀 번호 일경우
             else if (productlist[0].PDL_PROTYPE == "2")
             {
-                string prostatestring = Global.StateToString(pinData.PIN_STATE);
-                input_pay_stateLabel.Text = prostatestring;
+                //string prostatestring = Global.StateToString(pinData.PIN_STATE);
+                //input_pay_stateLabel.Text = prostatestring;
 
             }
             pay_stateGrid.Children.Add(input_pay_stateLabel, 1, 0);

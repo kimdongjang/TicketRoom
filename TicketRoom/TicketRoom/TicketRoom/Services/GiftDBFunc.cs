@@ -174,6 +174,46 @@ namespace TicketRoom.Services
             }
         }
 
+        // 구매 상세 내역 가져오기
+        public List<G_PurchaseListDetail> SearchGfitDetailListToPlnumForPIN(string plnum)
+        {
+            List<G_PurchaseListDetail> test = new List<G_PurchaseListDetail>();
+            string str = @"{";
+            str += "plnum:'" + plnum;  //아이디찾기에선 Name으로 
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            //request.Method = "POST";
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchGfitDetailListToPlnumForPIN") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            //request.Expect = "application/json";
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var readdata = reader.ReadToEnd();
+                    if (readdata != null && readdata != "")
+                    {
+                        test = JsonConvert.DeserializeObject<List<G_PurchaseListDetail>>(readdata);
+                        return test;
+                    }
+                }
+            }
+            return test;
+        }
 
         // 핀 번호 목록 가져오기
         public List<G_PinNumberProduct> PostSearchPinGfitCardListToPlnum(string plnum)

@@ -46,7 +46,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
         // 유저 아이디를 통해 상품권 구매리스트 가져오기
         public void PostSearchPurchaseListToIDAsync(string userid, int year, int mon, int day)
         {
-            #region 네트워크 상태 확인
+            #region 네트워크 상태 불가
             var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
             if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
@@ -113,10 +113,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             for (int i = 0; i < purchaselist.Count; i++)
             {
                 List<PLProInfo> productlist = new List<PLProInfo>();
-                List<G_PinNumberProduct> pinlist = new List<G_PinNumberProduct>();
+                List<G_PurchaseListDetail> detail_list = new List<G_PurchaseListDetail>();
                 productlist = giftDBFunc.SearchPurchaseListToPlnum(purchaselist[i].PL_NUM.ToString()); // 구매내역 가져오기
 
-                pinlist = giftDBFunc.PostSearchPinGfitCardListToPlnum(purchaselist[i].PL_NUM.ToString()); // 핀번호 관련 정보 가져오기
+                detail_list = giftDBFunc.SearchGfitDetailListToPlnumForPIN(purchaselist[i].PL_NUM.ToString()); // 핀번호 관련 구매 상세 내역 가져오기
 
                 #region 전체 그리드
                 MainGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -396,7 +396,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                             Margin = new Thickness(5, 5, 5, 5),
                             RowSpacing = 0,
                             ColumnSpacing = 0,
-                            BindingContext = pinlist[pin_index].PIN_GC_NUM, // 총 주문 번호 인덱스 (ex, 333번)를 통해 각 pin번호 그리드 마다 핀번호 테이블에서 주문번호와 일치하는 상태값 조회
+
+                            BindingContext = detail_list[pin_index].PDL_PINNUM, // 총 주문 번호 인덱스 (ex, 333번)를 통해 각 pin번호 그리드 마다 핀번호 테이블에서 주문번호와 일치하는 상태값 조회
                         };
                         pin_area_row_grid.Children.Add(inGrid, 0, pin_product_row);
                         pin_product_row++;
@@ -449,7 +450,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                         #region 가격 내용 Label
                         CustomLabel price_label = new CustomLabel
                         {
-                            Text = int.Parse(productlist[j].PDL_PRICE).ToString("N0") + "원",
+                            Text = int.Parse(detail_list[pin_index].PDL_PRICE).ToString("N0") + "원",
                             Size = 14,
                             TextColor = Color.Gray,
                         };
@@ -458,7 +459,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
 
                         #region 상품별 구매 상태
-                        string prostatestring = Global.StateToString(pinlist[pin_index].PIN_STATE);
+                        string prostatestring = Global.StateToString(detail_list[pin_index].PDL_PIN_STATE);
 
                         // 핀번호의 구매 상태
                         CustomLabel prostatusLabel = new CustomLabel
@@ -488,11 +489,11 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                                     return;
                                 }
                                 PurchaseListPage.isOpenPage = true;
-                                for(int k = 0; k<pinlist.Count; k++)
+                                for(int k = 0; k< detail_list.Count; k++)
                                 {
-                                    if (pinlist[k].PIN_GC_NUM.ToString() == s.ToString())
+                                    if (detail_list[k].PDL_PIN_STATE.ToString() == s.ToString())
                                     {
-                                        Navigation.PushAsync(new PurchaseDetailListGift(orderBtn.BindingContext.ToString(), pinlist[k])); // 주문번호
+                                        Navigation.PushAsync(new PurchaseDetailListGift(orderBtn.BindingContext.ToString(), detail_list[k])); // 주문번호
                                         break;
                                     }
                                 }
