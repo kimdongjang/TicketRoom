@@ -17,7 +17,7 @@ namespace TicketRoom.Models.Gift.PurchaseList
         public string PRODUCTIMAGE { get; set; } // 상품 이미지
         [JsonProperty("PDL_PROCOUNT")]
         public string PDL_PROCOUNT { get; set; } // 상품 수량
-        [JsonProperty("PDL_ALLPRICE")]
-        public string PDL_ALLPRICE { get; set; } // 상품 총가격
+        [JsonProperty("PDL_PRICE")]
+        public string PDL_PRICE { get; set; } // 상품 가격
     }
 }

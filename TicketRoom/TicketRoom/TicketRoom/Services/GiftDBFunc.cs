@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using TicketRoom.Models.Gift;
+using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Models.Gift.PurchaseList;
 using TicketRoom.Models.Gift.SaleList;
 using TicketRoom.Models.Users;
@@ -38,6 +39,99 @@ namespace TicketRoom.Services
             return _instance;
         }
 
+
+        public List<PLProInfo> SearchPurchaseListToPlnum(string plnum)
+        {
+            List<PLProInfo> productlist = new List<PLProInfo>();
+            //구매내역 가져오기
+            string str = @"{";
+            str += "plnum : '" + plnum;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPurchaseListToPlnum") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        if (readdata != null && readdata != "")
+                        {
+                            productlist = JsonConvert.DeserializeObject<List<PLProInfo>>(readdata);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            return productlist;
+        }
+
+        // 상품권 할인 후 가격 가져오기(장바구니->주문시 최신가격갱신을 위해)
+        public string PostSelectGiftDiscountPriceToIndex(string product_index)
+        {
+            try
+            {
+                string str = @"{";
+                str += "product_index:'" + product_index;  //아이디찾기에선 Name으로 
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                //request.Method = "POST";
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SelectGiftDiscountPriceToIndex") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                //request.Expect = "application/json";
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        var readdata = reader.ReadToEnd();
+                        string test = JsonConvert.DeserializeObject<string>(readdata);
+                        return test;
+                    }
+                }
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        // 유저 포인트 가져오기
         public string PostSelectUserPoint(string user_id)
         {
             try
@@ -79,6 +173,49 @@ namespace TicketRoom.Services
                 return "";
             }
         }
+
+
+        // 핀 번호 목록 가져오기
+        public List<G_PinNumberProduct> PostSearchPinGfitCardListToPlnum(string plnum)
+        {
+            List<G_PinNumberProduct> test = new List<G_PinNumberProduct>();
+            string str = @"{";
+            str += "plnum:'" + plnum;  //아이디찾기에선 Name으로 
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            //request.Method = "POST";
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPinGfitCardListToPlnum") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            //request.Expect = "application/json";
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode != HttpStatusCode.OK)
+                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var readdata = reader.ReadToEnd();
+                    if (readdata != null && readdata != "")
+                    {
+                        test = JsonConvert.DeserializeObject<List<G_PinNumberProduct>>(readdata);
+                        return test;
+                    }
+                }
+            }
+            return test;
+        }
+
 
         public List<ADRESS> ShowUserAddrlist(string user_id)
         {
@@ -462,9 +599,9 @@ namespace TicketRoom.Services
             return purchaselist;
         }
 
-        public List<G_PLInfo> SearchPurchaseListToID(string userid, int year, int mon, int day)
+        public List<G_PurchaseList> SearchPurchaseListToID(string userid, int year, int mon, int day)
         {
-            List<G_PLInfo> purchaselist = new List<G_PLInfo>();
+            List<G_PurchaseList> purchaselist = new List<G_PurchaseList>();
             string str = @"{";
             str += "userid : '" + userid;
             str += "',year:'" + year;
@@ -500,7 +637,7 @@ namespace TicketRoom.Services
                         var readdata = reader.ReadToEnd();
                         if (readdata != null && readdata != "")
                         {
-                            purchaselist = JsonConvert.DeserializeObject<List<G_PLInfo>>(readdata);
+                            purchaselist = JsonConvert.DeserializeObject<List<G_PurchaseList>>(readdata);
                         }
                     }
                 }
@@ -512,7 +649,7 @@ namespace TicketRoom.Services
             return purchaselist;
         }
         // 유저 아이디를 통해 상품권 구매리스트 가져오기
-        public List<G_PLInfo> SearchPurchaseDetailToPlNum(string pl_num)
+        public List<G_PurchaseList> SearchPurchaseDetailToPlNum(string pl_num)
         {
             try
             {
@@ -546,7 +683,7 @@ namespace TicketRoom.Services
                         var readdata = reader.ReadToEnd();
                         if (readdata != null && readdata != "")
                         {
-                            List<G_PLInfo> pdlist = JsonConvert.DeserializeObject<List<G_PLInfo>>(readdata);
+                            List<G_PurchaseList> pdlist = JsonConvert.DeserializeObject<List<G_PurchaseList>>(readdata);
                             return pdlist;
                         }
                     }
@@ -561,52 +698,5 @@ namespace TicketRoom.Services
             }
         }
 
-        public List<PLProInfo> SearchPurchaseListToPlnum(string pl_num)
-        {
-            List<PLProInfo> productlist = new List<PLProInfo>();
-            //구매내역 가져오기
-            string str = @"{";
-            str += "plnum : '" + pl_num;
-            str += "'}";
-
-            //// JSON 문자열을 파싱하여 JObject를 리턴
-            JObject jo = JObject.Parse(str);
-
-            UTF8Encoding encoder = new UTF8Encoding();
-            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPurchaseListToPlnum") as HttpWebRequest;
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-
-            request.GetRequestStream().Write(data, 0, data.Length);
-
-
-            try
-            {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                {
-
-                    if (response.StatusCode != HttpStatusCode.OK)
-                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-
-                        // readdata
-                        var readdata = reader.ReadToEnd();
-                        if (readdata != null && readdata != "")
-                        {
-                            productlist = JsonConvert.DeserializeObject<List<PLProInfo>>(readdata);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
-            return productlist;
-        }
     }
 }

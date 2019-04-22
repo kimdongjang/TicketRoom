@@ -137,66 +137,63 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             }
         }
 
-        private async void DoPurchase_Clicked(object sender, EventArgs e)
+        private void DoPurchase_Clicked(object sender, EventArgs e)
         {
+            G_TempBasketProduct tempBasket = new G_TempBasketProduct();
             if (Global.isgiftpurchasepage_clieck)
             {
                 Global.isgiftpurchasepage_clieck = false;
                 if (int.Parse(Count_label.Text) == 0)
                 {
-                    await DisplayAlert("알림", "수량을 입력해주세요", "OK");
+                    DisplayAlert("알림", "수량을 입력해주세요", "OK");
                     Global.isgiftpurchasepage_clieck = true;
                     return;
                 }
-
-                List<G_PurchasedetailInfo> g_PurchasedetailInfos = new List<G_PurchasedetailInfo>();
                 if (prepaymentradio.Source.ToString().Contains("radio_checked_icon.png"))
                 {
-                    G_PurchasedetailInfo g_PurchasedetailInfo = new G_PurchasedetailInfo
+                    tempBasket = new G_TempBasketProduct
                     {
+                        PDL_NAME = Pro_Name.Text,
                         PDL_PRONUM = productInfo.PRONUM,
-                        PDL_PROCOUNT = Count_label.Text,
                         PDL_PROTYPE = "1",
-                        PDL_ALLPRICE = (int.Parse(productInfo.PURCHASEDISCOUNTPRICE) * int.Parse(Count_label.Text)).ToString(),
+                        PDL_PRICE = (int.Parse(productInfo.PURCHASEDISCOUNTPRICE)).ToString(), // 상품가격
+                        PDL_COUNT = Count_label.Text,
                         PRODUCT_IMAGE = productInfo.PRODUCTIMAGE,
-                        PRODUCT_TYPE = productInfo.PRODUCTTYPE,
-                        PRODUCT_VALUE = productInfo.PRODUCTVALUE
                     };
-                    g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
                 }
                 else
                 {
-                    G_PurchasedetailInfo g_PurchasedetailInfo = new G_PurchasedetailInfo
+                    tempBasket = new G_TempBasketProduct
                     {
+                        PDL_NAME = Pro_Name.Text,
                         PDL_PRONUM = productInfo.PRONUM,
-                        PDL_PROCOUNT = Count_label.Text,
                         PDL_PROTYPE = "2",
-                        PDL_ALLPRICE = (int.Parse(productInfo.PURCHASEDISCOUNTPRICE) * int.Parse(Count_label.Text)).ToString(),
+                        PDL_PRICE = (int.Parse(productInfo.PURCHASEDISCOUNTPRICE)).ToString(), // 상품가격
+                        PDL_COUNT = Count_label.Text,
                         PRODUCT_IMAGE = productInfo.PRODUCTIMAGE,
-                        PRODUCT_TYPE = productInfo.PRODUCTTYPE,
-                        PRODUCT_VALUE = productInfo.PRODUCTVALUE
                     };
-                    g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
                 }
 
+
                 // 로딩 시작
-                await Global.LoadingStartAsync();
+                //await Global.LoadingStartAsync();
 
                 #region 네트워크 상태 확인
                 var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
                 if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
                 {
-                    await Navigation.PushAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
+                    Navigation.PushAsync(new PurchaseDetailPage(tempBasket));
                 }
                 else
                 {
-                    await DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                    DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
                 }
                 #endregion
 
 
+
                 // 로딩 완료
-                await Global.LoadingEndAsync();
+                //await Global.LoadingEndAsync();
             }
 
             #region Enable 처리로 더블 클릭 막기 -단점 버튼 텍스트가 지워짐

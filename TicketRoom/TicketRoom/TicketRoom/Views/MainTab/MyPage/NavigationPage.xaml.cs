@@ -22,7 +22,7 @@ namespace TicketRoom.Views.MainTab.MyPage
         GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
         PointDBFunc pointDBFunc = PointDBFunc.Instance();
         UserDBFunc UserDB = UserDBFunc.Instance();
-        List<G_PLInfo> purchaselist = new List<G_PLInfo>();
+        List<G_PurchaseList> purchaselist = new List<G_PurchaseList>();
         List<PT_Charge> chargelist = new List<PT_Charge>();
         List<PT_WithDraw> withdrawlist = new List<PT_WithDraw>();
 
@@ -167,7 +167,7 @@ namespace TicketRoom.Views.MainTab.MyPage
             {
                 
                 List<PLProInfo> productlist = giftDBFunc.SearchPurchaseListToPlnum(purchaselist[i].PL_NUM.ToString()); // 상품 리스트
-                List<G_PLInfo> account_List= giftDBFunc.SearchPurchaseDetailToPlNum(purchaselist[i].PL_NUM.ToString()); // 결제 관련 리스트
+                List<G_PurchaseList> account_List= giftDBFunc.SearchPurchaseDetailToPlNum(purchaselist[i].PL_NUM.ToString()); // 결제 관련 리스트
 
 
                 if (int.Parse(account_List[0].PL_ISSUCCESS) == 1) // 입금 대기중인 상태의 결제 내역만 보여줌
