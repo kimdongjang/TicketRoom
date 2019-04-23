@@ -26,7 +26,6 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
         GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
         List<G_PurchaseList> purchaselist = new List<G_PurchaseList>();
 
-        bool isPaperPurchase = false;
 
         public PurchaseListGift(PurchaseListPage plp)
         {
@@ -112,6 +111,9 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
             for (int i = 0; i < purchaselist.Count; i++)
             {
+                bool isPaperPurchase = false;
+                bool isPinPurchase = false;
+
                 List<PLProInfo> productlist = new List<PLProInfo>();
                 List<G_PurchaseListDetail> detail_list = new List<G_PurchaseListDetail>();
                 productlist = giftDBFunc.SearchPurchaseListToPlnum(purchaselist[i].PL_NUM.ToString()); // 구매내역 가져오기
@@ -144,6 +146,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     RowSpacing = 0,
                     Margin = new Thickness(15),
                     BackgroundColor = Color.White,
+                    BindingContext = purchaselist[i].PL_NUM,
                 };
                 // 그리드를 감싸는 구분선 정의 및 구매내역 그리드 정의
                 MainGrid.Children.Add(row_boxview, 0, i);
@@ -175,6 +178,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 BoxView orderLine = new BoxView { BackgroundColor = Color.LightGray };
                 row_Grid.Children.Add(orderLine, 0, 1);
 
+                #endregion
                 // =========================================================
                 // 주문 번호 밑, 지류 라벨 및 상태보기 행  ( 2번 )
                 Grid paper_area_grid = new Grid
@@ -199,36 +203,18 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 };
                 paper_area_grid.Children.Add(paper_area_label, 0, 0);
 
-                // 지류 관련 상세보기 버튼
-                BoxView orderBtnLine = new BoxView { BackgroundColor = Color.LightGray };
-                CustomButton orderBtn = new CustomButton
-                {
-                    Text = "주문상세",
-                    BackgroundColor = Color.White,
-                    TextColor = Color.CornflowerBlue,
-                    Size = 16,
-                    Margin = 2,
-                    BindingContext = purchaselist[i].PL_NUM
-                };
-                paper_area_grid.Children.Add(orderBtnLine, 2, 0);
-                paper_area_grid.Children.Add(orderBtn, 2, 0);
-
-                // 상세보기 버튼 이벤트
-                orderBtn.Clicked += (object sender, EventArgs e) =>
-                {
-                    System.Diagnostics.Debug.WriteLine("ta");
-                    // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
-                    if (PurchaseListPage.isOpenPage == true)
-                    {
-                        return;
-                    }
-                    PurchaseListPage.isOpenPage = true;
-
-                    Navigation.PushAsync(new PurchaseDetailListGift(orderBtn.BindingContext.ToString()));
-                };
-
-                #endregion
-
+                //// 지류 관련 상세보기 버튼
+                //BoxView orderBtnLine = new BoxView { BackgroundColor = Color.LightGray };
+                //CustomButton orderBtn = new CustomButton
+                //{
+                //    Text = "주문상세",
+                //    BackgroundColor = Color.White,
+                //    TextColor = Color.CornflowerBlue,
+                //    Size = 16,
+                //    Margin = 2,
+                //};
+                //paper_area_grid.Children.Add(orderBtnLine, 2, 0);
+                //paper_area_grid.Children.Add(orderBtn, 2, 0);
 
                 // =========================================================
 
@@ -274,7 +260,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 int pin_index = 0; // pin 번호 찾기 위한 인덱스
                 
                 #region 주문 번호로 감싸는 실제 구매 내역
-                for (int j = 0; j < productlist.Count; j++)
+                for (int j = 0; j < productlist.Count; j++, pin_index++)
                 {
                     // 지류일 경우 1번 행 밑에 추가
                     if (productlist[j].PDL_PROTYPE == "1" && isPaperPurchase == false)
@@ -347,14 +333,14 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                         product_label_grid.Children.Add(pro_label, 0, 0);
                         #endregion
 
-                        #region 상품 개수(지류,핀번호) Label
+                        #region 상품 가격 + 개수(지류,핀번호) Label
                         CustomLabel type_label = null;
 
                         if (productlist[j].PDL_PROTYPE.Equals("1"))
                         {
                             type_label = new CustomLabel
                             {
-                                Text = purchaselist[i].PL_PAPER_COUNT + "개 (지류)",
+                                Text = int.Parse(purchaselist[i].PL_PAYMENT_PRICE).ToString("N0") + "원" + " / " + purchaselist[i].PL_PAPER_COUNT + "개 (지류)",
                                 Size = 14,
                                 TextColor = Color.DarkGray,
                             };
@@ -362,14 +348,41 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                         product_label_grid.Children.Add(type_label, 0, 1);
 
                         #endregion
-                        #region 가격 내용 Label
+                        #region 구매 상태
+                        string prostatestring = Global.StateToString(purchaselist[i].PL_ISSUCCESS);
                         CustomLabel price_label = new CustomLabel
                         {
-                            Text = int.Parse(purchaselist[i].PL_PAYMENT_PRICE).ToString("N0") + "원",
+                            Text = prostatestring,
                             Size = 14,
                             TextColor = Color.Gray,
                         };
                         product_label_grid.Children.Add(price_label, 0, 3);
+
+                        // 구매 상태에 따라 핀번호 색상 변경
+                        if (prostatestring == "구매대기") { price_label.TextColor = Color.Orange; }
+                        else if (prostatestring == "구매중") { price_label.TextColor = Color.Orange; }
+                        else if (prostatestring == "구매실패") { price_label.TextColor = Color.Red; }
+                        else if (prostatestring == "구매완료") { price_label.TextColor = Color.Blue; }
+                        #endregion
+
+
+                        #region inGrid 지류 상세보기 클릭 이벤트
+                        inGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+                        {
+                            Command = new Command(() =>
+                            {
+                                var s = inGrid.BindingContext;
+
+                                // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
+                                if (PurchaseListPage.isOpenPage == true)
+                                {
+                                    return;
+                                }
+                                PurchaseListPage.isOpenPage = true;
+                                Navigation.PushAsync(new PurchaseDetailListGift(row_Grid.BindingContext.ToString()));
+
+                            })
+                        });
                         #endregion
                     }
 
@@ -379,6 +392,8 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     // 핀번호일 경우 3번 행 밑에 추가
                     else if (productlist[j].PDL_PROTYPE == "2")
                     {
+                        isPinPurchase = true; // 핀으로 구매한 상품이 하나라도 있다면 true
+
                         pin_area_row_grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                         pin_area_row_grid.RowDefinitions.Add(new RowDefinition { Height = 3 });
 
@@ -491,9 +506,9 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                                 PurchaseListPage.isOpenPage = true;
                                 for(int k = 0; k< detail_list.Count; k++)
                                 {
-                                    if (detail_list[k].PDL_PIN_STATE.ToString() == s.ToString())
+                                    if (detail_list[k].PDL_PINNUM.ToString() == s.ToString())
                                     {
-                                        Navigation.PushAsync(new PurchaseDetailListGift(orderBtn.BindingContext.ToString(), detail_list[k])); // 주문번호
+                                        Navigation.PushAsync(new PurchaseDetailListGift(row_Grid.BindingContext.ToString(), detail_list[k])); // 주문번호
                                         break;
                                     }
                                 }
@@ -501,8 +516,65 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                             })
                         });
                         #endregion
+
+                        
                     }
                 }
+                #endregion
+
+                #region 지류 , 핀 구매내역 없다는 라벨 표시
+                if(isPaperPurchase == false) // 지류 구매 내역이 1개도 없을 경우 에러 라벨 표시
+                {
+                    paper_area_row_grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    CustomLabel null_paper_label = new CustomLabel
+                    {
+                        Text = "구매한 지류 내역이 없습니다!",
+                        Size = 14,
+                        TextColor = Color.Black,
+                        VerticalOptions = LayoutOptions.Center,
+                        HorizontalOptions = LayoutOptions.Center,
+                        Margin = new Thickness(0, 10, 0, 10),
+                    };
+                    paper_area_row_grid.Children.Add(null_paper_label, 0, 0);
+                }
+                else if(isPinPurchase == false) // 핀 구매 내역이 1개도 없을 경우 에러 라벨 표시
+                {
+                    pin_area_row_grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    CustomLabel null_paper_label = new CustomLabel
+                    {
+                        Text = "구매한 핀번호 내역이 없습니다!",
+                        Size = 14,
+                        TextColor = Color.Black,
+                        VerticalOptions = LayoutOptions.Center,
+                        HorizontalOptions = LayoutOptions.Center,
+                        Margin = new Thickness(0, 10, 0, 10),
+                    };
+                    pin_area_row_grid.Children.Add(null_paper_label, 0, 0);
+                }
+                #endregion
+
+                #region 지류 관련 상세보기 버튼 이벤트
+                //if (isPaperPurchase == true) // 지류 목록이 추가되었다면
+                //{
+                //    // 상세보기 버튼 이벤트
+                //    orderBtn.Clicked += (object sender, EventArgs e) =>
+                //    {
+                //        System.Diagnostics.Debug.WriteLine("ta");
+                //        // 탭을 한번 클릭했다면 다시 열리지 않도록 제어
+                //        if (PurchaseListPage.isOpenPage == true)
+                //        {
+                //            return;
+                //        }
+                //        PurchaseListPage.isOpenPage = true;
+
+                //        Navigation.PushAsync(new PurchaseDetailListGift(orderBtn.BindingContext.ToString()));
+                //    };
+                //}
+                //else // 지류 목록이 추가되지 않았다면 안보이게 처리
+                //{
+                //    orderBtn.IsVisible = false;
+                //    orderBtnLine.IsVisible = false;
+                //}
                 #endregion
 
                 BoxView dateLine = new BoxView { BackgroundColor = Color.LightGray };
@@ -522,7 +594,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 };
                 CustomLabel dateLabel = new CustomLabel
                 {
-                    Text = purchaselist[i].PL_PURCHASE_DATE, // 구매 날짜
+                    Text = "구매 시각 " + purchaselist[i].PL_PURCHASE_DATE, // 구매 날짜
                     Size = 14,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,

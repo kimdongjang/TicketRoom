@@ -163,22 +163,23 @@ namespace TicketRoom.Views.MainTab.MyPage
             #endregion
 
             int success_count = 0; // 입금해야할 내역 수량 카운트
+            int row = 0;
             for (int i = 0; i < purchaselist.Count; i++)
             {
                 
                 List<PLProInfo> productlist = giftDBFunc.SearchPurchaseListToPlnum(purchaselist[i].PL_NUM.ToString()); // 상품 리스트
-                List<G_PurchaseList> account_List= giftDBFunc.SearchPurchaseDetailToPlNum(purchaselist[i].PL_NUM.ToString()); // 결제 관련 리스트
+                List<G_PurchaseList> account_List = giftDBFunc.SearchPurchaseDetailToPlNum(purchaselist[i].PL_NUM.ToString()); // 결제 관련 리스트
 
 
                 if (int.Parse(account_List[0].PL_ISSUCCESS) == 1) // 입금 대기중인 상태의 결제 내역만 보여줌
                 {
                     success_count++;
                     #region 전체 그리드
-                    PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = 120 });
+                    PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
                     // 구분선 추가
                     BoxView row_boxview = new BoxView { BackgroundColor = Color.CornflowerBlue, Opacity = 0.5};
-                    PurchaseListGrid.Children.Add(row_boxview, 0, success_count);
+                    PurchaseListGrid.Children.Add(row_boxview, 0, row);
 
 
                     Grid inGrid = new Grid
@@ -192,8 +193,8 @@ namespace TicketRoom.Views.MainTab.MyPage
                         },
                         VerticalOptions = LayoutOptions.Center,
                     };
-                    PurchaseListGrid.Children.Add(inGrid, 0, success_count);
-
+                    PurchaseListGrid.Children.Add(inGrid, 0, row);
+                    row++;
 
                     #region 상품 이미지
                     CachedImage product_image = new CachedImage
@@ -222,7 +223,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }, // 결제 은행 , 결제 계좌
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }, // 입금명
                         },
-                        RowSpacing = 0,
+                        RowSpacing = 2,
                         VerticalOptions = LayoutOptions.Center,
                     };
                     inGrid.Children.Add(product_label_grid, 1, 0);
@@ -235,7 +236,8 @@ namespace TicketRoom.Views.MainTab.MyPage
                         ColumnDefinitions =
                         {
                             new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
-                            new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
+                            new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
+                            new ColumnDefinition { Width = new GridLength(4, GridUnitType.Star) },
                         },
                         VerticalOptions = LayoutOptions.Center,
                     };
@@ -259,8 +261,17 @@ namespace TicketRoom.Views.MainTab.MyPage
                         TextColor = Color.Black,
                         VerticalOptions = LayoutOptions.Center,
                     };
+
+                    CustomLabel status_label = new CustomLabel
+                    {
+                        Text = Global.StateToString(purchaselist[i].PL_ISSUCCESS.ToString()),
+                        Size = 12,
+                        TextColor = Color.Orange,
+                        VerticalOptions = LayoutOptions.Center,
+                    };
                     num_Grid.Children.Add(num_card, 0, 0);
                     num_Grid.Children.Add(num_label, 1, 0);
+                    num_Grid.Children.Add(status_label, 2, 0);
                     product_label_grid.Children.Add(num_Grid, 0, 0);
                     #endregion
 
@@ -326,7 +337,7 @@ namespace TicketRoom.Views.MainTab.MyPage
 
                     CustomLabel price_label = new CustomLabel
                     {
-                        Text = int.Parse(account_List[0].PL_PAYMENT_PRICE).ToString("N0") + "원",
+                        Text = int.Parse(account_List[0].PL_PAYMENT_PRICE).ToString("N0") + "원",                    
                         Size = 12,
                         TextColor = Color.Black,
                         VerticalOptions = LayoutOptions.Center,
@@ -369,6 +380,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                             CustomLabel account_label = new CustomLabel
                             {
                                 Text = "[" + AccountValue[k].AC_BANKNAME + "] " + AccountValue[k].AC_ACCOUNTNUM,
+                                MaxLines = 1,
                                 Size = 12,
                                 TextColor = Color.Black,
                                 VerticalTextAlignment = TextAlignment.Center,
@@ -526,7 +538,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                 {
                     success_count++;
                     #region 전체 그리드
-                    PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = 120 });
+                    PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
                     // 구분선 추가
                     BoxView row_boxview = new BoxView { BackgroundColor = Color.CornflowerBlue, Opacity = 0.5 };
@@ -574,7 +586,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }, // 결제 은행 , 결제 계좌
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }, // 입금명
                         },
-                        RowSpacing = 0,
+                        RowSpacing = 2,
                         VerticalOptions = LayoutOptions.Center,
                     };
                     inGrid.Children.Add(product_label_grid, 1, 0);
@@ -733,6 +745,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                             CustomLabel account_label = new CustomLabel
                             {
                                 Text = "[" + AccountValue[k].AC_BANKNAME + "] " + AccountValue[k].AC_ACCOUNTNUM,
+                                MaxLines = 1,
                                 Size = 12,
                                 TextColor = Color.Black,
                                 VerticalTextAlignment = TextAlignment.Center,
@@ -891,7 +904,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                 {
                     success_count++;
                     #region 전체 그리드
-                    PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = 120 });
+                    PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
                     // 구분선 추가
                     BoxView row_boxview = new BoxView { BackgroundColor = Color.CornflowerBlue, Opacity = 0.5 };
@@ -939,6 +952,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }, // 결제 은행 , 결제 계좌
                             new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }, // 입금명
                         },
+                        RowSpacing = 2,
                         VerticalOptions = LayoutOptions.Center,
                     };
                     inGrid.Children.Add(product_label_grid, 1, 0);
@@ -1089,6 +1103,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                     CustomLabel account_label = new CustomLabel
                     {
                         Text = "[" + withdrawlist[i].PT_WITHDRAW_BANK + "] " + withdrawlist[i].PT_WITHDRAW_ACCOUNT,
+                        MaxLines = 1,
                         Size = 12,
                         TextColor = Color.Black,
                         VerticalTextAlignment = TextAlignment.Center,

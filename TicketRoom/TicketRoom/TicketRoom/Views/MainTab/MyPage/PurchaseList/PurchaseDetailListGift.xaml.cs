@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Models.Gift.PurchaseList;
+using TicketRoom.Models.Users;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -21,11 +22,11 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
     {
         List<G_PurchaseList> purchaselist = new List<G_PurchaseList>();
         List<PLProInfo> productlist = new List<PLProInfo>();
+        List<AccountInfo> accountlist = new List<AccountInfo>();
 
-        string pl_index = "";
         G_PinNumberProduct pinData = null;
-        G_PurchaseListDetail p_detail = null;
-        private object purchaseList;
+        G_PurchaseListDetail product_detail = null;
+        string pl_index = "";
         int delivery_pay = 3000; //배송비
 
         public PurchaseDetailListGift(string pl_index)
@@ -39,7 +40,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
         {
             InitializeComponent();
             this.pl_index = pl_index;
-            this.p_detail = p_detail;
+            this.product_detail = p_detail;
             //this.pinData = pinData;
             Init();
 
@@ -58,8 +59,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             }
             #endregion
 
+            SearchAccountList();
             SearchPurchaseDetailToPlNum(pl_index);
             SearchPurchaseListToPlNum(pl_index);
+            if(product_detail != null) { SearchPinListToPlNum(product_detail.PDL_PINNUM); }            
             ListInit();
             NavigationInit();
         }
@@ -82,7 +85,25 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             });
         }
 
-        // 유저 아이디를 통해 상품권 구매리스트 가져오기
+        // 계좌 리스트 검색
+        public void SearchAccountList()
+        {
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+                accountlist = null;
+                return;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                accountlist = UserDBFunc.Instance().GetSelectAllAccount();
+            }
+            #endregion
+        }
+        // 구매 번호를 통해 핀번호 관련 상세구매리스트 가져오기
         public void SearchPurchaseDetailToPlNum(string pl_num)
         {
             #region 네트워크 상태 확인
@@ -141,6 +162,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             #endregion
         }
 
+        // 구매 번호를 통해 구매리스트 가져오기
         public void SearchPurchaseListToPlNum(string pl_num)
         {
             #region 네트워크 상태 확인
@@ -200,8 +222,70 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             #endregion
         }
 
+        // 핀 상품번호를 통해 핀번호리스트 가져오기
+        public void SearchPinListToPlNum(string plnum)
+        {
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+                DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
+                productlist = null;
+                return;
+            }
+            #endregion
+            #region 네트워크 연결 가능
+            else
+            {
+                //구매내역 가져오기
+                string str = @"{";
+                str += "plnum : '" + plnum;
+                str += "'}";
+
+                //// JSON 문자열을 파싱하여 JObject를 리턴
+                JObject jo = JObject.Parse(str);
+
+                UTF8Encoding encoder = new UTF8Encoding();
+                byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "SearchPinListToPlNum") as HttpWebRequest;
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                request.ContentLength = data.Length;
+
+                request.GetRequestStream().Write(data, 0, data.Length);
+
+
+                try
+                {
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    {
+
+                        if (response.StatusCode != HttpStatusCode.OK)
+                            Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            // readdata
+                            var readdata = reader.ReadToEnd();
+                            if (readdata != null && readdata != "")
+                            {
+                                pinData = JsonConvert.DeserializeObject<G_PinNumberProduct>(readdata);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+            }
+            #endregion
+        }
+
+
         private void ListInit()
         {
+            int coverGridRow = 0;
             #region 네트워크 연결 불가
             if (productlist == null)
             {
@@ -242,7 +326,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 MainGrid.Children.Add(error_label, 0, 0);
                 return;
             }
-            #endregion
+            #endregion.
 
             Grid coverGrid = new Grid { RowSpacing = 0 };
             MainGrid.Children.Add(coverGrid, 0, 0); // 메인 그리드 추가
@@ -257,13 +341,12 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 VerticalOptions = LayoutOptions.CenterAndExpand,
             };
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = 40 });
-            coverGrid.Children.Add(order_numLabel, 0, 0);
+            coverGrid.Children.Add(order_numLabel, 0, coverGridRow++);
             #endregion
-
-
+            
             BoxView borderLine1 = new BoxView { BackgroundColor = Color.LightGray };
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-            coverGrid.Children.Add(borderLine1, 0, 1);
+            coverGrid.Children.Add(borderLine1, 0, coverGridRow++);
 
             #region 상품 이름
             Grid nameGrid = new Grid
@@ -279,7 +362,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             StackLayout nameCover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
             CustomLabel nameLabel = new CustomLabel
             {
-                Text = "상품 이름",
+                Text = "상품이름",
                 Size = 14,
                 TextColor = Color.Gray,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -292,6 +375,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 TextColor = Color.Gray,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
             };
+            if(productlist.Count == 1) // 수량이 1개일 경우 외 ~개 표시 x
+            {
+                input_nameLabel.Text = productlist[0].PRODUCTTYPE + " " + productlist[0].PRODUCTVALUE; 
+            }
 
             nameGrid.Children.Add(nameLine, 0, 0);
             nameGrid.Children.Add(nameCover, 0, 0);
@@ -299,10 +386,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             nameGrid.Children.Add(input_nameLabel, 1, 0);
 
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            coverGrid.Children.Add(nameGrid, 0, 2);
+            coverGrid.Children.Add(nameGrid, 0, coverGridRow++);
             BoxView borderLine2 = new BoxView { BackgroundColor = Color.LightGray };
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-            coverGrid.Children.Add(borderLine2, 0, 3);
+            coverGrid.Children.Add(borderLine2, 0, coverGridRow++);
             #endregion
 
 
@@ -346,12 +433,12 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                     };
                 }
-                // 후불
+                // 착불
                 else
                 {
                     input_delivery_priceLabel = new CustomLabel
                     {
-                        Text = "3000원 / 후불",
+                        Text = "3000원 / 착불",
                         Size = 14,
                         TextColor = Color.Gray,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -362,10 +449,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                 // 구분선
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(delivery_priceGrid, 0, 4);
+                coverGrid.Children.Add(delivery_priceGrid, 0, coverGridRow++);
                 BoxView borderLine3 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine3, 0, 5);
+                coverGrid.Children.Add(borderLine3, 0, coverGridRow++);
                 #endregion
 
                 #region 배송지
@@ -402,10 +489,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                 // 구분선
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(delivery_adressGrid, 0, 6);
+                coverGrid.Children.Add(delivery_adressGrid, 0, coverGridRow++);
                 BoxView borderLine4 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine4, 0, 7);
+                coverGrid.Children.Add(borderLine4, 0, coverGridRow++);
                 #endregion
 
                 #region 배송 연락번호
@@ -442,16 +529,16 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                 // 구분선
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(delivery_phoneGrid, 0, 8);
+                coverGrid.Children.Add(delivery_phoneGrid, 0, coverGridRow++);
                 BoxView borderLine5 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine5, 0, 9);
+                coverGrid.Children.Add(borderLine5, 0, coverGridRow++);
                 #endregion
             }
             // 핀 번호 일경우 배송지 없음. 대신 상품 번호, 발행날짜, 파기날짜 확인
             else if (productlist[0].PDL_PROTYPE == "2")
             {
-                #region 상품 고유 번호
+                #region 핀번호 고유 번호
                 Grid pin_gcnumGrid = new Grid
                 {
                     ColumnDefinitions =
@@ -467,7 +554,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 pin_gcnumGrid.Children.Add(pin_gcnumCover, 0, 0);
                 CustomLabel pin_gcnumLabel = new CustomLabel
                 {
-                    Text = "상품번호",
+                    Text = "고유번호",
                     Size = 14,
                     TextColor = Color.Gray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
@@ -486,13 +573,13 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                 // 구분선
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(pin_gcnumGrid, 0, 4);
+                coverGrid.Children.Add(pin_gcnumGrid, 0, coverGridRow++);
                 BoxView borderLine3 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine3, 0, 5);
+                coverGrid.Children.Add(borderLine3, 0, coverGridRow++);
                 #endregion
 
-                #region 발행날짜
+                #region 사용여부
                 Grid pin_isusedateGrid = new Grid
                 {
                     ColumnDefinitions =
@@ -528,10 +615,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                 // 구분선
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(pin_isusedateGrid, 0, 6);
+                coverGrid.Children.Add(pin_isusedateGrid, 0, coverGridRow++);
                 BoxView borderLine4 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine4, 0, 7);
+                coverGrid.Children.Add(borderLine4, 0, coverGridRow++);
                 #endregion
 
                 #region 파기날짜
@@ -568,10 +655,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                 // 구분선
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(pin_destructGrid, 0, 8);
+                coverGrid.Children.Add(pin_destructGrid, 0, coverGridRow++);
                 BoxView borderLine5 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine5, 0, 9);
+                coverGrid.Children.Add(borderLine5, 0, coverGridRow++);
                 #endregion
 
             }
@@ -601,19 +688,79 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             pay_priceCover.Children.Add(pay_priceLabel);
             CustomLabel input_pay_priceLabel = new CustomLabel
             {
-                Text = int.Parse(purchaselist[0].PL_PAYMENT_PRICE).ToString("N0"),
                 Size = 14,
                 TextColor = Color.Gray,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
             };
             pay_priceGrid.Children.Add(input_pay_priceLabel, 1, 0);
+            if (productlist[0].PDL_PROTYPE == "1") // 지류일 경우 전체 금액
+            {
+                input_pay_priceLabel.Text = int.Parse(purchaselist[0].PL_PAYMENT_PRICE).ToString("N0") + "원";
+            }
+            else if (productlist[0].PDL_PROTYPE == "2") // 핀번호일 경우 각각의 금액
+            {
+                input_pay_priceLabel.Text = int.Parse(product_detail.PDL_PRICE).ToString("N0") + "원";
+            }
 
             // 구분선
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            coverGrid.Children.Add(pay_priceGrid, 0, 10);
+            coverGrid.Children.Add(pay_priceGrid, 0, coverGridRow++);
             BoxView borderLine11 = new BoxView { BackgroundColor = Color.LightGray };
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-            coverGrid.Children.Add(borderLine11, 0, 11);
+            coverGrid.Children.Add(borderLine11, 0, coverGridRow++);
+            #endregion
+
+
+            #region 입금계좌번호 + 입금주 + 입금은행
+            Grid account_num_Grid = new Grid
+            {
+                ColumnDefinitions =
+                    {
+                        new ColumnDefinition { Width = 100 },
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+                    },
+                RowSpacing = 0,
+            };
+            BoxView account_num_Line = new BoxView { BackgroundColor = Color.LightGray };
+            account_num_Grid.Children.Add(account_num_Line, 0, 0);
+            StackLayout account_num_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
+            account_num_Grid.Children.Add(account_num_Cover, 0, 0);
+            CustomLabel account_num_Label = new CustomLabel
+            {
+                Text = "입금계좌번호",
+                Size = 14,
+                TextColor = Color.Gray,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+            };
+            account_num_Cover.Children.Add(account_num_Label);
+            CustomLabel input_account_num_Label = new CustomLabel
+            {   
+                Size = 14,
+                TextColor = Color.Gray,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+            };
+            account_num_Grid.Children.Add(input_account_num_Label, 1, 0);
+
+            AccountInfo accountData = new AccountInfo();
+            // acnum과 일치하는 내역 검색
+            for(int k = 0; k<accountlist.Count; k++)
+            {
+                if(accountlist[k].AC_NUM == purchaselist[0].AC_NUM)
+                {
+                    accountData = accountlist[k];
+                    break;
+                }
+            }
+            // 계좌번호, 은행, 예금주 초기화
+            input_account_num_Label.Text = accountData.AC_ACCOUNTNUM + " [" + accountData.AC_BANKNAME + "] [" + accountData.AC_NAME + "]";
+
+            // 구분선
+            coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            coverGrid.Children.Add(account_num_Grid, 0, coverGridRow++);
+            BoxView accountnumborderLine = new BoxView { BackgroundColor = Color.LightGray };
+            coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
+            coverGrid.Children.Add(accountnumborderLine, 0, coverGridRow++);
             #endregion
 
             #region 사용된 포인트
@@ -650,10 +797,10 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
             // 구분선
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            coverGrid.Children.Add(pay_pointGrid, 0, 12);
+            coverGrid.Children.Add(pay_pointGrid, 0, coverGridRow++);
             BoxView borderLine12 = new BoxView { BackgroundColor = Color.LightGray };
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-            coverGrid.Children.Add(borderLine12, 0, 13);
+            coverGrid.Children.Add(borderLine12, 0, coverGridRow++);
             #endregion
 
             #region 결제상태 지류/핀번호
@@ -696,17 +843,17 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             // 핀 번호 일경우
             else if (productlist[0].PDL_PROTYPE == "2")
             {
-                //string prostatestring = Global.StateToString(pinData.PIN_STATE);
-                //input_pay_stateLabel.Text = prostatestring;
+                string prostatestring = Global.StateToString(product_detail.PDL_PIN_STATE);
+                input_pay_stateLabel.Text = prostatestring;
 
             }
             pay_stateGrid.Children.Add(input_pay_stateLabel, 1, 0);
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            coverGrid.Children.Add(pay_stateGrid, 0, 14);
+            coverGrid.Children.Add(pay_stateGrid, 0, coverGridRow++);
 
             BoxView borderLine13 = new BoxView { BackgroundColor = Color.LightGray };
             coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-            coverGrid.Children.Add(borderLine13, 0, 15);
+            coverGrid.Children.Add(borderLine13, 0, coverGridRow++);
             #endregion
 
 
@@ -773,11 +920,11 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                 // 구분선
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(deliveryNumberGrid, 0, 16);
+                coverGrid.Children.Add(deliveryNumberGrid, 0, coverGridRow++);
 
                 BoxView borderLine14 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine14, 0, 17);
+                coverGrid.Children.Add(borderLine14, 0, coverGridRow++);
             }
             // 핀 번호 일경우 핀번호 보여주기
             else if (productlist[0].PDL_PROTYPE == "2")
@@ -806,21 +953,26 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 pin_gcpin_Cover.Children.Add(pin_gcpin_Label);
                 CustomLabel input_pin_gcpin_Label = new CustomLabel
                 {
-                    Text = pinData.PIN_GC_PINNUM1 + "-" + pinData.PIN_GC_PINNUM2 + "-" + pinData.PIN_GC_PINNUM3 + "-" + pinData.PIN_GC_PINNUM4 + "(" + pinData.PIN_GC_CERTIFINUM + ")", // 핀번호
+                    Text = "결제하기 전에는 확인할 수 없습니다.",
                     Size = 14,
                     TextColor = Color.Gray,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                 };
                 pin_gcpinGrid.Children.Add(input_pin_gcpin_Label, 1, 0);
 
+                if (product_detail.PDL_PIN_STATE == "2") // 구매 완료시 핀번호 출력
+                {
+                    input_pin_gcpin_Label.Text = pinData.PIN_GC_PINNUM1 + "-" + pinData.PIN_GC_PINNUM2 + "-" +
+                        pinData.PIN_GC_PINNUM3 + "-" + pinData.PIN_GC_PINNUM4 + "(" + pinData.PIN_GC_CERTIFINUM + ")"; // 핀번호
+                }
 
                 // 구분선
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(pin_gcpinGrid, 0, 16);
+                coverGrid.Children.Add(pin_gcpinGrid, 0, coverGridRow++);
 
                 BoxView borderLine14 = new BoxView { BackgroundColor = Color.LightGray };
                 coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine14, 0, 17);
+                coverGrid.Children.Add(borderLine14, 0, coverGridRow++);
             }
             #endregion
 

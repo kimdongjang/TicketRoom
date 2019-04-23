@@ -357,7 +357,8 @@ namespace TicketRoom.Views.MainTab.Dael
                         Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productlist[i].PRODUCTIMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.Center,
-                        Aspect = Aspect.AspectFit
+                        Aspect = Aspect.AspectFill,
+                        Margin = 20,
                     };
                     #endregion
                 }
@@ -371,7 +372,8 @@ namespace TicketRoom.Views.MainTab.Dael
                         Source = ImageSource.FromUri(new Uri(Global.server_ipadress + productlist[i].PRODUCTIMAGE)),
                         BackgroundColor = Color.White,
                         VerticalOptions = LayoutOptions.Center,
-                        Aspect = Aspect.AspectFit
+                        Aspect = Aspect.AspectFill,
+                        Margin = 20,
                     };
                     #endregion
                 }

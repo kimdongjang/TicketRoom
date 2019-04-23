@@ -34,14 +34,16 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         public string jibunAddr = ""; // 지번 주소 
         public string zipNo = "";     // 우편 번호
 
-        bool checktype = false; // true : 구매리스트에 지류가 있을때 , false : 지류가 없는 상태 
+        bool deliveryType = false; // true : 구매리스트에 지류가 있을때 , false : 지류가 없는 상태 
 
         int UsedPoint = 0;
         int OldPoint = 0;
         int tempdeliveryprice = 0;
         int price = 0;
         int deliveryprice = 3000;
-        int price_to_db = 0;
+
+        int order_price = 0;
+        int order_price_to_db = 0;
 
         List<G_TempBasketProduct> tempBasketList = new List<G_TempBasketProduct>();
         G_TempBasketProduct tempBasket;
@@ -75,13 +77,11 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             }
             #endregion            
 
-            DeliveryPrice_label.Text = "배송비 : " + (deliveryprice).ToString("N0") + "원";
-            ShowUserInfo();
-            ShowPrice();
-            SelectAllAccount();
-            Radio1_Clicked(prepaymentradio, null);  //선불 착불 기본값인 선불 선택해놈
+            ShowUserInfo(); // 회원, 비회원에 따른 인풋 라벨 Visible 여부 확인
+            ShowUserAddrlist(); // 지류, 핀번호에 따라 배송비+배송지 여부 체크
+            SelectAllAccount(); // 입금계좌 초기화
             PurchaseListInit();
-            ShowUserAddrlist();
+            Radio1_Clicked(prepaymentradio, null);  //선불 착불 기본값인 선불 선택해놈
             NavigationInit();
         }
 
@@ -109,7 +109,8 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             Global.isPurchaseDeatailBtn_clicked = true;
         }
 
-        private void PurchaseListInit() // 구매할 목록 초기화
+        // 구매할 목록 초기화
+        private void PurchaseListInit() 
         {
             int row = 0;
             for (int i = 0; i < tempBasketList.Count; i++)
@@ -191,11 +192,13 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                     };
                 }
                 #endregion
-                int all_price = int.Parse(tempBasketList[i].PDL_PRICE) * int.Parse(tempBasketList[i].PDL_COUNT);
+
+                int product_all_price = int.Parse(tempBasketList[i].PDL_PRICE) * int.Parse(tempBasketList[i].PDL_COUNT);
+                order_price += product_all_price; // 총 구매하려는 상품 가격
                 #region 가격 내용 Label 및 장바구니 담은 날짜
                 CustomLabel price_label = new CustomLabel
                 {
-                    Text = all_price.ToString("N0") + "원",
+                    Text = product_all_price.ToString("N0") + "원",
                     Size = 14,
                     TextColor = Color.Gray,
                 };
@@ -234,19 +237,19 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             }
         }
 
-        private void ShowUserInfo()
+        // 회원, 비회원 체크
+        private void ShowUserInfo() 
         {
             if (Global.b_user_login)
             {
                 MyNameLabel.Text = Global.user.NAME;
                 MyPhoneLabel.Text = Global.user.PHONENUM;
                 string test = "";
-                #region 네트워크 상태 확인
+                #region 네트워크 상태 가능
                 var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
                 if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
                 {
                     test = giftDBFunc.PostSelectUserPoint(Global.ID); // 유저 포인트
-                    ShowUserAddrlist();
                 }
                 else
                 {
@@ -274,19 +277,21 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             }
         }
 
+        // 지류, 핀번호에 따라 배송비+배송지 여부 체크
         private void ShowUserAddrlist()
         {
             for (int i = 0; i < tempBasketList.Count; i++)
             {
                 if (tempBasketList[i].PDL_PROTYPE.Equals("1"))
                 {
-                    checktype = true;
+                    // 지류인 경우
+                    deliveryType = true;
                 }
             }
 
-            if (checktype)
+            if (deliveryType == true) // 지류 상태이면 배송지, 배송비가 필요함
             {
-                List<ADRESS> test = giftDBFunc.ShowUserAddrlist(Global.ID); // 유저 포인트
+                List<ADRESS> test = giftDBFunc.ShowUserAddrlist(Global.ID); // 유저 주소 리스트
 
                 if (test.Count >= 1)
                 {
@@ -300,29 +305,62 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                     jibunAddr = test[0].JIBUNADDR;
                     zipNo = test[0].ZIPNO.ToString();
                 }
-
-                price_to_db = price + deliveryprice - UsedPoint;
-                DeliveryPrice_label.Text = "배송비 : " + deliveryprice + "원";
+                tempdeliveryprice = 3000;
             }
-            else
+            else // 핀번호 상태이면 배송지 필요 없음
             {
                 AdressListGrid.IsVisible = false;
                 DV_Label.IsVisible = false;
                 DV_Radio_Group.IsVisible = false;
-                DeliveryPrice_label.Text = "배송비 : " + "0원";
-                price_to_db = price;
-
+                tempdeliveryprice = 0;
                 //DeliveryPrice_label.IsVisible = false;
                 DV_GridLine.IsVisible = false;
             }
         }
 
-        public void ShowPrice()
+        // 결제금액 업데이트
+        private void PriceUpdate()
         {
-            for (int i = 0; i < tempBasketList.Count; i++)
+            if (deliveryType == true) // 지류인 경우 배송비 추가 계산
             {
-                price += int.Parse(tempBasketList[i].PDL_PRICE);
+                order_price_to_db = order_price + tempdeliveryprice - UsedPoint;
+                if (order_price_to_db < 0) // 결제할 금액이 마이너스가 될 경우
+                {
+                    DisplayAlert("알림", "입력한 포인트를 다시 한번 확인해주십시오!", "확인");
+                    order_price_to_db = 0;
+                }
+                Purchase_AllPrice_label.Text = (order_price_to_db).ToString("N0") + " 원";
+                DeliveryPrice_label.Text = "배송비 : " + tempdeliveryprice + "원";
+
             }
+            else if(deliveryType == false) // 핀번호 인경우 배송비 제외 계산
+            {
+                order_price_to_db = order_price + UsedPoint;
+                if (order_price_to_db < 0) // 결제할 금액이 마이너스가 될 경우
+                {
+                    DisplayAlert("알림", "입력한 포인트를 다시 한번 확인해주십시오!", "확인");
+                    order_price_to_db = 0;
+                }
+                Purchase_AllPrice_label.Text = (order_price_to_db).ToString("N0") + " 원";
+                DeliveryPrice_label.Text = "배송비 : " + tempdeliveryprice + "원";
+            }          
+
+        }
+
+        private void Radio1_Clicked(object sender, EventArgs e) // 선불 버튼
+        {
+            prepaymentradio.Source = "radio_checked_icon.png";
+            Cashondeliveryradio.Source = "radio_unchecked_icon.png";
+            tempdeliveryprice = deliveryprice; // 배송비 추가
+            PriceUpdate();            
+        }
+
+        private void Radio2_Clicked(object sender, EventArgs e) // 착불 버튼
+        {
+            prepaymentradio.Source = "radio_unchecked_icon.png";
+            Cashondeliveryradio.Source = "radio_checked_icon.png";
+            tempdeliveryprice = 0; // 배송비 삭제
+            PriceUpdate();
         }
 
         public PurchaseDetailPage()
@@ -350,38 +388,6 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             //}
         }
 
-        private void Radio1_Clicked(object sender, EventArgs e)
-        {
-            prepaymentradio.Source = "radio_checked_icon.png";
-            Cashondeliveryradio.Source = "radio_unchecked_icon.png";
-            tempdeliveryprice = deliveryprice;
-            Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0") + " 원";
-            price_to_db = price + tempdeliveryprice - UsedPoint;
-            DeliveryPrice_label.Text = "배송비 : " + tempdeliveryprice + "0원";
-        }
-
-        private void Radio2_Clicked(object sender, EventArgs e)
-        {
-            prepaymentradio.Source = "radio_unchecked_icon.png";
-            Cashondeliveryradio.Source = "radio_checked_icon.png";
-            tempdeliveryprice = 0;
-            DeliveryPrice_label.Text = "배송비 : " + tempdeliveryprice + "0원";
-            if ((price + tempdeliveryprice - UsedPoint) < 0)
-            {
-                UsedPoint = price; 
-                Point_label.Text = (int.Parse(Point_label.Text.Replace(",", "")) + (OldPoint-UsedPoint)).ToString("N0");
-                Point_box.Text = UsedPoint.ToString();
-                price = 0;
-                Purchase_AllPrice_label.Text = price.ToString("N0");
-                price_to_db = price;
-            }
-            else
-            {
-                Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0");
-                price_to_db = price + tempdeliveryprice - UsedPoint;
-            }
-        }
-
         private void UsedPointBtn_Clicked(object sender, EventArgs e)
         {
             try
@@ -389,7 +395,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 UsedPoint = int.Parse(Point_box.Text);
                 OldPoint = UsedPoint;
                 Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0");
-                price_to_db = price + tempdeliveryprice - UsedPoint;
+                order_price_to_db = price + tempdeliveryprice - UsedPoint;
                 Point_label.Text = (int.Parse(Point_label.Text.Replace(",", "")) + (OldPoint-UsedPoint)).ToString("N0");
                 DisplayAlert("알림", "포인트가 적용되었습니다.", "OK");
             }
@@ -454,7 +460,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             if (Global.isPurchaseDeatailBtn_clicked)
             {
                 Global.isPurchaseDeatailBtn_clicked = false;
-                if (checktype) // 구매리스트에 지류가 있을때 
+                if (deliveryType) // 구매리스트에 지류가 있을때 
                 {
                     if (EntryAdress.Text != "" && EntryAdress.Text != null)
                     {
@@ -571,7 +577,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 PL_USED_POINT = UsedPoint.ToString(), // 사용 포인트
                 PL_ISSUCCESS = "", // 성공여부
                 PL_DELIVERYPAY_TYPE = delivery_type, // 배송타입(1: 선불 2: 착불)
-                PL_PAYMENT_PRICE = price_to_db.ToString(),  // 총 결제금액
+                PL_PAYMENT_PRICE = order_price_to_db.ToString(),  // 총 결제금액
                 AC_NUM = (Combo.SelectedIndex + 1).ToString(), // 계좌번호
                 PL_ACCUSER_NAME = Name_box.Text, // 입금예정자이름
                 PL_DV_NAME = MyNameLabel.Text,  // 배송받는사람이름
@@ -635,10 +641,6 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                         {
                             await DisplayAlert("알림", "수량 부족으로 결제에 실패했습니다.", "확인");
                             Global.isPurchaseDeatailBtn_clicked = true;
-
-                            Global.InitOnAppearingBool("deal");
-                            await Navigation.PopToRootAsync();
-                            MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                         }
                         /*
                         // 3개의 아웃풋이 있는데 사실상 1개만 쓸 예정.
@@ -687,6 +689,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             Point_box.Text = "";
         }
 
+        #region 입금계좌 초기화
         private void SelectAllAccount()
         {
             #region 네트워크 상태 확인
@@ -738,6 +741,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 Combo.Items.Add(accountlist[i].AC_BANKNAME + ": " + accountlist[i].AC_ACCOUNTNUM + " " + accountlist[i].AC_NAME);
             }
         }
+        #endregion
 
         private void ShowAddr_btnClicked(object sender, EventArgs e)
         {

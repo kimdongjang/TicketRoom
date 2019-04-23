@@ -39,6 +39,56 @@ namespace TicketRoom.Services
             return _instance;
         }
 
+        // 장바구니 상품 수량 변경
+        public bool UpdateGiftBasketListToIndex(string index, string count)
+        {
+            bool retVal = false;
+            //구매내역 가져오기
+            string str = @"{";
+            str += "index : '" + index;
+            str += "',count : '" + count;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "UpdateGiftBasketListToIndex") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        if (readdata != null && readdata != "")
+                        {
+                            retVal = JsonConvert.DeserializeObject<bool>(readdata);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            return retVal;
+        }
+
 
         public List<PLProInfo> SearchPurchaseListToPlnum(string plnum)
         {

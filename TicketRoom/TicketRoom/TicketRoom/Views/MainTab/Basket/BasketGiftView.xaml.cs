@@ -27,10 +27,13 @@ namespace TicketRoom.Views.MainTab.Basket
         List<Grid> productgridlist = new List<Grid>();
         List<G_BasketInfo> BasketList = new List<G_BasketInfo>();
 
+
+
         public BasketGiftView(BasketTabPage btp)
         {
             InitializeComponent();
             ShowBasketlist();
+            ListInit();
             this.btp = btp;
             Global.isgiftbastketorderbtn_clicked = true;
         }
@@ -93,6 +96,9 @@ namespace TicketRoom.Views.MainTab.Basket
             }
             #endregion
 
+        }
+        private void ListInit()
+        {     
             Basketlist_Grid.Children.Clear();
             Basketlist_Grid.RowDefinitions.Clear();
 
@@ -159,7 +165,8 @@ namespace TicketRoom.Views.MainTab.Basket
                         new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
                         new ColumnDefinition { Width = 40 },
                         new ColumnDefinition { Width = 20 }
-                    }
+                    },
+                    BindingContext = BasketList[i].BASKETLISTTABLE_NUM,
                 };
                 productgridlist.Add(product_grid);
 
@@ -350,6 +357,7 @@ namespace TicketRoom.Views.MainTab.Basket
                         return;
                     }
                     #region 네트워크 상태 확인
+                    var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
                     if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                     {
                         await App.Current.MainPage.DisplayAlert("알림", "네트워크에 연결할 수 없습니다. 다시 한번 시도해주세요.", "확인");
@@ -435,7 +443,7 @@ namespace TicketRoom.Views.MainTab.Basket
 
                 BoxView gridline = new BoxView
                 {
-                    BackgroundColor = Color.Black,
+                    BackgroundColor = Color.White,
                     HeightRequest = 1,
                     VerticalOptions = LayoutOptions.End,
                     HorizontalOptions = LayoutOptions.FillAndExpand
@@ -455,8 +463,11 @@ namespace TicketRoom.Views.MainTab.Basket
             //countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text = (int.Parse(countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text)+1).ToString();
             Grid g = (Grid)button.Parent;
             List<Xamarin.Forms.View> b = g.Children.ToList();
-            CustomLabel count = (CustomLabel)b[1];
+            CustomEntry count = (CustomEntry)b[1];
             count.Text = (int.Parse(count.Text) + 1).ToString();
+            Grid product_grid = (Grid)g.Parent; // 메인 로우 그리드
+            GIFT_DB.UpdateGiftBasketListToIndex(product_grid.BindingContext.ToString(), count.Text); // 수량 변경 요청
+
 
             Grid g2 = (Grid)g.Parent;
             List<Xamarin.Forms.View> b2 = g2.Children.ToList();
@@ -473,11 +484,14 @@ namespace TicketRoom.Views.MainTab.Basket
 
             Grid g = (Grid)button.Parent;
             List<Xamarin.Forms.View> b = g.Children.ToList();
-            CustomLabel count = (CustomLabel)b[1];
+            CustomEntry count = (CustomEntry)b[1];
 
             if (int.Parse(count.Text) > 0)
             {
                 count.Text = (int.Parse(count.Text) - 1).ToString();
+                Grid product_grid = (Grid)g.Parent; // 메인 로우 그리드
+                GIFT_DB.UpdateGiftBasketListToIndex(product_grid.BindingContext.ToString(), count.Text); // 수량 변경 요청
+
                 Grid g2 = (Grid)g.Parent;
                 List<Xamarin.Forms.View> b2 = g2.Children.ToList();
                 Grid g3 = (Grid)b2[1];
@@ -489,7 +503,7 @@ namespace TicketRoom.Views.MainTab.Basket
 
         private void OrderBtn_Clicked(object sender, EventArgs e)
         {
-
+            ShowBasketlist();
 
             if (Global.isgiftbastketorderbtn_clicked)
             {
@@ -509,7 +523,7 @@ namespace TicketRoom.Views.MainTab.Basket
                         {
                             PDL_NAME = BasketList[i].BK_PRODUCT_TYPE + BasketList[i].BK_PRODUCT_VALUE, // 상품이름
                             PDL_PRONUM = BasketList[i].BK_PRONUM,
-                            PDL_PROTYPE = BasketList[i].BK_PRODUCT_TYPE,
+                            PDL_PROTYPE = BasketList[i].BK_TYPE,
                             // 주문할때 상품 가격 갱신해서 가져오기
                             PDL_PRICE = GIFT_DB.PostSelectGiftDiscountPriceToIndex(BasketList[i].BK_PRONUM), // 상품가격
                             PDL_COUNT = BasketList[i].BK_PROCOUNT,

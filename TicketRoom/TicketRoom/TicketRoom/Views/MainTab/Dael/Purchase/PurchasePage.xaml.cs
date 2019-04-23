@@ -246,6 +246,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             #endregion
         }
 
+        // 장바구니 
         private async void AddBasketBtn_Clicked(object sender, EventArgs e)
         {
             if (Global.isgiftpurchasepage_clieck)
