@@ -116,7 +116,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             for (int i = 0; i < tempBasketList.Count; i++)
             {
                 PurchaseListGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
-                
+
                 Grid inGrid = new Grid
                 {
                     ColumnDefinitions =
@@ -177,7 +177,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 {
                     type_label = new CustomLabel
                     {
-                        Text = tempBasketList[i].PDL_COUNT+ "개 (지류)",
+                        Text = tempBasketList[i].PDL_COUNT + "개 (지류)",
                         Size = 14,
                         TextColor = Color.DarkGray,
                     };
@@ -395,6 +395,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 UsedPoint = int.Parse(Point_box.Text);
                 OldPoint = UsedPoint;
                 Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0");
+
                 order_price_to_db = price + tempdeliveryprice - UsedPoint;
                 Point_label.Text = (int.Parse(Point_label.Text.Replace(",", "")) + (OldPoint-UsedPoint)).ToString("N0");
                 DisplayAlert("알림", "포인트가 적용되었습니다.", "OK");
@@ -541,7 +542,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                     }
                 }
             }
-            
+
         }
 
         public async void DoPurchase(string address)
@@ -628,7 +629,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                     {
                         var readdata = reader.ReadToEnd();
                         string test = JsonConvert.DeserializeObject<string>(readdata);
-                        if(test == "1") // 구매 성공했을 경우
+                        if (test == "1") // 구매 성공했을 경우
                         {
                             await DisplayAlert("알림", "결제 완료! 구매내역에서 확인해주세요.", "확인");
                             Global.isPurchaseDeatailBtn_clicked = true;
@@ -637,7 +638,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                             await Navigation.PopToRootAsync();
                             MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                         }
-                        else if(test == "5") // 수량 부족으로 실패했을 경우
+                        else if (test == "5") // 수량 부족으로 실패했을 경우
                         {
                             await DisplayAlert("알림", "수량 부족으로 결제에 실패했습니다.", "확인");
                             Global.isPurchaseDeatailBtn_clicked = true;
