@@ -112,7 +112,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                         }
                         else
                         {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -99, 0, 0);
+                            plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, -99, 0, 0);
                             await plg.Init();
                         }
                     }
@@ -161,7 +161,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                         }
                         else
                         {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -1, 0, 0);
+                            plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, -1, 0, 0);
                             await plg.Init();
                         }
                     }
@@ -208,12 +208,12 @@ namespace TicketRoom.Views.MainTab.MyPage
                         if (Global.b_user_login)
                         {
                             plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, -1, 0);
-                            plg.Init();
+                            await plg.Init();
                         }
                         else
                         {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, -1, 0);
-                            plg.Init();
+                            plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, 0, -1, 0);
+                            await plg.Init();
                         }
                     }
                     else // 쇼핑몰 월 단위 목록
@@ -264,7 +264,7 @@ namespace TicketRoom.Views.MainTab.MyPage
                         }
                         else
                         {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, 0, -7);
+                            plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, 0, 0, -7);
                             await plg.Init();
                         }
                     }

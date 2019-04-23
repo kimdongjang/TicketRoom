@@ -72,6 +72,8 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+            PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+            PayOptionGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
             CustomLabel label = new CustomLabel
             {
                 Text = "결제 계좌 선택",
@@ -141,18 +143,34 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             {
                 Text = "[유의 사항]",
                 Size = 12,
-                TextColor = Color.LightGray,
+                TextColor = Color.Gray,
                 Margin = new Thickness(15, 0, 0, 0),
             };
             CustomLabel alretLabel2 = new CustomLabel
             {
                 Text = "* 충전된 포인트는 1년간 유효합니다.",
                 Size = 12,
-                TextColor = Color.LightGray,
+                TextColor = Color.Gray,
+                Margin = new Thickness(15, 0, 0, 0),
+            };
+            CustomLabel alretLabel3 = new CustomLabel
+            {
+                Text = "* 충전 신청 후 입금기한은 24시간 입니다.",
+                Size = 12,
+                TextColor = Color.Gray,
+                Margin = new Thickness(15, 0, 0, 0),
+            };
+            CustomLabel alretLabel4 = new CustomLabel
+            {
+                Text = "* 문의사항은 고객센터 1588-1286으로 부탁드립니다.",
+                Size = 12,
+                TextColor = Color.Gray,
                 Margin = new Thickness(15, 0, 0, 0),
             };
             PayOptionGrid.Children.Add(alretLabel1, 0, 4);
             PayOptionGrid.Children.Add(alretLabel2, 0, 5);
+            PayOptionGrid.Children.Add(alretLabel3, 0, 6);
+            PayOptionGrid.Children.Add(alretLabel4, 0, 7);
         }
 
 
@@ -233,7 +251,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
                 IMP_RValue rvalue = new IMP_RValue
                 {
-                    SH_BANK_NAME = account_picker.SelectedIndex.ToString(),
                     SH_BUYER_EMAIL = Global.user.EMAIL/*이메일*/,
                     SH_BUYER_NAME = Global.ID/*아이디*/,
                     SH_BUYER_TEL = Global.user.PHONENUM/*휴대폰번호*/,
@@ -245,6 +262,8 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                     SH_AMOUNT = priceEntry.Text /*충전포인트(입금금액)*/,
                     SH_STATUS = "입금대기",
                     SH_POINT_INDEX = pp.PT_POINT_INDEX.ToString(), // 포인트 인덱스
+                    SH_BANK_ACC_NUM = (account_picker.SelectedIndex + 1).ToString(), // 등록된 계좌 넘버 저장
+                    SH_FAIL_DETAIL = "", // 실패사유
                 };
                 #region 네트워크 상태 확인
                 var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태

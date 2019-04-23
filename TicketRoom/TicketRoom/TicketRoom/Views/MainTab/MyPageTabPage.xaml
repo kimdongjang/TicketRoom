@@ -44,12 +44,14 @@
                     <RowDefinition Height="180"/>
                     <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
 
                 <!--#region  0행 구분선 -->
                 <!--#endregion-->
-                
+
                 <!--#region  1행 사용자 네임카드 -->
                 <Grid Grid.Row="1" BackgroundColor="White">
                     <Grid.ColumnDefinitions>
@@ -86,7 +88,7 @@
                             <BoxView  Grid.Column="0" BackgroundColor="CornflowerBlue"  Margin="0,2,0,2"/>
                             <custom:CustomLabel Grid.Column="0" Size="14" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"
                                                  HeightRequest="25" WidthRequest="50" Text="연락처" IsEnabled="False" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                                <custom:CustomLabel Grid.Column="1" x:Name="UserPhoneLabel" Size="14"  VerticalOptions="Center" TextColor="Black"/>
+                            <custom:CustomLabel Grid.Column="1" x:Name="UserPhoneLabel" Size="14"  VerticalOptions="Center" TextColor="Black"/>
                         </Grid>
                         <!--#endregion-->
                         <!--#region  2행 포인트 -->
@@ -107,7 +109,7 @@
                     </Grid>
                 </Grid>
                 <!--#endregion-->
-                
+
                 <!--#region  2행 구분선 -->
                 <!--#endregion-->
 
@@ -198,9 +200,37 @@
                     <!--#endregion-->
                 </Grid>
                 <!--#endregion-->
+
+
+                <!--#region  4행 구분선 -->
+                <!--#endregion-->
+
+                <!--#region  5행 약관 확인 -->
+                <Grid Grid.Row="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" BackgroundColor="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <custom:CustomLabel Grid.Column="0" Text="티켓룸 약관 정보 확인" TextColor="Black" VerticalOptions="Center" HorizontalOptions="Start" Size="18" Margin="15,0,0,0"/>
+                        <Grid Grid.Column="2" x:Name="TermsListBtn" HorizontalOptions="End">
+                            <BoxView Grid.Column="0" BackgroundColor="Black" Margin="5,10,5,10" HorizontalOptions="Center" VerticalOptions="Center"
+                                     WidthRequest="80"/>
+                            <custom:CustomLabel Grid.Column="0" Size="16" TextColor="White" Text="확인하기"
+                                                 HorizontalOptions="Center" VerticalOptions="Center"  Margin="0,10,0,10"/>
+                        </Grid>
+                    </Grid>
+                    
+                </Grid>
+                <!--#endregion-->
             </Grid>
         </ScrollView>
     </Grid>
     <!--#endregion-->
 </ContentView>
+    
     

@@ -45,6 +45,7 @@ namespace TicketRoom.Views.Users.Login
                 {
                     if (Global.isloginbtn_clicked)
                     {
+                        
                         Global.isloginbtn_clicked = false;
                         await DisplayAlert("알림", "준비중입니다!", "확인");
                         Global.isloginbtn_clicked = true;
@@ -62,10 +63,11 @@ namespace TicketRoom.Views.Users.Login
                 {
                     if (Global.isloginbtn_clicked)
                     {
+                        /*
                         Global.isloginbtn_clicked = false;
                         await DisplayAlert("알림", "준비중입니다!", "확인");
                         Global.isloginbtn_clicked = true;
-                        return;
+                        return;*/
 
                         await Navigation.PushAsync(new FacebookProfileCsPage());
                         //Navigation.PushAsync(new FacebookProfilePage());

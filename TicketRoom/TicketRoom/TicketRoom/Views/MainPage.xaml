@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <!--<ColumnDefinition Width="*"/>-->
             </Grid.ColumnDefinitions>
             
             <!--#region 0열 구매/판매-->
@@ -40,7 +40,7 @@
             <!--#endregion-->
 
             <!--#region 1열 쇼핑-->
-            <Grid Grid.Column="1" x:Name="ShopTab">
+            <Grid Grid.Column="1" x:Name="ShopTab" IsVisible="False">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -51,7 +51,7 @@
             <!--#endregion-->
 
             <!--#region 2열 장바구니-->
-            <Grid Grid.Column="2" x:Name="BasketTab">
+            <Grid Grid.Column="1" x:Name="BasketTab">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -62,7 +62,7 @@
             <!--#endregion-->
 
             <!--#region 3열 내정보-->
-            <Grid Grid.Column="3" x:Name="UserTab">
+            <Grid Grid.Column="2" x:Name="UserTab">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>

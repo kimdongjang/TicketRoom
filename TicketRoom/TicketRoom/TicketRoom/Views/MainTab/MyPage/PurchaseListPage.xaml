@@ -134,7 +134,7 @@
         <Grid Grid.Row="4" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" Margin="0,3,0,3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <!--<ColumnDefinition Width="*"/>-->
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0" BackgroundColor="White" Margin="1" x:Name="TapGiftGrid">
                 <Grid.RowDefinitions>
@@ -144,7 +144,7 @@
                 <Image Grid.Row="0" x:Name="GiftSelectImage" Aspect="AspectFill" HorizontalOptions="Center" VerticalOptions="Center"/>
                 <custom:CustomLabel Grid.Row="1" Size="14" Text="상품권" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" x:Name="TapGiftGridLabel" />
             </Grid>
-            <Grid Grid.Column="1" BackgroundColor="White" Margin="1" x:Name="TapShopingGrid">
+            <Grid Grid.Column="0" BackgroundColor="White" Margin="1" x:Name="TapShopingGrid" IsVisible="False">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="5*"/>
                     <RowDefinition Height="5*"/>

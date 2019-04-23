@@ -45,40 +45,47 @@ namespace TicketRoom
             {
                 Global.font_size_minus_value = -5;
                 Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+                Global.title_size_value = 20;
             }
             else if (device_name == "iPad Pro (12.9-inch) (3rd generation)") // 아이패드
             {
                 Global.font_size_minus_value = -5;
                 Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+                Global.title_size_value = 20;
             }
             else if (device_name == "iPad Pro (12.9-inch) (2nd generation)") // 아이패드
             {
                 Global.font_size_minus_value = -5;
                 Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+                Global.title_size_value = 20;
             }
 
             else if (device_name == "iPad Pro (12.9-inch)") // 아이패드
             {
                 Global.font_size_minus_value = -5;
                 Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+                Global.title_size_value = 20;
             }
 
             else if (device_name == "iPad Pro (11-inch)") // 아이패드
             {
                 Global.font_size_minus_value = -4;
                 Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+                Global.title_size_value = 20;
             }
 
             else if (device_name == "iPad Pro (10.5-inch)") // 아이패드
             {
                 Global.font_size_minus_value = -4;
                 Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+                Global.title_size_value = 20;
             }
 
             else if (device_name == "iPad Pro (9.7-inch)") // 아이패드
             {
                 Global.font_size_minus_value = -4;
                 Global.ios_x_model = true; // X모델은 하단 탭에 ㅡ바가 생기기 때문에 처리를 해줘야함.
+                Global.title_size_value = 20;
             }
             else if (device_name == "iPhone XS") // 1125x2436
             {
@@ -145,7 +152,11 @@ namespace TicketRoom
                 Global.font_size_minus_value = 3;
                 Global.title_size_value = 30;
             }
-            else Global.font_size_minus_value = 0; // 그외 디바이스들
+            else // 그외 디바이스들
+            {
+                Global.font_size_minus_value = 0;
+                Global.title_size_value = 0;
+            }
         }
     }
 }

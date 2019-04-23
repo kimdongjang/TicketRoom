@@ -25,5 +25,9 @@ namespace TicketRoom.Models.PointData
         public string PT_WITHDRAW_DATE { get; set; } // 적립 날짜
         [JsonProperty("PT_POINT_INDEX")]
         public int PT_POINT_INDEX { get; set; } // 포인트 리스트 인덱스
+        [JsonProperty("PT_WITHDRAW_STATUS")]
+        public string PT_WITHDRAW_STATUS { get; set; } // 출금 상태
+        [JsonProperty("PT_WITHDRAW_FAILDETAIL")]
+        public string PT_WITHDRAW_FAILDETAIL { get; set; } // 출금 실패 사유
     }
 }

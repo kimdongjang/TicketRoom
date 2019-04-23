@@ -141,6 +141,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                         new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = 10 },
+                        new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = GridLength.Auto }
                     },
 
@@ -192,10 +193,39 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 }
                 #endregion
 
+
+                CustomLabel status_label = new CustomLabel
+                {
+                    Text = "상태 : " + pcl[i].PT_CHARGE_STATUS,
+                    Size = 14,
+                    TextColor = Color.Orange,
+                };
+                if(pcl[i].PT_CHARGE_STATUS == "입금대기")
+                {
+                    status_label.TextColor = Color.Orange;
+                }
+                else if(pcl[i].PT_CHARGE_STATUS == "입금완료")
+                {
+                    status_label.TextColor = Color.Blue;
+                }
+                else if (pcl[i].PT_CHARGE_STATUS == "입금실패")
+                {
+                    status_label.TextColor = Color.Red;
+                    point_label_grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    CustomLabel fail_label = new CustomLabel
+                    {
+                        Text = "실패사유 : " + pcl[i].PT_FAIL_DETAIL,
+                        Size = 14,
+                        TextColor = Color.Black,
+                    };
+                    point_label_grid.Children.Add(fail_label, 0, 5);
+                }
+
                 //상품 설명 라벨 그리드에 추가
                 point_label_grid.Children.Add(add_label, 0, 0);
                 point_label_grid.Children.Add(date_label, 0, 1);
                 point_label_grid.Children.Add(content_label, 0, 3);
+                point_label_grid.Children.Add(status_label, 0, 4);
                 #endregion
             }
         }

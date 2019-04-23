@@ -159,7 +159,8 @@ namespace TicketRoom.Views.MainTab.Dael
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.Start,
                 XAlign = TextAlignment.Center,
-                YAlign = TextAlignment.Center
+                YAlign = TextAlignment.Center,
+                Margin = new Thickness(15, 0, 0, 0)
             };
 
             CustomLabel titleb = new CustomLabel
@@ -203,7 +204,8 @@ namespace TicketRoom.Views.MainTab.Dael
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.Start,
                     XAlign = TextAlignment.Start,
-                    YAlign = TextAlignment.Center
+                    YAlign = TextAlignment.Center,
+                    Margin = new Thickness(15, 0, 0, 0)
                 };
 
                 CustomLabel b = new CustomLabel

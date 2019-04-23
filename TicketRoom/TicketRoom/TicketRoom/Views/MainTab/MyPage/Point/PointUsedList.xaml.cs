@@ -141,7 +141,9 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                         new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = 10 },
-                        new RowDefinition { Height = GridLength.Auto }    
+                        new RowDefinition { Height = GridLength.Auto },
+                        new RowDefinition { Height = 10 },
+                        new RowDefinition { Height = GridLength.Auto }
                     },
 
                 };
@@ -188,10 +190,41 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 }
                 #endregion
 
+                #region 출금 상태 Label
+                CustomLabel status_label = new CustomLabel
+                {
+                    Size = 14,
+                    TextColor = Color.Orange,
+                    Text = "출금상태 : " + wdl[i].PT_WITHDRAW_STATUS,
+                };
+
+                if (wdl[i].PT_WITHDRAW_STATUS == "입금대기")
+                {
+                    status_label.TextColor = Color.Orange;
+                }
+                else if (wdl[i].PT_WITHDRAW_STATUS == "입금완료")
+                {
+                    status_label.TextColor = Color.Blue;
+                }
+                else if (wdl[i].PT_WITHDRAW_STATUS == "입금실패")
+                {
+                    status_label.TextColor = Color.Red;
+                    point_label_grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                    CustomLabel fail_label = new CustomLabel
+                    {
+                        Text = "실패사유 : " + wdl[i].PT_WITHDRAW_FAILDETAIL,
+                        Size = 14,
+                        TextColor = Color.Black,
+                    };
+                    point_label_grid.Children.Add(fail_label, 0, 6);
+                }
+                #endregion
+
                 //상품 설명 라벨 그리드에 추가
                 point_label_grid.Children.Add(use_label, 0, 0);
                 point_label_grid.Children.Add(date_label, 0, 1);
                 point_label_grid.Children.Add(content_label, 0, 3);
+                point_label_grid.Children.Add(status_label, 0, 5);
                 #endregion
 
 

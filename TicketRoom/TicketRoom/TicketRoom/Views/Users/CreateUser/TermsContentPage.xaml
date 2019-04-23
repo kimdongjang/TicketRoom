@@ -4,7 +4,7 @@
              xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.Users.CreateUser.TermsContentPage">
     <!--#region 전체 화면 그리드(행) - 0 액션바 1 페이지 내용-->
-    <Grid BackgroundColor="#f5f5f5"  VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
+    <Grid BackgroundColor="White"  VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>

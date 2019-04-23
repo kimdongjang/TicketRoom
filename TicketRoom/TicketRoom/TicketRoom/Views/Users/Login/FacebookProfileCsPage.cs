@@ -1,5 +1,7 @@
-﻿using TicketRoom.Models.USERS;
+﻿using System.Json;
+using TicketRoom.Models.USERS;
 using TicketRoom.ViewsModel;
+using Xamarin.Auth;
 using Xamarin.Forms;
 using Device = Xamarin.Forms.Device;
 
@@ -37,6 +39,7 @@ namespace TicketRoom.Views.Users.Login
             Content = webView;
         }
 
+
         private async void WebViewOnNavigated(object sender, WebNavigatedEventArgs e)
         {
             var accessToken = ExtractAccessTokenFromUrl(e.Url);
@@ -47,8 +50,10 @@ namespace TicketRoom.Views.Users.Login
 
                 await vm.SetFacebookUserProfileAsync(accessToken);
 
+                await DisplayAlert("알림", vm.FacebookProfile.Name, "확인");
+                //SetPageContent();
                 //Page 이동 Test
-                await Navigation.PushAsync(new MainPage());
+                //await Navigation.PushAsync(new MainPage());
             }
         }
 

@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:custom="clr-namespace:TicketRoom.Models.Custom"
              xmlns:controls="clr-namespace:TicketRoom.Models"
              x:Class="TicketRoom.Views.Users.Login.LoginPage">
     <!--#region 전체 화면 그리드(행) - 0 액션바 1 로그인정보 2 로그인연동 3 회원가입&아디비번 찾기-->
-    <Grid  BackgroundColor="#f5f5f5"  VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
+    <Grid  BackgroundColor="White"  VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
@@ -97,13 +97,13 @@
             <!--#endregion-->
 
             <!--#region TEST 1행 구글-->
-            <Grid Grid.Row="1" x:Name="googleGrid" Margin="17,5,17,5" ColumnSpacing="0">
+            <Grid Grid.Row="1" x:Name="googleGrid" Margin="17,5,17,5" ColumnSpacing="0" IsVisible="False">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="google.png"  Aspect="AspectFit" BackgroundColor="White"/>
-                <StackLayout Grid.Column="1" BackgroundColor="White" VerticalOptions="CenterAndExpand">
+                <Image Grid.Column="0" Source="google.png"  Aspect="AspectFill" BackgroundColor="White"/>
+                <StackLayout Grid.Column="1" BackgroundColor="White" VerticalOptions="Fill">
                     <custom:CustomLabel Text="Google 계정으로 로그인" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18"/>
                 </StackLayout>
             </Grid>
@@ -111,14 +111,14 @@
             <!--#endregion-->
 
             <!--#region TEST 2행 페이스북-->
-            <Grid Grid.Row="2" x:Name="facebookGrid" Margin="17,5,17,5" ColumnSpacing="0">
+            <Grid Grid.Row="2" x:Name="facebookGrid" Margin="17,5,17,5" ColumnSpacing="0" IsVisible="False">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="facebook.png"  Aspect="AspectFit" BackgroundColor="#3a5896"/>
-                <StackLayout Grid.Column="1" BackgroundColor="#3a5896" VerticalOptions="FillAndExpand" >
-                    <custom:CustomLabel Text="Facebook 계정으로 로그인" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18" Margin="0,20,0,0"/>
+                <Image Grid.Column="0" Source="facebook.png"  Aspect="AspectFill" BackgroundColor="#3a5896"/>
+                <StackLayout Grid.Column="1" BackgroundColor="#3a5896" VerticalOptions="Fill" >
+                    <custom:CustomLabel Text="Facebook 계정으로 로그인" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18"/>
                 </StackLayout>
             </Grid>
             <!--#endregion-->
@@ -129,6 +129,7 @@
         <!--#region 4행 아디 비번 찾기 & 회원가입-->
         <Grid Grid.Row="4" RowSpacing="0" ColumnSpacing="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -165,6 +166,15 @@
                 <!--#endregion-->
             </Grid>
             <!--#endregion-->
+
+            <!--#region 2행 고객센터-->
+            <Grid  Grid.Row="2" HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <custom:CustomLabel Text="고객센터 1588-1682" HorizontalOptions="FillAndExpand" Size="18"
+                   VerticalOptions="FillAndExpand" XAlign="Center" YAlign="Center"/>
+            </Grid>
         </Grid>
         <!--#endregion-->
     </Grid>

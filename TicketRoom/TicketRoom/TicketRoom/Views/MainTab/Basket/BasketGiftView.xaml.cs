@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
 using TicketRoom.Models.Gift.Purchase;
+using TicketRoom.Services;
 using TicketRoom.Views.MainTab.Dael.Purchase;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -22,6 +23,7 @@ namespace TicketRoom.Views.MainTab.Basket
     public partial class BasketGiftView : ContentView
     {
         BasketTabPage btp;
+        GiftDBFunc GIFT_DB = GiftDBFunc.Instance();
         List<Grid> productgridlist = new List<Grid>();
         List<G_BasketInfo> BasketList = new List<G_BasketInfo>();
 
@@ -487,10 +489,12 @@ namespace TicketRoom.Views.MainTab.Basket
 
         private void OrderBtn_Clicked(object sender, EventArgs e)
         {
+
+
             if (Global.isgiftbastketorderbtn_clicked)
             {
                 Global.isgiftbastketorderbtn_clicked = false;
-                List<G_PurchasedetailInfo> g_PurchasedetailInfos = new List<G_PurchasedetailInfo>();
+                List<G_TempBasketProduct> tempBasketList = new List<G_TempBasketProduct>();
                 for (int i = 0; i < BasketList.Count; i++)
                 {
                     Grid g = productgridlist[i];
@@ -501,21 +505,21 @@ namespace TicketRoom.Views.MainTab.Basket
 
                     if (int.Parse(g3.Text) != 0)
                     {
-                        G_PurchasedetailInfo g_PurchasedetailInfo = new G_PurchasedetailInfo
+                        G_TempBasketProduct tempBasket = new G_TempBasketProduct
                         {
+                            PDL_NAME = BasketList[i].BK_PRODUCT_TYPE + BasketList[i].BK_PRODUCT_VALUE, // 상품이름
                             PDL_PRONUM = BasketList[i].BK_PRONUM,
-                            PDL_PROCOUNT = g3.Text,
-                            PDL_PROTYPE = BasketList[i].BK_TYPE,
-                            PDL_ALLPRICE = (int.Parse(BasketList[i].BK_PRODUCT_PURCHASE_DISCOUNTPRICE) * int.Parse(g3.Text)).ToString(),
+                            PDL_PROTYPE = BasketList[i].BK_PRODUCT_TYPE,
+                            // 주문할때 상품 가격 갱신해서 가져오기
+                            PDL_PRICE = GIFT_DB.PostSelectGiftDiscountPriceToIndex(BasketList[i].BK_PRONUM), // 상품가격
+                            PDL_COUNT = BasketList[i].BK_PROCOUNT,
                             PRODUCT_IMAGE = BasketList[i].BK_PRODUCT_IMAGE,
-                            PRODUCT_TYPE = BasketList[i].BK_PRODUCT_TYPE,
-                            PRODUCT_VALUE = BasketList[i].BK_PRODUCT_VALUE
                         };
-                        g_PurchasedetailInfos.Add(g_PurchasedetailInfo);
+                        tempBasketList.Add(tempBasket);
                     }
                 }
 
-                Navigation.PushAsync(new PurchaseDetailPage(g_PurchasedetailInfos));
+                Navigation.PushAsync(new PurchaseDetailPage(tempBasketList));
             }
         }
     }

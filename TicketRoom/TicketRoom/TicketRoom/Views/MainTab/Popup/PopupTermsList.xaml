@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:models="clr-namespace:TicketRoom.Models.Custom"
+             x:Class="TicketRoom.Views.MainTab.Popup.PopupTermsList">
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <StackLayout Orientation="Vertical" HeightRequest="200" WidthRequest="300" BackgroundColor="White">
+            <models:CustomLabel Margin="10,10,0,0" Text="티켓룸 서비스 이용약관" Size="22" TextColor="Black"/>
+            <Grid Margin="20,20,20,10" x:Name="TermsListGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <models:CustomLabel Grid.Row="0" Margin="10" Text="상품권 거래 이용약관 동의" Size="14" TextColor="Gray"/>
+                <models:CustomLabel Grid.Row="1" Margin="10" Text="전자금융 거래 이용약관 동의" Size="14"  TextColor="Gray"/>
+                <models:CustomLabel Grid.Row="2" Margin="10" Text="개인정보 수집이용 동의" Size="14"  TextColor="Gray"/>
+            </Grid>
+            <models:CustomButton Margin="20" Size="18" TextColor="White" BackgroundColor="CornflowerBlue" Text="확인" x:Name="ConfirmBtn" Clicked="ConfirmBtn_Clicked"/>
+        </StackLayout>
+    </StackLayout>
+</pages:PopupPage>
