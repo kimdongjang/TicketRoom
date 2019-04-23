@@ -616,7 +616,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                                 MainPage mp = (MainPage)Application.Current.MainPage.Navigation.NavigationStack[0];
                             });
                         }
-                        else if (int.Parse(test2[0].ToString()) == 2)
+                        else if (int.Parse(test2[0].ToString()) == 5)
                         {
                             if (test2[1] != null && test2[1] != "")
                             {
@@ -625,13 +625,13 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                                 string errormessage = "";
                                 for (int i = 0; i < proinfos.Length - 1; i++)
                                 {
-                                    errormessage += proinfos[i] + "가 " + procnts[i] + "개 있습니다";
+                                    errormessage += proinfos[i] + "가 " + procnts[i] + "개 부족합니다";
                                 }
                                 DisplayAlert("알림", errormessage, "OK");
                                 Global.isPurchaseDeatailBtn_clicked = true;
                             }
                         }
-                        else if (int.Parse(test2[0].ToString()) == 4)
+                        else if (int.Parse(test2[0].ToString()) == 6)
                         {
                             DisplayAlert("알림", "서버점검중입니다", "OK");
                             Global.isPurchaseDeatailBtn_clicked = true;
