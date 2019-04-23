@@ -22,7 +22,7 @@
 
                 <BoxView Grid.Row="0" BackgroundColor="LightGray"/>
                 <custom:CustomLabel Grid.Row="1" HorizontalOptions="CenterAndExpand" Size="20" VerticalOptions="CenterAndExpand" TextColor="Black" x:Name="ResultPrice_label"/>
-                <custom:CustomButton Grid.Row="2" Text="주문하기" Clicked="OrderBtn_Clicked" Size="26" FontFamily="{StaticResource FontStyle}" 
+                <custom:CustomButton Grid.Row="2" Text="주문하기" Clicked="OrderBtn_Clicked" Size="18" FontFamily="{StaticResource FontStyle}" 
                                                          BackgroundColor="Black" TextColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
             </Grid>
         </Grid>

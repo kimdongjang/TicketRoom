@@ -260,7 +260,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 int pin_index = 0; // pin 번호 찾기 위한 인덱스
                 
                 #region 주문 번호로 감싸는 실제 구매 내역
-                for (int j = 0; j < productlist.Count; j++, pin_index++)
+                for (int j = 0; j < productlist.Count; j++)
                 {
                     // 지류일 경우 1번 행 밑에 추가
                     if (productlist[j].PDL_PROTYPE == "1" && isPaperPurchase == false)
@@ -517,6 +517,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                         });
                         #endregion
 
+                        pin_index++;
                         
                     }
                 }
