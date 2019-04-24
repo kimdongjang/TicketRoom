@@ -56,7 +56,7 @@
                 </Grid.RowDefinitions>
                 
                 <!--#region  0행 내정보 네임카드 -->
-                <Grid Grid.Row="0" Margin="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White" RowSpacing="5">
+                <Grid Grid.Row="0" Margin="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White" RowSpacing="15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
                         <RowDefinition Height="Auto"/>
@@ -64,6 +64,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
 
                     <!--#region  0행 사용자 아이콘 -->
@@ -86,7 +87,7 @@
                             <ColumnDefinition Width="7*"/>
                         </Grid.ColumnDefinitions>
                         <custom:CustomLabel Grid.Column="0" Size="14" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
-                                                 HeightRequest="25" WidthRequest="50" Text="연락처" IsEnabled="False" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                                 HeightRequest="30" WidthRequest="80" Text="연락처" IsEnabled="False" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         <custom:CustomLabel Grid.Column="1" x:Name="UserPhoneLabel" Size="14"  VerticalOptions="Center" TextColor="Black"/>
                     </Grid>
                     <!--#endregion-->
@@ -97,7 +98,7 @@
                             <ColumnDefinition Width="7*"/>
                         </Grid.ColumnDefinitions>
                         <custom:CustomLabel Grid.Column="0" Size="14" BackgroundColor="CornflowerBlue" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"
-                                                 HeightRequest="25" WidthRequest="50" Text="포인트" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                                 HeightRequest="30" WidthRequest="80" Text="포인트" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         <custom:CustomLabel Grid.Column="1" x:Name="UserPointLabel" Size="14" VerticalOptions="Center" TextColor="Black"/>
                     </Grid>
                     <!--#endregion-->
