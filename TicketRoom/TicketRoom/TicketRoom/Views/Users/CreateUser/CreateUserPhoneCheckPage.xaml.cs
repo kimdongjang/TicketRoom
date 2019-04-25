@@ -57,18 +57,10 @@ namespace TicketRoom.Views.Users.CreateUser
                     {
                         users.Name = Name_box.Text;
                         users.Phone = Phone_box.Text;
-
-                        #region 인증번호 만들기
-                        var bytes = new byte[4];
-                        var rng = RandomNumberGenerator.Create();
-                        rng.GetBytes(bytes);
-                        uint random = BitConverter.ToUInt32(bytes, 0) % 100000000;
-                        #endregion
-
+                        
                         string str = @"{";
                         str += "DATA:'" + Name_box.Text;  //아이디찾기에선 Name으로
                         str += "',PHONENUM:'" + users.Phone;
-                        str += "',KEY:'" + String.Format("{0:D8}", random);
                         str += "',TYPE:'" + "1"; //인증 종류( 1: 회원가입, 2: ID찾기, 3: 비밀번호 찾기)
                         str += "'}";
 

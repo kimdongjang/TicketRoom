@@ -631,6 +631,12 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                         string test = JsonConvert.DeserializeObject<string>(readdata);
                         if (test == "1") // 구매 성공했을 경우
                         {
+                            for(int j=0; j< tempBasketList.Count; j++)
+                            {
+                                giftDBFunc.PostDeleteGiftBasketListToIndex(tempBasketList[j].BASKET_INDEX);
+                            }
+                            
+
                             await DisplayAlert("알림", "결제 완료! 구매내역에서 확인해주세요.", "확인");
                             Global.isPurchaseDeatailBtn_clicked = true;
 

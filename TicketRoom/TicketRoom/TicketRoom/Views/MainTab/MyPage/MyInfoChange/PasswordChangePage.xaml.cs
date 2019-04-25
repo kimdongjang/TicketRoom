@@ -16,7 +16,7 @@ using Xamarin.Forms.Xaml;
 namespace TicketRoom.Views.MainTab.MyPage
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MyInfoUpdatePage : ContentPage
+    public partial class PasswordChangePage : ContentPage
     {
         MyTimer timer;
         int test;
@@ -25,7 +25,7 @@ namespace TicketRoom.Views.MainTab.MyPage
         string NEWPW = "";
         RSAFunc rSAFunc = RSAFunc.Instance();
 
-        public MyInfoUpdatePage()
+        public PasswordChangePage()
         {
             InitializeComponent();
             #region IOS의 경우 초기화
@@ -99,17 +99,10 @@ namespace TicketRoom.Views.MainTab.MyPage
                             {
                                 CheckNumGrid.IsVisible = true;
 
-                                #region 인증번호 만들기
-                                var bytes = new byte[4];
-                                var rng = RandomNumberGenerator.Create();
-                                rng.GetBytes(bytes);
-                                uint random = BitConverter.ToUInt32(bytes, 0) % 100000000;
-                                #endregion
 
                                 string str = @"{";
                                 str += "DATA:'" + Global.ID;  //아이디찾기에선 Name으로 
                                 str += "',PHONENUM:'" + Phone_box.Text;
-                                str += "',KEY:'" + String.Format("{0:D8}", random);
                                 str += "',TYPE:'" + "4"; //인증 종류( 1: 회원가입, 2: ID찾기, 3: 비밀번호 찾기, 4: 개인정보 수정)
                                 str += "'}";
 

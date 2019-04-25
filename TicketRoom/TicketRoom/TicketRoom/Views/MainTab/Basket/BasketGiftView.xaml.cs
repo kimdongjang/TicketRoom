@@ -459,81 +459,129 @@ namespace TicketRoom.Views.MainTab.Basket
 
         private void plusBtn_Clicked(object s, EventArgs e)
         {
-            Image button = (Image)s;
-            //countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text = (int.Parse(countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text)+1).ToString();
-            Grid g = (Grid)button.Parent;
-            List<Xamarin.Forms.View> b = g.Children.ToList();
-            CustomEntry count = (CustomEntry)b[1];
-            count.Text = (int.Parse(count.Text) + 1).ToString();
-            Grid product_grid = (Grid)g.Parent; // 메인 로우 그리드
-            GIFT_DB.UpdateGiftBasketListToIndex(product_grid.BindingContext.ToString(), count.Text); // 수량 변경 요청
-
-
-            Grid g2 = (Grid)g.Parent;
-            List<Xamarin.Forms.View> b2 = g2.Children.ToList();
-            Grid g3 = (Grid)b2[1];
-            List<Xamarin.Forms.View> b3 = g3.Children.ToList();
-            CustomLabel price = (CustomLabel)b3[2];
-            ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace("합계 : ", "").Replace(",", "").Replace("원", "")) + int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
-        }
-
-        private void minusBtn_Clicked(object s, EventArgs e)
-        {
-            Image button = (Image)s;
-            //countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text = (int.Parse(countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text) - 1).ToString();
-
-            Grid g = (Grid)button.Parent;
-            List<Xamarin.Forms.View> b = g.Children.ToList();
-            CustomEntry count = (CustomEntry)b[1];
-
-            if (int.Parse(count.Text) > 0)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                count.Text = (int.Parse(count.Text) - 1).ToString();
+            }
+            #endregion
+
+            #region 네트워크 연결 가능
+            else
+            {
+                Image button = (Image)s;
+                //countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text = (int.Parse(countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text)+1).ToString();
+                Grid g = (Grid)button.Parent;
+                List<Xamarin.Forms.View> b = g.Children.ToList();
+                CustomEntry count = (CustomEntry)b[1];
+                count.Text = (int.Parse(count.Text) + 1).ToString();
                 Grid product_grid = (Grid)g.Parent; // 메인 로우 그리드
+
                 GIFT_DB.UpdateGiftBasketListToIndex(product_grid.BindingContext.ToString(), count.Text); // 수량 변경 요청
+
+
 
                 Grid g2 = (Grid)g.Parent;
                 List<Xamarin.Forms.View> b2 = g2.Children.ToList();
                 Grid g3 = (Grid)b2[1];
                 List<Xamarin.Forms.View> b3 = g3.Children.ToList();
                 CustomLabel price = (CustomLabel)b3[2];
-                ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace("합계 : ", "").Replace(",", "").Replace("원", "")) - int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
+                ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace("합계 : ", "").Replace(",", "").Replace("원", "")) + int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
             }
+            #endregion
+        }
+
+        private void minusBtn_Clicked(object s, EventArgs e)
+        {
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
+            {
+            }
+            #endregion
+
+            #region 네트워크 연결 가능
+            else
+            {
+                Image button = (Image)s;
+                //countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text = (int.Parse(countlabelist[int.Parse(button.Parent.BindingContext.ToString())].Text) - 1).ToString();
+
+                Grid g = (Grid)button.Parent;
+                List<Xamarin.Forms.View> b = g.Children.ToList();
+                CustomEntry count = (CustomEntry)b[1];
+
+                if (int.Parse(count.Text) > 0)
+                {
+                    count.Text = (int.Parse(count.Text) - 1).ToString();
+                    Grid product_grid = (Grid)g.Parent; // 메인 로우 그리드
+                    GIFT_DB.UpdateGiftBasketListToIndex(product_grid.BindingContext.ToString(), count.Text); // 수량 변경 요청
+
+                    Grid g2 = (Grid)g.Parent;
+                    List<Xamarin.Forms.View> b2 = g2.Children.ToList();
+                    Grid g3 = (Grid)b2[1];
+                    List<Xamarin.Forms.View> b3 = g3.Children.ToList();
+                    CustomLabel price = (CustomLabel)b3[2];
+                    ResultPrice_label.Text = "합계 : " + (int.Parse(ResultPrice_label.Text.Replace("합계 : ", "").Replace(",", "").Replace("원", "")) - int.Parse(price.Text.Replace("원", ""))).ToString("N0") + "원";
+                }
+            }
+            #endregion
         }
 
         private void OrderBtn_Clicked(object sender, EventArgs e)
         {
-            ShowBasketlist();
-
-            if (Global.isgiftbastketorderbtn_clicked)
+            #region 네트워크 상태 확인
+            var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+            if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
             {
-                Global.isgiftbastketorderbtn_clicked = false;
-                List<G_TempBasketProduct> tempBasketList = new List<G_TempBasketProduct>();
-                for (int i = 0; i < BasketList.Count; i++)
+                App.Current.MainPage.DisplayAlert("알림", "네트워크 연결이 원활하지 않습니다.", "확인");
+            }
+            #endregion
+
+            #region 네트워크 연결 가능
+            else
+            {
+                if (Global.b_user_login == true) // 회원으로 로그인 되어있는 경우
                 {
-                    Grid g = productgridlist[i];
-                    List<Xamarin.Forms.View> b = g.Children.ToList();
-                    Grid g2 = (Grid)b[2];
-                    List<Xamarin.Forms.View> b2 = g2.Children.ToList();
-                    CustomEntry g3 = (CustomEntry)b2[1];
-
-                    if (int.Parse(g3.Text) != 0)
-                    {
-                        G_TempBasketProduct tempBasket = new G_TempBasketProduct
-                        {
-                            PDL_NAME = BasketList[i].BK_PRODUCT_TYPE + BasketList[i].BK_PRODUCT_VALUE, // 상품이름
-                            PDL_PRONUM = BasketList[i].BK_PRONUM,
-                            PDL_PROTYPE = BasketList[i].BK_TYPE,
-                            // 주문할때 상품 가격 갱신해서 가져오기
-                            PDL_PRICE = GIFT_DB.PostSelectGiftDiscountPriceToIndex(BasketList[i].BK_PRONUM), // 상품가격
-                            PDL_COUNT = BasketList[i].BK_PROCOUNT,
-                            PRODUCT_IMAGE = BasketList[i].BK_PRODUCT_IMAGE,
-                        };
-                        tempBasketList.Add(tempBasket);
-                    }
+                    GIFT_DB.PostDeleteGiftBasketListCountZero(Global.ID);
                 }
+                else
+                {
+                    GIFT_DB.PostDeleteGiftBasketListCountZero(Global.non_user_id);
+                }
+                ShowBasketlist();
 
-                Navigation.PushAsync(new PurchaseDetailPage(tempBasketList));
+                if (Global.isgiftbastketorderbtn_clicked)
+                {
+                    Global.isgiftbastketorderbtn_clicked = false;
+                    List<G_TempBasketProduct> tempBasketList = new List<G_TempBasketProduct>();
+                    for (int i = 0; i < BasketList.Count; i++)
+                    {
+                        Grid g = productgridlist[i];
+                        List<Xamarin.Forms.View> b = g.Children.ToList();
+                        Grid g2 = (Grid)b[2];
+                        List<Xamarin.Forms.View> b2 = g2.Children.ToList();
+                        CustomEntry g3 = (CustomEntry)b2[1];
+
+                        if (int.Parse(g3.Text) != 0)
+                        {
+                            G_TempBasketProduct tempBasket = new G_TempBasketProduct
+                            {
+                                PDL_NAME = BasketList[i].BK_PRODUCT_TYPE + BasketList[i].BK_PRODUCT_VALUE, // 상품이름
+                                PDL_PRONUM = BasketList[i].BK_PRONUM,
+                                PDL_PROTYPE = BasketList[i].BK_TYPE,
+                                // 주문할때 상품 가격 갱신해서 가져오기
+                                PDL_PRICE = GIFT_DB.PostSelectGiftDiscountPriceToIndex(BasketList[i].BK_PRONUM), // 상품가격
+                                PDL_COUNT = BasketList[i].BK_PROCOUNT,
+                                PRODUCT_IMAGE = BasketList[i].BK_PRODUCT_IMAGE,
+                                BASKET_INDEX = BasketList[i].BASKETLISTTABLE_NUM,
+                            };
+                            tempBasketList.Add(tempBasket);
+                        }
+                    }
+
+                    Navigation.PushAsync(new PurchaseDetailPage(tempBasketList));
+                }
+                #endregion
             }
         }
     }

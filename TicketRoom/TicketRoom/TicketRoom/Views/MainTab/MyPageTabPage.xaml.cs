@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using TicketRoom.Models.PointData;
 using TicketRoom.Views.MainTab.MyPage;
+using TicketRoom.Views.MainTab.MyPage.MyInfoChange;
 using TicketRoom.Views.MainTab.MyPage.Point;
 using TicketRoom.Views.MainTab.Popup;
 using TicketRoom.Views.Users.Login;
@@ -144,7 +145,7 @@ namespace TicketRoom.Views.MainTab
                             Global.ismypagebtns_clicked = true;
                             return;
                         }
-                        await Navigation.PushAsync(new MyInfoUpdatePage());
+                        await Navigation.PushAsync(new ChangeMainPage());
                     }
                 })
             });
