@@ -76,7 +76,7 @@ namespace TicketRoom.Views.MainTab.MyPage.SaleList
 
         private void ConfirmBtn_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PopAsync();
         }
 
         // 판매번호를 통해 상품권 판매 상세리스트 가져오기

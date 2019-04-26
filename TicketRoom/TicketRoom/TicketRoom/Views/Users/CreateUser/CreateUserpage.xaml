@@ -99,7 +99,7 @@
 
                     <!--#region 2행 비밀번호 Entry(Input)-->
                     <Entry Grid.Row="2" x:Name="PW_box" Margin="15,0,15,0" 
-                           Placeholder="ex) ****" FontSize="15" 
+                           Placeholder="ex) ****" FontSize="18" 
                            Keyboard="Text"
                            IsPassword="True"
                            HorizontalOptions="Fill" VerticalOptions="Center" Style="null">
@@ -128,7 +128,7 @@
 
                     <!--#region 2행 비밀번호 확인 Entry(Input)-->
                     <Entry Grid.Row="2" x:Name="PWCheck_box" Margin="15,0,15,0" 
-                           Placeholder="ex) ****" FontSize="15" 
+                           Placeholder="ex) ****" FontSize="18" 
                            Keyboard="Text"
                            IsPassword="True"
                            HorizontalOptions="Fill" VerticalOptions="Center" Style="null">
@@ -157,7 +157,7 @@
 
                     <!--#region 2행 이메일 Entry(Input)-->
                     <Entry Grid.Row="2" x:Name="Email_box" Margin="15,0,15,0" 
-                           Placeholder="ex) abc@abc.com" FontSize="15" 
+                           Placeholder="ex) abc@abc.com" FontSize="18" 
                            Keyboard="Email"
                            HorizontalOptions="Fill" VerticalOptions="Center" Style="null">
                     </Entry>
@@ -195,7 +195,7 @@
                     <!--#region 2행 주소 Entry(Input)-->
 
                     <Entry Grid.Row="2" x:Name="EntryAdress" Margin="15,0,15,0" 
-                           Placeholder="주소 입력" FontSize="15" 
+                           Placeholder="주소 입력" FontSize="18" 
                            Keyboard="Email"
                            HorizontalOptions="Fill" VerticalOptions="Center" Style="null"
                            Focused="InputAdress_Clicked"

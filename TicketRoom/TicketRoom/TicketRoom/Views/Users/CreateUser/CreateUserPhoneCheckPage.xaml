@@ -109,7 +109,7 @@
 
                     <!--#region 2행 휴대폰인증 Entry(Input)-->
                     <Entry Grid.Row="2" x:Name="Phone_box" Margin="15,0,15,0" 
-                           Placeholder="ex) 01012345678" FontSize="15" 
+                           Placeholder="ex) 01012345678" FontSize="18" 
                            Keyboard="Telephone"
                            HorizontalOptions="Fill" VerticalOptions="Center" Style="null">
                     </Entry>
@@ -118,7 +118,7 @@
                     <!--#region 3행 휴대폰인증 이유 설명-->
                     <local1:CustomLabel Grid.Row="3"
                         Text="*ID 조회를 위해 전화번호 인증이 필요 합니다."
-                        Size="10"
+                        Size="14"
                         Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
                 </Grid>
@@ -168,7 +168,7 @@
 
                     <!--#region 2행 인증번호 Entry(Input)-->
                     <Entry Grid.Row="2" x:Name="CheckNum_box" Margin="15,0,15,0" 
-                           FontSize="15" HorizontalOptions="FillAndExpand" 
+                           FontSize="18" HorizontalOptions="FillAndExpand" 
                            VerticalOptions="Center" Style="null"
                            Keyboard="Numeric">
                     </Entry>
@@ -178,7 +178,7 @@
                     <local1:CustomLabel Grid.Row="3"
                         x:Name="TimerLabel"
                         Text="*남은 시간 05:00"
-                        Size="10"
+                        Size="14"
                         Margin="15,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" XAlign="Start" YAlign="Center"/>
                     <!--#endregion-->
 

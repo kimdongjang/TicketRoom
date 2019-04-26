@@ -9,7 +9,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ScrollView Grid.Row="0" Margin="10,0,10,20" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="#f5f5f5" >
+            <ScrollView Grid.Row="0" Margin="10,0,10,20" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White" >
                 <Grid  x:Name="Basketlist_Grid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0"
                         x:FieldModifier="Public"/>
             </ScrollView>
@@ -20,7 +20,7 @@
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
 
-                <BoxView Grid.Row="0" BackgroundColor="LightGray"/>
+                <BoxView Grid.Row="0" BackgroundColor="White"/>
                 <custom:CustomLabel Grid.Row="1" HorizontalOptions="CenterAndExpand" Size="20" VerticalOptions="CenterAndExpand" TextColor="Black" x:Name="ResultPrice_label"/>
                 <custom:CustomButton Grid.Row="2" Text="주문하기" Clicked="OrderBtn_Clicked" Size="18" FontFamily="{StaticResource FontStyle}" 
                                                          BackgroundColor="Black" TextColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>

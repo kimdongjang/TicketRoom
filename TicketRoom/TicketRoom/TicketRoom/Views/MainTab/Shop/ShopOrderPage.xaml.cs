@@ -54,9 +54,9 @@ namespace TicketRoom.Views.MainTab.Shop
         InputAdress adrAPI; // 배송지 확인용
         public ADRESS myAdress = new ADRESS(); // 입력한 배송지 정보 저장
 
-        CustomPicker card_picker = new CustomPicker();
-        CustomPicker cash_picker = new CustomPicker();
-        CustomPicker phone_picker = new CustomPicker();
+        Picker card_picker = new Picker();
+        Picker cash_picker = new Picker();
+        Picker phone_picker = new Picker();
 
         Xamarin.Forms.Entry phoneEntry = new Xamarin.Forms.Entry();
         Xamarin.Forms.Entry nameEntry = new Xamarin.Forms.Entry();
@@ -368,9 +368,10 @@ namespace TicketRoom.Views.MainTab.Shop
                 Text = "결제 카드 선택",
                 Size = 18,
             };
-            card_picker = new CustomPicker
+            card_picker = new Picker
             {
                 Title = "카드를 선택해주세요.",
+                VerticalOptions = LayoutOptions.FillAndExpand,
                 FontSize = 18,
             };
             PhoneOptionGrid.Children.Add(label, 0, 0);

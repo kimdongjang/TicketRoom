@@ -992,7 +992,6 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
         private void ImageButton_Clicked(object sender, EventArgs e) // 백버튼 이미지
         {
-
             PurchaseListPage.isOpenPage = false;
             Navigation.PopAsync();
         }

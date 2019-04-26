@@ -179,7 +179,8 @@ namespace TicketRoom.Views.MainTab.Basket
                     BackgroundColor = Color.White,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.CenterAndExpand,
-                    Aspect = Aspect.AspectFit
+                    Aspect = Aspect.AspectFill,
+                    Margin = 20,
                 };
                 #endregion
 
@@ -402,7 +403,7 @@ namespace TicketRoom.Views.MainTab.Basket
                                 {
                                     if (test.Equals("true"))
                                     {
-                                        //삭제되었습니다
+                                        await App.Current.MainPage.DisplayAlert("알림", "장바구니 항목이 삭제되었습니다.", "확인");
                                     }
                                     else
                                     {
@@ -412,6 +413,7 @@ namespace TicketRoom.Views.MainTab.Basket
                             }
                         }
                         ShowBasketlist();
+                        ListInit();
                     }
                     #endregion
                 };
@@ -443,7 +445,7 @@ namespace TicketRoom.Views.MainTab.Basket
 
                 BoxView gridline = new BoxView
                 {
-                    BackgroundColor = Color.White,
+                    BackgroundColor = Color.LightGray,
                     HeightRequest = 1,
                     VerticalOptions = LayoutOptions.End,
                     HorizontalOptions = LayoutOptions.FillAndExpand

@@ -16,6 +16,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+
 namespace TicketRoom.Views.MainTab.MyPage.Point
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
@@ -24,7 +25,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
         PointDBFunc PT_DB = PointDBFunc.Instance();
         UserDBFunc USER_DB = UserDBFunc.Instance();
 
-        CustomPicker account_picker = new CustomPicker();
+        Picker account_picker = new Picker();
         string payOption = "Card";
 
         PointCheckPage pcp;
@@ -41,7 +42,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             Init();
             CardOptionEnable();
         }
-
 
 
 
@@ -80,10 +80,13 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 Size = 18,
                 Margin = new Thickness(15, 0, 0, 0),
             };
-            account_picker = new CustomPicker
+            account_picker = new Picker
             {
                 Title = "계좌를 선택해주세요.",
+                VerticalOptions = LayoutOptions.FillAndExpand,
                 FontSize = 18,
+                Margin = 10,
+                
             };
 
             #region 네트워크 상태 확인
@@ -132,8 +135,9 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             {
                 Placeholder = "0원(숫자만 입력해주십시오.)",
                 FontSize = 18,
-                HorizontalTextAlignment = TextAlignment.Center,
+                HorizontalTextAlignment = TextAlignment.Start,
                 Keyboard = Keyboard.Numeric,
+                Margin = 10,
             };
             PayOptionGrid.Children.Add(priceLabel, 0, 2);
             PayOptionGrid.Children.Add(priceEntry, 0, 3);
@@ -292,5 +296,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 //await Navigation.PushAsync(new IMPHybridWebView(param, this)); // PG사 연결
             }
         }
+
     }
 }

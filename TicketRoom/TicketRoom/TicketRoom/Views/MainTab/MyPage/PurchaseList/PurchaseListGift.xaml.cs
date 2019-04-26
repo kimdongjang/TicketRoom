@@ -605,7 +605,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                 CustomLabel main_state_label = new CustomLabel
                 {
-                    Text = purchaselist[i].PL_ISSUCCESS, // 전체 구매 상태
+                    Text = Global.StateToString(purchaselist[i].PL_ISSUCCESS), // 전체 구매 상태
                     Size = 14,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,

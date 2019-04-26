@@ -245,7 +245,7 @@ namespace TicketRoom.Views.MainTab
                 {
                     TextColor = Color.White,
                     Size = 14,
-                    Text = "구매완료",
+                    Text = "결제완료",
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalTextAlignment = TextAlignment.Center,

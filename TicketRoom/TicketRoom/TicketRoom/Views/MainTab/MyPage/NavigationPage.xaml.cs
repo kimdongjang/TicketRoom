@@ -26,9 +26,13 @@ namespace TicketRoom.Views.MainTab.MyPage
         List<PT_Charge> chargelist = new List<PT_Charge>();
         List<PT_WithDraw> withdrawlist = new List<PT_WithDraw>();
 
+        string packet = "";
+
         public NavagationPage()
         {
             InitializeComponent();
+
+            Global.isNavigation_clicked = true;
             #region IOS의 경우 초기화
             NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
             if (Device.OS == TargetPlatform.iOS)
@@ -42,6 +46,27 @@ namespace TicketRoom.Views.MainTab.MyPage
             #endregion
             Init();
         }
+
+        public NavagationPage(string packet)
+        {
+            InitializeComponent();
+
+            Global.isNavigation_clicked = true;
+            #region IOS의 경우 초기화
+            NavigationPage.SetHasNavigationBar(this, false); // Navigation Bar 지우는 코드 생성자에 입력
+            if (Device.OS == TargetPlatform.iOS)
+            {
+                TabGrid.RowDefinitions[0].Height = Global.title_size_value;
+            }
+            if (Global.ios_x_model == true) // ios X 이상의 모델일 경우
+            {
+                TabGrid.RowDefinitions[3].Height = 30;
+            }
+            #endregion
+            this.packet = packet;
+            Init();
+        }
+
         private void Init()
         {
             Global.isbackbutton_clicked = true;
@@ -53,6 +78,21 @@ namespace TicketRoom.Views.MainTab.MyPage
             StatusPicker.Items.Add("결제내역");
             StatusPicker.Items.Add("포인트충전");
             StatusPicker.Items.Add("포인트출금");
+
+            if(packet != "") // 포인트 쪽에서 접근 했을시
+            {
+                if(packet == "포인트출금")
+                {
+                    StatusLabel.Text = "포인트출금대기중인내역";
+                    PointWithDrawListInit();
+                }
+                else if (packet == "포인트입금")
+                {
+                    StatusLabel.Text = "포인트입금대기중인내역";
+                    PointChargeListInit();
+                }
+
+            }
         }
         private void UserInfoInit()
         {

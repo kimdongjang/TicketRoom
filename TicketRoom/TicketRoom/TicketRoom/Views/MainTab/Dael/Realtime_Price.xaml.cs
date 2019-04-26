@@ -263,18 +263,21 @@ namespace TicketRoom.Views.MainTab.Dael
             }
             else
             {
-                SelectDetailCategory(selectedIndex.ToString());
+                SelectDetailCategoryAsync(selectedIndex.ToString());
                 DetailCategoryCombo.SelectedIndex = 0;
             }
         }
 
         private void DetailCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectAllProduct(CategoryCombo.SelectedIndex.ToString(), DetailCategoryCombo.SelectedIndex.ToString());
+            SelectAllProductAsync(CategoryCombo.SelectedIndex.ToString(), DetailCategoryCombo.SelectedIndex.ToString());
         }
 
-        private void SelectDetailCategory(string categorynum)
+        private async void SelectDetailCategoryAsync(string categorynum)
         {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
             string str = @"{";
             str += "CategoryNum:'" + categorynum;  //아이디찾기에선 Name으로 
             str += "'}";
@@ -306,10 +309,16 @@ namespace TicketRoom.Views.MainTab.Dael
                     AddDeatilCategoryCombo(test);
                 }
             }
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
-        private void SelectAllProduct(string categorynum, string detailcategorynum)
+        private async void SelectAllProductAsync(string categorynum, string detailcategorynum)
         {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
             string str = @"{";
             str += "CategoryNum:'" + categorynum;  //아이디찾기에선 Name으로 
             str += "',DetailcategoryNum:'" + detailcategorynum;
@@ -342,6 +351,8 @@ namespace TicketRoom.Views.MainTab.Dael
                     ShowPrice(test);
                 }
             }
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
 
         private void AddCategoryCombo(List<G_CategoryInfo> categorylist)
@@ -364,8 +375,11 @@ namespace TicketRoom.Views.MainTab.Dael
             }
         }
 
-        private void SearchBtn_Clicked(object sender, EventArgs e)
+        private async void SearchBtn_ClickedAsync(object sender, EventArgs e)
         {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
             if (Search_box.Text != "" && Search_box.Text != null)
             {
                 Search_box.Unfocus();
@@ -405,6 +419,10 @@ namespace TicketRoom.Views.MainTab.Dael
             {
                 DisplayAlert("알림", "키워드를 입력하세요", "OK");
             }
+
+
+            // 로딩 완료
+            await Global.LoadingEndAsync();
         }
     }
 }

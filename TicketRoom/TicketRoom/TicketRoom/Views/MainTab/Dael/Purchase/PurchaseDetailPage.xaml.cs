@@ -377,17 +377,6 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             }
         }
 
-        private void Picker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //var picker = (Picker)sender;
-            //int selectedIndex = picker.SelectedIndex;
-
-            //if (selectedIndex != -1)
-            //{
-            //    DisplayAlert("알림", picker.Items[selectedIndex], "OK");
-            //}
-        }
-
         private void UsedPointBtn_Clicked(object sender, EventArgs e)
         {
             try

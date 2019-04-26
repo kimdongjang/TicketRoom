@@ -4,7 +4,7 @@
              xmlns:local1="clr-namespace:TicketRoom.Models.Custom"
              x:Class="TicketRoom.Views.MainTab.Dael.Purchase.PurchaseDetailPage">
     <!--#region 전체 화면 그리드(행) - 0 컨텐츠 1 탭-->
-    <Grid BackgroundColor="#f5f5f5"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
+    <Grid BackgroundColor="White"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
@@ -274,7 +274,7 @@
 
                     <!--#region 11행 입금 예정인 Entry(Input)-->
                     <Entry Grid.Row="11" x:Name="Name_box" Margin="15,15,15,0"
-                           Placeholder="ex) 홍길동" FontSize="18" 
+                           Placeholder="ex) 홍길동" FontSize="18"
                            Keyboard="Text"
                            TextColor="Black"
                            HorizontalOptions="FillAndExpand" VerticalOptions="Center" Style="null"
@@ -284,15 +284,15 @@
                     
                     <local1:CustomLabel Grid.Row="12" Size="20" Margin="15,30,15,0" TextColor="Black" FontFamily="{StaticResource FontStyle}" Text="입금계좌" HorizontalOptions="Start" VerticalOptions="Center"/>
 
-                    <local1:CustomPicker Grid.Row="13" x:Name="Combo" Margin="15,15,15,0" 
+                    <Picker Grid.Row="13" x:Name="Combo" Margin="15,15,15,0" FontSize="18"
                                          Title="입금 계좌 선택" TextColor="Black" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                                         SelectedIndexChanged="Picker_SelectedIndexChanged"/>
+                                         />
                 </Grid>
             </Grid>
         </ScrollView>
         <!--#endregion-->
 
-        <local1:CustomButton Size="26" Clicked="PurchaseBtn_Clicked" FontFamily="{StaticResource FontStyle}" Grid.Row="3" Text="주문하기" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand"
+        <local1:CustomButton Size="18" Clicked="PurchaseBtn_Clicked" FontFamily="{StaticResource FontStyle}" Grid.Row="3" Text="주문하기" TextColor="White" BackgroundColor="Black" VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"/>
     </Grid>
     <!--#endregion-->
