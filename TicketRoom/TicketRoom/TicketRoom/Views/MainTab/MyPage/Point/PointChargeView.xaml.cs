@@ -261,7 +261,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                     SH_BUYER_ADDR = Global.adress.ROADADDR/*배송지*/,
                     SH_BUYER_POSTCODE = Global.adress.ZIPNO.ToString()/*우편번호*/,
                     SH_PAY_METHOD = "account", // 계좌이체(무통장입금)
-                    SH_MERCHANT_UID = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"),
+                    //SH_MERCHANT_UID = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss"),
                     SH_NAME = "포인트 충전 " + int.Parse(priceEntry.Text).ToString("N0"),
                     SH_AMOUNT = priceEntry.Text /*충전포인트(입금금액)*/,
                     SH_STATUS = "입금대기",
