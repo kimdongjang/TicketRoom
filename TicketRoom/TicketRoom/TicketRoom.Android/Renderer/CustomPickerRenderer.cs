@@ -28,5 +28,7 @@ namespace TicketRoom.Droid.Renderer
                 Control.Gravity = GravityFlags.CenterHorizontal;
             }
         }
+
+
     }
 }

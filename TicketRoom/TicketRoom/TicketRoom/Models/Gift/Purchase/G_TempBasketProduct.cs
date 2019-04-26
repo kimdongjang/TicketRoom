@@ -12,5 +12,6 @@ namespace TicketRoom.Models.Gift.Purchase
         public string PDL_PRICE;
         public string PDL_COUNT;
         public string PRODUCT_IMAGE;
+        public string BASKET_INDEX; // 장바구니 인덱스
     }
 }

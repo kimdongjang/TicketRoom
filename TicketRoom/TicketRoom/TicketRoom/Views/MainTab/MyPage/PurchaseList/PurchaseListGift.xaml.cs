@@ -349,7 +349,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                         #endregion
                         #region 구매 상태
-                        string prostatestring = Global.StateToString(purchaselist[i].PL_ISSUCCESS);
+                        string prostatestring = Global.StateToString(purchaselist[i].PL_PAPERSTATE);
                         CustomLabel price_label = new CustomLabel
                         {
                             Text = prostatestring,
@@ -595,13 +595,23 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                 };
                 CustomLabel dateLabel = new CustomLabel
                 {
-                    Text = "구매 시각 " + purchaselist[i].PL_PURCHASE_DATE, // 구매 날짜
+                    Text = purchaselist[i].PL_PURCHASE_DATE, // 구매 날짜
                     Size = 14,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
                     Margin = new Thickness(10, 0, 0, 0)
                 };
                 dateGrid.Children.Add(dateLabel, 0, 0);
+
+                CustomLabel main_state_label = new CustomLabel
+                {
+                    Text = Global.StateToString(purchaselist[i].PL_ISSUCCESS), // 전체 구매 상태
+                    Size = 14,
+                    TextColor = Color.Black,
+                    VerticalOptions = LayoutOptions.Center,
+                    Margin = new Thickness(10, 0, 0, 0)
+                };
+                dateGrid.Children.Add(main_state_label, 1, 0);
                 row_Grid.Children.Add(dateLine, 0, 9);
                 row_Grid.Children.Add(dateGrid, 0, 10);
             }

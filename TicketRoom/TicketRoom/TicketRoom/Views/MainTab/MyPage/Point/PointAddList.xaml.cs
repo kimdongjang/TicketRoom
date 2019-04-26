@@ -116,6 +116,20 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                     ColumnSpacing = 0,
                 };
 
+
+                inGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+                {
+                    Command = new Command(async () =>
+                    {
+                        if(Global.isNavigation_clicked == true)
+                        {
+                            Global.isNavigation_clicked = false;
+                            await Navigation.PushAsync(new NavagationPage("포인트입금"));
+                        }
+                        
+                    })
+                });
+
                 #region 포인트 이미지
                 Image point_image = new Image
                 {

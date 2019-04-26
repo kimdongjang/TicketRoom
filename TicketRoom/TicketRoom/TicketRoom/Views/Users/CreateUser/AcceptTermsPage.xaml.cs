@@ -155,7 +155,8 @@ namespace TicketRoom.Views.Users.CreateUser
         {
             if (Global.isaccepttermsnextbtn_clicked)
             {
-                Global.isaccepttermsnextbtn_clicked = false;
+                //Global.isaccepttermsnextbtn_clicked = false;
+                Global.isaccepttermsnextbtn_clicked = true;
                 CustomLabel c = (CustomLabel)sender;
                 if (c.Text.Equals("상품권 거래 이용약관 동의"))
                 {
@@ -232,7 +233,8 @@ namespace TicketRoom.Views.Users.CreateUser
         {
             if (Global.isaccepttermsnextbtn_clicked)
             {
-                Global.isaccepttermsnextbtn_clicked = false;
+                //Global.isaccepttermsnextbtn_clicked = false;
+                Global.isaccepttermsnextbtn_clicked = true;
                 Dictionary<string, bool> sendlist = new Dictionary<string, bool>();//전달할 객체
 
 

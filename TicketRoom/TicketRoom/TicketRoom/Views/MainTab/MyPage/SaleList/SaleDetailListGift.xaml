@@ -61,7 +61,7 @@
 
             <!--#region 4행 확인 -->
             <Grid Grid.Row="4">
-                <local1:CustomButton Size="26" FontFamily="{StaticResource FontStyle}" Text="확인"
+                <local1:CustomButton Size="20" FontFamily="{StaticResource FontStyle}" Text="확인"
                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                     BackgroundColor="Black" TextColor="White" 
                      x:Name="ConfirmBtn" Clicked="ConfirmBtn_Clicked"/>

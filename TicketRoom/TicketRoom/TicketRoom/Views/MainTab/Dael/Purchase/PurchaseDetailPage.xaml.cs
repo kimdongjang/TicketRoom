@@ -377,17 +377,6 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             }
         }
 
-        private void Picker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //var picker = (Picker)sender;
-            //int selectedIndex = picker.SelectedIndex;
-
-            //if (selectedIndex != -1)
-            //{
-            //    DisplayAlert("알림", picker.Items[selectedIndex], "OK");
-            //}
-        }
-
         private void UsedPointBtn_Clicked(object sender, EventArgs e)
         {
             try
@@ -631,6 +620,12 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                         string test = JsonConvert.DeserializeObject<string>(readdata);
                         if (test == "1") // 구매 성공했을 경우
                         {
+                            for(int j=0; j< tempBasketList.Count; j++)
+                            {
+                                giftDBFunc.PostDeleteGiftBasketListToIndex(tempBasketList[j].BASKET_INDEX);
+                            }
+                            
+
                             await DisplayAlert("알림", "결제 완료! 구매내역에서 확인해주세요.", "확인");
                             Global.isPurchaseDeatailBtn_clicked = true;
 

@@ -70,17 +70,10 @@ namespace TicketRoom.Views.Users.FindUser
                 {
                     if (Phone_box.Text != "" && Phone_box.Text != null)
                     {
-                        #region 인증번호 만들기
-                        var bytes = new byte[4];
-                        var rng = RandomNumberGenerator.Create();
-                        rng.GetBytes(bytes);
-                        uint random = BitConverter.ToUInt32(bytes, 0) % 100000000;
-                        #endregion
 
                         string str = @"{";
                         str += "DATA:'" + Name_box.Text;  //아이디찾기에선 Name으로 
                         str += "',PHONENUM:'" + Phone_box.Text;
-                        str += "',KEY:'" + String.Format("{0:D8}", random);
                         str += "',TYPE:'" + "2"; //인증 종류( 1: 회원가입, 2: ID찾기, 3: 비밀번호 찾기)
                         str += "'}";
 

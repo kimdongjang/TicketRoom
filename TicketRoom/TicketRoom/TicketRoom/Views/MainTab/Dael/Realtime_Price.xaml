@@ -68,7 +68,7 @@
                 <!--#region 1열 검색버튼 등 이미지-->
                 <Image Grid.Column="1" Source="search.png"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit">
                     <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="SearchBtn_Clicked"/>
+                        <TapGestureRecognizer Tapped="SearchBtn_ClickedAsync"/>
                     </Image.GestureRecognizers>
                 </Image>
                 <!--#endregion-->

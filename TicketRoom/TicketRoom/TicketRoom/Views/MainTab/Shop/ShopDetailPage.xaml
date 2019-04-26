@@ -68,7 +68,7 @@
                         </Grid.ColumnDefinitions>
                         <local1:CustomLabel Size="18" FontFamily="{StaticResource FontStyle}" Grid.Column="0"
                                             Text="옵션" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black"/>
-                        <local1:CustomPicker FontSize="18" FontFamily="{StaticResource FontStyle}" Grid.Column="2"
+                        <Picker FontSize="18" FontFamily="{StaticResource FontStyle}" Grid.Column="2"
                                             Title="옵션 선택" HorizontalOptions="Center" VerticalOptions="Center" x:Name="ClothesSelectOption"
                                              SelectedIndexChanged="ClothesSelectOption_SelectedIndexChanged"/>
                     </Grid>

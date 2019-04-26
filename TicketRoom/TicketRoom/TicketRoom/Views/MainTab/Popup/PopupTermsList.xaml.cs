@@ -55,9 +55,5 @@ namespace TicketRoom.Views.MainTab.Popup
             });
         }
 
-        private async void ConfirmBtn_Clicked(object sender, EventArgs e)
-        {
-            PopupNavigation.Instance.RemovePageAsync(this);
-        }
     }
 }

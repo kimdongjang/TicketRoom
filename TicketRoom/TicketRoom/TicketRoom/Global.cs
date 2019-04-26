@@ -78,6 +78,11 @@ namespace TicketRoom
         public static bool ischangemyinfobtn_clicked = true;
         #endregion
 
+        #region 네비게이션 관련 버튼 더블클릭 방지 변수
+        //네비게이션 관련 버튼 더블 클릭 막는 변수
+        public static bool isNavigation_clicked = true;
+        #endregion
+
         #region 로그인 및 Users 관련 페이지 더블클릭 방지 변수
         //로그인 버튼 더블 클릭 막는 변수
         public static bool isloginbtn_clicked = true;

@@ -73,10 +73,16 @@
     <EmbeddedResource Update="Views\MainTab\MyPageTabPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainTab\MyPage\MyInfoChange\ChangeMainPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainTab\MyPage\MyInfoChange\PhoneChangePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\MainTab\MyPage\NavigationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainTab\MyPage\MyInfoUpdatePage.xaml">
+    <EmbeddedResource Update="Views\MainTab\MyPage\MyInfoChange\PasswordChangePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MainTab\MyPage\Point\PointAddList.xaml">
@@ -184,6 +190,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\MainTab\MyPage\MyInfoChange\PasswordChangePage.xaml.cs">
+      <DependentUpon>PasswordChangePage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\MainTab\MyPage\NavigationPage.xaml.cs">
       <DependentUpon>NavigationPage.xaml</DependentUpon>
     </Compile>
