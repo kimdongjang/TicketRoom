@@ -203,8 +203,6 @@ namespace TicketRoom.Views.MainTab.Dael
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.Start,
-                    XAlign = TextAlignment.Start,
-                    YAlign = TextAlignment.Center,
                     Margin = new Thickness(15, 0, 0, 0)
                 };
 
@@ -215,8 +213,6 @@ namespace TicketRoom.Views.MainTab.Dael
                     TextColor = Color.Blue,
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.Center,
-                    XAlign = TextAlignment.Center,
-                    YAlign = TextAlignment.Center
                 };
 
                 CustomLabel r = new CustomLabel
@@ -226,8 +222,6 @@ namespace TicketRoom.Views.MainTab.Dael
                     TextColor = Color.Red,
                     VerticalOptions = LayoutOptions.FillAndExpand,
                     HorizontalOptions = LayoutOptions.Center,
-                    XAlign = TextAlignment.Center,
-                    YAlign = TextAlignment.Center
                 };
 
                 Price_Grid.Children.Add(n, 0, row);
