@@ -185,9 +185,13 @@ namespace TicketRoom
             }
             else if (state.Equals("17"))
             {
-                return "판매실패";//(지류상태보고 판매거절)
+                return "판매실패";//(잘못된 입금정보 입력 판매거절)
             }
             else if (state.Equals("18"))
+            {
+                return "판매실패";//(지류상태보고 판매거절)
+            }
+            else if (state.Equals("19"))
             {
                 return "판매실패";//(시스템 오류)
             }
@@ -215,7 +219,7 @@ namespace TicketRoom
             }
             else if (state.Equals("26"))
             {
-                return "판매실패";//(핀번호체크 오류(수동체크 요망))
+                return "판매실패";//(잘못된 핀번호)
             }
             else if (state.Equals("27"))
             {
@@ -223,6 +227,7 @@ namespace TicketRoom
             }
             #endregion
             #region 구매(주문번호에 대한 상태)
+            //성공여부(1: 구매대기(입금대기) 2: 구매중(배송 / 발송대기, 발송중) 3: 구매실패(입금시간초과) 4: 구매완료 5: 구매실패(수량부족) 6: 시스템에러)
             else if (state.Equals("1"))
             {
                 return "구매대기";
@@ -241,17 +246,26 @@ namespace TicketRoom
             }
             else if (state.Equals("5"))
             {
-                return "구매실패";//(시스템오류(지류,핀번호테이블 변경시 에러)))
+                return "구매실패";//(수량부족)
+            }
+            else if (state.Equals("6"))
+            {
+                return "구매실패";//(시스템에러)
             }
             #endregion
-            #region 구매(상세 삼품들 구매 상태)
+            #region 구매(상세 삼품 지류 상태)
+            //지류 배송상태(30: 구매 대기 31: 배송중 32:배송 완료 33: 구매실패(반송) 34: 구매실패(수량부족) 35: 구매실패(시스템에러) 36: 교환 37: 환불)
+            else if (state.Equals("30"))
+            {
+                return "구매대기";
+            }
             else if (state.Equals("31"))
             {
-                return "배송/발송중";
+                return "배송중";
             }
             else if (state.Equals("32"))
             {
-                return "배송/발송 완료";
+                return "배송완료";
             }
             else if (state.Equals("33"))
             {
@@ -259,23 +273,34 @@ namespace TicketRoom
             }
             else if (state.Equals("34"))
             {
-                return "구매완료";
+                return "구매실패";//수량부족
             }
             else if (state.Equals("35"))
             {
-                return "구매실패";//(수량부족)
+                return "구매실패";//(시스템에러)
             }
             else if (state.Equals("36"))
             {
-                return "구매실패";//(시스템에러)
+                return "교환";//(교환)
             }
             else if (state.Equals("37"))
             {
-                return "교환";
-            }
-            else if (state.Equals("38"))
-            {
                 return "환불";
+            }
+            #endregion
+            #region 구매(상세 삼품 핀번호 상태)
+            //핀번호 상태값  41: 구매 대기 42:배송/발송 완료 43: 구매실패(시스템에러)
+            else if (state.Equals("41"))
+            {
+                return "구매대기";
+            }
+            else if (state.Equals("42"))
+            {
+                return "발송완료";
+            }
+            else if (state.Equals("43"))
+            {
+                return "발송실패";
             }
             #endregion
             return "예외 없는 상태값";
