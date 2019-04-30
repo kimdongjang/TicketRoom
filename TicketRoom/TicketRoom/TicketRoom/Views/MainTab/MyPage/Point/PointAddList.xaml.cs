@@ -181,7 +181,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 CustomLabel date_label = new CustomLabel
                 {
                     Text = "일시 : " + pcl[i].PT_CHARGE_DATE/*date*/,
-                    Size = 14,
+                    Size = 12,
                     TextColor = Color.DarkGray,
                 };
                 #endregion
