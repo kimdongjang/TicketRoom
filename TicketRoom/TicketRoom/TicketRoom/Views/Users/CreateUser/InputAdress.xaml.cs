@@ -127,8 +127,8 @@ namespace TicketRoom.Views.Users.CreateUser
             else if (pdp != null)
             {
                 pdp.EntryAdress.Text = Global.adress.ROADADDR;
-                pdp.jibunAddr = Global.adress.ROADADDR;
-                pdp.zipNo = Global.adress.ROADADDR;
+                pdp.jibunAddr = Global.adress.JIBUNADDR;
+                pdp.zipNo = Global.adress.ZIPNO.ToString();
             }
             // 쇼핑몰 주문 페이지 주소 변경시
             else if (sop != null)
@@ -173,7 +173,7 @@ namespace TicketRoom.Views.Users.CreateUser
 
             // 입력된 주소로 전역 변수 초기화
             Global.adress.ROADADDR = myAdress.ROADADDR + DetailEntry.Text;
-            Global.adress.JIBUNADDR = myAdress.JIBUNADDR;
+            Global.adress.JIBUNADDR = myAdress.JIBUNADDR + DetailEntry.Text;
             Global.adress.ZIPNO = myAdress.ZIPNO;
 
             this.OnBackButtonPressed();
