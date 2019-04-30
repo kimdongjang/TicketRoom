@@ -458,50 +458,48 @@ namespace TicketRoom.Views.MainTab.MyPage.SaleList
             coverGrid.Children.Add(borderLine15, 0, 15);
             #endregion
 
-            if (salelist[0].SL_ISSUCCES.Equals("2"))
+
+            #region 실패사유
+            Grid failstring_Grid = new Grid
             {
-                #region 실패사유
-                Grid failstring_Grid = new Grid
-                {
-                    ColumnDefinitions =
+                ColumnDefinitions =
                     {
                         new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) },
                         new ColumnDefinition { Width = new GridLength(7, GridUnitType.Star) },
                     },
-                    RowSpacing = 0,
-                };
-                BoxView failstring_Line = new BoxView { BackgroundColor = Color.LightGray };
-                StackLayout failstring_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
-                CustomLabel failstring_Label = new CustomLabel
-                {
-                    Text = "결제상태",
-                    Size = 14,
-                    TextColor = Color.DarkGray,
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                    HorizontalOptions = LayoutOptions.CenterAndExpand,
-                };
+                RowSpacing = 0,
+            };
+            BoxView failstring_Line = new BoxView { BackgroundColor = Color.LightGray };
+            StackLayout failstring_Cover = new StackLayout { BackgroundColor = Color.White, Margin = 1 };
+            CustomLabel failstring_Label = new CustomLabel
+            {
+                Text = "상세내용",
+                Size = 14,
+                TextColor = Color.DarkGray,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+            };
 
-                CustomLabel input_failstring_Label =  new CustomLabel
-                {
-                    Text = salelist[0].SL_FAILSTRING,
-                    Size = 14,
-                    TextColor = Color.DarkGray,
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                };
+            CustomLabel input_failstring_Label = new CustomLabel
+            {
+                Text = salelist[0].SL_FAILSTRING,
+                Size = 14,
+                TextColor = Color.DarkGray,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+            };
 
-                failstring_Grid.Children.Add(failstring_Line, 0, 0);
-                failstring_Grid.Children.Add(failstring_Cover, 0, 0);
-                failstring_Cover.Children.Add(failstring_Label);
-                failstring_Grid.Children.Add(input_failstring_Label, 1, 0);
+            failstring_Grid.Children.Add(failstring_Line, 0, 0);
+            failstring_Grid.Children.Add(failstring_Cover, 0, 0);
+            failstring_Cover.Children.Add(failstring_Label);
+            failstring_Grid.Children.Add(input_failstring_Label, 1, 0);
 
-                coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                coverGrid.Children.Add(failstring_Grid, 0, 16);
+            coverGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            coverGrid.Children.Add(failstring_Grid, 0, 16);
 
-                BoxView borderLine17 = new BoxView { BackgroundColor = Color.LightGray };
-                coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
-                coverGrid.Children.Add(borderLine17, 0, 17);
-                #endregion
-            }
+            BoxView borderLine17 = new BoxView { BackgroundColor = Color.LightGray };
+            coverGrid.RowDefinitions.Add(new RowDefinition { Height = 1 });
+            coverGrid.Children.Add(borderLine17, 0, 17);
+            #endregion
         }
     }
 }
