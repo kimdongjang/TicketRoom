@@ -245,7 +245,7 @@ namespace TicketRoom.Views.MainTab
                 {
                     TextColor = Color.White,
                     Size = 14,
-                    Text = "결제완료",
+                    Text = "거래완료",
                     HorizontalOptions = LayoutOptions.Center,
                     VerticalOptions = LayoutOptions.Center,
                     HorizontalTextAlignment = TextAlignment.Center,
@@ -270,6 +270,10 @@ namespace TicketRoom.Views.MainTab
                     else if (g_DealInfolist[i].NAME.Length == 4)
                     {
                         name = g_DealInfolist[i].NAME.Remove(1) + "**" + g_DealInfolist[i].NAME.Remove(0, 3);
+                    }
+                    else
+                    {
+                        name = "비회원";
                     }
                 }
 

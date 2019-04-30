@@ -92,9 +92,9 @@
                 <!--#region 2열 수량 Grid-->
                 <Grid Grid.Column="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" ColumnSpacing="0" BackgroundColor="White">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
 
                     <!--#region 0행 플러스 이미지 버튼-->

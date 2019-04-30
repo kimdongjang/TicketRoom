@@ -437,37 +437,13 @@ namespace TicketRoom.Views.MainTab.MyPage.SaleList
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
             };
 
-            CustomLabel input_pay_stateLabel = new CustomLabel();
-            if (salelist[0].SL_ISSUCCES.Equals("1"))
+            CustomLabel input_pay_stateLabel = new CustomLabel
             {
-                input_pay_stateLabel = new CustomLabel
-                {
-                    Text = "판매완료",
-                    Size = 14,
-                    TextColor = Color.DarkGray,
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                };
-            }
-            else if (salelist[0].SL_ISSUCCES.Equals("2"))
-            {
-                input_pay_stateLabel = new CustomLabel
-                {
-                    Text = "판매실패",
-                    Size = 14,
-                    TextColor = Color.DarkGray,
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                };
-            }
-            else if (salelist[0].SL_ISSUCCES.Equals("3"))
-            {
-                input_pay_stateLabel = new CustomLabel
-                {
-                    Text = "판매중",
-                    Size = 14,
-                    TextColor = Color.DarkGray,
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                };
-            }
+                Size = 14,
+                TextColor = Color.DarkGray,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+            };
+            input_pay_stateLabel.Text = Global.StateToString(salelist[0].SL_ISSUCCES);
 
             pay_stateGrid.Children.Add(pay_stateLine, 0, 0);
             pay_stateGrid.Children.Add(pay_stateCover, 0, 0);

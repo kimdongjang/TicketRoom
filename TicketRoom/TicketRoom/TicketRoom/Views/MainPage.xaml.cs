@@ -162,7 +162,6 @@ namespace TicketRoom.Views
                 #region 네트워크 연결 가능
                 else
                 {
-
                     #region 방문자수 올리는부분
                     AddVisitors();
                     #endregion
@@ -216,7 +215,12 @@ namespace TicketRoom.Views
             }
             catch
             {
-
+                if (File.Exists(Global.localPath + "app.config") == false) // 앱 설정 파일이 없다면 생성
+                {
+                    // config파일 작성
+                    File.WriteAllText(Global.localPath + "app.config", "");
+                    return;
+                }
             }
         }
 
