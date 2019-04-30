@@ -37,10 +37,10 @@ namespace TicketRoom.Views.MainTab.Dael
             LoadingInitAsync();
         }
 
-        private async void LoadingInitAsync()
+        private void LoadingInitAsync()
         {
-            // 로딩 시작
-            await Global.LoadingStartAsync();
+            //// 로딩 시작
+            //await Global.LoadingStartAsync();
 
 
 
@@ -60,16 +60,7 @@ namespace TicketRoom.Views.MainTab.Dael
             #region 네트워크 검색 불가
             if (categoryInfoList == null) // 검색 불가일 경우
             {
-                CustomLabel label = new CustomLabel
-                {
-                    Text = "네트워크에 연결할 수 없습니다. 다시 시도해 주세요.",
-                    Size = 18,
-                    TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.Start,
-                    HorizontalOptions = LayoutOptions.Center,
-                    Margin = new Thickness(0, 15, 0, 0),
-                };
-                Price_Grid.Children.Add(label, 0, 0);         //실시간거래 그리드에 라벨추가
+                ContentView.Content = new Realtime_PriceView(null);
                 return;
                 // 카테고리 피커 초기화 하지 않음
             }
@@ -82,8 +73,8 @@ namespace TicketRoom.Views.MainTab.Dael
 
             NavigationInit();
 
-            // 로딩 완료
-            await Global.LoadingEndAsync();
+            //// 로딩 완료
+            //await Global.LoadingEndAsync();
         }
 
         private void NavigationInit()
@@ -146,104 +137,6 @@ namespace TicketRoom.Views.MainTab.Dael
             }
         }
 
-        private void ShowPrice(List<G_ProductInfo> Pricelist)
-        {
-            Price_Grid.RowDefinitions.Clear();
-            Price_Grid.Children.Clear();
-            Price_Grid.RowDefinitions.Add(new RowDefinition { Height = 40 });//new GridLength(1, GridUnitType.Star)
-            CustomLabel titlename = new CustomLabel
-            {
-                Text = "상품명",
-                Size = 14,
-                TextColor = Color.Black,
-                VerticalOptions = LayoutOptions.CenterAndExpand,
-                HorizontalOptions = LayoutOptions.Start,
-                XAlign = TextAlignment.Center,
-                YAlign = TextAlignment.Center,
-                Margin = new Thickness(15, 0, 0, 0)
-            };
-
-            CustomLabel titleb = new CustomLabel
-            {
-                Text = "고객판매가\n(할인율)",
-                Size = 14,
-                TextColor = Color.Black,
-                VerticalOptions = LayoutOptions.FillAndExpand,
-                HorizontalOptions = LayoutOptions.Center,
-                XAlign = TextAlignment.Center,
-                YAlign = TextAlignment.Center
-            };
-
-            CustomLabel titler = new CustomLabel
-            {
-                Text = "고객구매가\n(할인율)",
-                Size = 14,
-                TextColor = Color.Black,
-                VerticalOptions = LayoutOptions.FillAndExpand,
-                HorizontalOptions = LayoutOptions.Center,
-                XAlign = TextAlignment.Center,
-                YAlign = TextAlignment.Center
-            };
-
-            Price_Grid.Children.Add(titlename, 0, 0);
-            Price_Grid.Children.Add(titleb, 1, 0);
-            Price_Grid.Children.Add(titler, 2, 0);
-
-            int row = 1;
-            if (Pricelist == null) return;
-
-            for (int i = 0; i < Pricelist.Count; i++)
-            {
-                Price_Grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });//new GridLength(1, GridUnitType.Star)
-                Price_Grid.RowDefinitions.Add(new RowDefinition { Height = 1 });//new GridLength(1, GridUnitType.Star)
-                CustomLabel n = new CustomLabel
-                {
-                    Text = Pricelist[i].PRODUCTTYPE + "\n" + Pricelist[i].PRODUCTVALUE,
-                    Size = 14,
-                    TextColor = Color.Black,
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
-                    HorizontalOptions = LayoutOptions.Start,
-                    Margin = new Thickness(15, 0, 0, 0)
-                };
-
-                CustomLabel b = new CustomLabel
-                {
-                    Text = Pricelist[i].SALEDISCOUNTPRICE + "\n(" + Pricelist[i].SALEDISCOUNTRATE + "%)",
-                    Size = 14,
-                    TextColor = Color.Blue,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    HorizontalOptions = LayoutOptions.Center,
-                };
-
-                CustomLabel r = new CustomLabel
-                {
-                    Text = Pricelist[i].PURCHASEDISCOUNTPRICE + "\n(" + Pricelist[i].PURCHASEDISCOUNTRATE + "%)",
-                    Size = 14,
-                    TextColor = Color.Red,
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    HorizontalOptions = LayoutOptions.Center,
-                };
-
-                Price_Grid.Children.Add(n, 0, row);
-                Price_Grid.Children.Add(b, 1, row);
-                Price_Grid.Children.Add(r, 2, row);
-
-                row++;
-
-                BoxView gridline = new BoxView
-                {
-                    BackgroundColor = Color.FromHex("#f4f2f2"),
-                    HeightRequest = 1,
-                    VerticalOptions = LayoutOptions.End,
-                    HorizontalOptions = LayoutOptions.FillAndExpand
-                };
-                Price_Grid.Children.Add(gridline, 0, row);
-                Grid.SetColumnSpan(gridline, 3);
-                row++;
-            }
-
-        }
-
         private void Category_SelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = (Picker)sender;
@@ -264,13 +157,18 @@ namespace TicketRoom.Views.MainTab.Dael
 
         private void DetailCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectAllProductAsync(CategoryCombo.SelectedIndex.ToString(), DetailCategoryCombo.SelectedIndex.ToString());
+            var picker = (Picker)sender;
+            int selectedIndex = picker.SelectedIndex;
+            if (selectedIndex != -1)
+            {
+                SelectAllProductAsync(CategoryCombo.SelectedIndex.ToString(), DetailCategoryCombo.SelectedIndex.ToString());
+            }
         }
 
-        private async void SelectDetailCategoryAsync(string categorynum)
+        private void SelectDetailCategoryAsync(string categorynum)
         {
-            // 로딩 시작
-            await Global.LoadingStartAsync();
+            //// 로딩 시작
+            //await Global.LoadingStartAsync();
 
             string str = @"{";
             str += "CategoryNum:'" + categorynum;  //아이디찾기에선 Name으로 
@@ -304,8 +202,8 @@ namespace TicketRoom.Views.MainTab.Dael
                 }
             }
 
-            // 로딩 완료
-            await Global.LoadingEndAsync();
+            //// 로딩 완료
+            //await Global.LoadingEndAsync();
         }
 
         private async void SelectAllProductAsync(string categorynum, string detailcategorynum)
@@ -342,7 +240,8 @@ namespace TicketRoom.Views.MainTab.Dael
                 {
                     var readdata = reader.ReadToEnd();
                     List<G_ProductInfo> test = JsonConvert.DeserializeObject<List<G_ProductInfo>>(readdata);
-                    ShowPrice(test);
+                    ContentView.Content = new Realtime_PriceView(test);
+                    //ShowPrice(test);
                 }
             }
             // 로딩 완료
@@ -405,7 +304,7 @@ namespace TicketRoom.Views.MainTab.Dael
                     {
                         var readdata = reader.ReadToEnd();
                         List<G_ProductInfo> test = JsonConvert.DeserializeObject<List<G_ProductInfo>>(readdata);
-                        ShowPrice(test);
+                        ContentView.Content = new Realtime_PriceView(test);
                     }
                 }
             }
