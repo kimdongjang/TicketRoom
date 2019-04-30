@@ -602,15 +602,23 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
                     Margin = new Thickness(10, 0, 0, 0)
                 };
                 dateGrid.Children.Add(dateLabel, 0, 0);
-
+                string state_main_text = Global.StateToString(purchaselist[i].PL_ISSUCCESS);
                 CustomLabel main_state_label = new CustomLabel
                 {
-                    Text = Global.StateToString(purchaselist[i].PL_ISSUCCESS), // 전체 구매 상태
+                    Text = state_main_text, // 전체 구매 상태
                     Size = 14,
                     TextColor = Color.Black,
                     VerticalOptions = LayoutOptions.Center,
                     Margin = new Thickness(10, 0, 0, 0)
                 };
+
+
+                // 구매 상태에 따라 핀번호 색상 변경
+                if (state_main_text == "구매대기") { main_state_label.TextColor = Color.Orange; }
+                else if (state_main_text == "구매중") { main_state_label.TextColor = Color.Orange; }
+                else if (state_main_text == "구매실패") { main_state_label.TextColor = Color.Red; }
+                else if (state_main_text == "구매완료") { main_state_label.TextColor = Color.Blue; }
+
                 dateGrid.Children.Add(main_state_label, 1, 0);
                 row_Grid.Children.Add(dateLine, 0, 9);
                 row_Grid.Children.Add(dateGrid, 0, 10);

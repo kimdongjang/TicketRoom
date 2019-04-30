@@ -51,91 +51,97 @@ namespace TicketRoom.Views.Users.CreateUser
             var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
             if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
             {
-                if (Name_box.Text != "" && Name_box.Text != null)
+                if (Global.iscreateuserphonenextbtn_clicked)
                 {
-                    if (Phone_box.Text != "" && Phone_box.Text != null)
+                    if (Name_box.Text != "" && Name_box.Text != null)
                     {
-                        users.Name = Name_box.Text;
-                        users.Phone = Phone_box.Text;
-                        
-                        string str = @"{";
-                        str += "DATA:'" + Name_box.Text;  //아이디찾기에선 Name으로
-                        str += "',PHONENUM:'" + users.Phone;
-                        str += "',TYPE:'" + "1"; //인증 종류( 1: 회원가입, 2: ID찾기, 3: 비밀번호 찾기)
-                        str += "'}";
-
-                        //// JSON 문자열을 파싱하여 JObject를 리턴
-                        JObject jo = JObject.Parse(str);
-
-                        UTF8Encoding encoder = new UTF8Encoding();
-                        byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
-
-                        //request.Method = "POST";
-                        HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Certifiaction_Create") as HttpWebRequest;
-                        request.Method = "POST";
-                        request.ContentType = "application/json";
-                        request.ContentLength = data.Length;
-
-                        //request.Expect = "application/json";
-
-                        request.GetRequestStream().Write(data, 0, data.Length);
-
-                        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                        if (Phone_box.Text != "" && Phone_box.Text != null)
                         {
-                            if (response.StatusCode != HttpStatusCode.OK)
-                                Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
-                            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                            {
-                                var readdata = reader.ReadToEnd();
-                                //Stuinfo test = JsonConvert.DeserializeObject<Stuinfo>(readdata);
-                                switch (int.Parse(readdata))
-                                {
-                                    case 0:
-                                        CheckNumSendBtn.Text = "인증";
-                                        CheckNumGrid.IsVisible = false;
-                                        users.Name = Name_box.Text;
-                                        users.Phone = Phone_box.Text;
-                                        await DisplayAlert("알림", "이미 가입하신 전화번호입니다.", "OK");
-                                        return;
-                                    case 1:
-                                        CheckNumSendBtn.Text = "인증번호 재전송";
-                                        CheckNumGrid.IsVisible = true;
-                                        users.Name = Name_box.Text;
-                                        users.Phone = Phone_box.Text;
-                                        #region 남은시간 타이머 
-                                        await ShowMessage("인증번호가 발송 되었습니다.", "알림", "OK", async () =>
-                                        {
-                                            // 타이머 생성 및 시작
-                                            test = 300;
+                            users.Name = Name_box.Text;
+                            users.Phone = Phone_box.Text;
 
-                                            if (timer == null)
+                            string str = @"{";
+                            str += "DATA:'" + Name_box.Text;  //아이디찾기에선 Name으로
+                            str += "',PHONENUM:'" + users.Phone;
+                            str += "',TYPE:'" + "1"; //인증 종류( 1: 회원가입, 2: ID찾기, 3: 비밀번호 찾기)
+                            str += "'}";
+
+                            //// JSON 문자열을 파싱하여 JObject를 리턴
+                            JObject jo = JObject.Parse(str);
+
+                            UTF8Encoding encoder = new UTF8Encoding();
+                            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+                            //request.Method = "POST";
+                            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "Certifiaction_Create") as HttpWebRequest;
+                            request.Method = "POST";
+                            request.ContentType = "application/json";
+                            request.ContentLength = data.Length;
+
+                            //request.Expect = "application/json";
+
+                            request.GetRequestStream().Write(data, 0, data.Length);
+
+                            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                            {
+                                if (response.StatusCode != HttpStatusCode.OK)
+                                    Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                                {
+                                    var readdata = reader.ReadToEnd();
+                                    //Stuinfo test = JsonConvert.DeserializeObject<Stuinfo>(readdata);
+                                    switch (int.Parse(readdata))
+                                    {
+                                        case 0:
+                                            CheckNumSendBtn.Text = "인증";
+                                            CheckNumGrid.IsVisible = false;
+                                            users.Name = Name_box.Text;
+                                            users.Phone = Phone_box.Text;
+                                            await DisplayAlert("알림", "이미 가입하신 전화번호입니다.", "OK");
+                                            Global.iscreateuserphonenextbtn_clicked = true;
+                                            return;
+                                        case 1:
+                                            CheckNumSendBtn.Text = "인증번호 재전송";
+                                            CheckNumGrid.IsVisible = true;
+                                            Global.iscreateuserphonenextbtn_clicked = true;
+                                            users.Name = Name_box.Text;
+                                            users.Phone = Phone_box.Text;
+                                            #region 남은시간 타이머 
+                                            await ShowMessage("인증번호가 발송 되었습니다.", "알림", "OK", async () =>
                                             {
-                                                timer = new MyTimer(TimeSpan.FromSeconds(1), TimerCallback_event);
-                                                timer.
-                                                Start();
-                                            }
-                                            else
-                                            {
-                                                timer.Stop(); timer.Start();
-                                            }
-                                        });
-                                        #endregion
-                                        return;
-                                    default:
-                                        await DisplayAlert("알림", "서버 점검중입니다.", "OK");
-                                        return;
+                                                // 타이머 생성 및 시작
+                                                test = 300;
+
+                                                if (timer == null)
+                                                {
+                                                    timer = new MyTimer(TimeSpan.FromSeconds(1), TimerCallback_event);
+                                                    timer.
+                                                    Start();
+                                                }
+                                                else
+                                                {
+                                                    timer.Stop(); timer.Start();
+                                                }
+                                            });
+                                            #endregion
+                                            return;
+                                        default:
+                                            await DisplayAlert("알림", "서버 점검중입니다.", "OK");
+                                            Global.iscreateuserphonenextbtn_clicked = true;
+                                            return;
+                                    }
                                 }
                             }
+                        }
+                        else
+                        {
+                            await DisplayAlert("알림", "핸드폰번호를 입력하세요", "OK");
                         }
                     }
                     else
                     {
-                        await DisplayAlert("알림", "핸드폰번호를 입력하세요", "OK");
+                        await DisplayAlert("알림", "이름을 입력하세요", "OK");
                     }
-                }
-                else
-                {
-                    await DisplayAlert("알림", "이름을 입력하세요", "OK");
                 }
             }
             else
