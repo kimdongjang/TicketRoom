@@ -125,8 +125,8 @@
                             <!--#endregion-->
 
                             <!--#region 1열 수량 Label-->
-                          <custom:CustomEntry Grid.Row="1" x:Name="Count_label" Text="0" Size="16" TextColor="Black" 
-                                HorizontalOptions="Center" VerticalOptions="Center"/>
+                          <Entry Grid.Row="1" x:Name="Count_label" Text="0" FontSize="16" TextColor="Black"  TextChanged="Count_label_TextChanged"
+                                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Center"  Keyboard="Numeric" />
                             <!--#endregion-->
 
                             <!--#region 2행 마이너스 이미지 버튼-->

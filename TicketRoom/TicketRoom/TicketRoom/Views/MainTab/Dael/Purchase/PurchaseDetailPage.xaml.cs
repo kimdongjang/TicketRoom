@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift.Purchase;
@@ -383,7 +384,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         {
             try
             {
-                UsedPoint += int.Parse(Point_box.Text);
+                UsedPoint += int.Parse(Regex.Replace(Point_box.Text, @"\D", ""));
                 if (UsedPoint > myPoint)
                 {
                     DisplayAlert("알림", "보유한 포인트가 부족합니다.", "확인");
@@ -424,6 +425,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             catch
             {
                 DisplayAlert("알림", "숫자만 입력해주세요", "OK");
+                Point_box.Text = ""; // 포인트 입력 란
             }
         }
 

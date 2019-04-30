@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TicketRoom.Models.Gift;
 using TicketRoom.Models.Gift.Purchase;
@@ -351,6 +352,37 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             await DisplayAlert(title, message, buttonText);
 
             afterHideCallback?.Invoke();
+        }
+
+        private void Count_label_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (e.NewTextValue.Contains(".") || e.NewTextValue.Contains("-"))
+                {
+                    if (e.OldTextValue != null)
+                    {
+                        Count_label.Text = e.OldTextValue;
+                    }
+                    else
+                    {
+                        Count_label.Text = "";
+                    }
+                    return;
+                }
+                else
+                {
+                    string strtmp = Regex.Replace(e.NewTextValue, @"\D", "");
+                    Purchase_Price = (int.Parse(productInfo.PROPRICE) * int.Parse(strtmp)).ToString("N0");
+                    DiscountPurchase_Price = (int.Parse(productInfo.PURCHASEDISCOUNTPRICE) * int.Parse(strtmp)).ToString("N0");
+                    Purchase_Price_span.Text = "합계 : " + Purchase_Price;
+                    Purchase_DiscountPrice_span.Text = "할인 금액 : " + DiscountPurchase_Price;
+                }
+            }
+            catch
+            {
+                Count_label.Text = "";
+            }
         }
     }
 }

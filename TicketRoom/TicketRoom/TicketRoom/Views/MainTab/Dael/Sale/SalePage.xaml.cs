@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
 using TicketRoom.Models.Gift;
@@ -477,6 +478,38 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
                         Global.isSaleBtnclicked = true;
                     }
                 }
+            }
+        }
+
+        private void Count_label_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (e.NewTextValue.Contains(".") || e.NewTextValue.Contains("-"))
+                {
+                    if (e.OldTextValue != null)
+                    {
+                        Count_label.Text = e.OldTextValue;
+                    }
+                    else
+                    {
+                        Count_label.Text = "";
+                    }
+                    return;
+                }
+                else
+                {
+                    string strtmp = Regex.Replace(e.NewTextValue, @"\D", "");
+
+                    Sale_Price = (int.Parse(productInfo.PROPRICE) * int.Parse(strtmp)).ToString("N0");
+                    DiscountSale_Price = (int.Parse(productInfo.SALEDISCOUNTPRICE) * int.Parse(strtmp)).ToString("N0");
+                    Sale_DiscountPrice_span.Text = DiscountSale_Price;
+                }
+                    
+            }
+            catch
+            {
+                Count_label.Text = "";
             }
         }
     }

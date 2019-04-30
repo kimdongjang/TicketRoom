@@ -110,7 +110,7 @@
                     <!--#endregion-->
                     <!--#region 1행 수량 Label-->
                     
-                    <local1:CustomEntry Grid.Row="1" Margin="1" x:Name="Count_label" Size="12"  Keyboard="Numeric" Text="0"
+                    <Entry Grid.Row="1" Margin="1" x:Name="Count_label" FontSize="14"  Keyboard="Numeric" Text="0" TextChanged="Count_label_TextChanged"
                                Style="null" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:FieldModifier="Public" BackgroundColor="White"
                                HorizontalTextAlignment="Center" />
 
