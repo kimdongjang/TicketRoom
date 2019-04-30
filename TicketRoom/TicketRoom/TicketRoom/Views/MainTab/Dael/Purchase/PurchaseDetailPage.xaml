@@ -250,9 +250,12 @@
                                             Text="사용 포인트: " TextColor="CornflowerBlue" Size="18"/>
                             <local1:CustomLabel Margin="15,5,15,0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="0"
                                             x:Name="UsedPointLabel" TextColor="CornflowerBlue" Size="18"/>
-
                         </Grid>
-                        
+
+                        <local1:CustomButton Grid.Column="1" Grid.Row="2" Size="20" Text="적용 취소" HorizontalOptions="Center" VerticalOptions="Center"
+                                                    BackgroundColor="Black" TextColor="White" HeightRequest="30" WidthRequest="120" Margin="0,10,15,10"
+                                                    Clicked="CanselPointBtn_Clicked"/>
+
                     </Grid>
                     
                     <!--#region 5행 포인트 Entry(Input)-->

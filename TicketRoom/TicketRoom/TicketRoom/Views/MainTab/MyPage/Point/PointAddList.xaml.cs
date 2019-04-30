@@ -90,7 +90,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             #endregion
             for (int i = 0; i < pcl.Count; i++)
             {
-                MainGrid.RowDefinitions.Add(new RowDefinition { Height = 100 });
+                MainGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
 
                 // 박스의 구분선 생성
                 BoxView BorderLine1 = new BoxView { BackgroundColor =  Color.CornflowerBlue, };
@@ -156,7 +156,9 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                         new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = 10 },
                         new RowDefinition { Height = GridLength.Auto },
-                        new RowDefinition { Height = GridLength.Auto }
+                        new RowDefinition { Height = GridLength.Auto },
+                        new RowDefinition { Height = GridLength.Auto },
+                        new RowDefinition { Height = 10 },
                     },
 
                 };
@@ -225,7 +227,6 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                 else if (pcl[i].PT_CHARGE_STATUS == "입금실패")
                 {
                     status_label.TextColor = Color.Red;
-                    point_label_grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                     CustomLabel fail_label = new CustomLabel
                     {
                         Text = "실패사유 : " + pcl[i].PT_FAIL_DETAIL,

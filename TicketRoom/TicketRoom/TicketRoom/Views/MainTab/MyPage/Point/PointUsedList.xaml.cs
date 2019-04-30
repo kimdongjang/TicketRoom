@@ -156,7 +156,9 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                         new RowDefinition { Height = 10 },
                         new RowDefinition { Height = GridLength.Auto },
                         new RowDefinition { Height = 10 },
-                        new RowDefinition { Height = GridLength.Auto }
+                        new RowDefinition { Height = GridLength.Auto },
+                        new RowDefinition { Height = GridLength.Auto },
+                        new RowDefinition { Height = 10 },
                     },
 
                 };
@@ -211,18 +213,17 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
                     Text = "출금상태 : " + wdl[i].PT_WITHDRAW_STATUS,
                 };
 
-                if (wdl[i].PT_WITHDRAW_STATUS == "입금대기")
+                if (wdl[i].PT_WITHDRAW_STATUS == "출금대기")
                 {
                     status_label.TextColor = Color.Orange;
                 }
-                else if (wdl[i].PT_WITHDRAW_STATUS == "입금완료")
+                else if (wdl[i].PT_WITHDRAW_STATUS == "출금완료")
                 {
                     status_label.TextColor = Color.Blue;
                 }
-                else if (wdl[i].PT_WITHDRAW_STATUS == "입금실패")
+                else if (wdl[i].PT_WITHDRAW_STATUS == "출금실패")
                 {
                     status_label.TextColor = Color.Red;
-                    point_label_grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                     CustomLabel fail_label = new CustomLabel
                     {
                         Text = "실패사유 : " + wdl[i].PT_WITHDRAW_FAILDETAIL,

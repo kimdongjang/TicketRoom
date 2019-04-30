@@ -29,7 +29,7 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
         }
         private void Init()
         {
-            MyPointLabel.Text = pp.PT_POINT_HAVEPOINT.ToString("N0") + "포인트"; // 보유 포인트
+            MyPointLabel.Text = pp.PT_POINT_HAVEPOINT.ToString("N0") + " 포인트"; // 보유 포인트
 
             #region 카드결제 피커 초기화
             BankPicker.Items.Add("농협");

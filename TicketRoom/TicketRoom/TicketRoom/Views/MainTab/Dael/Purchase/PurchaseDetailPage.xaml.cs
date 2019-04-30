@@ -40,6 +40,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         int UsedPoint = 0;
         int OldPoint = 0;
         int myPoint = 0;
+        int DBGetPoint = 0;
         int tempdeliveryprice = 0;
         int price = 0;
         int deliveryprice = 3000;
@@ -266,6 +267,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                     return;
                 }
                 #endregion
+                DBGetPoint = int.Parse(test); // 보유 포인트 갱신
                 myPoint = int.Parse(test); // 보유 포인트 갱신
                 Point_label.Text = int.Parse(test).ToString("N0");
 
@@ -793,6 +795,15 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         private void ChangePhone_btnClicked(object sender, EventArgs e)
         {
             PopupNavigation.PushAsync(popup_phone = new PopupPhoneEntry(this));
+        }
+
+        private void CanselPointBtn_Clicked(object sender, EventArgs e)
+        {
+            Point_box.Text = "";
+            UsedPointLabel.Text = "0";
+            Point_label.Text = DBGetPoint.ToString();
+            UsedPoint = 0;
+            myPoint = DBGetPoint;
         }
     }
 }
