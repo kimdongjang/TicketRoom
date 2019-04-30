@@ -241,6 +241,17 @@
                         <local1:CustomButton Grid.Column="1" Grid.Row="1" Size="20" Text="포인트 적용" HorizontalOptions="Center" VerticalOptions="Center"
                                                     BackgroundColor="Black" TextColor="White" HeightRequest="30" WidthRequest="120" Margin="0,10,15,10"
                                                     Clicked="UsedPointBtn_Clicked"/>
+                        <Grid  Grid.Column="0" Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <local1:CustomLabel Margin="15,5,15,0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"
+                                            Text="사용 포인트: " TextColor="CornflowerBlue" Size="18"/>
+                            <local1:CustomLabel Margin="15,5,15,0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="0"
+                                            x:Name="UsedPointLabel" TextColor="CornflowerBlue" Size="18"/>
+
+                        </Grid>
                         
                     </Grid>
                     

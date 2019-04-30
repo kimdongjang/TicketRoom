@@ -38,6 +38,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         int UsedPoint = 0;
         int OldPoint = 0;
+        int myPoint = 0;
         int tempdeliveryprice = 0;
         int price = 0;
         int deliveryprice = 3000;
@@ -264,12 +265,13 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                     return;
                 }
                 #endregion
-
+                myPoint = int.Parse(test); // 보유 포인트 갱신
                 Point_label.Text = int.Parse(test).ToString("N0");
 
             }
             else
             {
+                myPoint = 0; // 보유 포인트 갱신
                 Point_label.Text = int.Parse("0").ToString("N0");
                 MyNameLabel.Text = "이름을 입력하세요";
                 MyPhoneLabel.Text = "연락처를 입력해주세요";
@@ -307,7 +309,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                 }
                 tempdeliveryprice = 3000;
             }
-            else // 핀번호 상태이면 배송지 필요 없음
+            else // 핀번호 상태이면 배송지 + 배송비 필요 없음
             {
                 AdressListGrid.IsVisible = false;
                 DV_Label.IsVisible = false;
@@ -323,7 +325,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         {
             if (deliveryType == true) // 지류인 경우 배송비 추가 계산
             {
-                order_price_to_db = order_price + tempdeliveryprice - UsedPoint;
+                order_price_to_db/*실제주문금액*/ = order_price/*결제금액*/ + tempdeliveryprice/*배송비*/ - UsedPoint/*사용포인트*/;
                 if (order_price_to_db < 0) // 결제할 금액이 마이너스가 될 경우
                 {
                     DisplayAlert("알림", "입력한 포인트를 다시 한번 확인해주십시오!", "확인");
@@ -335,7 +337,7 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
             }
             else if(deliveryType == false) // 핀번호 인경우 배송비 제외 계산
             {
-                order_price_to_db = order_price + UsedPoint;
+                order_price_to_db/*실제주문금액*/ = order_price/*결제금액*/ - UsedPoint/*사용포인트*/;
                 if (order_price_to_db < 0) // 결제할 금액이 마이너스가 될 경우
                 {
                     DisplayAlert("알림", "입력한 포인트를 다시 한번 확인해주십시오!", "확인");
@@ -381,56 +383,86 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         {
             try
             {
-                UsedPoint = int.Parse(Point_box.Text);
-                OldPoint = UsedPoint;
-                Purchase_AllPrice_label.Text = (price + tempdeliveryprice - UsedPoint).ToString("N0");
+                UsedPoint += int.Parse(Point_box.Text);
+                if (UsedPoint > myPoint)
+                {
+                    DisplayAlert("알림", "보유한 포인트가 부족합니다.", "확인");
+                    UsedPoint -= int.Parse(Point_box.Text);
+                    Point_box.Text = ""; // 포인트 입력 란
+                }
+                else
+                {
+                    // 보유 포인트가 충분할 경우
 
-                order_price_to_db = price + tempdeliveryprice - UsedPoint;
-                Point_label.Text = (int.Parse(Point_label.Text.Replace(",", "")) + (OldPoint-UsedPoint)).ToString("N0");
-                DisplayAlert("알림", "포인트가 적용되었습니다.", "OK");
+                    if (deliveryType == true) // 지류인 경우 배송비 추가 계산
+                    {
+                        order_price_to_db/*실제주문금액*/ = order_price/*결제금액*/ + tempdeliveryprice/*배송비*/ - UsedPoint/*사용포인트*/;
+                    }
+                    else if (deliveryType == false) // 핀번호 인경우 배송비 제외 계산
+                    {
+                        order_price_to_db/*실제주문금액*/ = order_price/*결제금액*/ - UsedPoint/*사용포인트*/;
+                    }
+                    if (order_price_to_db < 0) // 결제할 금액이 마이너스가 될 경우
+                    {
+                        DisplayAlert("알림", "입력한 포인트를 다시 한번 확인해주십시오!", "확인");
+                        order_price_to_db = 0;
+                        UsedPoint -= int.Parse(Point_box.Text);
+                        Point_box.Text = ""; // 포인트 입력 란
+                        return;
+                    }
+                    
+                    // 초기화
+                    myPoint -= UsedPoint; // 보유 포인트(변수용)
+                    Point_label.Text = (myPoint).ToString("N0"); // 잔여 포인트(보여주기용)
+                    UsedPointLabel.Text = UsedPoint.ToString("N0"); // 사용 포인트(보여주기용)
+                    Point_box.Text = ""; // 포인트 입력 란
+                    // 결제금액 갱신
+                    PriceUpdate();
+                    DisplayAlert("알림", "포인트가 적용되었습니다.", "OK");
+                }
             }
             catch
             {
-                DisplayAlert("알림", "숫자만입력해주세요", "OK");
+                DisplayAlert("알림", "숫자만 입력해주세요", "OK");
             }
         }
 
         private void Point_box_TextChanged(object sender, TextChangedEventArgs e)
         {
-            try
-            {
-                if (e.NewTextValue.Contains(".") || e.NewTextValue.Contains("-"))
-                {
-                    if (e.OldTextValue != null)
-                    {
-                        Point_box.Text = e.OldTextValue;
-                    }
-                    else
-                    {
-                        Point_box.Text = "";
-                    }
-                    return;
-                }
-                else
-                {
-                    if (int.Parse(Point_box.Text) > price)
-                    {
-                        Point_box.Text = (price + tempdeliveryprice).ToString();
-                    }
-                    else
-                    {
-                        if (int.Parse(Point_box.Text) > int.Parse(Point_label.Text.Replace(",", "")))
-                        {
-                            Point_box.Text = Point_label.Text.Replace(",", "");
-                        }
-                    }
+            //try
+            //{
+            //    if (e.NewTextValue.Contains(".") || e.NewTextValue.Contains("-"))
+            //    {
+            //        if (e.OldTextValue != null)
+            //        {
+            //            Point_box.Text = e.OldTextValue;
+            //        }
+            //        else
+            //        {
+            //            Point_box.Text = "";
+            //        }
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        if (int.Parse(Point_box.Text) > price)
+            //        {
+            //            Point_box.Text = (price + tempdeliveryprice).ToString();
+            //        }
+            //        else
+            //        {
+            //            if (int.Parse(Point_box.Text) > int.Parse(Point_label.Text.Replace(",", "")))
+            //            {
+            //                Point_box.Text = Point_label.Text.Replace(",", "");
+            //            }
+            //        }
 
-                }
-            }
-            catch
-            {
+            //    }
+            //}
+            //catch
+            //{
 
-            }
+            //}
         }
 
         /// <summary>
