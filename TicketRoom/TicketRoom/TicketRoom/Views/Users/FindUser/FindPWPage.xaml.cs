@@ -69,6 +69,8 @@ namespace TicketRoom.Views.Users.FindUser
 
         private async void CheckNumSendBtn_Clicked(object sender, EventArgs e)
         {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
 
             string str = @"{";
             str += "DATA:'" + ID_box.Text;  //아이디찾기에선 Name으로 
@@ -100,6 +102,10 @@ namespace TicketRoom.Views.Users.FindUser
                 {
                     var readdata = reader.ReadToEnd();
                     //Stuinfo test = JsonConvert.DeserializeObject<Stuinfo>(readdata);
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+
                     switch (int.Parse(readdata))
                     {
                         case 0:
@@ -180,6 +186,9 @@ namespace TicketRoom.Views.Users.FindUser
 
         private async void CheckNumCheckBtn_Clicked(object sender, EventArgs e)
         {
+            // 로딩 시작
+            await Global.LoadingStartAsync();
+
             string str = @"{";
             str += "Phonenum:'" + Phone;
             str += "',CKey:'" + CheckNum_box.Text;
@@ -209,6 +218,10 @@ namespace TicketRoom.Views.Users.FindUser
                 {
                     var readdata = reader.ReadToEnd();
                     string test = JsonConvert.DeserializeObject<string>(readdata);
+
+                    // 로딩 완료
+                    await Global.LoadingEndAsync();
+
                     if (test.Equals("false"))
                     {
                         await DisplayAlert("알림", "인증번호가 틀렸습니다.", "OK");
@@ -246,6 +259,10 @@ namespace TicketRoom.Views.Users.FindUser
             if (Global.isfindpwpage_clicked)
             {
                 Global.isfindpwpage_clicked = false;
+                
+                // 로딩 시작
+                await Global.LoadingStartAsync();
+
                 if (timer != null)
                 {
                     timer.Stop();
@@ -265,7 +282,7 @@ namespace TicketRoom.Views.Users.FindUser
                 byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
 
                 //request.Method = "POST";
-                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "EmailSend") as HttpWebRequest;
+                HttpWebRequest request = WebRequest.Create(Global.WCFURL + "IDPWEmailSend") as HttpWebRequest;
                 request.Method = "POST";
                 request.ContentType = "application/json";
                 request.ContentLength = data.Length;
@@ -282,6 +299,10 @@ namespace TicketRoom.Views.Users.FindUser
                     {
                         var readdata = reader.ReadToEnd();
                         string test = JsonConvert.DeserializeObject<string>(readdata);
+
+                        // 로딩 완료
+                        await Global.LoadingEndAsync();
+
                         if (test.Equals("false"))
                         {
                             DisplayAlert("알림", "다시 시도해주세요", "OK");
