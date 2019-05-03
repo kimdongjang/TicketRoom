@@ -215,7 +215,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" x:Name="Pinnumberradio" Source="radio_unchecked_icon.png" BackgroundColor="White" VerticalOptions="Center" Aspect="AspectFit"></Image>
-                            <custom:CustomLabel Grid.Column="2" Text="착불핀번호" HorizontalOptions="Start" VerticalOptions="Center" Size="14"/>
+                            <custom:CustomLabel Grid.Column="2" Text="핀번호" HorizontalOptions="Start" VerticalOptions="Center" Size="14"/>
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="Radio2_Clicked"/>
                             </Grid.GestureRecognizers>

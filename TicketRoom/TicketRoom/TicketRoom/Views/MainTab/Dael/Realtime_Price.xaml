@@ -73,9 +73,9 @@
                 </Image>
                 <!--#endregion-->
             </Grid>
-            <Picker Grid.Row="1" Title="상품권 세부정보" x:Name="CategoryCombo" SelectedIndexChanged="Category_SelectedIndexChanged"/>
+            <Picker Grid.Row="1" Title="종류" x:Name="CategoryCombo" SelectedIndexChanged="Category_SelectedIndexChanged"/>
 
-            <Picker Grid.Row="2" Title="종류" x:Name="DetailCategoryCombo" SelectedIndexChanged="DetailCategory_SelectedIndexChanged"/>
+            <Picker Grid.Row="2" Title="상품권 세부정보" x:Name="DetailCategoryCombo" SelectedIndexChanged="DetailCategory_SelectedIndexChanged"/>
 
         </Grid>
 
