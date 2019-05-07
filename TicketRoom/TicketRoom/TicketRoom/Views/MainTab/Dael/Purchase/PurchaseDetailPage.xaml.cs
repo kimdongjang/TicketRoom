@@ -293,9 +293,24 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
                     deliveryType = true;
                 }
             }
-            if(tempBasket.PDL_PROTYPE == "2") // 핀번호일 경우 배송지 없음.
+            if (tempBasket != null)
             {
-                DeliveryPrice_label.IsVisible = false;
+                // 구매 탭에서 바로 진행된 경우
+                if (tempBasket.PDL_PROTYPE == "2") // 핀번호일 경우 배송지 없음.
+                {
+                    DeliveryPrice_label.IsVisible = false;
+                }
+            }
+            else
+            {
+                // 장바구니 탭에서 진행된 경우
+                for(int i = 0; i< tempBasketList.Count; i++)
+                {
+                    if(tempBasketList[i].PDL_PROTYPE == "2")  // 핀번호일 경우 배송지 없음.
+                    {
+                        DeliveryPrice_label.IsVisible = false;
+                    }
+                }
             }
 
             if (deliveryType == true) // 지류 상태이면 배송지, 배송비가 필요함
