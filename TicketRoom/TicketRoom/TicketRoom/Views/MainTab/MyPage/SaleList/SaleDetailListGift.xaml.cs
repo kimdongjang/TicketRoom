@@ -36,8 +36,8 @@ namespace TicketRoom.Views.MainTab.MyPage.SaleList
                 MainGrid2.RowDefinitions[5].Height = 30;
             }
             #endregion
-
-            PostSearchSaleListToSlNum(slnum);
+                   
+            PostSearchSaleListToSlNum(slnum);      
             Init();
             NavigationInit();
         }

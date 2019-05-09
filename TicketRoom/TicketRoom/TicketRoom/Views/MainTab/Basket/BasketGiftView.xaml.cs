@@ -531,6 +531,12 @@ namespace TicketRoom.Views.MainTab.Basket
 
         private void OrderBtn_Clicked(object sender, EventArgs e)
         {
+            if (Global.b_guest_login == true)
+            {
+                App.Current.MainPage.DisplayAlert("알림", "회원가입 후에 이용해주세요!", "확인");
+                return;
+            }
+
             #region 네트워크 상태 확인
             var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
             if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가

@@ -27,6 +27,7 @@ namespace TicketRoom
         public static string non_user_id = "";
         public static bool b_user_login = false; // 회원 로그인 상태
         public static bool b_auto_login = false; // 자동 로그인 상태
+        public static bool b_guest_login = false; // 게스트 로그인 상태
 
         public static string localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         public static string LoadingImagePath = "load.png";

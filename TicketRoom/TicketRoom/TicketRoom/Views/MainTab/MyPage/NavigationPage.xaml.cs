@@ -70,8 +70,17 @@ namespace TicketRoom.Views.MainTab.MyPage
         private void Init()
         {
             Global.isbackbutton_clicked = true;
-            UserInfoInit();
-            PickerItemInit();
+            if(Global.b_guest_login == true)
+            {
+                UserIDLabel.Text = "Guest 계정입니다! 어서오세요!";
+                UserPhoneLabel.Text = "";
+                UserPointLabel.Text = "";
+            }
+            else
+            {
+                UserInfoInit();
+                PickerItemInit();
+            }
         }
         private void PickerItemInit()
         {
@@ -123,6 +132,28 @@ namespace TicketRoom.Views.MainTab.MyPage
                 UserPhoneLabel.Text = "";
             }
             #endregion
+        }
+
+
+        private void StatusPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Global.b_guest_login == true) return;
+
+            if (StatusPicker.SelectedIndex == 0)
+            {
+                StatusLabel.Text = "입금해야할내역";
+                PurchaseListInit();
+            }
+            else if (StatusPicker.SelectedIndex == 1)
+            {
+                StatusLabel.Text = "포인트입금대기중인내역";
+                PointChargeListInit();
+            }
+            else if (StatusPicker.SelectedIndex == 2)
+            {
+                StatusLabel.Text = "포인트출금대기중인내역";
+                PointWithDrawListInit();
+            }
         }
 
         // 구매 내역 리스트 가져오기
@@ -1225,23 +1256,5 @@ namespace TicketRoom.Views.MainTab.MyPage
             }
         }
 
-        private void StatusPicker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if(StatusPicker.SelectedIndex == 0)
-            {
-                StatusLabel.Text = "입금해야할내역";
-                PurchaseListInit();
-            }
-            else if(StatusPicker.SelectedIndex == 1)
-            {
-                StatusLabel.Text = "포인트입금대기중인내역";
-                PointChargeListInit();
-            }
-            else if (StatusPicker.SelectedIndex == 2)
-            {
-                StatusLabel.Text = "포인트출금대기중인내역";
-                PointWithDrawListInit();
-            }
-        }
     }
 }

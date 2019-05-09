@@ -38,7 +38,19 @@ namespace TicketRoom.Views.Users.Login
         }
         private void Init()
         {
-
+            guestGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            {
+                Command = new Command(async () =>
+                {
+                    if (Global.isloginbtn_clicked)
+                    {
+                        Global.isloginbtn_clicked = false;
+                        await DisplayAlert("알림", "Guest 로그인에 성공했습니다!", "확인");
+                        Global.b_guest_login = true;
+                        await Navigation.PopAsync();
+                    }
+                })
+            });
             googleGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
                 Command = new Command(async () =>

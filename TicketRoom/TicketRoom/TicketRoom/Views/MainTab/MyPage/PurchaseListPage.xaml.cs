@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TicketRoom.Models.Custom;
+using TicketRoom.Models.Gift.Purchase;
 using TicketRoom.Models.ShopData;
 using TicketRoom.Views.MainTab.MyPage.PurchaseList;
 using Xamarin.Forms;
@@ -63,239 +64,242 @@ namespace TicketRoom.Views.MainTab.MyPage
 
             TapColorChangeAsync(plg);
 
-            #region 상품권 탭 클릭 이벤트
-            // 상품권 탭을 선택할 경우 상품권 컨텐츠 뷰를 보여줌
-            TapGiftGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+            if (Global.b_guest_login == false)
             {
-                Command = new Command(() =>
+                #region 상품권 탭 클릭 이벤트
+                // 상품권 탭을 선택할 경우 상품권 컨텐츠 뷰를 보여줌
+                TapGiftGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
-                    plg = new PurchaseListGift(this);
-                    PurchaseListContentView.Content = plg;
+                    Command = new Command(() =>
+                    {
+                        plg = new PurchaseListGift(this);
+                        PurchaseListContentView.Content = plg;
 
-                    TapColorChangeAsync(plg);
+                        TapColorChangeAsync(plg);
 
-                })
-            });
-            // 쇼팡몰 탭을 선택할 경우 쇼팡몰 컨텐츠 뷰를 보여줌
-            TapShopingGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-            {
-                Command = new Command(() =>
+                    })
+                });
+                // 쇼팡몰 탭을 선택할 경우 쇼팡몰 컨텐츠 뷰를 보여줌
+                TapShopingGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
-                    DisplayAlert("알림", "준비 중입니다!", "확인");
-                    return;
+                    Command = new Command(() =>
+                    {
+                        DisplayAlert("알림", "준비 중입니다!", "확인");
+                        return;
 
                     //
 
                     pls = new PurchaseListShop(this);
-                    PurchaseListContentView.Content = pls;
-                    TapColorChangeAsync(pls);
-                })
-            });
-            #endregion
+                        PurchaseListContentView.Content = pls;
+                        TapColorChangeAsync(pls);
+                    })
+                });
+                #endregion
 
-            #region 전체 목록 보기 클릭 이벤트
-            ListAllGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-            {
-                Command = new Command(async () =>
+                #region 전체 목록 보기 클릭 이벤트
+                ListAllGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
+                    Command = new Command(async () =>
+                    {
                     // 로딩 시작
                     await Global.LoadingStartAsync();
 
-                    TabListColorChange(0);
+                        TabListColorChange(0);
 
-                    if (PurchaseListContentView.Content == plg)
+                        if (PurchaseListContentView.Content == plg)
+                        {
+                            if (Global.b_user_login)
+                            {
+                                plg.PostSearchPurchaseListToIDAsync(Global.ID, -99, 0, 0);
+                                await plg.Init();
+                            }
+                            else
+                            {
+                                plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, -99, 0, 0);
+                                await plg.Init();
+                            }
+                        }
+                        else // 쇼핑몰 전체 목록
                     {
-                        if (Global.b_user_login)
+                            if (Global.b_user_login) // 로그인 상태인 경우
                         {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -99, 0, 0);
-                            await plg.Init();
-                        }
-                        else
-                        {
-                            plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, -99, 0, 0);
-                            await plg.Init();
-                        }
-                    }
-                    else // 쇼핑몰 전체 목록
-                    {
-                        if (Global.b_user_login) // 로그인 상태인 경우
-                        {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, -99, 0, 0); // 사용자 아이디로 구매 목록 가져옴
+                                pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, -99, 0, 0); // 사용자 아이디로 구매 목록 가져옴
                             pls.Init();
-                        }
-                        else
-                        {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, -99, 0, 0); // 사용자 아이디로 구매 목록 가져옴
+                            }
+                            else
+                            {
+                                pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, -99, 0, 0); // 사용자 아이디로 구매 목록 가져옴
                             pls.Init();
+                            }
                         }
-                    }
-                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.CornflowerBlue;
-                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
-                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
-                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
-                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
+                        ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                        ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                        ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
+                        ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
+                        ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
                     // 로딩 시작
                     await Global.LoadingEndAsync();
-                })
-            });
-            #endregion
+                    })
+                });
+                #endregion
 
-            #region 일주일 목록 보기 클릭 이벤트
-            ListYearGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-            {
-                Command = new Command(async () =>
+                #region 일주일 목록 보기 클릭 이벤트
+                ListYearGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
+                    Command = new Command(async () =>
+                    {
                     // 로딩 시작
                     await Global.LoadingStartAsync();
 
-                    TabListColorChange(1);
-                    if (PurchaseListContentView.Content == plg)
+                        TabListColorChange(1);
+                        if (PurchaseListContentView.Content == plg)
+                        {
+                            if (Global.b_user_login)
+                            {
+                                plg.PostSearchPurchaseListToIDAsync(Global.ID, -1, 0, 0);
+                                await plg.Init();
+                            }
+                            else
+                            {
+                                plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, -1, 0, 0);
+                                await plg.Init();
+                            }
+                        }
+                        else // 쇼핑몰 일주일 단위 목록
                     {
-                        if (Global.b_user_login)
+                            if (Global.b_user_login) // 로그인 상태인 경우
                         {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, -1, 0, 0);
-                            await plg.Init();
-                        }
-                        else
-                        {
-                            plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, -1, 0, 0);
-                            await plg.Init();
-                        }
-                    }
-                    else // 쇼핑몰 일주일 단위 목록
-                    {
-                        if (Global.b_user_login) // 로그인 상태인 경우
-                        {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, -1, 0, 0); // 사용자 아이디로 구매 목록 가져옴
+                                pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, -1, 0, 0); // 사용자 아이디로 구매 목록 가져옴
                             pls.Init();
-                        }
-                        else
-                        {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, -1, 0, 0); // 사용자 아이디로 구매 목록 가져옴
+                            }
+                            else
+                            {
+                                pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, -1, 0, 0); // 사용자 아이디로 구매 목록 가져옴
                             pls.Init();
+                            }
                         }
-                    }
-                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
-                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.CornflowerBlue;
-                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
-                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
-                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
-
-
-                    // 로딩 시작
-                    await Global.LoadingEndAsync();
-                })
-            });
-            #endregion
-
-            #region 달 목록 보기 클릭 이벤트
-            ListMonthGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-            {
-                Command = new Command(async () =>
-                {
-                    // 로딩 시작
-                    await Global.LoadingStartAsync();
-
-                    TabListColorChange(2);
-                    if (PurchaseListContentView.Content == plg)
-                    {
-                        if (Global.b_user_login)
-                        {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, -1, 0);
-                            await plg.Init();
-                        }
-                        else
-                        {
-                            plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, 0, -1, 0);
-                            await plg.Init();
-                        }
-                    }
-                    else // 쇼핑몰 월 단위 목록
-                    {
-                        if (Global.b_user_login) // 로그인 상태인 경우
-                        {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, 0, -1, 0); // 사용자 아이디로 구매 목록 가져옴
-                            pls.Init();
-                        }
-                        else
-                        {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, 0, -1, 0); // 사용자 아이디로 구매 목록 가져옴
-                            pls.Init();
-                        }
-                    }
-                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
-                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
-                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.CornflowerBlue;
-                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
-                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
+                        ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
+                        ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                        ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                        ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
+                        ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
 
 
                     // 로딩 시작
                     await Global.LoadingEndAsync();
-                })
-            });
-            #endregion
+                    })
+                });
+                #endregion
 
-            #region 년 목록 보기 클릭 이벤트
-            ListDayGrid.GestureRecognizers.Add(new TapGestureRecognizer()
-            {
-                Command = new Command(async () =>
+                #region 달 목록 보기 클릭 이벤트
+                ListMonthGrid.GestureRecognizers.Add(new TapGestureRecognizer()
                 {
+                    Command = new Command(async () =>
+                    {
                     // 로딩 시작
                     await Global.LoadingStartAsync();
 
-
-                    TabListColorChange(3);
-                    if (PurchaseListContentView.Content == plg)
+                        TabListColorChange(2);
+                        if (PurchaseListContentView.Content == plg)
+                        {
+                            if (Global.b_user_login)
+                            {
+                                plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, -1, 0);
+                                await plg.Init();
+                            }
+                            else
+                            {
+                                plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, 0, -1, 0);
+                                await plg.Init();
+                            }
+                        }
+                        else // 쇼핑몰 월 단위 목록
                     {
-                        if (Global.b_user_login)
+                            if (Global.b_user_login) // 로그인 상태인 경우
                         {
-                            plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, 0, -7);
-                            await plg.Init();
-                        }
-                        else
-                        {
-                            plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, 0, 0, -7);
-                            await plg.Init();
-                        }
-                    }
-                    else // 쇼핑몰 1년 단위 목록
-                    {
-                        if (Global.b_user_login) // 로그인 상태인 경우
-                        {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, 0, 0, -7); // 사용자 아이디로 구매 목록 가져옴
+                                pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, 0, -1, 0); // 사용자 아이디로 구매 목록 가져옴
                             pls.Init();
-                        }
-                        else
-                        {
-                            pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, 0, 0, -7); // 사용자 아이디로 구매 목록 가져옴
+                            }
+                            else
+                            {
+                                pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, 0, -1, 0); // 사용자 아이디로 구매 목록 가져옴
                             pls.Init();
+                            }
                         }
-                    }
-                    ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
-                    ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
-                    ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
-                    ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
-                    ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.CornflowerBlue;
-                    ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                        ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
+                        ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
+                        ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                        ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+                        ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.White;
 
 
                     // 로딩 시작
                     await Global.LoadingEndAsync();
-                })
-            });
-            #endregion
+                    })
+                });
+                #endregion
+
+                #region 년 목록 보기 클릭 이벤트
+                ListDayGrid.GestureRecognizers.Add(new TapGestureRecognizer()
+                {
+                    Command = new Command(async () =>
+                    {
+                    // 로딩 시작
+                    await Global.LoadingStartAsync();
+
+
+                        TabListColorChange(3);
+                        if (PurchaseListContentView.Content == plg)
+                        {
+                            if (Global.b_user_login)
+                            {
+                                plg.PostSearchPurchaseListToIDAsync(Global.ID, 0, 0, -7);
+                                await plg.Init();
+                            }
+                            else
+                            {
+                                plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, 0, 0, -7);
+                                await plg.Init();
+                            }
+                        }
+                        else // 쇼핑몰 1년 단위 목록
+                    {
+                            if (Global.b_user_login) // 로그인 상태인 경우
+                        {
+                                pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.ID, 0, 0, -7); // 사용자 아이디로 구매 목록 가져옴
+                            pls.Init();
+                            }
+                            else
+                            {
+                                pls.purchaseList = SH_DB.PostSearchPurchaseListToID(Global.non_user_id, 0, 0, -7); // 사용자 아이디로 구매 목록 가져옴
+                            pls.Init();
+                            }
+                        }
+                        ((CustomLabel)ListAllGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListAllGrid.Children[1]).BackgroundColor = Color.White;
+                        ((CustomLabel)ListYearGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListYearGrid.Children[1]).BackgroundColor = Color.White;
+                        ((CustomLabel)ListMonthGrid.Children[0]).TextColor = Color.Black;
+                        ((BoxView)ListMonthGrid.Children[1]).BackgroundColor = Color.White;
+                        ((CustomLabel)ListDayGrid.Children[0]).TextColor = Color.CornflowerBlue;
+                        ((BoxView)ListDayGrid.Children[1]).BackgroundColor = Color.CornflowerBlue;
+
+
+                    // 로딩 시작
+                    await Global.LoadingEndAsync();
+                    })
+                });
+                #endregion
+            }
         }
 
         private async Task TapColorChangeAsync(ContentView cv)
@@ -318,8 +322,40 @@ namespace TicketRoom.Views.MainTab.MyPage
                 }
                 else
                 {
-                    plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, -99, 0, 0);
-                    await plg.Init();
+                    if(Global.b_guest_login == true)
+                    {
+                        G_PurchaseList g1 = new G_PurchaseList
+                        {
+                            AC_NUM = "1",
+                            //G_TempProduct = "",
+                            ID = "Guest",
+                            ISUSER = "Guest",
+                            PL_USED_POINT = "0",
+                            PL_ACCUSER_NAME = "홍길동",
+                            PL_DELIVERYPAY_TYPE = "1",
+                            PL_DELIVERY_ADDRESS = "대전광역시",
+                            PL_DELIVERY_JIBUNADDR = "대전광역시",
+                            PL_DELIVERY_ZIPNO = "10052",
+                            PL_DV_NAME ="홍길동",
+                            PL_DV_PHONE="01011112222",
+                            PL_ISSUCCESS="1",
+                            PL_NUM=1000,
+                            PL_PAPERSTATE="30",
+                            PL_PAPER_COUNT="1",
+                            PL_PAPER_DVNUM="",
+                            PL_PAYMENT_PRICE="13000",
+                            PL_PURCHASE_DATE="2019/05/19",                            
+                        };
+                        plg.purchaselist.Add(g1);
+                        await plg.Init();
+                    }
+                    else
+                    {
+                        plg.PostSearchPurchaseListToIDAsync(Global.non_user_id, -99, 0, 0);
+                        await plg.Init();
+                    }
+                    
+                    
                 }
             }
             else // 쇼핑몰이 선택 되었을 경우

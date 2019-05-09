@@ -39,14 +39,86 @@ namespace TicketRoom.Views.MainTab.MyPage
             }
             #endregion
 
-            if (Global.b_user_login)
+            if (Global.b_guest_login == true)
             {
-                PostSearchSaleListToID(Global.ID, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
+                G_SaleInfo g1 = new G_SaleInfo
+                {
+                    SL_NUM = "1000",
+                    SL_USERID = "Guest",
+                    SL_SALE_DATE = "2019/05/03",
+                    SL_ISSUCCES = "11",
+                    SL_FAILSTRING = "",
+                    SL_TOTAL_PRICE = "30000",
+                    SL_ACC_NAME = "홍길동",
+                    SL_ACC_NUM = "1101465983",
+                    SL_SALEPRO_TYPE = "1",
+                    SL_SEND_DATE = "2019/05/03",
+                    SL_SENDSTRING ="이상없음",
+                    SL_SALE_PW = "1",
+                    SL_PRONUM = "1",
+                    SL_PROCOUNT= "1",
+                    SL_BANK_NAME = "신한",
+                    PRODUCTTYPE = "문화 상품권",
+                    PRODUCTIMAGE = "img/Gift/Category/culture_gift.png",
+                    PRODUCTVALUE = "3만원 권",
+                };
+                G_SaleInfo g2 = new G_SaleInfo
+                {
+                    SL_NUM = "1001",
+                    SL_USERID = "Guest",
+                    SL_SALE_DATE = "2019/05/03",
+                    SL_ISSUCCES = "11",
+                    SL_FAILSTRING = "",
+                    SL_TOTAL_PRICE = "10000",
+                    SL_ACC_NAME = "김길동",
+                    SL_ACC_NUM = "1101465983",
+                    SL_SALEPRO_TYPE = "1",
+                    SL_SEND_DATE = "2019/05/03",
+                    SL_SENDSTRING = "이상없음",
+                    SL_SALE_PW = "1",
+                    SL_PRONUM = "1",
+                    SL_PROCOUNT = "1",
+                    SL_BANK_NAME = "신한",
+                    PRODUCTTYPE = "문화 상품권",
+                    PRODUCTIMAGE = "img/Gift/Category/culture_gift.png",
+                    PRODUCTVALUE = "1만원 권",
+                };
+                G_SaleInfo g3 = new G_SaleInfo
+                {
+                    SL_NUM = "1002",
+                    SL_USERID = "Guest",
+                    SL_SALE_DATE = "2019/05/03",
+                    SL_ISSUCCES = "11",
+                    SL_FAILSTRING = "",
+                    SL_TOTAL_PRICE = "10000",
+                    SL_ACC_NAME = "김길동",
+                    SL_ACC_NUM = "1101465983",
+                    SL_SALEPRO_TYPE = "1",
+                    SL_SEND_DATE = "2019/05/03",
+                    SL_SENDSTRING = "모서리 부분에 살짝 접힌 흔적",
+                    SL_SALE_PW = "1",
+                    SL_PRONUM = "1",
+                    SL_PROCOUNT = "1",
+                    SL_BANK_NAME = "신한",
+                    PRODUCTTYPE = "문화 상품권",
+                    PRODUCTIMAGE = "img/Gift/Category/culture_gift.png",
+                    PRODUCTVALUE = "1만원 권",
+                };
+                salelist.Add(g1);
+                salelist.Add(g2);
+                salelist.Add(g3);
             }
             else
             {
-                DisplayAlert("알림", "로그인이후에 이용해주세요", "OK");
-                Navigation.PopAsync();
+                if (Global.b_user_login)
+                {
+                    PostSearchSaleListToID(Global.ID, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
+                }
+                else
+                {
+                    DisplayAlert("알림", "로그인이후에 이용해주세요", "OK");
+                    Navigation.PopAsync();
+                }
             }
 
             LoadingInit();
@@ -82,7 +154,10 @@ namespace TicketRoom.Views.MainTab.MyPage
             await Global.LoadingStartAsync();
 
             ListUpdate();
-            Init();
+            if(Global.b_guest_login == false)
+            {
+                Init();
+            }           
 
             // 로딩 완료
             await Global.LoadingEndAsync();
@@ -112,7 +187,6 @@ namespace TicketRoom.Views.MainTab.MyPage
 
         private async void Init()
         {
-
             #region 전체 목록 보기 클릭 이벤트
             ListAllGrid.GestureRecognizers.Add(new TapGestureRecognizer()
             {
@@ -323,6 +397,11 @@ namespace TicketRoom.Views.MainTab.MyPage
                 orderLabelGrid.Children.Add(ordernumLabel, 0, 0);
                 orderLabelGrid.Children.Add(orderBtnLine, 1, 0);
                 orderLabelGrid.Children.Add(orderBtn, 1, 0);
+                if(Global.b_guest_login == true)
+                {
+                    orderBtn.IsVisible = false;
+                    orderBtnLine.IsVisible = false;
+                }
 
                 // 상세보기 버튼 이벤트
                 orderBtn.Clicked += (object sender, EventArgs e) =>

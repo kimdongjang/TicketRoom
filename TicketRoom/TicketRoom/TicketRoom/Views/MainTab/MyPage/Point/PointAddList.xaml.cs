@@ -38,7 +38,55 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             #region 네트워크 연결 가능
             else
             {
-                pcl = PT_DB.PostSearchChargeListToID(pp.USER_ID);
+                if(Global.b_guest_login == true)
+                {
+                    PT_Charge p1 = new PT_Charge {
+                        USER_ID = "Guest",
+                        PT_BANK_ACC_NUM = "1",
+                        PT_CHARGE_BANK = "",
+                        PT_CHARGE_CARD = "",
+                        PT_CHARGE_CONTENT = "포인트 충전 1000원",
+                        PT_CHARGE_POINT = 1000,
+                        PT_CHARGE_DATE = "2019/05/04",
+                        PT_CHARGE_INDEX = 1000,
+                        PT_CHARGE_STATUS = "입금대기",
+                        PT_POINT_INDEX = 1000,
+                    };
+                    PT_Charge p2 = new PT_Charge
+                    {
+                        USER_ID = "Guest",
+                        PT_BANK_ACC_NUM = "1",
+                        PT_CHARGE_BANK = "",
+                        PT_CHARGE_CARD = "",
+                        PT_CHARGE_CONTENT = "포인트 충전 1000원",
+                        PT_CHARGE_POINT = 1000,
+                        PT_CHARGE_DATE = "2019/05/04",
+                        PT_CHARGE_INDEX = 1001,
+                        PT_CHARGE_STATUS = "입금대기",
+                        PT_POINT_INDEX = 1000,
+                    };
+                    PT_Charge p3 = new PT_Charge
+                    {
+                        USER_ID = "Guest",
+                        PT_BANK_ACC_NUM = "1",
+                        PT_CHARGE_BANK = "",
+                        PT_CHARGE_CARD = "",
+                        PT_CHARGE_CONTENT = "포인트 충전 1000원",
+                        PT_CHARGE_POINT = 1000,
+                        PT_CHARGE_DATE = "2019/05/04",
+                        PT_CHARGE_INDEX = 1002,
+                        PT_CHARGE_STATUS = "입금대기",
+                        PT_POINT_INDEX = 1000,
+                    };
+                    pcl.Add(p1);
+                    pcl.Add(p2);
+                    pcl.Add(p3);
+                }
+                else
+                {
+                    pcl = PT_DB.PostSearchChargeListToID(pp.USER_ID);
+                }
+                
             }
             #endregion
             MyPoint = pp.PT_POINT_HAVEPOINT;

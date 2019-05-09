@@ -39,7 +39,58 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             #region 네트워크 연결 가능
             else
             {
-                wdl = PT_DB.PostSearchWithDrawListToID(pp.USER_ID);
+                if (Global.b_guest_login == true)
+                {
+                    PT_WithDraw p1 = new PT_WithDraw
+                    {
+                        USER_ID = "Guest",
+                        PT_POINT_INDEX = 1000,
+                        PT_WITHDRAW_ACCOUNT = "3154-1542-4444",
+                        PT_WITHDRAW_BANK = "농협",
+                        PT_WITHDRAW_CONTENT = "포인트출금 10000원",
+                        PT_WITHDRAW_DATE = "2019/05/04",
+                        PT_WITHDRAW_FAILDETAIL = "",
+                        PT_WITHDRAW_INDEX = 1000,
+                        PT_WITHDRAW_NAME = "홍길동",
+                        PT_WITHDRAW_POINT = 10000,
+                        PT_WITHDRAW_STATUS = "출금완료",
+                    };
+                    PT_WithDraw p2 = new PT_WithDraw
+                    {
+                        USER_ID = "Guest",
+                        PT_POINT_INDEX = 1000,
+                        PT_WITHDRAW_ACCOUNT = "3154-1542-4444",
+                        PT_WITHDRAW_BANK = "농협",
+                        PT_WITHDRAW_CONTENT = "포인트출금 20000원",
+                        PT_WITHDRAW_DATE = "2019/05/04",
+                        PT_WITHDRAW_FAILDETAIL = "",
+                        PT_WITHDRAW_INDEX = 1000,
+                        PT_WITHDRAW_NAME = "홍길동",
+                        PT_WITHDRAW_POINT = 10000,
+                        PT_WITHDRAW_STATUS = "출금완료",
+                    };
+                    PT_WithDraw p3 = new PT_WithDraw
+                    {
+                        USER_ID = "Guest",
+                        PT_POINT_INDEX = 1000,
+                        PT_WITHDRAW_ACCOUNT = "3154-1542-4444",
+                        PT_WITHDRAW_BANK = "농협",
+                        PT_WITHDRAW_CONTENT = "포인트출금 10000원",
+                        PT_WITHDRAW_DATE = "2019/05/04",
+                        PT_WITHDRAW_FAILDETAIL = "",
+                        PT_WITHDRAW_INDEX = 1000,
+                        PT_WITHDRAW_NAME = "홍길동",
+                        PT_WITHDRAW_POINT = 10000,
+                        PT_WITHDRAW_STATUS = "출금대기",
+                    };
+                    wdl.Add(p1);
+                    wdl.Add(p2);
+                    wdl.Add(p3);
+                }
+                else
+                {
+                    wdl = PT_DB.PostSearchWithDrawListToID(pp.USER_ID);
+                }
             }
             #endregion
             MyPoint = pp.PT_POINT_HAVEPOINT;

@@ -24,7 +24,7 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 	{
         PurchaseListPage plp;
         GiftDBFunc giftDBFunc = GiftDBFunc.Instance();
-        List<G_PurchaseList> purchaselist = new List<G_PurchaseList>();
+        public List<G_PurchaseList> purchaselist = new List<G_PurchaseList>();
 
 
         public PurchaseListGift(PurchaseListPage plp)
@@ -38,7 +38,15 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
             }
             else
             {
-                PostSearchPurchaseListToIDAsync(Global.non_user_id, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
+                if(Global.b_guest_login == true)
+                {
+
+                }
+                else
+                {
+                    PostSearchPurchaseListToIDAsync(Global.non_user_id, -99, 0, 0);// 사용자 아이디로 구매 목록 가져옴
+                }
+                
             }
         }
 
@@ -116,9 +124,38 @@ namespace TicketRoom.Views.MainTab.MyPage.PurchaseList
 
                 List<PLProInfo> productlist = new List<PLProInfo>();
                 List<G_PurchaseListDetail> detail_list = new List<G_PurchaseListDetail>();
-                productlist = giftDBFunc.SearchPurchaseListToPlnum(purchaselist[i].PL_NUM.ToString()); // 구매내역 가져오기
+                if(Global.b_guest_login == true)
+                {
+                    PLProInfo p1 = new PLProInfo
+                    {
+                        PDL_PRICE = "10000",
+                        PDL_PROCOUNT = "1",
+                        PDL_PROTYPE = "1",
+                        PRODUCTIMAGE = "img/Gift/Category/culture_gift.png",
+                        PRODUCTTYPE = "문화상품권",
+                        PRODUCTVALUE = "1만원권",
+                    };
+                    productlist.Add(p1);
+                    G_PurchaseListDetail d1 = new G_PurchaseListDetail
+                    {
+                        PDL_PROTYPE ="1",
+                        PDL_PRICE = "10000",
+                        PDL_NUM="1000",
+                        PDL_ISAVAILABLE="1",
+                        PDL_PINNUM="",
+                        PDL_PAPERNUM="100",
+                        PDL_PIN_STATE="1",
+                        PDL_PLNUM ="1",
+                        PDL_PRONUM="1",
+                    };
+                    detail_list.Add(d1);
+                }
+                else
+                {
+                    productlist = giftDBFunc.SearchPurchaseListToPlnum(purchaselist[i].PL_NUM.ToString()); // 구매내역 가져오기
 
-                detail_list = giftDBFunc.SearchGfitDetailListToPlnumForPIN(purchaselist[i].PL_NUM.ToString()); // 핀번호 관련 구매 상세 내역 가져오기
+                    detail_list = giftDBFunc.SearchGfitDetailListToPlnumForPIN(purchaselist[i].PL_NUM.ToString()); // 핀번호 관련 구매 상세 내역 가져오기
+                }
 
                 #region 전체 그리드
                 MainGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });

@@ -42,6 +42,11 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
 
         private async void ConfirmBtn_ClickedAsync(object sender, EventArgs e)
         {
+            if(Global.b_guest_login == true)
+            {
+                await App.Current.MainPage.DisplayAlert("알림", "회원 가입 후에 이용해주세요!.", "확인");
+                return;
+            }
             if (usepoint < 10000)
             {
                 await App.Current.MainPage.DisplayAlert("알림", "포인트 출금은 만원 이상부터 가능합니다.", "확인");

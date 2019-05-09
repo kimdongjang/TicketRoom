@@ -80,7 +80,14 @@ namespace TicketRoom.Views.MainTab.MyPage.Point
             #region 네트워크 연결 가능
             else
             {
-                pp = PT_DB.PostSearchPointListToID(Global.ID); // 사용자 아이디로 아이디에 해당하는 포인트 테이블 가져옴
+                if(Global.b_guest_login == true)
+                {
+                    pp = new PT_Point { PT_POINT_HAVEPOINT = 10000, PT_POINT_INDEX = 1000, USER_ID = "Guest", };
+                }
+                else
+                {
+                    pp = PT_DB.PostSearchPointListToID(Global.ID); // 사용자 아이디로 아이디에 해당하는 포인트 테이블 가져옴
+                }                
             }
             #endregion
 

@@ -96,6 +96,13 @@
 
             <!--#endregion-->
 
+            <!--#region 1행 Guest Login-->
+            <Grid Grid.Row="1" x:Name="guestGrid" Margin="17,5,17,5" ColumnSpacing="0" BackgroundColor="LightGray">
+                <custom:CustomLabel Text="Guest 계정으로 로그인" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" Size="18"/>
+            </Grid>
+
+            <!--#endregion-->
+            
             <!--#region TEST 1행 구글-->
             <Grid Grid.Row="1" x:Name="googleGrid" Margin="17,5,17,5" ColumnSpacing="0" IsVisible="False">
                 <Grid.ColumnDefinitions>

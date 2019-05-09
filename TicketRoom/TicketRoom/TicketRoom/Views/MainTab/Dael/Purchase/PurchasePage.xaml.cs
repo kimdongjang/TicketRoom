@@ -140,6 +140,11 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
 
         private void DoPurchase_Clicked(object sender, EventArgs e)
         {
+            if(Global.b_guest_login == true)
+            {
+                DisplayAlert("알림", "회원가입 후에 이용해주세요!", "확인");
+                return;
+            }
             G_TempBasketProduct tempBasket = new G_TempBasketProduct();
             if (Global.isgiftpurchasepage_clieck)
             {
@@ -250,6 +255,12 @@ namespace TicketRoom.Views.MainTab.Dael.Purchase
         // 장바구니 
         private async void AddBasketBtn_Clicked(object sender, EventArgs e)
         {
+            if (Global.b_guest_login == true)
+            {
+                DisplayAlert("알림", "회원가입 후에 이용해주세요!", "확인");
+                return;
+            }
+
             if (Global.isgiftpurchasepage_clieck)
             {
                 Global.isgiftpurchasepage_clieck = false;

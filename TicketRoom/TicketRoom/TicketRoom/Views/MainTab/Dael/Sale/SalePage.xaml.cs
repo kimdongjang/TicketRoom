@@ -283,6 +283,12 @@ namespace TicketRoom.Views.MainTab.Dael.Sale
 
         private async void SaleBtn_Cliecked(object sender, EventArgs e)
         {
+            if (Global.b_guest_login == true)
+            {
+                DisplayAlert("알림", "회원가입 후에 이용해주세요!", "확인");
+                return;
+            }
+
             if (Global.isSaleBtnclicked)
             {
                 Global.isSaleBtnclicked = false;
