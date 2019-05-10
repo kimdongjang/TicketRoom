@@ -18,7 +18,9 @@ namespace TicketRoom.Droid
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             PullToRefreshLayoutRenderer.Init();
+            Global.android_serial_number = Android.OS.Build.Serial;
             LoadApplication(new App());
+
 
         }
     }

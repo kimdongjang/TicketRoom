@@ -27,6 +27,8 @@ namespace TicketRoom.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
             var ignore = typeof(FFImageLoading.Svg.Forms.SvgCachedImage);
+            //NSUuid identifier = UIDevice.CurrentDevice.IdentifierForVendor;
+            Global.ios_serial_number = UIDevice.CurrentDevice.IdentifierForVendor.ToString();
 
             return base.FinishedLaunching(app, options);
         }
