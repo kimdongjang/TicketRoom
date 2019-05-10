@@ -49,13 +49,64 @@ namespace TicketRoom.Views
         private void GetDeviceName()
         {
             var device = CrossDeviceInfo.Current.Model;
-            
             string s = device.ToString();
+
+            if(Global.android_serial_number != "") // 안드로이드 기종으로 실행시
+            {
+                string output = USER_DB.PostDeviceSerialNumber(Global.android_serial_number);
+                string[] tempArray = output.Split('#');
+                if(tempArray[0] == "u") // 회원인 경우
+                {
+                    Global.non_user_id = USER_DB.GetNonUserIDToSerial(Global.android_serial_number);
+                    Global.b_user_login = true;
+                    Global.b_auto_login = true;
+                    Global.ID = tempArray[1];
+                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                }
+                else if(tempArray[0] == "n") // 비회원인경우
+                {
+                    Global.non_user_id = tempArray[1];
+                    Global.b_user_login = false;
+                    Global.b_auto_login = false;
+                    Global.ID = "";
+                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                }
+            }
+            else if(Global.ios_serial_number != "") // ios 기종으로 실행시
+            {
+
+                string output = USER_DB.PostDeviceSerialNumber(Global.ios_serial_number);
+                string[] tempArray = output.Split('#');
+                if (tempArray[0] == "u") // 회원인 경우
+                {
+                    Global.non_user_id = USER_DB.GetNonUserIDToSerial(Global.ios_serial_number);
+                    Global.b_user_login = true;
+                    Global.b_auto_login = true;
+                    Global.ID = tempArray[1];
+                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                }
+                else if (tempArray[0] == "n") // 비회원인경우
+                {
+                    Global.non_user_id = tempArray[1];
+                    Global.b_user_login = false;
+                    Global.b_auto_login = false;
+                    Global.ID = "";
+                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                }
+            }
+            else
+            {
+                // 앱 종료
+            }
         }
 
         protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
         {
-            AppInit();
+            //AppInit();
             TabInit();
             // 사용중인 탭으로 되돌리기
             ChangeTabInitAsync();

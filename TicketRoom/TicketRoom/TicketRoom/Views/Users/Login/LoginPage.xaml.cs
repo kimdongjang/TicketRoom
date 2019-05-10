@@ -162,8 +162,8 @@ namespace TicketRoom.Views.Users.Login
                                             if (current_network == NetworkAccess.Internet) // 네트워크 연결 가능
                                             {
                                                 // 네트워크 연결 성공시 유저 데이터와 유저 주소 초기화
-                                                Global.user = USER_DB.PostSelectUserToID(Global.ID);
-                                                Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                                                Global.user = USER_DB.PostSelectUserToID(id_box.Text);
+                                                Global.adress = USER_DB.PostSelectAdressToID(id_box.Text);
                                             }
                                             else
                                             {
@@ -176,7 +176,17 @@ namespace TicketRoom.Views.Users.Login
                                             Global.b_user_login = true; // 회원 로그인 상태
                                             Global.b_auto_login = true; // 자동 로그인 상태
                                             Global.ID = id_box.Text; // 회원 아이디
-                                            MainPage.ConfigUpdateIsLogin(); // 회원 로그인 상태 Config 업데이트
+
+                                            if (Global.android_serial_number != "") // 안드로이드 기종으로 실행시
+                                            {
+                                                USER_DB.PostAutoLoginSerialNumber(Global.android_serial_number, Global.ID);
+                                            }
+                                            else if(Global.ios_serial_number != "") // ios 기종으로 실행시
+                                            {
+                                                USER_DB.PostAutoLoginSerialNumber(Global.ios_serial_number, Global.ID);
+                                            }
+                                            //MainPage.ConfigUpdateIsLogin(); // 회원 로그인 상태 Config 업데이트
+
                                             DisplayAlert("알림", "로그인에 성공했습니다.", "확인");
 
                                             if (SH_DB.PostUpdateBasketUserToID(Global.ID, Global.non_user_id) == false) // 비회원 -> 회원 로그인시 장바구니 목록 이동
