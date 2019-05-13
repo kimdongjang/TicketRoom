@@ -251,22 +251,30 @@
                         <!--#region 1행 은행명 피커-->
                         <Picker Grid.Row="1" Margin="15,0,15,0" x:Name="BankName_picker" Title="은행 선택" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" SelectedIndexChanged="Picker_SelectedIndexChanged">
                             <Picker.Items>
+                                <x:String>NH농협</x:String>
+                                <x:String>KB국민</x:String>
                                 <x:String>신한</x:String>
-                                <x:String>농협</x:String>
-                                <x:String>카뱅</x:String>
-                                <x:String>우리은행</x:String>
-                                <x:String>추가예정</x:String>
-                                <x:String>추가예정</x:String>
-                                <x:String>추가예정</x:String>
-                                <x:String>추가예정</x:String>
-                                <x:String>추가예정</x:String>
-                                <x:String>추가예정</x:String>
-                                <x:String>추가예정</x:String>
-                                <x:String>추가예정</x:String>
-                                <x:String>추가예정</x:String>
-                                <x:String>추가예정</x:String>
-                                <x:String>추가예정</x:String>
-                                <x:String>추가예정</x:String>
+                                <x:String>우리</x:String>
+                                <x:String>하나</x:String>
+                                <x:String>IBK기업</x:String>
+                                <x:String>외한</x:String>
+                                <x:String>SC제일</x:String>
+                                <x:String>씨티</x:String>
+                                <x:String>KDB산업</x:String>
+                                <x:String>새마을</x:String>
+                                <x:String>대구</x:String>
+                                <x:String>광주</x:String>
+                                <x:String>우체국</x:String>
+                                <x:String>신협</x:String>
+                                <x:String>전북</x:String>
+                                <x:String>경남</x:String>
+                                <x:String>부산</x:String>
+                                <x:String>수협</x:String>
+                                <x:String>제주</x:String>
+                                <x:String>저축은행</x:String>
+                                <x:String>산림조합</x:String>
+                                <x:String>케이뱅크</x:String>
+                                <x:String>카카오뱅크</x:String>
                             </Picker.Items>
                         </Picker>
                         <!--#endregion-->
