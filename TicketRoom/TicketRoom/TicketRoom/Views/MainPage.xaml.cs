@@ -16,6 +16,7 @@ using TicketRoom.Models.ShopData;
 using System.Net;
 using Xamarin.Essentials;
 using Plugin.DeviceInfo;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace TicketRoom.Views
 {
@@ -41,8 +42,6 @@ namespace TicketRoom.Views
             #endregion
 
             GetDeviceName();
-            AppInit();
-            TabInit();
             ChangeTabInitAsync();
 
         }
@@ -51,16 +50,68 @@ namespace TicketRoom.Views
         {
             var device = CrossDeviceInfo.Current.Model;
             string s = device.ToString();
+
+            if(Global.android_serial_number != "") // 안드로이드 기종으로 실행시
+            {
+                string output = USER_DB.PostDeviceSerialNumber(Global.android_serial_number);
+                string[] tempArray = output.Split('#');
+                if(tempArray[0] == "u") // 회원인 경우
+                {
+                    Global.non_user_id = USER_DB.GetNonUserIDToSerial(Global.android_serial_number);
+                    Global.b_user_login = true;
+                    Global.b_auto_login = true;
+                    Global.ID = tempArray[1];
+                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                }
+                else if(tempArray[0] == "n") // 비회원인경우
+                {
+                    Global.non_user_id = tempArray[1];
+                    Global.b_user_login = false;
+                    Global.b_auto_login = false;
+                    Global.ID = "";
+                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                }
+            }
+            else if(Global.ios_serial_number != "") // ios 기종으로 실행시
+            {
+
+                string output = USER_DB.PostDeviceSerialNumber(Global.ios_serial_number);
+                string[] tempArray = output.Split('#');
+                if (tempArray[0] == "u") // 회원인 경우
+                {
+                    Global.non_user_id = USER_DB.GetNonUserIDToSerial(Global.ios_serial_number);
+                    Global.b_user_login = true;
+                    Global.b_auto_login = true;
+                    Global.ID = tempArray[1];
+                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                }
+                else if (tempArray[0] == "n") // 비회원인경우
+                {
+                    Global.non_user_id = tempArray[1];
+                    Global.b_user_login = false;
+                    Global.b_auto_login = false;
+                    Global.ID = "";
+                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                }
+            }
+            else
+            {
+                // 앱 종료
+            }
         }
 
         protected override void OnAppearing() // PopAsync 호출 또는 페이지 초기화때 시동
         {
-            AppInit();
+            //AppInit();
+            TabInit();
             // 사용중인 탭으로 되돌리기
             ChangeTabInitAsync();
             // 최근 본 상품 로우 유저 아이디에 따른 생성
             Init_ShopRecentViewToID();
-
 
             base.OnAppearing();
         }
@@ -71,7 +122,6 @@ namespace TicketRoom.Views
             ShopTabPage stp;
             BasketTabPage btp;
             MyPageTabPage mtp;
-
 
             #region OnAppearing을 사용해 사용중인 탭으로 되돌리기
             if (Global.isMainDeal == true)
@@ -139,7 +189,7 @@ namespace TicketRoom.Views
         {
             try
             {
-                #region 네트워크 상태 확인
+                #region 네트워크 연결 불가
                 var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
                 if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                 {
@@ -165,7 +215,8 @@ namespace TicketRoom.Views
                     #region 방문자수 올리는부분
                     AddVisitors();
                     #endregion
-                    if (File.Exists(Global.localPath + "app.config") == false) // 앱 설정 파일이 없다면 생성
+                    // 앱 설정 파일이 없다면 생성
+                    if (File.Exists(Global.localPath + "app.config") == false)
                     {
                         Global.non_user_id = USER_DB.PostInsertNonUsersID(); // 사용가능한 비회원 아이디 검색
 
@@ -219,6 +270,12 @@ namespace TicketRoom.Views
                 {
                     // config파일 작성
                     File.WriteAllText(Global.localPath + "app.config", "");
+                    Global.non_user_id = "";
+                    Global.b_user_login = false;
+                    Global.b_auto_login = false;
+                    Global.ID = "";
+                    Global.user = new USERS();
+                    Global.adress = new ADRESS();
                     return;
                 }
             }

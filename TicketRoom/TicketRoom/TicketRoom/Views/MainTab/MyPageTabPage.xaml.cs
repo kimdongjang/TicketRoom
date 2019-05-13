@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using TicketRoom.Models.PointData;
+using TicketRoom.Models.Users;
 using TicketRoom.Views.MainTab.MyPage;
 using TicketRoom.Views.MainTab.MyPage.MyInfoChange;
 using TicketRoom.Views.MainTab.MyPage.Point;
@@ -131,13 +132,24 @@ namespace TicketRoom.Views.MainTab
                                     Global.b_auto_login = false;
                                     Global.ID = "";
 
+                                    if (Global.android_serial_number != "") // 안드로이드 기종으로 실행시
+                                    {
+                                        Global.non_user_id = UserDBFunc.Instance().GetNonUserIDToSerial(Global.android_serial_number);
+                                        UserDBFunc.Instance().PostAutoLoginSerialNumber(Global.android_serial_number, "");
+                                    }
+                                    else if (Global.ios_serial_number != "") // ios 기종으로 실행시
+                                    {
+                                        Global.non_user_id = UserDBFunc.Instance().GetNonUserIDToSerial(Global.ios_serial_number);
+                                        UserDBFunc.Instance().PostAutoLoginSerialNumber(Global.ios_serial_number, "");
+                                    }
+                                    /*
                                     // config파일 재설정
                                     File.WriteAllText(Global.localPath + "app.config",
                                         "NonUserID=" + Global.non_user_id + "\n" +
                                         "IsLogin=" + Global.b_user_login.ToString() + "\n" + // 회원 로그인 false
                                         "AutoLogin=" + Global.b_auto_login.ToString() + "\n" + // 자동 로그인 false
                                         "UserID=" + Global.ID + "\n");
-
+                                    */
                                     await App.Current.MainPage.DisplayAlert("알림", "성공적으로 로그아웃 되었습니다.", "확인");
                                     Init();
                                 }

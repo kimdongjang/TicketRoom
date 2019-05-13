@@ -29,6 +29,9 @@ namespace TicketRoom
         public static bool b_auto_login = false; // 자동 로그인 상태
         public static bool b_guest_login = false; // 게스트 로그인 상태
 
+        public static string android_serial_number = "";
+        public static string ios_serial_number = "";
+
         public static string localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         public static string LoadingImagePath = "load.png";
         public static string NotFoundImagePath = "not_image.png";

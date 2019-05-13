@@ -34,7 +34,152 @@ namespace TicketRoom.Models.Users
 
             return _instance;
         }
+        // 장치 고유 번호 서버로 전송
+        public string PostDeviceSerialNumber(string serial_number)
+        {
+            string retVal = "";
+            string str = @"{";
+            str += "serial_number:'" + serial_number;
+            str += "'}";
 
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "PostDeviceSerialNumber") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        // 1: 고유번호없음(어플첫시작=>비회원아이디발급), 2: 고유번호있음(회원아이디없음=>비회원정보가져옴), 3: 고유번호있음(회원아이디있음=>회원정보가져옴) <-사용안함
+                        // u# << user아이디, n# 비회원 아이디
+                        // -1: 실패
+                        retVal = JsonConvert.DeserializeObject<string>(readdata);
+                    }
+                }
+                return retVal;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return retVal;
+            }
+        }
+
+        // 비회원 아이디 고유 장치 번호로 얻어오기
+        public string GetNonUserIDToSerial(string serial_number)
+        {
+            string retVal = "";
+            string str = @"{";
+            str += "serial_number:'" + serial_number;
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "GetNonUserIDToSerial") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        // 1: 고유번호없음(어플첫시작=>비회원아이디발급), 2: 고유번호있음(회원아이디없음=>비회원정보가져옴), 3: 고유번호있음(회원아이디있음=>회원정보가져옴) <-사용안함
+                        // u# << user아이디, n# 비회원 아이디
+                        // -1: 실패
+                        retVal = JsonConvert.DeserializeObject<string>(readdata);
+                    }
+                }
+                return retVal;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return retVal;
+            }
+        }
+        
+
+        // 회원가입, 회원 로그인시 자동 로그인을 위해 시리얼 넘버, 아이디 전송
+        public string PostAutoLoginSerialNumber(string serial_number, string user_id)
+        {
+            string retVal = "";
+            string str = @"{";
+            str += "serial_number:'" + serial_number;
+            str += "',user_id:'" + user_id; // 회원 ID
+            str += "'}";
+
+            //// JSON 문자열을 파싱하여 JObject를 리턴
+            JObject jo = JObject.Parse(str);
+
+            UTF8Encoding encoder = new UTF8Encoding();
+            byte[] data = encoder.GetBytes(jo.ToString()); // a json object, or xml, whatever...
+
+            HttpWebRequest request = WebRequest.Create(Global.WCFURL + "PostAutoLoginSerialNumber") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+
+            request.GetRequestStream().Write(data, 0, data.Length);
+
+
+            try
+            {
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.Out.WriteLine("Error fetching data. Server returned status code: {0}", response.StatusCode);
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+
+                        // readdata
+                        var readdata = reader.ReadToEnd();
+                        // 1:성공, 0:실패
+                        retVal = JsonConvert.DeserializeObject<string>(readdata);
+                    }
+                }
+                return retVal;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                return retVal;
+            }
+        }
 
         public List<AccountInfo> GetSelectAllAccount() // 계좌 리스트 검색
         {
