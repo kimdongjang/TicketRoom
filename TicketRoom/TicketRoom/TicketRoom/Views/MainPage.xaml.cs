@@ -42,64 +42,83 @@ namespace TicketRoom.Views
             #endregion
 
             GetDeviceName();
-            ChangeTabInitAsync();
 
         }
 
         private void GetDeviceName()
         {
-            var device = CrossDeviceInfo.Current.Model;
-            string s = device.ToString();
-
-            if(Global.android_serial_number != "") // 안드로이드 기종으로 실행시
+            try
             {
-                string output = USER_DB.PostDeviceSerialNumber(Global.android_serial_number);
-                string[] tempArray = output.Split('#');
-                if(tempArray[0] == "u") // 회원인 경우
+                var current_network = Connectivity.NetworkAccess; // 현재 네트워크 상태
+                if (current_network != NetworkAccess.Internet) // 네트워크 연결 불가
                 {
-                    Global.non_user_id = USER_DB.GetNonUserIDToSerial(Global.android_serial_number);
-                    Global.b_user_login = true;
-                    Global.b_auto_login = true;
-                    Global.ID = tempArray[1];
-                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
-                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                    Navigation.PushAsync(new ErrorPage());
+                    // 앱 종료
                 }
-                else if(tempArray[0] == "n") // 비회원인경우
+                else
                 {
-                    Global.non_user_id = tempArray[1];
-                    Global.b_user_login = false;
-                    Global.b_auto_login = false;
-                    Global.ID = "";
-                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
-                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                    var device = CrossDeviceInfo.Current.Model;
+                    string s = device.ToString();
+
+                    if (Global.android_serial_number != "") // 안드로이드 기종으로 실행시
+                    {
+                        string output = USER_DB.PostDeviceSerialNumber(Global.android_serial_number);
+                        string[] tempArray = output.Split('#');
+                        if (tempArray[0] == "u") // 회원인 경우
+                        {
+                            Global.non_user_id = USER_DB.GetNonUserIDToSerial(Global.android_serial_number);
+                            Global.b_user_login = true;
+                            Global.b_auto_login = true;
+                            Global.ID = tempArray[1];
+                            Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                            Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                        }
+                        else if (tempArray[0] == "n") // 비회원인경우
+                        {
+                            Global.non_user_id = tempArray[1];
+                            Global.b_user_login = false;
+                            Global.b_auto_login = false;
+                            Global.ID = "";
+                            Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                            Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                        }
+                    }
+                    else if (Global.ios_serial_number != "") // ios 기종으로 실행시
+                    {
+
+                        string output = USER_DB.PostDeviceSerialNumber(Global.ios_serial_number);
+                        string[] tempArray = output.Split('#');
+                        if (tempArray[0] == "u") // 회원인 경우
+                        {
+                            Global.non_user_id = USER_DB.GetNonUserIDToSerial(Global.ios_serial_number);
+                            Global.b_user_login = true;
+                            Global.b_auto_login = true;
+                            Global.ID = tempArray[1];
+                            Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                            Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                        }
+                        else if (tempArray[0] == "n") // 비회원인경우
+                        {
+                            Global.non_user_id = tempArray[1];
+                            Global.b_user_login = false;
+                            Global.b_auto_login = false;
+                            Global.ID = "";
+                            Global.user = USER_DB.PostSelectUserToID(Global.ID);
+                            Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
+                        }
+                    }
+                    else
+                    {
+                        Navigation.PushAsync(new ErrorPage());
+                        // 앱 종료
+                    }
+
+                    ChangeTabInitAsync();
                 }
             }
-            else if(Global.ios_serial_number != "") // ios 기종으로 실행시
+            catch
             {
-
-                string output = USER_DB.PostDeviceSerialNumber(Global.ios_serial_number);
-                string[] tempArray = output.Split('#');
-                if (tempArray[0] == "u") // 회원인 경우
-                {
-                    Global.non_user_id = USER_DB.GetNonUserIDToSerial(Global.ios_serial_number);
-                    Global.b_user_login = true;
-                    Global.b_auto_login = true;
-                    Global.ID = tempArray[1];
-                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
-                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
-                }
-                else if (tempArray[0] == "n") // 비회원인경우
-                {
-                    Global.non_user_id = tempArray[1];
-                    Global.b_user_login = false;
-                    Global.b_auto_login = false;
-                    Global.ID = "";
-                    Global.user = USER_DB.PostSelectUserToID(Global.ID);
-                    Global.adress = USER_DB.PostSelectAdressToID(Global.ID);
-                }
-            }
-            else
-            {
+                Navigation.PushAsync(new ErrorPage());
                 // 앱 종료
             }
         }
