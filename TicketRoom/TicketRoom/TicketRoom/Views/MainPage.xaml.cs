@@ -43,6 +43,7 @@ namespace TicketRoom.Views
 
             GetDeviceName();
 
+            AddVisitors();
         }
 
         private void GetDeviceName()
